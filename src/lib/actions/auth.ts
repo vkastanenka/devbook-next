@@ -40,7 +40,7 @@ export const login = async (loginData: { email: string; password: string }) => {
 
 export async function logout() {
   // Destroy the session
-  cookies().set('session', '', { expires: new Date(0) })
+  cookies().delete('session')
 }
 
 export async function getSession() {

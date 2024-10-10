@@ -49,7 +49,7 @@ export const LoginModal = () => {
     async (formData: z.infer<typeof formSchema>) => {
       try {
         await login(formData)
-        router.refresh()
+        router.push('/user')
       } catch {
         toast({
           title: 'Error',
