@@ -15,7 +15,7 @@ export const LogoutModal = () => {
   const action: () => void = async () => {
     try {
       await logout()
-      router.push('/login')
+      router.push('/')
     } catch {
       toast({
         title: 'Error',

@@ -2,6 +2,10 @@
 
 // components
 import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
+import {
   Form,
   FormControl,
   FormField,
@@ -60,48 +64,55 @@ export const LoginModal = () => {
   )
 
   return (
-    <Form {...form}>
-      <form action={action}>
-        <FormField
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                Email
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="email"
-                  disabled={isSubmitting}
-                  className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                Password
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="password"
-                  disabled={isSubmitting}
-                  className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button disabled={isSubmitting}>Login</Button>
-      </form>
-    </Form>
+    <div className="w-[320px]">
+      <Card>
+        <CardContent>
+          <Form {...form}>
+            <form action={action}>
+              <FormField
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="email"
+                        disabled={isSubmitting}
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                render={({ field }) => (
+                  <FormItem className='mt-2'>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="password"
+                        disabled={isSubmitting}
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button disabled={isSubmitting} className='mt-4 w-full'>Login</Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
