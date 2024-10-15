@@ -1,5 +1,5 @@
 // components
-import { ThemeProvider } from '@/components/providers.tsx/theme-provider'
+import { ThemeProvider } from '@/src/components/providers/theme-provider'
 
 // utils
 import { cn } from '@/lib/utils'

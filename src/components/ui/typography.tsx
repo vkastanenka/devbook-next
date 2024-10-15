@@ -10,7 +10,8 @@ const H1: React.FC<Props> = ({ className, children }) => {
   return (
     <h1
       className={cn(
-        'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl', className
+        'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
+        className
       )}
     >
       {children}
@@ -22,7 +23,8 @@ const H2: React.FC<Props> = ({ className, children }) => {
   return (
     <h2
       className={cn(
-        'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0', className
+        'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
+        className
       )}
     >
       {children}
@@ -34,7 +36,8 @@ const H3: React.FC<Props> = ({ className, children }) => {
   return (
     <h3
       className={cn(
-        'scroll-m-20 text-2xl font-semibold tracking-tight', className
+        'scroll-m-20 text-2xl font-semibold tracking-tight',
+        className
       )}
     >
       {children}
@@ -104,7 +107,7 @@ const Muted: React.FC<Props> = ({ className, children }) => {
   )
 }
 
-const Typography = {
+export const Typography = {
   H1,
   H2,
   H3,
@@ -116,5 +119,3 @@ const Typography = {
   Blockquote,
   InlineCode,
 }
-
-export default Typography
