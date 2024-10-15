@@ -76,6 +76,14 @@
 }
 
 @layer utilities {
+  .avatar-lg {
+    @apply w-[72px] h-[72px];
+  }
+  
+  .avatar-sm {
+    @apply w-[48px] h-[48px];
+  }
+
   .container {
     @apply max-w-[1280px];
   }
