@@ -66,7 +66,8 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       spacing: {
-        ['nav']: '60px',
+        'card': '1.5rem',
+        'nav': '3.75rem',
       },
     },
   },

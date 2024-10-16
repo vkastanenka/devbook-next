@@ -2,13 +2,13 @@
 import Link from 'next/link'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Card } from '@/components/ui/card'
-import { CreatePostButton } from '@/components/buttons/create-post-button'
+import { CreateCommentButton } from '@/components/buttons/create-comment-button'
+import { CommentForm } from '@/components/forms/comment-form'
 import { Overlay } from '@/components/utils/overlay'
 
-export const CreatePostCard: React.FC = () => {
+export const CreateComment: React.FC = () => {
   return (
-    <Card className="p-card flex gap-2 dark:bg-slate-900">
+    <div className="px-card flex gap-2 dark:bg-slate-900">
       <Link className="group" href="/">
         <Avatar className="relative avatar-sm overflow-hidden">
           <Overlay />
@@ -16,7 +16,8 @@ export const CreatePostCard: React.FC = () => {
           <AvatarFallback className="bg-purple-400">VK</AvatarFallback>
         </Avatar>
       </Link>
-      <CreatePostButton />
-    </Card>
+      <CreateCommentButton />
+      {/* <CommentForm /> */}
+    </div>
   )
 }

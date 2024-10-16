@@ -60,7 +60,7 @@ const H4: React.FC<Props> = ({ className, children }) => {
 
 const P: React.FC<Props> = ({ className, children }) => {
   return (
-    <p className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}>
+    <p className={cn('leading-7', className)}>
       {children}
     </p>
   )
@@ -101,8 +101,8 @@ const Large: React.FC<Props> = ({ className, children }) => {
 
 const Muted: React.FC<Props> = ({ className, children }) => {
   return (
-    <p className={cn('text-sm text-muted-foreground', className)}>
-      {children}.
+    <p className={cn('text-sm', className)}>
+      {children}
     </p>
   )
 }
