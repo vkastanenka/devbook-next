@@ -28,8 +28,7 @@ export const PostCard: React.FC = () => {
       <PostCardText />
       <PostCardAttachment />
       <PostCardActivity />
-      {/* TODO: Figure out background */}
-      <Separator />
+      <Separator className="bg-slate-700 h-[1px] w-full" />
       <PostCardActions />
       <PostCardCreateComment />
       <PostCardViewCommentsButton />
@@ -150,6 +149,14 @@ const PostCardActions = () => {
   )
 }
 
+const PostCardCreateComment = () => {
+  return (
+    <div className="px-card">
+      <CreateComment />
+    </div>
+  )
+}
+
 const PostCardViewCommentsButton = () => {
   return (
     <div className="px-card">
@@ -161,14 +168,6 @@ const PostCardViewCommentsButton = () => {
           </button>
         </Overlay>
       </div>
-    </div>
-  )
-}
-
-const PostCardCreateComment = () => {
-  return (
-    <div className="px-card">
-      <CreateComment />
     </div>
   )
 }
