@@ -1,5 +1,6 @@
 // components
-import { ThemeProvider } from '@/src/components/providers/theme-provider'
+import { ModalProvider } from '@/components/providers/modal-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
 
 // utils
 import { cn } from '@/lib/utils'
@@ -34,6 +35,7 @@ export default function RootLayout({
           enableSystem={false}
           storageKey="devbook-theme"
         >
+          <ModalProvider />
           {children}
         </ThemeProvider>
       </body>

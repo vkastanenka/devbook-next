@@ -81,6 +81,10 @@
   .card {
     @apply p-card bg-card;
   }
+
+  textarea {
+    @apply resize-none;
+  }
 }
 
 @layer utilities {

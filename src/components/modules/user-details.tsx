@@ -13,6 +13,8 @@ interface UserDetails {
 }
 
 export const UserDetails: React.FC<UserDetails> = ({ variant = 'sm' }) => {
+  const NameEl = variant === 'sm' ? Typography.P : Typography.H4
+
   return (
     <div
       className={cn(
@@ -23,7 +25,7 @@ export const UserDetails: React.FC<UserDetails> = ({ variant = 'sm' }) => {
     >
       <Avatar variant={variant} />
       <div className={styleText}>
-        <Typography.H4>Victoria Kastanenka</Typography.H4>
+        <NameEl>Victoria Kastanenka</NameEl>
         <Typography.Muted className={cn('text-slate-400', styleText)}>
           Software Engineer
         </Typography.Muted>

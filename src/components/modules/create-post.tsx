@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { Avatar } from '@/components/primitives/avatar'
 import { Overlay } from '@/components/utils/overlay'
-import { PostButton } from '@/components/buttons/post-button'
+import { CreatePostButton } from '@/components/buttons/create-post-button'
 
 export const CreatePost = () => {
   return (
@@ -13,7 +13,7 @@ export const CreatePost = () => {
           <Avatar />
         </Link>
       </Overlay>
-      <PostButton>{`What's on your mind, Victoria?`}</PostButton>
+      <CreatePostButton />
     </div>
   )
 }
