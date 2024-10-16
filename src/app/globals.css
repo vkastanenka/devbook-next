@@ -22,7 +22,8 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
+    /* --card: 0 0% 100%; */
+    --card: #0f172a; /* slate-900 */
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -50,7 +51,8 @@
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    /* --card: 222.2 84% 4.9%; */
+    --card: #0f172a; /* slate-900 */
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
@@ -75,6 +77,12 @@
   }
 }
 
+@layer components {
+  .card {
+    @apply p-card bg-card;
+  }
+}
+
 @layer utilities {
   .avatar-lg {
     @apply w-[72px] h-[72px];
@@ -82,6 +90,10 @@
   
   .avatar-sm {
     @apply w-[48px] h-[48px];
+  }
+
+  .card-custom {
+    @apply p-card dark:bg-slate-900;
   }
 
   .container {

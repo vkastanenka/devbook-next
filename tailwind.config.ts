@@ -1,3 +1,4 @@
+// types
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -19,10 +20,10 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: 'hsl(var(--background))',
+        background: `hsl(var(--background))`,
         foreground: 'hsl(var(--foreground))',
         card: {
-          DEFAULT: 'hsl(var(--card))',
+          DEFAULT: 'var(--card)',
           foreground: 'hsl(var(--card-foreground))',
         },
         popover: {
@@ -66,8 +67,8 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       spacing: {
-        'card': '1.5rem',
-        'nav': '3.75rem',
+        card: '1.5rem',
+        nav: '3.75rem',
       },
     },
   },
