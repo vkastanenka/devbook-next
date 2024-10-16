@@ -2,6 +2,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Card } from '@/components/ui/card'
 import { CreateComment } from '@/components/modules/create-comment'
@@ -16,6 +23,9 @@ import {
   MessageSquareText,
   Forward,
   CircleArrowRight,
+  Pencil,
+  Ellipsis,
+  X,
 } from 'lucide-react'
 
 // images
@@ -23,7 +33,8 @@ import postImage from '/public/images/post-photo-1.jpg'
 
 export const PostCard: React.FC = () => {
   return (
-    <Card className="py-card bg-card flex flex-col gap-4">
+    <Card className="relative py-card bg-card flex flex-col gap-4">
+      <PostCardOptions />
       <PostCardUser />
       <PostCardText />
       <PostCardAttachment />
@@ -33,6 +44,32 @@ export const PostCard: React.FC = () => {
       <PostCardCreateComment />
       <PostCardViewCommentsButton />
     </Card>
+  )
+}
+
+const PostCardOptions = () => {
+  const styleButton =
+    'focus:text-purple-400 hover:text-purple-400 focus:bg-white/10 hover:bg-white/10 rounded-full p-2'
+
+  return (
+    <div className="absolute top-4 right-4 flex items-center gap-2">
+      <DropdownMenu>  
+        <DropdownMenuTrigger className={styleButton}>
+          <Ellipsis />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem className="focus:text-purple-400 hover:text-purple-400">
+            <button className='flex w-full'>
+              <Pencil className="mr-2 mt-0.5 h-4 w-4" />
+              <span>Edit</span>
+            </button>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <button className="focus:text-purple-400 hover:text-purple-400 focus:bg-white/10 hover:bg-white/10 rounded-full p-2">
+        <X />
+      </button>
+    </div>
   )
 }
 
