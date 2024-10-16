@@ -1,14 +1,20 @@
 // components
-import { Card } from '@/components/primitives/card'
-import { OverlayContainer } from '@/components/utils/overlay'
+import Link from 'next/link'
+
+import { Card } from '@/components/ui/card'
+import { Overlay } from '@/components/utils/overlay'
 import { UserDetails } from '@/components/modules/user-details'
 
 export const UserCard: React.FC = () => {
   return (
-    <OverlayContainer>
-      <Card>
-        <UserDetails variant="lg" />
-      </Card>
-    </OverlayContainer>
+    <Card>
+      <Overlay>
+        <Link href="/">
+          <div className="card">
+            <UserDetails variant="lg" />
+          </div>
+        </Link>
+      </Overlay>
+    </Card>
   )
 }

@@ -1,24 +1,28 @@
 // utils
 import { cn } from '@/src/lib/utils'
 
-export const Overlay: React.FC = () => {
+export const OverlayDiv: React.FC = () => {
   return (
-    <div className="pointer-events-none hidden group-hover:block group-focus-within:block w-full h-full rounded-lg bg-white/10 absolute top-0 left-0 z-20" />
+    <div className="pointer-events-none hidden group-hover:block group-focus-within:block bg-white/10 rounded-lg absolute top-0 bottom-0 right-0 left-0 z-20" />
   )
 }
 
-export const OverlayContainer: React.FC<{
-  hasOverlay?: boolean
+interface Overlay {
   children: React.ReactNode
-}> = ({ hasOverlay = true, children }) => {
+  className?: string
+  hasOverlay?: boolean
+}
+
+export const Overlay: React.FC<Overlay> = ({
+  children,
+  className,
+  hasOverlay = true,
+}) => {
   return (
     <div
-      className={cn(
-        'w-full',
-        hasOverlay ? 'group relative overflow-hidden' : ''
-      )}
+      className={cn(hasOverlay ? 'group relative' : '', className)}
     >
-      <Overlay />
+      <OverlayDiv />
       {children}
     </div>
   )

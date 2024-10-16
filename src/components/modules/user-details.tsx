@@ -8,9 +8,11 @@ import { cn } from '@/src/lib/utils'
 const styleText =
   'group-hover:!text-purple-400 group-focus-within:!text-purple-400'
 
-export const UserDetails: React.FC<{ variant?: 'sm' | 'lg' }> = ({
-  variant = 'sm',
-}) => {
+interface UserDetails {
+  variant?: 'sm' | 'lg'
+}
+
+export const UserDetails: React.FC<UserDetails> = ({ variant = 'sm' }) => {
   return (
     <div
       className={cn(
