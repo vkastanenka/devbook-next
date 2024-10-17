@@ -7,6 +7,8 @@ import {
   ROOT_ROUTE,
 } from '@/lib/routes'
 
+// import { updateSession } from './lib'
+
 export async function middleware(req: NextRequest) {
   const { nextUrl } = req
   const session = req.cookies.get('session')
@@ -31,6 +33,9 @@ export async function middleware(req: NextRequest) {
   if (!isAuthenticated && isProtectedRoute) {
     return Response.redirect(new URL(ROOT_ROUTE, nextUrl))
   }
+
+  // Updates session with extended expiration
+  // return await updateSession(request)
 }
 
 // Routes middleware should *not* run on

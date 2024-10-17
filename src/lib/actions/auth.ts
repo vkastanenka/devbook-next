@@ -11,17 +11,10 @@ import { Session } from '@/lib/types'
 // constants
 import { AUTH_SESSIONS, AUTH_LOGIN } from '@/lib/api-endpoints'
 
-export const getSessionById = async ({ id }: { id: string }) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
-    const { data } = await axios.get(url)
-    return data as Session
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const getSessionCookie = async (): Promise<any | null> => {
+export const getSessionCookie = async (): Promise<{
+  id: string
+  iat: number
+} | null> => {
   const sessionCookie = cookies().get('session')
 
   if (!sessionCookie?.value) return null
@@ -32,6 +25,33 @@ export const getSessionCookie = async (): Promise<any | null> => {
   })
 
   return payload as { id: string; iat: number }
+}
+
+// export async function updateSession(request: NextRequest) {
+//   const session = request.cookies.get('session')?.value
+//   if (!session) return
+
+//   // Refresh the session so it doesn't expire
+//   const parsed = await decrypt(session)
+//   parsed.expires = new Date(Date.now() + 10 * 1000)
+//   const res = NextResponse.next()
+//   res.cookies.set({
+//     name: 'session',
+//     value: await encrypt(parsed),
+//     httpOnly: true,
+//     expires: parsed.expires,
+//   })
+//   return res
+// }
+
+export const getSessionById = async ({ id }: { id: string }) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
+    const { data } = await axios.get(url)
+    return data as Session
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const login = async (loginData: { email: string; password: string }) => {
@@ -47,13 +67,17 @@ export const login = async (loginData: { email: string; password: string }) => {
   }
 }
 
-// export const logout = async ({ id }: { id: string }) => {
-//   try {
-//     const sessionCookie = await getSessionCookie()
-//     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
-//     await axios.delete(url)
-//     cookies().delete('session')
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+export const logout = async () => {
+  try {
+    const sessionCookie = await getSessionCookie()
+
+    if (sessionCookie) {
+      const { id } = sessionCookie
+      const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
+      await axios.delete(url)
+      cookies().delete('session')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

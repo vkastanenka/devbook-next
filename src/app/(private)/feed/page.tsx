@@ -13,14 +13,13 @@ const FeedPage: React.FC = async () => {
   const sessionCookie = await getSessionCookie()
   if (!sessionCookie) return null
 
-  // TODO: Get session
-  // const session = await getSessionById({ id: sessionCookie.id })
-  // if (!session) return null
+  const session = await getSessionById({ id: sessionCookie.id })
+  if (!session) return null
 
-  // const user = await getUserById({ id: session.userId })
-  // if (!user) return null
+  const user = await getUserById({ id: session.userId })
+  if (!user) return null
 
-  // console.log(user)
+  console.log(user)
 
   return (
     <div className="flex gap-8">
