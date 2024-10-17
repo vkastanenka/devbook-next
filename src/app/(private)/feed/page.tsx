@@ -6,14 +6,21 @@ import { PostCard } from '@/components/cards/post-card'
 import { ContactsCard } from '@/components/cards/contacts-card'
 
 // utils
-import { getSessionById } from '@/src/lib/actions/session'
-
-const sessionId = 'd35623ee-bef6-42b2-8776-2f99f8bb4782'
+import { getSessionById, getSessionCookie } from '@/src/lib/actions/auth'
+import { getUserById } from '@/src/lib/actions/user'
 
 const FeedPage: React.FC = async () => {
-  const session = await getSessionById({ id: sessionId })
+  const sessionCookie = await getSessionCookie()
+  if (!sessionCookie) return null
 
-  console.log(session)
+  // TODO: Get session
+  // const session = await getSessionById({ id: sessionCookie.id })
+  // if (!session) return null
+
+  // const user = await getUserById({ id: session.userId })
+  // if (!user) return null
+
+  // console.log(user)
 
   return (
     <div className="flex gap-8">

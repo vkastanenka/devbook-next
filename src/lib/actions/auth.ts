@@ -9,9 +9,19 @@ import { jwtVerify } from 'jose'
 import { Session } from '@/lib/types'
 
 // constants
-import { AUTH_GET_SESSION_BY_ID, AUTH_LOGIN } from '@/lib/api-endpoints'
+import { AUTH_SESSIONS, AUTH_LOGIN } from '@/lib/api-endpoints'
 
-export const getSession = async (): Promise<any | null> => {
+export const getSessionById = async ({ id }: { id: string }) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
+    const { data } = await axios.get(url)
+    return data as Session
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getSessionCookie = async (): Promise<any | null> => {
   const sessionCookie = cookies().get('session')
 
   if (!sessionCookie?.value) return null
@@ -21,7 +31,7 @@ export const getSession = async (): Promise<any | null> => {
     algorithms: ['HS256'],
   })
 
-  return payload
+  return payload as { id: string; iat: number }
 }
 
 export const login = async (loginData: { email: string; password: string }) => {
@@ -37,12 +47,13 @@ export const login = async (loginData: { email: string; password: string }) => {
   }
 }
 
-export const getSessionById = async ({ id }: { id: string }) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_GET_SESSION_BY_ID}/${id}`
-    const { data } = await axios.get(url)
-    return data as Session
-  } catch (error) {
-    console.log(error)
-  }
-}
+// export const logout = async ({ id }: { id: string }) => {
+//   try {
+//     const sessionCookie = await getSessionCookie()
+//     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSIONS}/${id}`
+//     await axios.delete(url)
+//     cookies().delete('session')
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
