@@ -1,5 +1,6 @@
-// sessions
-export const SESSIONS_GET_SESSION_BY_ID = '/auth/sessions'
+// auth
+export const AUTH_GET_SESSION_BY_ID = '/auth/sessions'
+export const AUTH_LOGIN = '/auth/login'
 
 // users
 export const USERS_TEST = '/users/test'
