@@ -5,7 +5,16 @@ import { CreatePostCard } from '@/components/cards/create-post-card'
 import { PostCard } from '@/components/cards/post-card'
 import { ContactsCard } from '@/components/cards/contacts-card'
 
-const FeedPage: React.FC = () => {
+// utils
+import { getSessionById } from '@/src/lib/actions/session'
+
+const sessionId = 'd35623ee-bef6-42b2-8776-2f99f8bb4782'
+
+const FeedPage: React.FC = async () => {
+  const session = await getSessionById({ id: sessionId })
+
+  console.log(session)
+
   return (
     <div className="flex gap-8">
       {/* user card */}

@@ -1,3 +1,8 @@
+export interface Session {
+  id: string
+  userId: string
+}
+
 export interface User {
   id: string
   name: string
