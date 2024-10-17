@@ -5,13 +5,20 @@ import { Card } from '@/components/ui/card'
 import { Overlay } from '@/components/utils/overlay'
 import { UserDetails } from '@/components/modules/user-details'
 
-export const UserCard: React.FC = () => {
+// types
+import { User } from '@/lib/types'
+
+interface UserCard {
+  user: User
+}
+
+export const UserCard: React.FC<UserCard> = ({ user }) => {
   return (
     <Card>
       <Overlay>
-        <Link href="/">
+        <Link href={`/user/${user.username}`}>
           <div className="card">
-            <UserDetails variant="lg" />
+            <UserDetails user={user} variant="lg" />
           </div>
         </Link>
       </Overlay>

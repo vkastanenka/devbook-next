@@ -5,15 +5,24 @@ import { Typography } from '@/components/ui/typography'
 // utils
 import { cn } from '@/src/lib/utils'
 
+// types
+import { User } from '@/lib/types'
+
 const styleText =
   'group-hover:!text-purple-400 group-focus-within:!text-purple-400'
 
 interface UserDetails {
+  user: User
   variant?: 'sm' | 'lg'
 }
 
-export const UserDetails: React.FC<UserDetails> = ({ variant = 'sm' }) => {
+export const UserDetails: React.FC<UserDetails> = ({
+  user,
+  variant = 'sm',
+}) => {
   const NameEl = variant === 'sm' ? Typography.P : Typography.H4
+
+  console.log(user)
 
   return (
     <div
@@ -23,11 +32,11 @@ export const UserDetails: React.FC<UserDetails> = ({ variant = 'sm' }) => {
         ...(variant === 'lg' ? ['flex-col gap-4'] : [])
       )}
     >
-      <Avatar variant={variant} />
+      <Avatar src={user.image} variant={variant} />
       <div className={styleText}>
-        <NameEl>Victoria Kastanenka</NameEl>
+        <NameEl>{user.name}</NameEl>
         <Typography.Muted className={cn('text-slate-400', styleText)}>
-          Software Engineer
+          {user.headline}
         </Typography.Muted>
       </div>
     </div>

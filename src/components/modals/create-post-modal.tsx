@@ -35,7 +35,8 @@ const formSchema = z.object({
 })
 
 export const CreatePostModal = () => {
-  const { isOpen, onClose, type } = useModal()
+  const { isOpen, onClose, type, data } = useModal()
+  const { user } = data
 
   const isModalOpen = isOpen && type === 'createPost'
 
@@ -69,9 +70,11 @@ export const CreatePostModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>
-          <UserDetails />
-        </DialogHeader>
+        {user && (
+          <DialogHeader>
+            <UserDetails user={user} />
+          </DialogHeader>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="border-[1px] border-slate-400 hover:border-purple-400 focus-within:border-purple-400 rounded-[6px] flex flex-col gap-2">

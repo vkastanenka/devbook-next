@@ -10,5 +10,5 @@ export interface User {
   username: string
   image: string
   headline: string
-  bio: string
+  bio: string | null
 }

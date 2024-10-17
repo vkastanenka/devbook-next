@@ -19,24 +19,22 @@ const FeedPage: React.FC = async () => {
   const user = await getUserById({ id: session.userId })
   if (!user) return null
 
-  console.log(user)
-
   return (
     <div className="flex gap-8">
       {/* user card */}
       <div className="basis-1/4">
-        <UserCard />
+        <UserCard user={user} />
       </div>
       {/* timeline */}
       <div className="basis-1/2 flex flex-col gap-4">
-        <CreatePostCard />
+        <CreatePostCard user={user} />
         <Separator />
-        <PostCard />
+        {/* <PostCard /> */}
       </div>
       {/* contacts */}
-      <div className="basis-1/4">
+      {/* <div className="basis-1/4">
         <ContactsCard />
-      </div>
+      </div> */}
     </div>
   )
 }

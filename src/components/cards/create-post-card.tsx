@@ -2,10 +2,17 @@
 import { Card } from '@/components/primitives/card'
 import { CreatePost } from '@/components/modules/create-post'
 
-export const CreatePostCard: React.FC = () => {
+// types
+import { User } from '@/lib/types'
+
+interface CreatePostCard {
+  user: User
+}
+
+export const CreatePostCard: React.FC<CreatePostCard> = ({ user }) => {
   return (
     <Card>
-      <CreatePost />
+      <CreatePost user={user} />
     </Card>
   )
 }
