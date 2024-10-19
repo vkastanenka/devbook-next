@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 // utils
+import { register } from '@/src/lib/actions/auth'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -36,16 +37,21 @@ const formSchema = z.object({
 })
 
 export const RegisterModal = () => {
+  const name = 'Victoria Kastanenka'
+  const username = 'vkastanenka'
+  const email = 'vkastanenka@gmail.com'
+  const password = 'password'
+
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      username: '',
-      email: '',
-      password: '',
+      name,
+      username,
+      email,
+      password,
     },
   })
 
@@ -57,9 +63,8 @@ export const RegisterModal = () => {
   const action: () => void = handleSubmit(
     async (formData: z.infer<typeof formSchema>) => {
       try {
-        console.log(formData)
-        // await login(formData)
-        router.push('/feed')
+        await register(formData)
+        router.push('/')
       } catch {
         toast({
           title: 'Error',

@@ -9,7 +9,7 @@ import { jwtVerify } from 'jose'
 import { Session } from '@/lib/types'
 
 // constants
-import { AUTH_SESSIONS, AUTH_LOGIN } from '@/lib/api-endpoints'
+import { AUTH_SESSIONS, AUTH_LOGIN, AUTH_REGISTER } from '@/lib/api-endpoints'
 
 export const getSessionCookie = async (): Promise<{
   id: string
@@ -54,10 +54,28 @@ export const getSessionById = async ({ id }: { id: string }) => {
   }
 }
 
-export const login = async (loginData: { email: string; password: string }) => {
+export const register = async (data: {
+  name: string
+  username: string
+  email: string
+  password: string
+}) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
+    await axios.post(url, {
+      id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
+      ...data,
+    })
+  } catch (error) {
+    // TODO: Learn how to handle errors
+    console.log(error)
+  }
+}
+
+export const login = async (data: { email: string; password: string }) => {
   try {
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
-    const res = await axios.post(url, loginData)
+    const res = await axios.post(url, data)
 
     // Set cookie using encrypted JWT fetched from api (TODO: add proper expiration)
     cookies().set('session', res.data, { httpOnly: true })
