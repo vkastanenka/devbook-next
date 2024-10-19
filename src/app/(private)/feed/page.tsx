@@ -19,6 +19,8 @@ const FeedPage: React.FC = async () => {
   const user = await getUserById({ id: session.userId })
   if (!user) return null
 
+  console.log(user)
+
   return (
     <div className="flex gap-8">
       {/* user card */}

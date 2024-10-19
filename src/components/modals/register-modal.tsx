@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 // utils
-import { login } from '@/lib/actions/auth'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,25 +20,30 @@ import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Typography } from '../ui/typography'
-import { Separator } from '@radix-ui/react-separator'
 
 const formSchema = z.object({
+  name: z.string().refine((s) => {
+    const names = s.split(' ')
+    if (names.length === 2) return true
+  }, 'First and last names are required.'),
+  username: z
+    .string()
+    .min(4, { message: 'Username must contain at least 4 character(s)' }),
   email: z.string().email(),
   password: z
     .string()
     .min(8, { message: 'Password must contain at least 8 character(s)' }),
 })
 
-export const LoginModal = () => {
-  // const email = 'vkastanenka@gmail.com'
-  // const password = 'password'
-
+export const RegisterModal = () => {
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
+      username: '',
       email: '',
       password: '',
     },
@@ -53,7 +57,8 @@ export const LoginModal = () => {
   const action: () => void = handleSubmit(
     async (formData: z.infer<typeof formSchema>) => {
       try {
-        await login(formData)
+        console.log(formData)
+        // await login(formData)
         router.push('/feed')
       } catch {
         toast({
@@ -67,8 +72,44 @@ export const LoginModal = () => {
   return (
     <div className="w-[400px]">
       <Card>
+        <div className="mb-4 flex flex-col gap-2 items-center">
+          <Typography.H3>Register a new account</Typography.H3>
+          <Typography.Muted>{`It's quick and easy`}</Typography.Muted>
+        </div>
         <Form {...form}>
           <form action={action} className="flex flex-col gap-4 justify-center">
+            <FormField
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Name"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Username"
+                      disabled={isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               name="email"
               render={({ field }) => (
@@ -102,21 +143,13 @@ export const LoginModal = () => {
             />
 
             <Button disabled={isSubmitting}>
-              <Typography.H4>Log In</Typography.H4>
+              <Typography.H4>Register</Typography.H4>
             </Button>
           </form>
         </Form>
         <div className="text-center mt-4">
-          <Link href="/recover-password" className="inline-block mb-4">
-            <Typography.P>Forgot password?</Typography.P>
-          </Link>
-
-          <Separator className="mb-4" />
-
-          <Link href="/register">
-            <Button>
-              <Typography.P>Create new account</Typography.P>
-            </Button>
+          <Link href="/">
+            <Typography.P>Already have an account?</Typography.P>
           </Link>
         </div>
       </Card>
