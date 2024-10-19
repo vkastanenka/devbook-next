@@ -31,8 +31,8 @@ const formSchema = z.object({
 })
 
 export const LoginModal = () => {
-  // const email = 'vkastanenka@gmail.com'
-  // const password = 'password'
+  const email = 'vkastanenka@gmail.com'
+  const password = 'password'
 
   const router = useRouter()
   const { toast } = useToast()
@@ -40,8 +40,8 @@ export const LoginModal = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: email,
+      password: password,
     },
   })
 

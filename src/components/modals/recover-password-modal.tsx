@@ -26,13 +26,15 @@ const formSchema = z.object({
 })
 
 export const RecoverPasswordModal = () => {
+  const email = 'vkastanenka@gmail.com'
+
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      email: email,
     },
   })
 
@@ -46,7 +48,7 @@ export const RecoverPasswordModal = () => {
       try {
         console.log(formData)
         // await login(formData)
-        router.push('/feed')
+        router.push('/')
       } catch {
         toast({
           title: 'Error',

@@ -9,7 +9,12 @@ import { jwtVerify } from 'jose'
 import { Session } from '@/lib/types'
 
 // constants
-import { AUTH_SESSIONS, AUTH_LOGIN, AUTH_REGISTER } from '@/lib/api-endpoints'
+import {
+  AUTH_SESSIONS,
+  AUTH_LOGIN,
+  AUTH_REGISTER,
+  AUTH_SEND_PASSWORD_RESET_TOKEN,
+} from '@/lib/api-endpoints'
 
 export const getSessionCookie = async (): Promise<{
   id: string
@@ -96,6 +101,18 @@ export const logout = async () => {
       cookies().delete('session')
     }
   } catch (error) {
+    console.log(error)
+  }
+}
+
+export const sendPasswordResetToken = async (data: {
+  email: string
+}) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_PASSWORD_RESET_TOKEN}`
+    await axios.post(url, data)
+  } catch (error) {
+    // TODO: Learn how to handle errors
     console.log(error)
   }
 }
