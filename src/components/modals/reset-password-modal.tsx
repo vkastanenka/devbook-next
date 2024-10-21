@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useForm } from 'react-hook-form'
@@ -18,26 +19,22 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { Typography } from '../ui/typography'
-
-interface ResetPasswordModalProps {
-  resetPasswordToken: string
-}
+import { sendResetPasswordToken } from '@/src/lib/actions/auth'
 
 const formSchema = z.object({
-  password: z
-    .string()
-    .min(8, { message: 'Password must contain at least 8 character(s)' }),
+  email: z.string().email(),
 })
 
-export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = () => {
+export const ResetPasswordModal: React.FC = () => {
+  const email = 'vkastanenka@gmail.com'
+
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      password: '',
+      email: email,
     },
   })
 
@@ -49,12 +46,7 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = () => {
   const action: () => void = handleSubmit(
     async (formData: z.infer<typeof formSchema>) => {
       try {
-        console.log(formData)
-        toast({
-          title: 'Success!',
-          description: 'Password has been updated!',
-        })
-        // await login(formData)
+        await sendResetPasswordToken(formData)
         router.push('/')
       } catch {
         toast({

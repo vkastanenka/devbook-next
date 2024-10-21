@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useForm } from 'react-hook-form'
@@ -19,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Typography } from '../ui/typography'
+import { sendResetPasswordToken } from '@/src/lib/actions/auth'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -46,8 +47,7 @@ export const RecoverPasswordModal = () => {
   const action: () => void = handleSubmit(
     async (formData: z.infer<typeof formSchema>) => {
       try {
-        console.log(formData)
-        // await login(formData)
+        await sendResetPasswordToken(formData)
         router.push('/')
       } catch {
         toast({
@@ -63,7 +63,9 @@ export const RecoverPasswordModal = () => {
       <Card>
         <div className="mb-4 flex flex-col gap-2 items-center">
           <Typography.H3>Forgot your password?</Typography.H3>
-          <Typography.Muted>Get recovery instructions in your email</Typography.Muted>
+          <Typography.Muted>
+            Get recovery instructions in your email
+          </Typography.Muted>
         </div>
         <Form {...form}>
           <form action={action} className="flex flex-col gap-4 justify-center">

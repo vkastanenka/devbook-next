@@ -4,6 +4,7 @@
 import axios from 'axios'
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
+import { addDays } from 'date-fns'
 
 // types
 import { Session } from '@/lib/types'
@@ -13,7 +14,7 @@ import {
   AUTH_SESSIONS,
   AUTH_LOGIN,
   AUTH_REGISTER,
-  AUTH_SEND_PASSWORD_RESET_TOKEN,
+  AUTH_SEND_RESET_PASSWORD_TOKEN,
 } from '@/lib/api-endpoints'
 
 export const getSessionCookie = async (): Promise<{
@@ -68,6 +69,7 @@ export const register = async (data: {
   try {
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
     await axios.post(url, {
+      // TODO: Remove after testing done
       id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
       ...data,
     })
@@ -82,8 +84,11 @@ export const login = async (data: { email: string; password: string }) => {
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
     const res = await axios.post(url, data)
 
-    // Set cookie using encrypted JWT fetched from api (TODO: add proper expiration)
-    cookies().set('session', res.data, { httpOnly: true })
+    const cookieExpires = addDays(new Date(), 1)
+    cookies().set('session', res.data, {
+      httpOnly: true,
+      expires: cookieExpires,
+    })
   } catch (error) {
     // TODO: Learn how to handle errors
     console.log(error)
@@ -105,11 +110,9 @@ export const logout = async () => {
   }
 }
 
-export const sendPasswordResetToken = async (data: {
-  email: string
-}) => {
+export const sendResetPasswordToken = async (data: { email: string }) => {
   try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_PASSWORD_RESET_TOKEN}`
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
     await axios.post(url, data)
   } catch (error) {
     // TODO: Learn how to handle errors
