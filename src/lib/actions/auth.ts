@@ -56,7 +56,7 @@ export const getCurrentUser = async () => {
   const sessionCookie = await decodeSession()
   if (!sessionCookie) return null
 
-  // Check if valid, otherwise delete session and cookie
+  // Check if session valid, otherwise delete session and cookie
   const isSessionValid = await validateSession(sessionCookie)
   if (!isSessionValid) return null
 
