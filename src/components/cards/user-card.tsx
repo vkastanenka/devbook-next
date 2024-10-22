@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 import { Card } from '@/components/ui/card'
-import { Overlay } from '@/components/utils/overlay'
+// import { Overlay } from '@/components/utils/overlay'
 import { UserDetails } from '@/components/modules/user-details'
 
 // types
@@ -15,13 +15,13 @@ interface UserCard {
 export const UserCard: React.FC<UserCard> = ({ user }) => {
   return (
     <Card>
-      <Overlay>
-        <Link href={`/user/${user.username}`}>
-          <div className="card">
-            <UserDetails user={user} variant="lg" />
-          </div>
-        </Link>
-      </Overlay>
+      {/* <Overlay> */}
+      <Link href={`/user/${user.username}`}>
+        <div className="card">
+          <UserDetails user={user} variant="lg" />
+        </div>
+      </Link>
+      {/* </Overlay> */}
     </Card>
   )
 }

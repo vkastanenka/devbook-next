@@ -69,7 +69,7 @@ export const CreatePostModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent>
+      <DialogContent className='bg-card'>
         {user && (
           <DialogHeader>
             <UserDetails user={user} />
@@ -77,7 +77,7 @@ export const CreatePostModal = () => {
         )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="border-[1px] border-slate-400 hover:border-purple-400 focus-within:border-purple-400 rounded-[6px] flex flex-col gap-2">
+            <div className="border-[1px] border-border bg-input hover:border-purple-400 focus-within:border-purple-400 rounded-[6px] flex flex-col gap-2">
               <FormField
                 control={form.control}
                 name="text"

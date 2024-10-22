@@ -8,9 +8,6 @@ import { cn } from '@/src/lib/utils'
 // types
 import { User } from '@/lib/types'
 
-const styleText =
-  'group-hover:!text-purple-400 group-focus-within:!text-purple-400'
-
 interface UserDetails {
   user: User
   variant?: 'sm' | 'lg'
@@ -31,9 +28,10 @@ export const UserDetails: React.FC<UserDetails> = ({
       )}
     >
       <Avatar src={user.image || undefined} variant={variant} />
-      <div className={styleText}>
+      <div>
         <NameEl>{user.name}</NameEl>
-        <Typography.Muted className={cn('text-slate-400', styleText)}>
+        <Typography.Muted className="text-accent">
+          Software Developer
           {user.headline}
         </Typography.Muted>
       </div>

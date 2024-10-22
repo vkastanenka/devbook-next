@@ -49,6 +49,7 @@
     --foreground: #f8fafc;
     /* slate-900 */
     --card: #0f172a;
+    /* slate-600 */
     /* slate-50 */
     --card-foreground: #f8fafc;
     --popover: 270 10% 5%;
@@ -57,15 +58,18 @@
     --primary-foreground: 0 0% 0%;
     --secondary: 270 10% 20%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 232 10% 25%;
+    /* slate-600 */
+    --muted: #475569;
     --muted-foreground: 270 0% 60%;
-    --accent: 232 10% 25%;
+    /* slate-400 */
+    --accent: #94a3b8;
     --accent-foreground: 270 0% 90%;
     --destructive: 0 50% 50%;
     --destructive-foreground: 270 0% 90%;
     /* slate-800 */
     --border: #1e293b;
-    --input: 270 20% 50%;
+    /* slate-700 */
+    --input: #1e293b;
     --ring: 270 95.2% 75.3%;
     --radius: 0.5rem;
   }

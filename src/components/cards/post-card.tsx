@@ -53,8 +53,7 @@ export const PostCard: React.FC<PostCard> = ({ user }) => {
 }
 
 const PostCardOptions = () => {
-  const styleButton =
-    'focus:text-purple-400 hover:text-purple-400 focus:bg-white/10 hover:bg-white/10 rounded-full p-2'
+  const styleButton = 'focus:bg-muted hover:bg-muted rounded-full p-2'
 
   return (
     <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -63,7 +62,7 @@ const PostCardOptions = () => {
           <Ellipsis />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className="focus:text-purple-400 hover:text-purple-400">
+          <DropdownMenuItem>
             <button className="flex w-full">
               <Pencil className="mr-2 mt-0.5 h-4 w-4" />
               <span>Edit</span>
@@ -71,7 +70,7 @@ const PostCardOptions = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <button className="focus:text-purple-400 hover:text-purple-400 focus:bg-white/10 hover:bg-white/10 rounded-full p-2">
+      <button className={styleButton}>
         <X />
       </button>
     </div>
@@ -143,7 +142,7 @@ const PostCardAttachment = () => {
 const PostCardActivity = () => {
   return (
     <div className="px-card">
-      <div className="flex justify-between dark:text-slate-400">
+      <div className="flex justify-between text-accent">
         <div className="flex justify-center gap-1">
           <ThumbsUp className="w-4" />
           <Typography.Muted>45</Typography.Muted>
@@ -164,8 +163,7 @@ const PostCardActivity = () => {
 }
 
 const PostCardActions = () => {
-  const styleButton =
-    'rounded-lg gap-2 basis-full flex justify-center items-center py-3 hover:bg-white/10 hover:text-purple-400 focus:bg-white/10 focus:text-purple-400'
+  const styleButton = 'gap-2 basis-full flex justify-center items-center py-3'
 
   return (
     <div className="px-card">
@@ -203,12 +201,12 @@ const PostCardViewCommentsButton = () => {
   return (
     <div className="px-card">
       <div className="flex justify-end">
-        <Overlay>
-          <button className="focus:text-purple-400 hover:text-purple-400 flex items-center gap-2 px-3 py-2">
-            <Typography.P>View comments</Typography.P>
-            <CircleArrowRight />
-          </button>
-        </Overlay>
+        {/* <Overlay> */}
+        <button className="flex items-center gap-2 px-3 py-2">
+          <Typography.P>View comments</Typography.P>
+          <CircleArrowRight />
+        </button>
+        {/* </Overlay> */}
       </div>
     </div>
   )

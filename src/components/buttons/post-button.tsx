@@ -11,7 +11,7 @@ interface Post {
 export const PostButton: React.FC<Post> = ({ children, onClick }) => {
   return (
     <button className="group basis-full" onClick={onClick}>
-      <div className="rounded-full bg-background border-[1px] border-border px-[12px] py-2 text-left">
+      <div className="rounded-full bg-input group-hover:bg-muted group-focus-within:bg-muted border-[1px] px-[12px] py-2 text-left">
         <Typography.P>{children}</Typography.P>
       </div>
     </button>
