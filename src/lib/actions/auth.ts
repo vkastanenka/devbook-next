@@ -11,8 +11,8 @@ import { DecodedSession, User } from '@/lib/types'
 import {
   RegisterFormData,
   LoginFormData,
-  SendResetPasswordTokenData,
-  ResetPasswordData,
+  SendResetPasswordTokenFormData,
+  ResetPasswordFormData,
 } from '@/lib/validation/auth'
 
 // constants
@@ -25,16 +25,16 @@ import {
   USERS_GET_CURRENT_USER,
 } from '@/lib/api-endpoints'
 
-export const getSessionCookieValue = () => {
+export const getSessionCookieValue = async () => {
   // Get session cookie if value
-  const sessionCookie = cookies().get('session')
+  const sessionCookie = await cookies().get('session')
   if (sessionCookie?.value) return sessionCookie.value
   return null
 }
 
 export const decodeSession = async (): Promise<DecodedSession | null> => {
   // Get session cookie
-  const sessionCookieValue = getSessionCookieValue()
+  const sessionCookieValue = await getSessionCookieValue()
   if (!sessionCookieValue) return null
 
   // Decode session cookie
@@ -51,7 +51,7 @@ const deleteSession = async (data: DecodedSession) => {
   const { id } = data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSION}/${id}`
   await axios.delete(url)
-  cookies().delete('session')
+  await cookies().delete('session')
 }
 
 const validateSession = async (data: DecodedSession) => {
@@ -73,7 +73,7 @@ export const getCurrentUser = async () => {
   if (!isSessionValid) return null
 
   // Get session jwt
-  const sessionCookieValue = getSessionCookieValue()
+  const sessionCookieValue = await getSessionCookieValue()
   if (!sessionCookieValue) return null
 
   // Get the current user
@@ -104,7 +104,7 @@ export const login = async (data: LoginFormData) => {
 
   // Set session jwt in a cookie
   const cookieExpires = addDays(new Date(), 1)
-  cookies().set('session', res.data.data, {
+  await cookies().set('session', res.data.data, {
     httpOnly: true,
     expires: cookieExpires,
   })
@@ -116,11 +116,11 @@ export const logout = async () => {
   if (!sessionCookie) return null
 
   // Delete session + session jwt
-  deleteSession(sessionCookie)
+  await deleteSession(sessionCookie)
 }
 
 export const sendResetPasswordToken = async (
-  data: SendResetPasswordTokenData
+  data: SendResetPasswordTokenFormData
 ) => {
   // Send post request with provided data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
@@ -128,35 +128,10 @@ export const sendResetPasswordToken = async (
 }
 
 export const resetPassword = async (
-  data: ResetPasswordData,
+  data: ResetPasswordFormData,
   resetPasswordToken: string
 ) => {
   // Send post request with provided data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
-  await axios.post(url, data)
+  await axios.patch(url, data)
 }
-
-// export const updateSessionCookie = async (request: NextRequest) => {
-//   const sessionCookie = request.cookies.get('session')?.value
-//   if (!sessionCookie) return null
-
-//   const decodedJwt = await jwtVerify(
-//     sessionCookie.value,
-//     process.env.NEXT_JWT_SECRET || '',
-//     {
-//       algorithms: ['HS256'],
-//     }
-//   )
-
-//   // Refresh the session so it doesn't expire
-//   const parsed = await decrypt(session)
-//   parsed.expires = new Date(Date.now() + 10 * 1000)
-//   const res = NextResponse.next()
-//   res.cookies.set({
-//     name: 'session',
-//     value: await encrypt(parsed),
-//     httpOnly: true,
-//     expires: parsed.expires,
-//   })
-//   return res
-// }

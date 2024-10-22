@@ -15,16 +15,17 @@ import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { sendResetPasswordToken } from '@/src/lib/actions/auth'
 
-const formSchema = z.object({
-  email: z.string().email(),
-})
+// types
+import {
+  sendResetPasswordTokenFormSchema,
+  SendResetPasswordTokenFormData,
+} from '@/src/lib/validation/auth'
 
 export const RecoverPasswordModal = () => {
   const email = 'vkastanenka@gmail.com'
@@ -33,7 +34,7 @@ export const RecoverPasswordModal = () => {
   const { toast } = useToast()
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(sendResetPasswordTokenFormSchema),
     defaultValues: {
       email: email,
     },
@@ -45,7 +46,7 @@ export const RecoverPasswordModal = () => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: z.infer<typeof formSchema>) => {
+    async (formData: SendResetPasswordTokenFormData) => {
       try {
         await sendResetPasswordToken(formData)
         router.push('/')

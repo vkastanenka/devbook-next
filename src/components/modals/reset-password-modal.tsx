@@ -15,26 +15,33 @@ import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { sendResetPasswordToken } from '@/src/lib/actions/auth'
+import { resetPassword } from '@/src/lib/actions/auth'
 
-const formSchema = z.object({
-  email: z.string().email(),
-})
+// types
+import {
+  resetPasswordFormSchema,
+  ResetPasswordFormData,
+} from '@/src/lib/validation/auth'
 
-export const ResetPasswordModal: React.FC = () => {
-  const email = 'vkastanenka@gmail.com'
+interface ResetPasswordModal {
+  resetPasswordToken: string
+}
+
+export const ResetPasswordModal: React.FC<ResetPasswordModal> = ({
+  resetPasswordToken,
+}) => {
+  const password = 'new-password'
 
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
-      email: email,
+      password: password,
     },
   })
 
@@ -44,9 +51,9 @@ export const ResetPasswordModal: React.FC = () => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: z.infer<typeof formSchema>) => {
+    async (formData: ResetPasswordFormData) => {
       try {
-        await sendResetPasswordToken(formData)
+        await resetPassword(formData, resetPasswordToken)
         router.push('/')
       } catch {
         toast({
