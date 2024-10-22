@@ -23,6 +23,10 @@ export interface LoginResponseData extends ResponseData {
   data: { jwt: string }
 }
 
+export interface RegisterResponseData extends ResponseData {
+  data: User
+}
+
 export enum UserRoles {
   'USER',
   'ADMIN',

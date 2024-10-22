@@ -1,16 +1,17 @@
 'use server'
 
 // utils
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { cookies } from 'next/headers'
 import { verify as jwtVerify } from 'jsonwebtoken'
 import { addDays } from 'date-fns'
+import { formatServerErrorData } from '@/lib/utils'
 
 // types
 import {
   DecodedSession,
   LoginResponseData,
-  ResponseData,
+  RegisterResponseData,
   User,
 } from '@/lib/types'
 import {
@@ -29,7 +30,6 @@ import {
   AUTH_SESSION,
   USERS_GET_CURRENT_USER,
 } from '@/lib/api-endpoints'
-import { DEFAULT_INTERNAL_SERVER_ERROR_RESPONSE_DATA } from '@/lib/constants'
 
 export const getSessionCookieValue = async () => {
   // Get session cookie if value
@@ -94,13 +94,18 @@ export const getCurrentUser = async () => {
 }
 
 export const register = async (data: RegisterFormData) => {
-  // Send post request with provided data
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
-  await axios.post(url, {
-    // TODO: Remove after testing done
-    id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
-    ...data,
-  })
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
+    const response = await axios.post(url, {
+      // TODO: Remove after testing done
+      id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
+      ...data,
+    })
+    return response.data as RegisterResponseData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
 }
 
 // Create session and set jwt cookie
@@ -121,15 +126,7 @@ export const login = async (data: LoginFormData) => {
     // Return successful response data
     return responseData
   } catch (err) {
-    const error = err as AxiosError
-
-    // Return axios error if data
-    if (error?.response?.data) {
-      return error.response.data as ResponseData
-    }
-
-    // Return default async error if axios troubles
-    return DEFAULT_INTERNAL_SERVER_ERROR_RESPONSE_DATA as ResponseData
+    return formatServerErrorData(err)
   }
 }
 

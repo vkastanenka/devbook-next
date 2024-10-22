@@ -1,5 +1,3 @@
-'use client'
-
 // components
 import Link from 'next/link'
 import { Card } from '@/components/primitives/card'
@@ -12,12 +10,12 @@ export const LoginCard = () => {
   return (
     <Card>
       <LoginForm />
-      <div className="text-center mt-4">
-        <Link href="/recover-password" className="inline-block mb-4">
+      <div className="text-center mt-4 [&>:not(:last-child)]:mb-4">
+        <Link href="/recover-password" className="inline-block">
           <Typography.P>Forgot password?</Typography.P>
         </Link>
 
-        <Separator className="separator mb-4" />
+        <Separator className="separator" />
 
         <Link href="/register" className="py-2">
           <Button tabIndex={-1}>
