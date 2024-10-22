@@ -7,27 +7,37 @@ import { verify as jwtVerify } from 'jsonwebtoken'
 import { addDays } from 'date-fns'
 
 // types
-import { DecodedSession } from '@/lib/types'
+import { DecodedSession, User } from '@/lib/types'
+import {
+  RegisterFormData,
+  LoginFormData,
+  SendResetPasswordTokenData,
+  ResetPasswordData,
+} from '@/lib/validation/auth'
 
 // constants
 import {
   AUTH_LOGIN,
   AUTH_REGISTER,
+  AUTH_RESET_PASSWORD,
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_SESSION,
   USERS_GET_CURRENT_USER,
 } from '@/lib/api-endpoints'
 
 export const getSessionCookieValue = () => {
+  // Get session cookie if value
   const sessionCookie = cookies().get('session')
   if (sessionCookie?.value) return sessionCookie.value
   return null
 }
 
 export const decodeSession = async (): Promise<DecodedSession | null> => {
+  // Get session cookie
   const sessionCookieValue = getSessionCookieValue()
   if (!sessionCookieValue) return null
 
+  // Decode session cookie
   const decodedSession = await jwtVerify(
     sessionCookieValue,
     process.env.NEXT_JWT_SECRET || ''
@@ -37,6 +47,7 @@ export const decodeSession = async (): Promise<DecodedSession | null> => {
 }
 
 const deleteSession = async (data: DecodedSession) => {
+  // Send delete request to session and delete cookie
   const { id } = data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSION}/${id}`
   await axios.delete(url)
@@ -44,6 +55,7 @@ const deleteSession = async (data: DecodedSession) => {
 }
 
 const validateSession = async (data: DecodedSession) => {
+  // Check if session has expired, delete if has
   if (data.expires < new Date()) {
     await deleteSession(data)
     return false
@@ -66,19 +78,17 @@ export const getCurrentUser = async () => {
 
   // Get the current user
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_CURRENT_USER}`
-  const { data } = await axios.get(url, {
+  const {
+    data: { data },
+  } = await axios.get(url, {
     headers: { Authorization: `Bearer ${sessionCookieValue}` },
   })
 
-  return data // TODO: Type responses, share prisma client among projects
+  return data as User
 }
 
-export const register = async (data: {
-  name: string
-  username: string
-  email: string
-  password: string
-}) => {
+export const register = async (data: RegisterFormData) => {
+  // Send post request with provided data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
   await axios.post(url, {
     // TODO: Remove after testing done
@@ -87,10 +97,12 @@ export const register = async (data: {
   })
 }
 
-export const login = async (data: { email: string; password: string }) => {
+export const login = async (data: LoginFormData) => {
+  // Send post request to receive session jwt
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
   const res = await axios.post(url, data)
 
+  // Set session jwt in a cookie
   const cookieExpires = addDays(new Date(), 1)
   cookies().set('session', res.data.data, {
     httpOnly: true,
@@ -99,14 +111,28 @@ export const login = async (data: { email: string; password: string }) => {
 }
 
 export const logout = async () => {
+  // Decode session jwt
   const sessionCookie = await decodeSession()
   if (!sessionCookie) return null
 
+  // Delete session + session jwt
   deleteSession(sessionCookie)
 }
 
-export const sendResetPasswordToken = async (data: { email: string }) => {
+export const sendResetPasswordToken = async (
+  data: SendResetPasswordTokenData
+) => {
+  // Send post request with provided data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
+  await axios.post(url, data)
+}
+
+export const resetPassword = async (
+  data: ResetPasswordData,
+  resetPasswordToken: string
+) => {
+  // Send post request with provided data
+  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
   await axios.post(url, data)
 }
 

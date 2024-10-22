@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/button'
 // utils
 import { login } from '@/lib/actions/auth'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
@@ -23,12 +22,8 @@ import Link from 'next/link'
 import { Typography } from '../ui/typography'
 import { Separator } from '@radix-ui/react-separator'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(8, { message: 'Password must contain at least 8 character(s)' }),
-})
+// types
+import { loginFormSchema, LoginFormData } from '@/src/lib/validation/auth'
 
 export const LoginModal = () => {
   const email = 'vkastanenka@gmail.com'
@@ -38,7 +33,7 @@ export const LoginModal = () => {
   const { toast } = useToast()
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: email,
       password: password,
@@ -50,19 +45,17 @@ export const LoginModal = () => {
     formState: { isSubmitting },
   } = form
 
-  const action: () => void = handleSubmit(
-    async (formData: z.infer<typeof formSchema>) => {
-      try {
-        await login(formData)
-        router.push('/feed')
-      } catch {
-        toast({
-          title: 'Error',
-          description: 'Error reaching server',
-        })
-      }
+  const action: () => void = handleSubmit(async (formData: LoginFormData) => {
+    try {
+      await login(formData)
+      router.push('/feed')
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Error reaching server',
+      })
     }
-  )
+  })
 
   return (
     <div className="w-[400px]">

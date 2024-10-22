@@ -15,26 +15,14 @@ import { Button } from '@/components/ui/button'
 // utils
 import { register } from '@/src/lib/actions/auth'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Typography } from '../ui/typography'
 
-const formSchema = z.object({
-  name: z.string().refine((s) => {
-    const names = s.split(' ')
-    if (names.length === 2) return true
-  }, 'First and last names are required.'),
-  username: z
-    .string()
-    .min(4, { message: 'Username must contain at least 4 character(s)' }),
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(8, { message: 'Password must contain at least 8 character(s)' }),
-})
+// types
+import { registerFormSchema, RegisterFormData } from '@/src/lib/validation/auth'
 
 export const RegisterModal = () => {
   const name = 'Victoria Kastanenka'
@@ -46,7 +34,7 @@ export const RegisterModal = () => {
   const { toast } = useToast()
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       name,
       username,
@@ -61,7 +49,7 @@ export const RegisterModal = () => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: z.infer<typeof formSchema>) => {
+    async (formData: RegisterFormData) => {
       try {
         await register(formData)
         router.push('/')
