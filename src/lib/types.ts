@@ -3,12 +3,24 @@ export interface Session {
   userId: string
 }
 
-// TODO: Sync types between projects
 export interface DecodedSession {
   id: string
   expires: Date
   iat: number
   exp: number
+}
+
+type ResponseErrors = { [key: string]: string }
+
+export interface ResponseData {
+  success: boolean
+  status: number
+  message: string
+  errors?: ResponseErrors
+}
+
+export interface LoginResponseData extends ResponseData {
+  data: { jwt: string }
 }
 
 export enum UserRoles {

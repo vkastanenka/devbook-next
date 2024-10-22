@@ -23,6 +23,9 @@ import { useRouter } from 'next/navigation'
 // types
 import { loginFormSchema, LoginFormData } from '@/src/lib/validation/auth'
 
+// constants
+import { STATUS_CODES } from '@/lib/constants'
+
 export const LoginForm = () => {
   const email = 'vkastanenka@gmail.com'
   const password = 'password'
@@ -51,23 +54,22 @@ export const LoginForm = () => {
   const action: () => void = handleSubmit(async (formData: LoginFormData) => {
     const loginResponse = await login(formData)
 
-    // If bad request, show errors in corresponding fields
-    if (loginResponse?.status?.toString().startsWith('5')) {
+    // If server error, show toast message
+    if (loginResponse.status === STATUS_CODES.internalServerError) {
       toast({
-        title: loginResponse.error,
+        title: 'Error!',
         description: loginResponse.message,
         variant: 'destructive',
       })
     }
 
-    // If server error, show toast message
-    if (loginResponse?.status === 400) {
-      const responseErrors = JSON.parse(loginResponse.message)
-      setResponseErrors(responseErrors)
+    // If bad request, show errors in corresponding fields
+    if (loginResponse.status === STATUS_CODES.badRequest) {
+      setResponseErrors(loginResponse.errors)
     }
 
     // If successful, push to user feed
-    if (loginResponse?.success) {
+    if (loginResponse.success) {
       router.push('/feed')
     }
   })
