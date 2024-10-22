@@ -26,7 +26,7 @@ export const LogoutButton = () => {
 
   return (
     <form action={action}>
-      <Button type="submit" className="bg-background text-foreground">
+      <Button type="submit">
         Logout
       </Button>
     </form>
