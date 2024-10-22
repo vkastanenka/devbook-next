@@ -92,6 +92,10 @@
     @apply p-card;
   }
 
+  .form-card {
+    @apply w-full xs:w-[400px];
+  }
+
   .separator {
     @apply bg-border h-[1px] w-full;
   }
