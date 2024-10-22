@@ -17,7 +17,7 @@ export const CreatePost: React.FC<CreatePost> = ({ user }) => {
     <div className="flex gap-2">
       <Overlay>
         <Link href={`/user/${user.username}`}>
-          <Avatar src={user.image} />
+          <Avatar src={user.image || undefined} />
         </Link>
       </Overlay>
       <CreatePostButton user={user} />

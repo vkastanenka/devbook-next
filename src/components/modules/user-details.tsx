@@ -22,8 +22,6 @@ export const UserDetails: React.FC<UserDetails> = ({
 }) => {
   const NameEl = variant === 'sm' ? Typography.P : Typography.H4
 
-  console.log(user)
-
   return (
     <div
       className={cn(
@@ -32,7 +30,7 @@ export const UserDetails: React.FC<UserDetails> = ({
         ...(variant === 'lg' ? ['flex-col gap-4'] : [])
       )}
     >
-      <Avatar src={user.image} variant={variant} />
+      <Avatar src={user.image || undefined} variant={variant} />
       <div className={styleText}>
         <NameEl>{user.name}</NameEl>
         <Typography.Muted className={cn('text-slate-400', styleText)}>

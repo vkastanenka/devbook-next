@@ -30,12 +30,17 @@ import {
 
 // images
 import postImage from '/public/images/post-photo-1.jpg'
+import { User } from '@/src/lib/types'
 
-export const PostCard: React.FC = () => {
+interface PostCard {
+  user: User
+}
+
+export const PostCard: React.FC<PostCard> = ({ user }) => {
   return (
     <Card className="relative py-card bg-card flex flex-col gap-4">
       <PostCardOptions />
-      <PostCardUser />
+      <PostCardUser user={user} />
       <PostCardText />
       <PostCardAttachment />
       <PostCardActivity />
@@ -53,13 +58,13 @@ const PostCardOptions = () => {
 
   return (
     <div className="absolute top-4 right-4 flex items-center gap-2">
-      <DropdownMenu>  
+      <DropdownMenu>
         <DropdownMenuTrigger className={styleButton}>
           <Ellipsis />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem className="focus:text-purple-400 hover:text-purple-400">
-            <button className='flex w-full'>
+            <button className="flex w-full">
               <Pencil className="mr-2 mt-0.5 h-4 w-4" />
               <span>Edit</span>
             </button>
@@ -73,13 +78,13 @@ const PostCardOptions = () => {
   )
 }
 
-const PostCardUser: React.FC = () => {
+const PostCardUser: React.FC<{ user: User }> = ({ user }) => {
   return (
     <div className="px-card">
       <div className="inline-block">
         <Overlay>
-          <Link href="/" className="inline-block">
-            <UserDetails />
+          <Link href={`/user/${user.username}`} className="inline-block">
+            <UserDetails user={user} />
           </Link>
         </Overlay>
       </div>
