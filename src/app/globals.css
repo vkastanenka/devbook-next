@@ -80,12 +80,20 @@
 }
 
 @layer components {
-  .card {
-    @apply p-card;
+  a {
+    @apply text-foreground hover:bg-muted focus-within:bg-input rounded-md transition-colors;
   }
 
   textarea {
     @apply resize-none;
+  }
+
+  .card {
+    @apply p-card;
+  }
+
+  .separator {
+    @apply bg-border h-[1px] w-full;
   }
 }
 

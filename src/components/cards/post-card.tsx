@@ -44,7 +44,7 @@ export const PostCard: React.FC<PostCard> = ({ user }) => {
       <PostCardText />
       <PostCardAttachment />
       <PostCardActivity />
-      <Separator className="bg-slate-700 h-[1px] w-full" />
+      <Separator className="separator w-full" />
       <PostCardActions />
       <PostCardCreateComment />
       <PostCardViewCommentsButton />
