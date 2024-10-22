@@ -68,7 +68,8 @@
     /* slate-400 */
     --accent: #94a3b8;
     --accent-foreground: 270 0% 90%;
-    --destructive: 0 50% 50%;
+    /* rose-500 */
+    --destructive: #f43f5e;
     --destructive-foreground: 270 0% 90%;
     /* slate-800 */
     --border: #1e293b;

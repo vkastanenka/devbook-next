@@ -98,16 +98,24 @@ export const register = async (data: RegisterFormData) => {
 }
 
 export const login = async (data: LoginFormData) => {
-  // Send post request to receive session jwt
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
-  const res = await axios.post(url, data)
+  try {
+    // Send post request to receive session jwt
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
+    const response = await axios.post(url, data)
 
-  // Set session jwt in a cookie
-  const cookieExpires = addDays(new Date(), 1)
-  await cookies().set('session', res.data.data, {
-    httpOnly: true,
-    expires: cookieExpires,
-  })
+    // Set session jwt in a cookie
+    const cookieExpires = addDays(new Date(), 1)
+    await cookies().set('session', response.data.data, {
+      httpOnly: true,
+      expires: cookieExpires,
+    })
+
+    // return successful response
+    return response.data
+  } catch (err) {
+    // return error response
+    return err.response.data
+  }
 }
 
 export const logout = async () => {

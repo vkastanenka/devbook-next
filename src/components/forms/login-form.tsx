@@ -10,14 +10,15 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Typography } from '@/components/ui/typography'
 
 // utils
+import { useState } from 'react'
 import { login } from '@/lib/actions/auth'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { Typography } from '../ui/typography'
 
 // types
 import { loginFormSchema, LoginFormData } from '@/src/lib/validation/auth'
@@ -28,6 +29,11 @@ export const LoginForm = () => {
 
   const router = useRouter()
   const { toast } = useToast()
+
+  const [responseErrors, setResponseErrors] = useState<{
+    email?: string
+    password?: string
+  }>()
 
   const form = useForm({
     resolver: zodResolver(loginFormSchema),
@@ -43,29 +49,62 @@ export const LoginForm = () => {
   } = form
 
   const action: () => void = handleSubmit(async (formData: LoginFormData) => {
-    try {
-      await login(formData)
-      router.push('/feed')
-    } catch {
-      // Why doesn't it work?
+    const loginResponse = await login(formData)
+
+    // If bad request, show errors in corresponding fields
+    if (loginResponse?.status?.toString().startsWith('5')) {
       toast({
-        title: 'Error',
-        description: 'Error reaching server',
+        title: loginResponse.error,
+        description: loginResponse.message,
+        variant: 'destructive',
       })
+    }
+
+    // If server error, show toast message
+    if (loginResponse?.status === 400) {
+      const responseErrors = JSON.parse(loginResponse.message)
+      setResponseErrors(responseErrors)
+    }
+
+    // If successful, push to user feed
+    if (loginResponse?.success) {
+      router.push('/feed')
     }
   })
 
   return (
     <Form {...form}>
-      <form action={action} className="flex flex-col gap-4 justify-center">
+      <form
+        action={action}
+        autoComplete="off"
+        className="flex flex-col gap-4 justify-center"
+      >
         <FormField
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Email" disabled={isSubmitting} {...field} />
+                <Input
+                  placeholder="Email"
+                  disabled={isSubmitting}
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e)
+                    if (responseErrors?.email) {
+                      setResponseErrors((prevState) => ({
+                        ...prevState,
+                        email: '',
+                      }))
+                    }
+                  }}
+                />
               </FormControl>
               <FormMessage />
+              {responseErrors?.email && (
+                <Typography.Muted className="text-destructive">
+                  {responseErrors?.email}
+                </Typography.Muted>
+              )}
             </FormItem>
           )}
         />
@@ -79,9 +118,23 @@ export const LoginForm = () => {
                   placeholder="Password"
                   disabled={isSubmitting}
                   {...field}
+                  onChange={(e) => {
+                    field.onChange(e)
+                    if (responseErrors?.password) {
+                      setResponseErrors((prevState) => ({
+                        ...prevState,
+                        password: '',
+                      }))
+                    }
+                  }}
                 />
               </FormControl>
               <FormMessage />
+              {responseErrors?.password && (
+                <Typography.Muted className="text-destructive">
+                  {responseErrors?.password}
+                </Typography.Muted>
+              )}
             </FormItem>
           )}
         />
