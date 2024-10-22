@@ -3,6 +3,13 @@ export interface Session {
   userId: string
 }
 
+export interface DecodedSession {
+  id: string
+  expires: Date
+  iat: number
+  exp: number
+}
+
 export interface User {
   id: string
   name: string
