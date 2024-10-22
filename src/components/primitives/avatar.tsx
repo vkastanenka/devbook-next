@@ -15,7 +15,7 @@ export const Avatar: React.FC<Avatar> = ({ src, variant = 'sm' }) => {
   return (
     <AvatarShadCn className={variant === 'lg' ? 'avatar-lg' : 'avatar-sm'}>
       <AvatarImage src={src || 'https://github.com/shadcn.png'} />
-      <AvatarFallback className="bg-purple-400">VK</AvatarFallback>
+      <AvatarFallback className="bg-primary">VK</AvatarFallback>
     </AvatarShadCn>
   )
 }

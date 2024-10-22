@@ -26,9 +26,7 @@ export const LogoutButton = () => {
 
   return (
     <form action={action}>
-      <Button type="submit">
-        Logout
-      </Button>
+      <Button type="submit">Logout</Button>
     </form>
   )
 }

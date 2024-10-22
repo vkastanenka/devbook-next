@@ -54,10 +54,14 @@
     --card-foreground: #f8fafc;
     --popover: 270 10% 5%;
     --popover-foreground: 270 0% 90%;
-    --primary: 270 95.2% 75.3%;
-    --primary-foreground: 0 0% 0%;
+    /* purple-500 */
+    --primary: #a855f7;
+    /* slate-50 */
+    --primary-foreground: #f8fafc;
     --secondary: 270 10% 20%;
     --secondary-foreground: 0 0% 100%;
+    /* purple-600 */
+    --focus: #7c3aed;
     /* slate-600 */
     --muted: #475569;
     --muted-foreground: 270 0% 60%;
