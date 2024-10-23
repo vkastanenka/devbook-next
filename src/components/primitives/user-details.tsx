@@ -24,11 +24,13 @@ export const UserDetails: React.FC<UserDetails> = ({
   // include,
 }) => {
   let NameEl = Typography.P
+  let HeadlineEl = Typography.Muted
   let containerStyles = ['items-center gap-2']
 
   switch (variant) {
     case 'xl':
       NameEl = Typography.H3
+      HeadlineEl = Typography.P
       containerStyles = ['flex-col gap-4']
       break
     case 'lg':
@@ -51,9 +53,7 @@ export const UserDetails: React.FC<UserDetails> = ({
             <Typography.Muted>{user.pronouns}</Typography.Muted>
           )} */}
         </div>
-        <Typography.Muted className="text-accent">
-          {user.headline}
-        </Typography.Muted>
+        <HeadlineEl className="text-accent">{user.headline}</HeadlineEl>
       </div>
       {/* {include?.links && <Links />} */}
       {/* {include?.location && <Location />} */}
