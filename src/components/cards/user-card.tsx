@@ -12,7 +12,7 @@ interface UserCard {
 export const UserCard: React.FC<UserCard> = ({ user }) => {
   return (
     <Card>
-      <UserDetails user={user} variant="xl" />
+      <UserDetails user={user} variant="xl" include={{ buttons: true }} />
     </Card>
   )
 }
