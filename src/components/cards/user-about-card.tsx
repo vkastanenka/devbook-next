@@ -1,9 +1,5 @@
 // components
 import { Card } from '@/components/primitives/card'
-import { UserDetails } from '@/components/primitives/user-details'
-
-// types
-import { User } from '@/lib/types'
 import { Typography } from '../ui/typography'
 
 interface UserAboutCard {
