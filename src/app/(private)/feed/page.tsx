@@ -13,8 +13,10 @@ const FeedPage: React.FC = async () => {
   if (!currentUser) return null
 
   // Query for current user feed
+  // const feed = []
 
   // Query for current user contacts
+  // const contacts = []
 
   return (
     <div className="flex gap-8">

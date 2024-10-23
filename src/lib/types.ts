@@ -27,6 +27,10 @@ export interface RegisterResponseData extends ResponseData {
   data: User
 }
 
+export interface GetUserResponseData extends ResponseData {
+  data: User
+}
+
 export interface GetManyUsersResponseData extends ResponseData {
   data: User[]
 }

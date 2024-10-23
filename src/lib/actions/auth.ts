@@ -10,6 +10,7 @@ import { formatServerErrorData } from '@/lib/utils'
 // types
 import {
   DecodedSession,
+  GetUserResponseData,
   GetManyUsersResponseData,
   LoginResponseData,
   RegisterResponseData,
@@ -31,6 +32,7 @@ import {
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_SESSION,
   USERS_GET_CURRENT_USER,
+  USERS_GET_USER,
   USERS_GET_MANY_USERS,
 } from '@/lib/api-endpoints'
 
@@ -176,6 +178,19 @@ export const getCurrentUser = async () => {
   })
 
   return data as User
+}
+
+export const getUser = async (
+  query: string
+): Promise<GetManyUsersResponseData | ResponseData> => {
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USER}/${query}`
+    const response = await axios.get(url)
+    return response.data as GetUserResponseData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
 }
 
 export const getManyUsers = async (
