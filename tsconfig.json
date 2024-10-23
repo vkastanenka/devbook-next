@@ -26,6 +26,6 @@
       "@/lib*": ["./src/lib/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/providers"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/providers", "src/app/(private)/search"],
   "exclude": ["node_modules"]
 }

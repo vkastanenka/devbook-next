@@ -7,12 +7,26 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 
 // utils
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useLayoutStore } from '@/src/hooks/use-layout-store'
 
 export const UserSearch = () => {
   const router = useRouter()
-  const [inputValue, setInputValue] = useState<string>('')
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const q = searchParams.get('q')
+
+  const { searchDevbookInputValue, setSearchDevbookInputValue } =
+    useLayoutStore()
+
+  useEffect(() => {
+    if (pathname === '/search' && q) {
+      setSearchDevbookInputValue(q)
+    } else {
+      setSearchDevbookInputValue('')
+    }
+  }, [pathname, q])
 
   return (
     <div className="relative mt-1">
@@ -24,14 +38,16 @@ export const UserSearch = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          router.push(`/search/${inputValue}`)
+          if (pathname !== '/search') {
+            router.push(`/search/?q=${searchDevbookInputValue}`)
+          }
         }}
       >
         <Input
           className="pl-12"
           placeholder="Search Devbook"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          value={searchDevbookInputValue}
+          onChange={(e) => setSearchDevbookInputValue(e.target.value || '')}
         />
         <input type="submit" hidden />
       </form>
