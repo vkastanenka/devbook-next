@@ -31,7 +31,6 @@ export const UserDetails: React.FC<UserDetails> = ({
       <div>
         <NameEl>{user.name}</NameEl>
         <Typography.Muted className="text-accent">
-          Software Developer
           {user.headline}
         </Typography.Muted>
       </div>

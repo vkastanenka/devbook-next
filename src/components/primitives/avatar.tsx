@@ -14,7 +14,7 @@ interface Avatar {
 export const Avatar: React.FC<Avatar> = ({ src, variant = 'sm' }) => {
   return (
     <AvatarShadCn className={variant === 'lg' ? 'avatar-lg' : 'avatar-sm'}>
-      <AvatarImage src={src || 'https://github.com/shadcn.png'} />
+      <AvatarImage src={src} />
       <AvatarFallback className="bg-primary">VK</AvatarFallback>
     </AvatarShadCn>
   )

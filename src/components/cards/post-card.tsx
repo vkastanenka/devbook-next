@@ -15,7 +15,7 @@ import { CreateComment } from '@/components/modules/create-comment'
 import { Overlay } from '@/components/utils/overlay'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { Typography } from '@/components/ui/typography'
-import { UserDetails } from '@/components/modules/user-details'
+import { UserDetails } from '@/components/primitives/user-details'
 
 import {
   ThumbsUp,
@@ -53,7 +53,7 @@ export const PostCard: React.FC<PostCard> = ({ user }) => {
 }
 
 const PostCardOptions = () => {
-  const styleButton = 'focus:bg-muted hover:bg-muted rounded-full p-2'
+  const styleButton = 'focus:bg-muted hover:bg-muted rounded-full p-2 transition-colors'
 
   return (
     <div className="absolute top-4 right-4 flex items-center gap-2">

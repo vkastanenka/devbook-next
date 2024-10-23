@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { UserDetails } from '@/components/modules/user-details'
+import { UserDetails } from '@/components/primitives/user-details'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -69,7 +69,7 @@ export const CreatePostModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent className='bg-card'>
+      <DialogContent className="bg-card">
         {user && (
           <DialogHeader>
             <UserDetails user={user} />
