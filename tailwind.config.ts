@@ -71,7 +71,7 @@ const config: Config = {
       },
       spacing: {
         card: '1.5rem',
-        nav: '3.75rem',
+        nav: '60px',
       },
     },
   },
