@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 
 // utils
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 
@@ -17,8 +17,11 @@ export const UserSearch = () => {
   const searchParams = useSearchParams()
   const q = searchParams.get('q')
 
-  const { searchDevbookInputValue, setSearchDevbookInputValue } =
-    useLayoutStore()
+  const {
+    setSearchDevbookInputRef,
+    searchDevbookInputValue,
+    setSearchDevbookInputValue,
+  } = useLayoutStore()
 
   useEffect(() => {
     if (pathname === '/search' && q) {
@@ -27,6 +30,15 @@ export const UserSearch = () => {
       setSearchDevbookInputValue('')
     }
   }, [pathname, q])
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (inputRef.current) {
+      setSearchDevbookInputRef(inputRef)
+    }
+    return () => setSearchDevbookInputRef(null)
+  }, [inputRef.current])
 
   return (
     <div className="relative mt-1">
@@ -44,6 +56,7 @@ export const UserSearch = () => {
         }}
       >
         <Input
+          ref={inputRef}
           className="pl-12"
           placeholder="Search Devbook"
           value={searchDevbookInputValue}
