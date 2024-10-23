@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { Avatar } from '@/components/primitives/avatar'
 import { Typography } from '@/components/ui/typography'
+import { UserDetailsButtons } from '@/components/modules/user-details-buttons'
 
 // svg
 import {
@@ -62,35 +63,8 @@ export const UserDetails: React.FC<UserDetails> = ({
           )} */}
       </div>
       <HeadlineEl className="text-accent">{user.headline}</HeadlineEl>
-      {include?.buttons && <UserButtons user={user} />}
+      {include?.buttons && <UserDetailsButtons user={user} />}
       {/* {include?.location && <Location />} */}
-    </div>
-  )
-}
-
-const UserButtons: React.FC<{ user: User }> = ({ user }) => {
-  return (
-    <div className="flex gap-4 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:is-interactive [&>*]:text-purple-400">
-      <Link href={`/user/${user.username}/profile`}>
-        <Typography.Muted>Profile</Typography.Muted>
-        <CircleUserRound />
-      </Link>
-      {/* {user.contactInfo && <button>
-        <Typography.Muted>Contact info</Typography.Muted>
-        <Contact />
-      </button>} */}
-      {/* {user.resume && (
-        <button>
-          <Typography.Muted>Resume</Typography.Muted>
-          <File />
-        </button>
-      )} */}
-      {/* {user.website && (
-        <button>
-          <Typography.Muted>Website</Typography.Muted>
-          <LucideLink />
-        </button>
-      )} */}
     </div>
   )
 }
