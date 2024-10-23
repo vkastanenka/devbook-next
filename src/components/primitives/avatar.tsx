@@ -7,13 +7,17 @@ import {
 
 interface Avatar {
   src?: string
-  variant?: 'sm' | 'lg'
+  variant?: 'sm' | 'lg' | 'xl'
 }
 
 // TODO: Image optimization with next image https://github.com/shadcn-ui/ui/issues/368
 export const Avatar: React.FC<Avatar> = ({ src, variant = 'sm' }) => {
   return (
-    <AvatarShadCn className={variant === 'lg' ? 'avatar-lg' : 'avatar-sm'}>
+    <AvatarShadCn
+      className={
+        variant === 'lg' || variant === 'xl' ? 'avatar-lg' : 'avatar-sm'
+      }
+    >
       <AvatarImage src={src} />
       <AvatarFallback className="bg-primary">VK</AvatarFallback>
     </AvatarShadCn>

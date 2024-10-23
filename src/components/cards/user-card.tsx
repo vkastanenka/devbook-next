@@ -1,7 +1,5 @@
 // components
-import Link from 'next/link'
-
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/primitives/card'
 import { UserDetails } from '@/components/primitives/user-details'
 
 // types
@@ -14,11 +12,7 @@ interface UserCard {
 export const UserCard: React.FC<UserCard> = ({ user }) => {
   return (
     <Card>
-      <Link className='block' href={`/user/${user.username}`}>
-        <div className="card">
-          <UserDetails user={user} variant="lg" />
-        </div>
-      </Link>
+      <UserDetails user={user} variant="xl" />
     </Card>
   )
 }

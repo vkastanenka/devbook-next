@@ -182,7 +182,7 @@ export const getCurrentUser = async () => {
 
 export const getUser = async (
   query: string
-): Promise<GetManyUsersResponseData | ResponseData> => {
+): Promise<GetUserResponseData | ResponseData> => {
   try {
     // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USER}/${query}`
