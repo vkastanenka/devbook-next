@@ -1,8 +1,8 @@
 // components
-import { RegisterModal } from '@/components/modals/register-modal'
+import { RegisterCard } from '@/components/cards/register-card'
 
 const RegisterPage = () => {
-  return <RegisterModal />
+  return <RegisterCard />
 }
 
 export default RegisterPage

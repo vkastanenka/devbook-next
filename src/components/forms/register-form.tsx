@@ -23,10 +23,7 @@ import { useRouter } from 'next/navigation'
 // types
 import { registerFormSchema, RegisterFormData } from '@/src/lib/validation/auth'
 
-// constants
-import { STATUS_CODES } from '@/lib/constants'
-
-export const RegisterModal = () => {
+export const RegisterForm = () => {
   const name = 'Victoria Kastanenka'
   const username = 'vkastanenka'
   const email = 'vkastanenka@gmail.com'
@@ -59,8 +56,13 @@ export const RegisterModal = () => {
     async (formData: RegisterFormData) => {
       const response = await register(formData)
 
-      // If server error, show toast message
-      if (response.status === STATUS_CODES.internalServerError) {
+      // If form errors, show errors in corresponding field
+      if (!response.success && response.errors) {
+        setResponseErrors(response.errors)
+      }
+
+      // If other error, show toast message
+      if (!response.success && !response.errors) {
         toast({
           title: 'Error!',
           description: response.message,
@@ -68,13 +70,12 @@ export const RegisterModal = () => {
         })
       }
 
-      // If bad request, show errors in corresponding fields
-      if (response.status === STATUS_CODES.badRequest) {
-        setResponseErrors(response.errors)
-      }
-
-      // If successful, push to user feed
+      // If successful, push to home page
       if (response.success) {
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
         router.push('/')
       }
     }
@@ -82,7 +83,11 @@ export const RegisterModal = () => {
 
   return (
     <Form {...form}>
-      <form action={action} className="flex flex-col gap-4 justify-center">
+      <form
+        action={action}
+        autoComplete="off"
+        className="flex flex-col gap-4 justify-center"
+      >
         <FormField
           name="name"
           render={({ field }) => (
@@ -116,6 +121,11 @@ export const RegisterModal = () => {
                 />
               </FormControl>
               <FormMessage />
+              {responseErrors?.username && (
+                <Typography.Muted className="text-destructive">
+                  {responseErrors.username}
+                </Typography.Muted>
+              )}
             </FormItem>
           )}
         />
@@ -141,6 +151,11 @@ export const RegisterModal = () => {
                 />
               </FormControl>
               <FormMessage />
+              {responseErrors?.email && (
+                <Typography.Muted className="text-destructive">
+                  {responseErrors.email}
+                </Typography.Muted>
+              )}
             </FormItem>
           )}
         />
@@ -151,6 +166,7 @@ export const RegisterModal = () => {
             <FormItem>
               <FormControl>
                 <Input
+                  type="password"
                   placeholder="Password"
                   disabled={isSubmitting}
                   {...field}

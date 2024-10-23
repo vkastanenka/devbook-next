@@ -1,8 +1,8 @@
 // components
-import { RecoverPasswordModal } from '@/components/modals/recover-password-modal'
+import { SendResetPasswordTokenCard } from '@/src/components/cards/send-reset-password-token-card'
 
 const RecoverPasswordPage = () => {
-  return <RecoverPasswordModal />
+  return <SendResetPasswordTokenCard />
 }
 
 export default RecoverPasswordPage

@@ -23,9 +23,6 @@ import { useRouter } from 'next/navigation'
 // types
 import { loginFormSchema, LoginFormData } from '@/src/lib/validation/auth'
 
-// constants
-import { STATUS_CODES } from '@/lib/constants'
-
 export const LoginForm = () => {
   const email = 'vkastanenka@gmail.com'
   const password = 'password'
@@ -54,8 +51,13 @@ export const LoginForm = () => {
   const action: () => void = handleSubmit(async (formData: LoginFormData) => {
     const response = await login(formData)
 
-    // If server error, show toast message
-    if (response.status === STATUS_CODES.internalServerError) {
+    // If form errors, show errors in corresponding field
+    if (!response.success && response.errors) {
+      setResponseErrors(response.errors)
+    }
+
+    // If other error, show toast message
+    if (!response.success && !response.errors) {
       toast({
         title: 'Error!',
         description: response.message,
@@ -63,13 +65,12 @@ export const LoginForm = () => {
       })
     }
 
-    // If bad request, show errors in corresponding fields
-    if (response.status === STATUS_CODES.badRequest) {
-      setResponseErrors(response.errors)
-    }
-
     // If successful, push to user feed
     if (response.success) {
+      toast({
+        title: 'Success!',
+        description: response.message,
+      })
       router.push('/feed')
     }
   })
@@ -104,7 +105,7 @@ export const LoginForm = () => {
               <FormMessage />
               {responseErrors?.email && (
                 <Typography.Muted className="text-destructive">
-                  {responseErrors?.email}
+                  {responseErrors.email}
                 </Typography.Muted>
               )}
             </FormItem>
@@ -117,6 +118,7 @@ export const LoginForm = () => {
             <FormItem>
               <FormControl>
                 <Input
+                  type="password"
                   placeholder="Password"
                   disabled={isSubmitting}
                   {...field}
@@ -134,7 +136,7 @@ export const LoginForm = () => {
               <FormMessage />
               {responseErrors?.password && (
                 <Typography.Muted className="text-destructive">
-                  {responseErrors?.password}
+                  {responseErrors.password}
                 </Typography.Muted>
               )}
             </FormItem>

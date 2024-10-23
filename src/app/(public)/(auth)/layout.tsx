@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <div className="flex justify-center items-center gutter h-full">
       <div className="w-[980px] flex flex-col items-center gap-8">
-        <DevbookLogoText className="w-[208px]" />
+        <DevbookLogoText className="w-[250px]" />
         {children}
       </div>
     </div>

@@ -77,12 +77,14 @@
     --input: #1e293b;
     --ring: 270 95.2% 75.3%;
     --radius: 0.5rem;
+    /* emerald-500 */
+    --success: #10b981;
   }
 }
 
 @layer components {
   a {
-    @apply text-foreground hover:bg-muted focus-within:bg-input rounded-md transition-colors;
+    @apply text-foreground hover:bg-muted focus-within:bg-input rounded-md transition-colors inline-block;
   }
 
   textarea {
@@ -94,7 +96,7 @@
   }
 
   .form-card {
-    @apply w-full xs:w-[400px];
+    @apply w-full xs:w-[400px] [&>:not(:last-child)]:mb-4;
   }
 
   .separator {

@@ -8,16 +8,19 @@ import { Separator } from '@radix-ui/react-separator'
 
 export const LoginCard = () => {
   return (
-    <Card>
+    <Card className="form-card">
       <LoginForm />
-      <div className="text-center mt-4 [&>:not(:last-child)]:mb-4">
-        <Link href="/recover-password" className="inline-block">
+
+      <div className="text-center">
+        <Link href="/recover-password">
           <Typography.P>Forgot password?</Typography.P>
         </Link>
+      </div>
 
-        <Separator className="separator" />
+      <Separator className="separator" />
 
-        <Link href="/register" className="py-2">
+      <div className="text-center">
+        <Link href="/register">
           <Button tabIndex={-1}>
             <Typography.P>Create new account</Typography.P>
           </Button>

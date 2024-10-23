@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { ResetPasswordModal } from '@/components/modals/reset-password-modal'
+import { ResetPasswordCard } from '@/components/cards/reset-password-card'
 
 // utils
 import { useRouter } from 'next/navigation'
@@ -20,7 +20,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ params }) => {
     return null
   }
 
-  return <ResetPasswordModal resetPasswordToken={params.resetPasswordToken} />
+  return <ResetPasswordCard resetPasswordToken={params.resetPasswordToken} />
 }
 
 export default ResetPasswordPage

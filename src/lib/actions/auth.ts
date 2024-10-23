@@ -12,6 +12,7 @@ import {
   DecodedSession,
   LoginResponseData,
   RegisterResponseData,
+  ResponseData,
   User,
 } from '@/lib/types'
 import {
@@ -31,6 +32,7 @@ import {
   USERS_GET_CURRENT_USER,
 } from '@/lib/api-endpoints'
 
+// Get session jwt from cookie
 export const getSessionCookieValue = async () => {
   // Get session cookie if value
   const sessionCookie = await cookies().get('session')
@@ -38,6 +40,7 @@ export const getSessionCookieValue = async () => {
   return null
 }
 
+// Decode session jwt
 export const decodeSession = async (): Promise<DecodedSession | null> => {
   // Get session cookie
   const sessionCookieValue = await getSessionCookieValue()
@@ -52,6 +55,7 @@ export const decodeSession = async (): Promise<DecodedSession | null> => {
   return decodedSession as DecodedSession
 }
 
+// Delete session cookie and record - TODO: Async error handling
 const deleteSession = async (data: DecodedSession) => {
   // Send delete request to session and delete cookie
   const { id } = data
@@ -60,6 +64,7 @@ const deleteSession = async (data: DecodedSession) => {
   await cookies().delete('session')
 }
 
+// Checks if session is still valid
 const validateSession = async (data: DecodedSession) => {
   // Check if session has expired, delete if has
   if (data.expires < new Date()) {
@@ -69,6 +74,7 @@ const validateSession = async (data: DecodedSession) => {
   return true
 }
 
+// Obtains currently logged in user from session - TODO: Async error handling
 export const getCurrentUser = async () => {
   // Decode session
   const sessionCookie = await decodeSession()
@@ -93,6 +99,7 @@ export const getCurrentUser = async () => {
   return data as User
 }
 
+// Creates new user record
 export const register = async (data: RegisterFormData) => {
   try {
     // Send post request with provided data
@@ -130,6 +137,7 @@ export const login = async (data: LoginFormData) => {
   }
 }
 
+// Delete session cookie and session record - TODO: Async error handling
 export const logout = async () => {
   // Decode session jwt
   const sessionCookie = await decodeSession()
@@ -139,19 +147,31 @@ export const logout = async () => {
   await deleteSession(sessionCookie)
 }
 
+// Send password reset link to email
 export const sendResetPasswordToken = async (
   data: SendResetPasswordTokenFormData
 ) => {
-  // Send post request with provided data
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
-  await axios.post(url, data)
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
+    const response = await axios.post(url, data)
+    return response.data as ResponseData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
 }
 
+// Reset user password with token
 export const resetPassword = async (
   data: ResetPasswordFormData,
   resetPasswordToken: string
 ) => {
-  // Send post request with provided data
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
-  await axios.patch(url, data)
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
+    const response = await axios.patch(url, data)
+    return response.data as ResponseData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
 }
