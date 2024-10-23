@@ -8,3 +8,4 @@ export const AUTH_SESSION = '/auth/session'
 // users
 export const USERS_GET_USER = '/users/user'
 export const USERS_GET_CURRENT_USER = '/users/current-user'
+export const USERS_GET_MANY_USERS = '/users/users'

@@ -10,8 +10,12 @@ import { Search } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
+import { getManyUsers } from '@/src/lib/actions/auth'
 
-export const UserSearch = () => {
+// types
+import { GetManyUsersResponseData } from '@/src/lib/types'
+
+export const SearchDevbook = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -21,15 +25,24 @@ export const UserSearch = () => {
     setSearchDevbookInputRef,
     searchDevbookInputValue,
     setSearchDevbookInputValue,
+    setSearchDevbookResults,
   } = useLayoutStore()
 
   useEffect(() => {
+    const setDevbookSearchOnLoad = async (q: string) => {
+      const responseData = await getManyUsers(q)
+      if ((responseData as GetManyUsersResponseData).data?.length) {
+        setSearchDevbookResults((responseData as GetManyUsersResponseData).data)
+      }
+    }
+
     if (pathname === '/search' && q) {
       setSearchDevbookInputValue(q)
+      setDevbookSearchOnLoad(q)
     } else {
       setSearchDevbookInputValue('')
     }
-  }, [pathname, q])
+  }, [pathname, q, setSearchDevbookInputValue, setSearchDevbookResults])
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -38,7 +51,7 @@ export const UserSearch = () => {
       setSearchDevbookInputRef(inputRef)
     }
     return () => setSearchDevbookInputRef(null)
-  }, [inputRef.current])
+  }, [inputRef, setSearchDevbookInputRef])
 
   return (
     <div className="relative mt-1">

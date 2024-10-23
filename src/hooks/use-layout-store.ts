@@ -1,6 +1,9 @@
 // utils
 import { create } from 'zustand'
 
+// types
+import { User } from '@/lib/types'
+
 interface LayoutStore {
   searchDevbookInputRef: React.RefObject<HTMLInputElement> | null
   setSearchDevbookInputRef: (
@@ -8,6 +11,8 @@ interface LayoutStore {
   ) => void
   searchDevbookInputValue: string
   setSearchDevbookInputValue: (value: string) => void
+  searchDevbookResults: User[] | null
+  setSearchDevbookResults: (value: User[]) => void
 }
 
 export const useLayoutStore = create<LayoutStore>((set) => ({
@@ -17,4 +22,7 @@ export const useLayoutStore = create<LayoutStore>((set) => ({
   searchDevbookInputValue: '',
   setSearchDevbookInputValue: (value = '') =>
     set({ searchDevbookInputValue: value }),
+  searchDevbookResults: null,
+  setSearchDevbookResults: (value: User[] | null) =>
+    set({ searchDevbookResults: value }),
 }))

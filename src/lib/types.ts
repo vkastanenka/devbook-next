@@ -27,6 +27,10 @@ export interface RegisterResponseData extends ResponseData {
   data: User
 }
 
+export interface GetManyUsersResponseData extends ResponseData {
+  data: User[]
+}
+
 export enum PostType {
   DEFAULT,
   EVENT,

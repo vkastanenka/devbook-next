@@ -10,6 +10,7 @@ import { formatServerErrorData } from '@/lib/utils'
 // types
 import {
   DecodedSession,
+  GetManyUsersResponseData,
   LoginResponseData,
   RegisterResponseData,
   ResponseData,
@@ -30,6 +31,7 @@ import {
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_SESSION,
   USERS_GET_CURRENT_USER,
+  USERS_GET_MANY_USERS,
 } from '@/lib/api-endpoints'
 
 // Get session jwt from cookie
@@ -72,31 +74,6 @@ const validateSession = async (data: DecodedSession) => {
     return false
   }
   return true
-}
-
-// Obtains currently logged in user from session - TODO: Async error handling
-export const getCurrentUser = async () => {
-  // Decode session
-  const sessionCookie = await decodeSession()
-  if (!sessionCookie) return null
-
-  // Check if session valid, otherwise delete session and cookie
-  const isSessionValid = await validateSession(sessionCookie)
-  if (!isSessionValid) return null
-
-  // Get session jwt
-  const sessionCookieValue = await getSessionCookieValue()
-  if (!sessionCookieValue) return null
-
-  // Get the current user
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_CURRENT_USER}`
-  const {
-    data: { data },
-  } = await axios.get(url, {
-    headers: { Authorization: `Bearer ${sessionCookieValue}` },
-  })
-
-  return data as User
 }
 
 // Creates new user record
@@ -171,6 +148,44 @@ export const resetPassword = async (
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
     const response = await axios.patch(url, data)
     return response.data as ResponseData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
+}
+
+// Obtains currently logged in user from session - TODO: Async error handling
+export const getCurrentUser = async () => {
+  // Decode session
+  const sessionCookie = await decodeSession()
+  if (!sessionCookie) return null
+
+  // Check if session valid, otherwise delete session and cookie
+  const isSessionValid = await validateSession(sessionCookie)
+  if (!isSessionValid) return null
+
+  // Get session jwt
+  const sessionCookieValue = await getSessionCookieValue()
+  if (!sessionCookieValue) return null
+
+  // Get the current user
+  const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_CURRENT_USER}`
+  const {
+    data: { data },
+  } = await axios.get(url, {
+    headers: { Authorization: `Bearer ${sessionCookieValue}` },
+  })
+
+  return data as User
+}
+
+export const getManyUsers = async (
+  query: string
+): Promise<GetManyUsersResponseData | ResponseData> => {
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_MANY_USERS}/${query}`
+    const response = await axios.get(url)
+    return response.data as GetManyUsersResponseData
   } catch (err) {
     return formatServerErrorData(err)
   }
