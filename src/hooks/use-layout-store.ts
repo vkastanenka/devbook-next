@@ -12,7 +12,7 @@ interface LayoutStore {
   searchDevbookInputValue: string
   setSearchDevbookInputValue: (value: string) => void
   searchDevbookResults: User[] | null
-  setSearchDevbookResults: (value: User[]) => void
+  setSearchDevbookResults: (value: User[] | null) => void
 }
 
 export const useLayoutStore = create<LayoutStore>((set) => ({

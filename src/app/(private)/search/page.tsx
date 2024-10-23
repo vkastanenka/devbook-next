@@ -12,7 +12,7 @@ const SearchPage = () => {
 
   if (!searchDevbookResults?.length) {
     return <NoSearchDevbookResultsCard />
-  }
+  } 
 
   return (
     <div>

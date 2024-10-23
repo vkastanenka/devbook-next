@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { DevbookLogo } from '@/components/svg/devbook-logo'
 import { LogoutButton } from '@/components/buttons/logout-button'
-import { SearchDevbook } from '@/components/modules/search-devbook'
+import { SearchDevbookForm } from '@/components/forms/search-devbook-form'
 
 export const PrivateNav: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ export const PrivateNav: React.FC = () => {
           <Link href="/feed">
             <DevbookLogo className="w-[40px]" />
           </Link>
-          <SearchDevbook />
+          <SearchDevbookForm />
         </div>
         <LogoutButton />
       </nav>
