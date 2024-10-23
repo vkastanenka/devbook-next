@@ -19,17 +19,17 @@ const FeedPage: React.FC = async () => {
   return (
     <div className="flex gap-8">
       {/* user card */}
-      <div className="basis-1/4">
+      <div className="basis-1/4 hidden xl:block">
         <UserCard user={currentUser} />
       </div>
       {/* timeline */}
-      <div className="basis-1/2 flex flex-col gap-4">
+      <div className="basis-full lg:basis-2/3 xl:basis-1/2 flex flex-col gap-4">
         <CreatePostCard user={currentUser} />
         <Separator />
         <UserFeed />
       </div>
       {/* contacts */}
-      <div className="basis-1/4">
+      <div className="hidden lg:block lg:basis-1/3 xl:basis-1/4">
         <ContactsCard />
       </div>
     </div>
