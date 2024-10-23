@@ -83,7 +83,8 @@
 }
 
 @layer components {
-  a {
+  a,
+  .is-interactive {
     @apply text-foreground hover:bg-muted focus-within:bg-input rounded-md transition-colors inline-block;
   }
 
