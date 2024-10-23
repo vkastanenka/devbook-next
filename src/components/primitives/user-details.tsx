@@ -13,7 +13,6 @@ interface UserDetails {
   variant?: 'sm' | 'lg' | 'xl'
   include?: {
     pronouns?: boolean
-    links?: boolean
     location?: boolean
   }
 }

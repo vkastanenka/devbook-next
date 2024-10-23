@@ -13,7 +13,15 @@ export const UserAboutCard: React.FC<UserAboutCard> = ({ userAbout }) => {
         <Typography.H4>About</Typography.H4>
         <div>
           {userAbout ? (
-            <Typography.P>{userAbout}</Typography.P>
+            <div className="flex flex-col gap-4">
+              {userAbout.split('\n').map((line, index, arr) => {
+                if (line === '') {
+                  return <div />
+                }
+
+                return <Typography.P key={index}>{line}</Typography.P>
+              })}
+            </div>
           ) : (
             <>
               <Typography.H3>Nothing here yet!</Typography.H3>
