@@ -1,5 +1,5 @@
 // components
-import { NoUserPostsCard } from '@/src/components/cards/no-user-posts-card'
+import { NoContentCard } from '@/src/components/cards/no-content-card'
 // import { Separator } from '@/src/components/ui/separator'
 import { UserCard } from '@/components/cards/user-card'
 import { UserAboutCard } from '@/src/components/cards/user-about-card'
@@ -42,7 +42,10 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
       </div>
       {/* user feed */}
       <div className="basis-1/2">
-        <NoUserPostsCard />
+        <NoContentCard
+          heading="Nothing here yet!"
+          subheading="Check back later."
+        />
       </div>
     </div>
   )

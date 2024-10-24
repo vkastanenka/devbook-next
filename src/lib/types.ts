@@ -51,6 +51,24 @@ export interface GetUsernameResponseData extends ResponseData {
   data: User
 }
 
+export interface GetUserGithubRepositoryResponseData {
+  name: string
+  description: string | null
+  html_url: string
+}
+
+export interface GetUserGithubRepositoryResponse {
+  data: GetUserGithubRepositoryResponseData
+  headers: { [key: string]: string }
+  status: number
+  url: string
+}
+
+export type GetUserGithubRepositoriesResponse = (
+  | GetUserGithubRepositoryResponse
+  | { url: string; success: boolean }
+)[]
+
 export enum PostType {
   DEFAULT,
   EVENT,

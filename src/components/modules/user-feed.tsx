@@ -1,9 +1,14 @@
 // components
-import { NoCurrentUserPostsCard } from '@/components/cards/no-user-posts-card'
+import { NoContentCard } from '@/components/cards/no-content-card'
 
 // types
 // import { User } from '@/lib/types'
 
 export const UserFeed: React.FC = () => {
-  return <NoCurrentUserPostsCard />
+  return (
+    <NoContentCard
+      heading="Welcome to Devbook!"
+      subheading="Create a post above to get started."
+    />
+  )
 }
