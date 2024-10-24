@@ -2,6 +2,7 @@
 
 // components
 import { CreatePostModal } from '@/components/modals/create-post-modal'
+import { UserContactInformationModal } from '@/components/modals/user-contact-information-modal'
 
 // utils
 import { useEffect, useState } from 'react'
@@ -18,6 +19,7 @@ export const ModalProvider = () => {
   return (
     <>
       <CreatePostModal />
+      <UserContactInformationModal />
     </>
   )
 }

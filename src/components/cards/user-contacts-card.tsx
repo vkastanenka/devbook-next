@@ -26,7 +26,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({
             <>
               <Typography.H3>Nothing here yet!</Typography.H3>
               <Typography.P>
-                This user hasn't found any contacts yet.
+                {`This user hasn't found any contacts yet.`}
               </Typography.P>
             </>
           )}

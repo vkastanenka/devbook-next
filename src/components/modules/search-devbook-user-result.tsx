@@ -1,7 +1,7 @@
 // components
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { UserDetails } from '@/components/primitives/user-details'
+// import { UserDetails } from '@/components/primitives/user-details'
 
 // types
 import { User } from '@/lib/types'
@@ -16,7 +16,7 @@ export const SearchDevbookUserResult: React.FC<SearchDevbookuserResult> = ({
   return (
     <div className="flex items-center justify-between">
       <Link href={`/user/${user.username}`}>
-        <UserDetails user={user} variant="sm" />
+        {/* <UserDetails user={user} variant="sm" /> */}
       </Link>
       <Button>Add friend</Button>
     </div>

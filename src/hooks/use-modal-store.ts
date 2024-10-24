@@ -4,7 +4,7 @@ import { create } from 'zustand'
 // types
 import { User } from '@/lib/types'
 
-export type ModalType = 'createPost'
+export type ModalType = 'createPost' | 'userContactInformation'
 
 interface ModalData {
   placeholder?: string

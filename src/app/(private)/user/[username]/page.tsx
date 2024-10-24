@@ -3,14 +3,14 @@ import { NoUserPostsCard } from '@/src/components/cards/no-user-posts-card'
 // import { Separator } from '@/src/components/ui/separator'
 import { UserCard } from '@/components/cards/user-card'
 import { UserAboutCard } from '@/src/components/cards/user-about-card'
-import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
+// import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
 
 // utils
-import { getUser } from '@/src/lib/actions/auth'
+import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'
 
 // types
 import { User } from '@/lib/types'
-import { GetUserResponseData } from '@/lib/types'
+import { GetUsernameResponseData } from '@/lib/types'
 
 interface UserPage {
   params: {
@@ -19,10 +19,18 @@ interface UserPage {
 }
 
 const UserPage: React.FC<UserPage> = async ({ params }) => {
-  const user = await getUser(params?.username)
-  if (!user) return null
+  if (!params?.username) return null
 
-  const userData: User = (user as GetUserResponseData).data
+  // TODO: Update functionality if current user
+  const currentUser = await getCurrentUser()
+  if (!currentUser) return null // TODO: Proper error handling
+
+  const user = await getUsername(params.username, {
+    include: { addresses: true },
+  })
+  if (!user) return null // TODO: Proper error handling
+
+  const userData: User = (user as GetUsernameResponseData).data
 
   return (
     <div className="flex gap-8">

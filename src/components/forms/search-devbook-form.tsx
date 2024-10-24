@@ -11,10 +11,10 @@ import { useEffect, useRef } from 'react'
 import { useToast } from '@/src/hooks/use-toast'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
-import { getManyUsers } from '@/src/lib/actions/auth'
+import { getUserDevbookSearch } from '@/src/lib/actions/auth'
 
 // types
-import { GetManyUsersResponseData } from '@/src/lib/types'
+import { GetUserDevbookSearchResponseData } from '@/src/lib/types'
 
 export const SearchDevbookForm = () => {
   const { toast } = useToast()
@@ -36,7 +36,7 @@ export const SearchDevbookForm = () => {
       return
     }
 
-    const response = await getManyUsers(searchDevbookInputValue)
+    const response = await getUserDevbookSearch(searchDevbookInputValue)
 
     if (!response.success) {
       toast({
@@ -53,7 +53,9 @@ export const SearchDevbookForm = () => {
         title: 'Success!',
         description: response.message,
       })
-      setSearchDevbookResults((response as GetManyUsersResponseData).data)
+      setSearchDevbookResults(
+        (response as GetUserDevbookSearchResponseData).data
+      )
     }
   }
 
@@ -94,11 +96,7 @@ export const SearchDevbookForm = () => {
           <Search />
         </div>
       </div>
-      <form
-        ref={formRef}
-        action={action}
-        autoComplete="off"
-      >
+      <form ref={formRef} action={action} autoComplete="off">
         <Input
           name="query"
           ref={inputRef}

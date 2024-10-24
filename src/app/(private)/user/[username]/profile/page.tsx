@@ -3,11 +3,11 @@ import { UserCard } from '@/components/cards/user-card'
 import { UserAboutCard } from '@/src/components/cards/user-about-card'
 
 // utils
-import { getUser } from '@/src/lib/actions/auth'
+import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'
 
 // types
 import { User } from '@/lib/types'
-import { GetUserResponseData } from '@/lib/types'
+import { GetUsernameResponseData } from '@/lib/types'
 
 interface UserProfilePage {
   params: {
@@ -16,10 +16,20 @@ interface UserProfilePage {
 }
 
 const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
-  const user = await getUser(params?.username)
-  if (!user) return null
+  if (!params?.username) return null
 
-  const userData: User = (user as GetUserResponseData).data
+  // TODO: Update functionality if current user
+  const currentUser = await getCurrentUser()
+  if (!currentUser) return null // TODO: Proper error handling
+
+  const user = await getUsername(params.username, {
+    include: { addresses: true, userEducations: true, userExperiences: true },
+  })
+  if (!user) return null // TODO: Proper error handling
+
+  const userData: User = (user as GetUsernameResponseData).data
+
+  console.log(userData)
 
   return (
     <div className="flex flex-col gap-4">

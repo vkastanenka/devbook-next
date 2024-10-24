@@ -10,8 +10,8 @@ import { formatServerErrorData } from '@/lib/utils'
 // types
 import {
   DecodedSession,
-  GetUserResponseData,
-  GetManyUsersResponseData,
+  GetUserDevbookSearchResponseData,
+  GetUsernameResponseData,
   LoginResponseData,
   RegisterResponseData,
   ResponseData,
@@ -32,8 +32,8 @@ import {
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_SESSION,
   USERS_GET_CURRENT_USER,
-  USERS_GET_USER,
-  USERS_GET_MANY_USERS,
+  USERS_GET_DEVBOOK_SEARCH,
+  USERS_GET_USERNAME,
 } from '@/lib/api-endpoints'
 
 // Get session jwt from cookie
@@ -180,27 +180,34 @@ export const getCurrentUser = async () => {
   return data as User
 }
 
-export const getUser = async (
+export const getUserDevbookSearch = async (
   query: string
-): Promise<GetUserResponseData | ResponseData> => {
+): Promise<GetUserDevbookSearchResponseData | ResponseData> => {
   try {
     // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USER}/${query}`
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_DEVBOOK_SEARCH}/${query}`
     const response = await axios.get(url)
-    return response.data as GetUserResponseData
+    return response.data as GetUserDevbookSearchResponseData
   } catch (err) {
     return formatServerErrorData(err)
   }
 }
 
-export const getManyUsers = async (
-  query: string
-): Promise<GetManyUsersResponseData | ResponseData> => {
+export const getUsername = async (
+  username: string,
+  data?: {
+    include: {
+      addresses?: boolean
+      userEducations?: boolean
+      userExperiences?: boolean
+    }
+  }
+): Promise<GetUsernameResponseData | ResponseData> => {
   try {
     // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_MANY_USERS}/${query}`
-    const response = await axios.get(url)
-    return response.data as GetManyUsersResponseData
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USERNAME}/${username}`
+    const response = await axios.post(url, data)
+    return response.data as GetUsernameResponseData
   } catch (err) {
     return formatServerErrorData(err)
   }

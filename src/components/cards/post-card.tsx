@@ -15,7 +15,6 @@ import { CreateComment } from '@/components/modules/create-comment'
 import { Overlay } from '@/components/utils/overlay'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { Typography } from '@/components/ui/typography'
-import { UserDetails } from '@/components/primitives/user-details'
 
 import {
   ThumbsUp,
@@ -83,7 +82,7 @@ const PostCardUser: React.FC<{ user: User }> = ({ user }) => {
       <div className="inline-block">
         <Overlay>
           <Link href={`/user/${user.username}`} className="inline-block">
-            <UserDetails user={user} />
+            {/* <UserDetails user={user} /> */}
           </Link>
         </Overlay>
       </div>

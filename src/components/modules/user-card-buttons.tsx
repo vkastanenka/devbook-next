@@ -15,12 +15,15 @@ import {
 
 // utils
 import { usePathname } from 'next/navigation'
+import { useModal } from '@/hooks/use-modal-store'
 
 // types
 import { User } from '@/lib/types'
 
-export const UserDetailsButtons: React.FC<{ user: User }> = ({ user }) => {
-  let UserPageLink = () => (
+export const UserCardButtons: React.FC<{ user: User }> = ({ user }) => {
+  const { onOpen } = useModal()
+
+  let userPageLink = (
     <Link href={`/user/${user.username}/profile`}>
       <Typography.Muted>Profile</Typography.Muted>
       <CircleUserRound />
@@ -30,7 +33,7 @@ export const UserDetailsButtons: React.FC<{ user: User }> = ({ user }) => {
   const pathname = usePathname()
 
   if (pathname.includes('/profile')) {
-    UserPageLink = () => (
+    userPageLink = (
       <Link href={`/user/${user.username}`}>
         <Typography.Muted>Feed</Typography.Muted>
         <Logs />
@@ -40,23 +43,23 @@ export const UserDetailsButtons: React.FC<{ user: User }> = ({ user }) => {
 
   return (
     <div className="flex gap-4 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:is-interactive [&>*]:text-purple-400">
-      <UserPageLink />
-      {/* {user.contactInfo && <button>
+      {userPageLink}
+      <button onClick={() => onOpen('userContactInformation', { user })}>
         <Typography.Muted>Contact info</Typography.Muted>
         <Contact />
-      </button>} */}
-      {/* {user.resume && (
-        <button>
+      </button>
+      {user.resume && (
+        <a href={user.resume} download>
           <Typography.Muted>Resume</Typography.Muted>
           <File />
-        </button>
-      )} */}
-      {/* {user.website && (
-        <button>
+        </a>
+      )}
+      {user.website && (
+        <Link href={user.website} target="_blank">
           <Typography.Muted>Website</Typography.Muted>
           <LucideLink />
-        </button>
-      )} */}
+        </Link>
+      )}
     </div>
   )
 }

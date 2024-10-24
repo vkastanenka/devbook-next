@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { UserDetails } from '@/components/primitives/user-details'
+// import { UserDetails } from '@/components/primitives/user-details'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -72,7 +72,7 @@ export const CreatePostModal = () => {
       <DialogContent className="bg-card">
         {user && (
           <DialogHeader>
-            <UserDetails user={user} />
+            {/* <UserDetails user={user} /> */}
           </DialogHeader>
         )}
         <Form {...form}>
