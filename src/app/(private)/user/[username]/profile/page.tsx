@@ -2,6 +2,9 @@
 import { UserCard } from '@/components/cards/user-card'
 import { UserAboutCard } from '@/src/components/cards/user-about-card'
 import { UserGithubRepositoriesCard } from '@/src/components/cards/user-github-repositories-card'
+import { UserEducationCard } from '@/src/components/cards/user-education-card'
+import { UserExperienceCard } from '@/src/components/cards/user-experience-card'
+import { UserSkillsCard } from '@/src/components/cards/user-skills-card'
 
 // utils
 import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'
@@ -37,6 +40,9 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
       <UserGithubRepositoriesCard
         githubRepositories={userData.githubRepositories}
       />
+      <UserExperienceCard userExperiences={userData.userExperiences} />
+      <UserEducationCard userEducations={userData.userEducations} />
+      <UserSkillsCard userSkills={userData.skills} />
     </div>
   )
 }

@@ -1,20 +1,18 @@
 'use client'
 
-// components
-import { Card as CardShadCn } from '@/components/ui/card'
-
 // utils
 import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
 import { Typography } from '../ui/typography'
+import { Separator } from '../ui/separator'
 
-interface CollapsibleCard {
+interface CollapsibleContent {
   children: React.ReactNode
   className?: string
   includeTrigger?: boolean
 }
 
-export const CollapsibleCard: React.FC<CollapsibleCard> = ({
+export const CollapsibleContent: React.FC<CollapsibleContent> = ({
   children,
   className,
   includeTrigger = true,
@@ -22,16 +20,17 @@ export const CollapsibleCard: React.FC<CollapsibleCard> = ({
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
 
   return (
-    <CardShadCn className={cn('card', 'flex', 'flex-col', 'gap-2', className)}>
+    <div className={cn('flex', 'flex-col', 'gap-2', className)}>
       <div
         className={cn(
+          className,
           isCollapsed && includeTrigger ? 'max-h-[150px]' : '',
-          isCollapsed && includeTrigger ? 'overflow-hidden' : '',
-          isCollapsed && includeTrigger ? 'border-b-2' : ''
+          isCollapsed && includeTrigger ? 'overflow-hidden' : ''
         )}
       >
         {children}
       </div>
+      {isCollapsed && includeTrigger && <Separator className="separator" />}
       {includeTrigger && (
         <button
           className={cn(
@@ -52,6 +51,6 @@ export const CollapsibleCard: React.FC<CollapsibleCard> = ({
           </Typography.Muted>
         </button>
       )}
-    </CardShadCn>
+    </div>
   )
 }

@@ -18,11 +18,11 @@ export const CurrentUserCard: React.FC<CurrentUserCard> = ({ currentUser }) => {
         <div className="card flex flex-col gap-4">
           <Avatar src={currentUser.image || undefined} className="avatar-lg" />
           <div>
-            <Typography.H3>{currentUser.name}</Typography.H3>
+            <Typography.H4>{currentUser.name}</Typography.H4>
             {currentUser.headline && (
-              <Typography.P className="text-accent">
+              <Typography.Muted className="text-accent">
                 {currentUser.headline}
-              </Typography.P>
+              </Typography.Muted>
             )}
           </div>
         </div>
