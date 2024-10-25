@@ -4,11 +4,12 @@ import { create } from 'zustand'
 // types
 import { User } from '@/lib/types'
 
-export type ModalType = 'createPost' | 'userContactInformation'
+export type ModalType = 'createPost' | 'userContactInformation' | 'userSkills'
 
 interface ModalData {
   placeholder?: string
   user?: User
+  skills?: string[]
 }
 
 interface ModalStore {
