@@ -1,5 +1,6 @@
 // components
-import { Card } from '@/components/primitives/card'
+import { Card } from '../primitives/card'
+import { CollapsibleCard } from './collapsible-card'
 import { Typography } from '../ui/typography'
 
 interface UserAboutCard {
@@ -7,31 +8,33 @@ interface UserAboutCard {
 }
 
 export const UserAboutCard: React.FC<UserAboutCard> = ({ userAbout }) => {
+  if (!userAbout)
+    return (
+      <Card className="flex flex-col gap-4">
+        <Typography.H4>About</Typography.H4>
+        <Typography.H4>Nothing here yet!</Typography.H4>
+        <Typography.P>
+          {`This user hasn't written about themselves yet.`}
+        </Typography.P>
+      </Card>
+    )
+
   return (
-    <Card>
+    <CollapsibleCard includeTrigger={userAbout.length > 250}>
       <div className="flex flex-col gap-4">
         <Typography.H4>About</Typography.H4>
         <div>
-          {userAbout ? (
-            <div className="flex flex-col gap-4">
-              {userAbout.split('\n').map((line, i) => {
-                if (line === '') {
-                  return <div key={i} />
-                }
+          <div className="flex flex-col gap-4">
+            {userAbout.split('\n').map((line, i) => {
+              if (line === '') {
+                return <div key={i} />
+              }
 
-                return <Typography.P key={i}>{line}</Typography.P>
-              })}
-            </div>
-          ) : (
-            <>
-              <Typography.H3>Nothing here yet!</Typography.H3>
-              <Typography.P>
-                {`This user hasn't written about themselves yet.`}
-              </Typography.P>
-            </>
-          )}
+              return <Typography.P key={i}>{line}</Typography.P>
+            })}
+          </div>
         </div>
       </div>
-    </Card>
+    </CollapsibleCard>
   )
 }
