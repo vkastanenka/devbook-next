@@ -5,7 +5,7 @@ import { Typography } from '@/components/ui/typography'
 import { UserCardButtons } from '@/components/modules/user-card-buttons'
 
 // types
-import { User } from '@/lib/types'
+import { User } from '@/types/user-types'
 
 interface UserCard {
   user: User

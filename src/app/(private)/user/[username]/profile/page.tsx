@@ -7,11 +7,11 @@ import { UserExperienceCard } from '@/src/components/cards/user/user-experience-
 import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'
+import { getCurrentUser, getUsername } from '@/actions/auth-actions'
 
 // types
-import { User } from '@/lib/types'
-import { GetUsernameResponseData } from '@/lib/types'
+import { User } from '@/types/user-types'
+import { GetUsernameResData } from '@/types/server-types'
 
 interface UserProfilePage {
   params: {
@@ -38,7 +38,7 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
   })
   if (!user) return null
 
-  const userData: User = (user as GetUsernameResponseData).data
+  const userData: User = (user as GetUsernameResData).data
 
   return (
     <div className="flex flex-col gap-4">

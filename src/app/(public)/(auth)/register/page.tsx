@@ -1,8 +1,8 @@
 // components
-import { RegisterCard } from '@/components/cards/register-card'
+import { AuthRegisterCard } from '@/components/cards/auth/auth-register-card'
 
 const RegisterPage = () => {
-  return <RegisterCard />
+  return <AuthRegisterCard />
 }
 
 export default RegisterPage

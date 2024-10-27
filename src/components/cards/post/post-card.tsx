@@ -28,7 +28,7 @@ import {
 
 // images
 import postImage from '/public/images/post-photo-1.jpg'
-import { User } from '@/src/lib/types'
+import { User } from '@/types/user-types'
 
 interface PostCard {
   user: User

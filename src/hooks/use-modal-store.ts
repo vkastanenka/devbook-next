@@ -2,7 +2,7 @@
 import { create } from 'zustand'
 
 // types
-import { User } from '@/lib/types'
+import { User } from '@/types/user-types'
 
 export type ModalType = 'createPost' | 'userContactInformation' | 'userSkills'
 

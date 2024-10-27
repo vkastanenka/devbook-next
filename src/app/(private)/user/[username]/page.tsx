@@ -6,11 +6,11 @@ import { UserAboutCard } from '@/src/components/cards/user/user-about-card'
 // import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'
+import { getCurrentUser, getUsername } from '@/actions/auth-actions'
 
 // types
-import { User } from '@/lib/types'
-import { GetUsernameResponseData } from '@/lib/types'
+import { User } from '@/types/user-types'
+import { GetUsernameResData } from '@/types/server-types'
 
 interface UserPage {
   params: {
@@ -30,7 +30,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   })
   if (!user) return null // TODO: Proper error handling
 
-  const userData: User = (user as GetUsernameResponseData).data
+  const userData: User = (user as GetUsernameResData).data
 
   return (
     <div className="flex gap-8">

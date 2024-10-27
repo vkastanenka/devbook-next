@@ -14,14 +14,14 @@ import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useState } from 'react'
-import { login } from '@/lib/actions/auth'
+import { login } from '@/actions/auth-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
 // types
-import { loginFormSchema, LoginFormData } from '@/src/lib/validation/auth'
+import { loginFormSchema, LoginFormData } from '@/src/validation/auth'
 
 export const AuthLoginForm = () => {
   const email = 'vkastanenka@gmail.com'

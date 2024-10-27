@@ -5,7 +5,7 @@ import { Avatar } from '@/components/primitives/avatar'
 import { CreatePostButton } from '@/src/components/modules/buttons/create-post-button'
 
 // types
-import { User } from '@/lib/types'
+import { User } from '@/types/user-types'
 
 interface CreatePost {
   user: User

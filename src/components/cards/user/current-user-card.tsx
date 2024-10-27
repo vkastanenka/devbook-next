@@ -5,11 +5,11 @@ import { Avatar } from '@/components/primitives/avatar'
 import { Typography } from '@/components/ui/typography'
 
 // utils
-import { getCurrentUser } from '@/src/lib/actions/auth'
+import { getCurrentUser } from '@/actions/auth-actions'
 
 /**
  * TODO:
- * 
+ *
  * 1. Error handling for error responses
  */
 

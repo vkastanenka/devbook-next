@@ -14,14 +14,14 @@ import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useState } from 'react'
-import { register } from '@/src/lib/actions/auth'
+import { register } from '@/actions/auth-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
 // types
-import { registerFormSchema, RegisterFormData } from '@/src/lib/validation/auth'
+import { registerFormSchema, RegisterFormData } from '@/src/validation/auth'
 
 export const AuthRegisterForm = () => {
   const name = 'Victoria Kastanenka'

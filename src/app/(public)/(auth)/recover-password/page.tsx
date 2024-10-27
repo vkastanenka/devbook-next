@@ -1,8 +1,8 @@
 // components
-import { SendResetPasswordTokenCard } from '@/src/components/cards/send-reset-password-token-card'
+import { AuthSendResetPasswordTokenCard } from '@/src/components/cards/auth/auth-send-reset-password-token-card'
 
 const RecoverPasswordPage = () => {
-  return <SendResetPasswordTokenCard />
+  return <AuthSendResetPasswordTokenCard />
 }
 
 export default RecoverPasswordPage

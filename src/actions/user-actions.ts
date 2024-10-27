@@ -2,17 +2,17 @@
 
 // types
 import {
-  GetUserGithubRepositoryResponse,
-  GetUserGithubRepositoriesResponse,
-} from '@/lib/types'
+  GetUserGithubRepoRes,
+  GetUserGithubReposRes,
+} from '@/types/server-types'
 
 // utils
 import { Octokit } from 'octokit'
 import { createTokenAuth } from '@octokit/auth-token'
 
-export const getUserGithubRepositories = async (
+export const getUserGithubRepos = async (
   githubRepositories: string[]
-): Promise<GetUserGithubRepositoriesResponse> => {
+): Promise<GetUserGithubReposRes> => {
   const auth = createTokenAuth(process.env.NEXT_GITHUB_AUTH_TOKEN || '')
   const { token } = await auth()
   const octokit = new Octokit({ auth: token })
@@ -25,7 +25,7 @@ export const getUserGithubRepositories = async (
         const repositoryResponse = await octokit.request(
           `GET /repos/${endpoint}`
         )
-        return repositoryResponse as GetUserGithubRepositoryResponse
+        return repositoryResponse as GetUserGithubRepoRes
       } catch {
         return { url: repository, success: false }
       }

@@ -7,7 +7,7 @@ import { PostButton } from '@/src/components/modules/buttons/post-button'
 import { useModal } from '@/hooks/use-modal-store'
 
 // types
-import { User } from '@/lib/types'
+import { User } from '@/types/user-types'
 
 interface CreatePostButton {
   user: User

@@ -18,13 +18,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { sendResetPasswordToken } from '@/src/lib/actions/auth'
+import { sendResetPasswordToken } from '@/actions/auth-actions'
 
 // types
 import {
   sendResetPasswordTokenFormSchema,
   SendResetPasswordTokenFormData,
-} from '@/src/lib/validation/auth'
+} from '@/src/validation/auth'
 
 export const AuthSendResetPasswordTokenForm = () => {
   const email = 'vkastanenka@gmail.com'

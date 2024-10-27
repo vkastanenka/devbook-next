@@ -12,14 +12,14 @@ import GithubRainbow from '/public/svg/github-rainbow.svg'
 
 // utils
 import { useState, useEffect } from 'react'
-import { getUserGithubRepositories } from '@/src/lib/actions/user'
+import { getUserGithubRepos } from '@/actions/user-actions'
 import { useToast } from '@/hooks/use-toast'
 
 // types
 import {
-  GetUserGithubRepositoriesResponse,
-  GetUserGithubRepositoryResponse,
-} from '@/src/lib/types'
+  GetUserGithubReposRes,
+  GetUserGithubRepoRes,
+} from '@/types/server-types'
 
 interface UserCard {
   githubRepositories: string[]
@@ -31,16 +31,16 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
   const { toast } = useToast()
 
   const [repositories, setRepositories] =
-    useState<GetUserGithubRepositoriesResponse>()
+    useState<GetUserGithubReposRes>()
 
   useEffect(() => {
     const getRepos = async () => {
-      const repositories = await getUserGithubRepositories(githubRepositories)
+      const repositories = await getUserGithubRepos(githubRepositories)
 
       const failedRequestUrls: string[] = []
 
       repositories.forEach((repo) => {
-        if (!(repo as GetUserGithubRepositoryResponse).status) {
+        if (!(repo as GetUserGithubRepoRes).status) {
           failedRequestUrls.push(repo.url)
         }
       })
@@ -89,11 +89,11 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
       {repositories && (
         <div className="flex flex-col sm:flex-row gap-4">
           {repositories.map((repository, i) => {
-            if (!(repository as GetUserGithubRepositoryResponse).status) {
+            if (!(repository as GetUserGithubRepoRes).status) {
               return null
             }
             const repositorySuccess =
-              repository as GetUserGithubRepositoryResponse
+              repository as GetUserGithubRepoRes
             return (
               <CardShadCn key={i} className="sm:basis-1/2">
                 <Link

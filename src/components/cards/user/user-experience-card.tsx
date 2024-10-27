@@ -7,7 +7,7 @@ import { Typography } from '@/components/ui/typography'
 import { Briefcase } from 'lucide-react'
 
 // types
-import { UserExperience } from '@/src/lib/types'
+import { UserExperience } from '@/types/user-types'
 
 interface UserExperienceCard {
   userExperiences?: UserExperience[]

@@ -17,13 +17,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { resetPassword } from '@/src/lib/actions/auth'
+import { resetPassword } from '@/actions/auth-actions'
 
 // types
 import {
   resetPasswordFormSchema,
   ResetPasswordFormData,
-} from '@/src/lib/validation/auth'
+} from '@/src/validation/auth'
 
 interface ResetPasswordForm {
   resetPasswordToken: string

@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { ResetPasswordCard } from '@/components/cards/reset-password-card'
+import { AuthResetPasswordCard } from '@/components/cards/auth/auth-reset-password-card'
 
 // utils
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -16,7 +16,7 @@ const ResetPasswordPage = () => {
     return null
   }
 
-  return <ResetPasswordCard resetPasswordToken={token} />
+  return <AuthResetPasswordCard resetPasswordToken={token} />
 }
 
 export default ResetPasswordPage

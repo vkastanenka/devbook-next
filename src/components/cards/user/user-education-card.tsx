@@ -3,7 +3,7 @@ import { Card } from '@/components/primitives/card'
 import { Typography } from '@/components/ui/typography'
 
 // types
-import { UserEducation } from '@/src/lib/types'
+import { UserEducation } from '@/types/user-types'
 
 interface UserEducationCard {
   userEducations?: UserEducation[]

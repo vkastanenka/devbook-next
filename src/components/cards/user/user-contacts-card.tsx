@@ -3,7 +3,7 @@ import { Card } from '@/components/primitives/card'
 import { Typography } from '@/components/ui/typography'
 
 // types
-import { User } from '@/src/lib/types'
+import { User } from '@/types/user-types'
 
 interface UserContactsCard {
   userContacts?: User[] | null

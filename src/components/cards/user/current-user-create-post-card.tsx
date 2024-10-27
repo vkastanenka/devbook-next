@@ -5,7 +5,7 @@ import { CreatePostButton } from '@/src/components/modules/buttons/create-post-b
 import { Card } from '@/components/primitives/card'
 
 // utils
-import { getCurrentUser } from '@/src/lib/actions/auth'
+import { getCurrentUser } from '@/actions/auth-actions'
 
 /**
  * TODO:

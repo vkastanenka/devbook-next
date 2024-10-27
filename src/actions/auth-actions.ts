@@ -8,21 +8,21 @@ import { addDays } from 'date-fns'
 import { formatServerErrorData } from '@/lib/utils'
 
 // types
+import { DecodedSession } from '@/types/auth-types'
 import {
-  DecodedSession,
-  GetUserDevbookSearchResponseData,
-  GetUsernameResponseData,
-  LoginResponseData,
-  RegisterResponseData,
-  ResponseData,
-  User,
-} from '@/lib/types'
+  GetUserSearchResData,
+  GetUsernameResData,
+  LoginResData,
+  RegisterResData,
+  ResData,
+} from '@/types/server-types'
+import { User } from '@/types/user-types'
 import {
   RegisterFormData,
   LoginFormData,
   SendResetPasswordTokenFormData,
   ResetPasswordFormData,
-} from '@/lib/validation/auth'
+} from '@/validation/auth'
 
 // constants
 import {
@@ -34,7 +34,7 @@ import {
   USERS_GET_CURRENT_USER,
   USERS_GET_DEVBOOK_SEARCH,
   USERS_GET_USERNAME,
-} from '@/lib/api-endpoints'
+} from '@/constants/api-endpoint-constants'
 
 // Get session jwt from cookie
 export const getSessionCookieValue = async () => {
@@ -88,7 +88,7 @@ export const register = async (data: RegisterFormData) => {
       id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
       ...data,
     })
-    return response.data as RegisterResponseData
+    return response.data as RegisterResData
   } catch (err) {
     return formatServerErrorData(err)
   }
@@ -100,7 +100,7 @@ export const login = async (data: LoginFormData) => {
     // Send post request to receive session jwt
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
     const response = await axios.post(url, data)
-    const responseData: LoginResponseData = response.data
+    const responseData: LoginResData = response.data
 
     // Set session jwt in a cookie
     const cookieExpires = addDays(new Date(), 1)
@@ -134,7 +134,7 @@ export const sendResetPasswordToken = async (
     // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
     const response = await axios.post(url, data)
-    return response.data as ResponseData
+    return response.data as ResData
   } catch (err) {
     return formatServerErrorData(err)
   }
@@ -149,7 +149,7 @@ export const resetPassword = async (
     // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
     const response = await axios.patch(url, data)
-    return response.data as ResponseData
+    return response.data as ResData
   } catch (err) {
     return formatServerErrorData(err)
   }
@@ -182,12 +182,12 @@ export const getCurrentUser = async () => {
 
 export const getUserDevbookSearch = async (
   query: string
-): Promise<GetUserDevbookSearchResponseData | ResponseData> => {
+): Promise<GetUserSearchResData | ResData> => {
   try {
     // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_DEVBOOK_SEARCH}/${query}`
     const response = await axios.get(url)
-    return response.data as GetUserDevbookSearchResponseData
+    return response.data as GetUserSearchResData
   } catch (err) {
     return formatServerErrorData(err)
   }
@@ -202,12 +202,12 @@ export const getUsername = async (
       userExperiences?: boolean
     }
   }
-): Promise<GetUsernameResponseData | ResponseData> => {
+): Promise<GetUsernameResData | ResData> => {
   try {
     // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USERNAME}/${username}`
     const response = await axios.post(url, data)
-    return response.data as GetUsernameResponseData
+    return response.data as GetUsernameResData
   } catch (err) {
     return formatServerErrorData(err)
   }
