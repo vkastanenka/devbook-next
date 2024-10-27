@@ -9,14 +9,8 @@ import { formatServerErrorData } from '@/lib/utils'
 
 // types
 import { DecodedSession } from '@/types/auth-types'
-import {
-  GetUserSearchResData,
-  GetUsernameResData,
-  LoginResData,
-  RegisterResData,
-  ResData,
-} from '@/types/server-types'
-import { User } from '@/types/user-types'
+import { LoginResData, RegisterResData, ResData } from '@/types/server-types'
+
 import {
   RegisterFormData,
   LoginFormData,
@@ -31,9 +25,6 @@ import {
   AUTH_RESET_PASSWORD,
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_SESSION,
-  USERS_GET_CURRENT_USER,
-  USERS_GET_DEVBOOK_SEARCH,
-  USERS_GET_USERNAME,
 } from '@/constants/api-endpoint-constants'
 
 // Get session jwt from cookie
@@ -59,8 +50,15 @@ export const decodeSession = async (): Promise<DecodedSession | null> => {
   return decodedSession as DecodedSession
 }
 
-// Delete session cookie and record - TODO: Async error handling
-const deleteSession = async (data: DecodedSession) => {
+/**
+ * TODO
+ *
+ * Async error handling
+ * Catch async implementation
+ */
+
+// Deletes current user session and session cookie
+export const deleteSession = async (data: DecodedSession) => {
   // Send delete request to session and delete cookie
   const { id } = data
   const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSION}/${id}`
@@ -69,7 +67,7 @@ const deleteSession = async (data: DecodedSession) => {
 }
 
 // Checks if session is still valid
-const validateSession = async (data: DecodedSession) => {
+export const validateSession = async (data: DecodedSession) => {
   // Check if session has expired, delete if has
   if (data.expires < new Date()) {
     await deleteSession(data)
@@ -77,6 +75,14 @@ const validateSession = async (data: DecodedSession) => {
   }
   return true
 }
+
+/**
+ * TODO
+ *
+ * Remove user id
+ * Return response as 1 type (include errors)
+ * Catch async implementation
+ */
 
 // Creates new user record
 export const register = async (data: RegisterFormData) => {
@@ -93,6 +99,13 @@ export const register = async (data: RegisterFormData) => {
     return formatServerErrorData(err)
   }
 }
+
+/**
+ * TODO
+ *
+ * Return response as 1 type (include errors)
+ * Catch async implementation
+ */
 
 // Create session and set jwt cookie
 export const login = async (data: LoginFormData) => {
@@ -116,6 +129,13 @@ export const login = async (data: LoginFormData) => {
   }
 }
 
+/**
+ * TODO
+ *
+ * Async error handling
+ * Catch async implementation
+ */
+
 // Delete session cookie and session record - TODO: Async error handling
 export const logout = async () => {
   // Decode session jwt
@@ -125,6 +145,13 @@ export const logout = async () => {
   // Delete session + session jwt
   await deleteSession(sessionCookie)
 }
+
+/**
+ * TODO
+ *
+ * Return response as 1 type (include errors)
+ * Catch async implementation
+ */
 
 // Send password reset link to email
 export const sendResetPasswordToken = async (
@@ -140,6 +167,13 @@ export const sendResetPasswordToken = async (
   }
 }
 
+/**
+ * TODO
+ *
+ * Return response as 1 type (include errors)
+ * Catch async implementation
+ */
+
 // Reset user password with token
 export const resetPassword = async (
   data: ResetPasswordFormData,
@@ -150,64 +184,6 @@ export const resetPassword = async (
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
     const response = await axios.patch(url, data)
     return response.data as ResData
-  } catch (err) {
-    return formatServerErrorData(err)
-  }
-}
-
-// Obtains currently logged in user from session - TODO: Async error handling
-export const getCurrentUser = async () => {
-  // Decode session
-  const sessionCookie = await decodeSession()
-  if (!sessionCookie) return null
-
-  // Check if session valid, otherwise delete session and cookie
-  const isSessionValid = await validateSession(sessionCookie)
-  if (!isSessionValid) return null
-
-  // Get session jwt
-  const sessionCookieValue = await getSessionCookieValue()
-  if (!sessionCookieValue) return null
-
-  // Get the current user
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_CURRENT_USER}`
-  const {
-    data: { data },
-  } = await axios.get(url, {
-    headers: { Authorization: `Bearer ${sessionCookieValue}` },
-  })
-
-  return data as User
-}
-
-export const getUserDevbookSearch = async (
-  query: string
-): Promise<GetUserSearchResData | ResData> => {
-  try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_DEVBOOK_SEARCH}/${query}`
-    const response = await axios.get(url)
-    return response.data as GetUserSearchResData
-  } catch (err) {
-    return formatServerErrorData(err)
-  }
-}
-
-export const getUsername = async (
-  username: string,
-  data?: {
-    include: {
-      addresses?: boolean
-      userEducations?: boolean
-      userExperiences?: boolean
-    }
-  }
-): Promise<GetUsernameResData | ResData> => {
-  try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USERNAME}/${username}`
-    const response = await axios.post(url, data)
-    return response.data as GetUsernameResData
   } catch (err) {
     return formatServerErrorData(err)
   }
