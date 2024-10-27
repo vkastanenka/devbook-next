@@ -10,7 +10,13 @@ interface Avatar {
   className?: string
 }
 
-// TODO: Image optimization with next image https://github.com/shadcn-ui/ui/issues/368
+/**
+ * TODO:
+ *
+ * Find better home and implementation
+ * Image optimization with next image https://github.com/shadcn-ui/ui/issues/368
+ */
+
 export const Avatar: React.FC<Avatar> = ({ src, className }) => {
   return (
     <AvatarShadCn className={className}>

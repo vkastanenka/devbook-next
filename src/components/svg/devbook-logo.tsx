@@ -1,3 +1,7 @@
+/**
+ * TODO: Create simpler version of logo with only cube
+ */
+
 export const DevbookLogo: React.FC<{ className?: string }> = ({
   className,
 }) => {
@@ -69,6 +73,10 @@ export const DevbookLogo: React.FC<{ className?: string }> = ({
     </svg>
   )
 }
+
+/**
+ * TODO: Create updated logo that looks good in both light and dark
+ */
 
 export const DevbookLogoText: React.FC<{ className?: string }> = ({
   className,

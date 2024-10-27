@@ -9,6 +9,12 @@ interface Card {
   className?: string
 }
 
+/**
+ * TODO:
+ * 
+ * Delete and replace with class variable p-card
+ */
+
 export const Card: React.FC<Card> = ({ children, className }) => {
   return <CardShadCn className={cn('card', className)}>{children}</CardShadCn>
 }

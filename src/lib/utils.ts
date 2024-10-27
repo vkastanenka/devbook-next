@@ -13,6 +13,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/**
+ * TODO
+ * 
+ * Catch async error handling
+ */
+
 export const formatServerErrorData = (err: unknown) => {
   const error = err as AxiosError
 

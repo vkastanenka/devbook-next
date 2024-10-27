@@ -5,7 +5,7 @@ import { Avatar } from '@/components/primitives/avatar'
 import { Typography } from '@/components/ui/typography'
 
 // utils
-import { getCurrentUser } from '@/actions/auth-actions'
+import { getCurrentUser } from '@/actions/user-actions'
 
 /**
  * TODO:

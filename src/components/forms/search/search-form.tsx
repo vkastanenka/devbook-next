@@ -11,7 +11,7 @@ import { useEffect, useRef } from 'react'
 import { useToast } from '@/src/hooks/use-toast'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
-import { getUserDevbookSearch } from '@/actions/auth-actions'
+import { getUserSearch } from '@/actions/user-actions'
 
 // types
 import { GetUserSearchResData } from '@/types/server-types'
@@ -36,7 +36,7 @@ export const SearchForm = () => {
       return
     }
 
-    const response = await getUserDevbookSearch(searchDevbookInputValue)
+    const response = await getUserSearch(searchDevbookInputValue)
 
     if (!response.success) {
       toast({

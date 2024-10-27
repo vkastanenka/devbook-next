@@ -7,7 +7,7 @@ import { UserExperienceCard } from '@/src/components/cards/user/user-experience-
 import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/actions/auth-actions'
+import { getCurrentUser, getUsername } from '@/actions/user-actions'
 
 // types
 import { User } from '@/types/user-types'

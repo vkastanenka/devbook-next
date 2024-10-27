@@ -6,7 +6,7 @@ import { UserAboutCard } from '@/src/components/cards/user/user-about-card'
 // import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/actions/auth-actions'
+import { getCurrentUser, getUsername } from '@/actions/user-actions'
 
 // types
 import { User } from '@/types/user-types'
