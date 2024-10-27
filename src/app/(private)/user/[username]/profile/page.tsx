@@ -1,10 +1,10 @@
 // components
-import { UserCard } from '@/components/cards/user-card'
-import { UserAboutCard } from '@/src/components/cards/user-about-card'
-import { UserGithubRepositoriesCard } from '@/src/components/cards/user-github-repositories-card'
-import { UserEducationCard } from '@/src/components/cards/user-education-card'
-import { UserExperienceCard } from '@/src/components/cards/user-experience-card'
-import { UserSkillsCard } from '@/src/components/cards/user-skills-card'
+import { UserCard } from '@/components/cards/user/user-card'
+import { UserAboutCard } from '@/src/components/cards/user/user-about-card'
+import { UserGithubRepositoriesCard } from '@/src/components/cards/user/user-github-repositories-card'
+import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
+import { UserExperienceCard } from '@/src/components/cards/user/user-experience-card'
+import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
 import { getCurrentUser, getUsername } from '@/src/lib/actions/auth'

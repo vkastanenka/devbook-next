@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 import { Avatar } from '@/components/primitives/avatar'
-import { CreatePostButton } from '@/components/buttons/create-post-button'
+import { CreatePostButton } from '@/src/components/modules/buttons/create-post-button'
 
 // types
 import { User } from '@/lib/types'

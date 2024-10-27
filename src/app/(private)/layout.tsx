@@ -1,5 +1,5 @@
 // components
-import { PrivateNav } from '@/components/navigation/private-nav'
+import { PrivateNav } from '@/components/modules/private-nav'
 
 export default function PrivateLayout({
   children,

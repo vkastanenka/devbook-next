@@ -1,8 +1,8 @@
 // components
-import { NoContentCard } from '@/src/components/cards/no-content-card'
+import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 // import { Separator } from '@/src/components/ui/separator'
-import { UserCard } from '@/components/cards/user-card'
-import { UserAboutCard } from '@/src/components/cards/user-about-card'
+import { UserCard } from '@/components/cards/user/user-card'
+import { UserAboutCard } from '@/src/components/cards/user/user-about-card'
 // import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
 
 // utils

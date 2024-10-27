@@ -1,5 +1,5 @@
 // components
-import { LoginCard } from '@/components/cards/login-card'
+import { AuthLoginCard } from '@/components/cards/auth/auth-login-card'
 
 // svg
 import { DevbookLogoText } from '@/components/svg/devbook-logo'
@@ -12,7 +12,7 @@ const HomePage = () => {
           <DevbookLogoText />
         </div>
         <div className="w-full xs:w-auto xl:flex xl:justify-end">
-          <LoginCard />
+          <AuthLoginCard />
         </div>
       </div>
     </div>

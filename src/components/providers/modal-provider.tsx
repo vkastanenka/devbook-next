@@ -1,9 +1,9 @@
 'use client'
 
 // components
-import { CreatePostModal } from '@/components/modals/create-post-modal'
-import { UserContactInformationModal } from '@/components/modals/user-contact-information-modal'
-import { UserSkillsModal } from '../modals/user-skills-modal'
+import { PostCreatePostModal } from '@/components/modals/post/post-create-post-modal'
+import { UserContactInformationModal } from '@/components/modals/user/user-contact-information-modal'
+import { UserSkillsModal } from '@/components/modals/user/user-skills-modal'
 
 // utils
 import { useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <CreatePostModal />
+      <PostCreatePostModal />
       <UserContactInformationModal />
       <UserSkillsModal />
     </>

@@ -1,5 +1,5 @@
 // components
-import { NoContentCard } from '@/components/cards/no-content-card'
+import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 
 // types
 // import { User } from '@/lib/types'
