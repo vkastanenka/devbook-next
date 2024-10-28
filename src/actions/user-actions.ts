@@ -28,13 +28,6 @@ import {
   USERS_GET_USERNAME,
 } from '@/constants/api-endpoint-constants'
 
-/**
- * TODO
- *
- * Async error handling
- * Catch async implementation
- */
-
 // Obtains currently logged in user from session
 export const getCurrentUser = async () => {
   // Decode session
@@ -60,13 +53,7 @@ export const getCurrentUser = async () => {
   return data as User
 }
 
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
-
+// Gets results from user search
 export const getUserSearch = async (
   query: string
 ): Promise<GetUserSearchResData | ResData> => {
@@ -80,13 +67,7 @@ export const getUserSearch = async (
   }
 }
 
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
-
+// Gets user based on username
 export const getUsername = async (
   username: string,
   data?: {
@@ -107,13 +88,7 @@ export const getUsername = async (
   }
 }
 
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
-
+// Gets user github repos
 export const getUserGithubRepos = async (
   githubRepositories: string[]
 ): Promise<GetUserGithubReposRes> => {

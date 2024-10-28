@@ -50,13 +50,6 @@ export const decodeSession = async (): Promise<DecodedSession | null> => {
   return decodedSession as DecodedSession
 }
 
-/**
- * TODO
- *
- * Async error handling
- * Catch async implementation
- */
-
 // Deletes current user session and session cookie
 export const deleteSession = async (data: DecodedSession) => {
   // Send delete request to session and delete cookie
@@ -76,14 +69,6 @@ export const validateSession = async (data: DecodedSession) => {
   return true
 }
 
-/**
- * TODO
- *
- * Remove user id
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
-
 // Creates new user record
 export const register = async (data: RegisterFormData) => {
   try {
@@ -99,13 +84,6 @@ export const register = async (data: RegisterFormData) => {
     return formatServerErrorData(err)
   }
 }
-
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
 
 // Create session and set jwt cookie
 export const login = async (data: LoginFormData) => {
@@ -129,13 +107,6 @@ export const login = async (data: LoginFormData) => {
   }
 }
 
-/**
- * TODO
- *
- * Async error handling
- * Catch async implementation
- */
-
 // Delete session cookie and session record - TODO: Async error handling
 export const logout = async () => {
   // Decode session jwt
@@ -145,13 +116,6 @@ export const logout = async () => {
   // Delete session + session jwt
   await deleteSession(sessionCookie)
 }
-
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
 
 // Send password reset link to email
 export const sendResetPasswordToken = async (
@@ -166,13 +130,6 @@ export const sendResetPasswordToken = async (
     return formatServerErrorData(err)
   }
 }
-
-/**
- * TODO
- *
- * Return response as 1 type (include errors)
- * Catch async implementation
- */
 
 // Reset user password with token
 export const resetPassword = async (
