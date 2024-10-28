@@ -1,15 +1,18 @@
 // components
 import { Card } from '@/components/primitives/card'
 import { Typography } from '@/components/ui/typography'
+import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // types
 import { UserEducation } from '@/types/user-types'
 
 interface UserEducationCard {
+  canEdit?: boolean
   userEducations?: UserEducation[]
 }
 
 export const UserEducationCard: React.FC<UserEducationCard> = ({
+  canEdit,
   userEducations,
 }) => {
   if (!userEducations?.length)
@@ -24,7 +27,8 @@ export const UserEducationCard: React.FC<UserEducationCard> = ({
     )
 
   return (
-    <Card>
+    <Card className="relative">
+      {canEdit && <UserEditButton />}
       <div className="flex flex-col gap-4">
         <Typography.H4>Education</Typography.H4>
         {userEducations.map((education) => (

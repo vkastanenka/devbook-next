@@ -2,6 +2,7 @@
 import { Card } from '@/components/primitives/card'
 import { CollapsibleContent } from '@/components/modules/collapsible-content'
 import { Typography } from '@/components/ui/typography'
+import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // svg
 import { Briefcase } from 'lucide-react'
@@ -10,10 +11,12 @@ import { Briefcase } from 'lucide-react'
 import { UserExperience } from '@/types/user-types'
 
 interface UserExperienceCard {
+  canEdit?: boolean
   userExperiences?: UserExperience[]
 }
 
 export const UserExperienceCard: React.FC<UserExperienceCard> = ({
+  canEdit,
   userExperiences,
 }) => {
   if (!userExperiences?.length)
@@ -28,7 +31,8 @@ export const UserExperienceCard: React.FC<UserExperienceCard> = ({
     )
 
   return (
-    <Card>
+    <Card className="relative">
+      {canEdit && <UserEditButton />}
       <div className="flex flex-col gap-4">
         <Typography.H4>Experience</Typography.H4>
         {userExperiences.map((experience) => (

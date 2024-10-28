@@ -6,6 +6,7 @@ import { Card as CardShadCn } from '@/components/ui/card'
 import { Card } from '@/components/primitives/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Typography } from '@/components/ui/typography'
+import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // svg
 import GithubRainbow from '/public/svg/github-rainbow.svg'
@@ -22,16 +23,17 @@ import {
 } from '@/types/server-types'
 
 interface UserCard {
+  canEdit?: boolean
   githubRepositories: string[]
 }
 
 export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
+  canEdit,
   githubRepositories,
 }) => {
   const { toast } = useToast()
 
-  const [repositories, setRepositories] =
-    useState<GetUserGithubReposRes>()
+  const [repositories, setRepositories] = useState<GetUserGithubReposRes>()
 
   useEffect(() => {
     const getRepos = async () => {
@@ -63,7 +65,8 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
   }, [toast, githubRepositories])
 
   return (
-    <Card className="flex flex-col gap-4">
+    <Card className="flex flex-col gap-4 relative">
+      {canEdit && <UserEditButton />}
       <div className="flex items-center gap-2">
         <Typography.H4>Github Repositories</Typography.H4>
         <GithubRainbow />
@@ -92,8 +95,7 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
             if (!(repository as GetUserGithubRepoRes).status) {
               return null
             }
-            const repositorySuccess =
-              repository as GetUserGithubRepoRes
+            const repositorySuccess = repository as GetUserGithubRepoRes
             return (
               <CardShadCn key={i} className="sm:basis-1/2">
                 <Link

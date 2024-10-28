@@ -39,17 +39,25 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
   if (!user) return null
 
   const userData: User = (user as GetUsernameResData).data
+  const canEdit = currentUser.id === userData.id
 
   return (
     <div className="flex flex-col gap-4">
-      <UserCard user={userData} />
-      <UserAboutCard userAbout={userData.bio} />
+      <UserCard canEdit={canEdit} user={userData} />
+      <UserAboutCard canEdit={canEdit} userAbout={userData.bio} />
       <UserGithubRepositoriesCard
+        canEdit={canEdit}
         githubRepositories={userData.githubRepositories}
       />
-      <UserExperienceCard userExperiences={userData.userExperiences} />
-      <UserEducationCard userEducations={userData.userEducations} />
-      <UserSkillsCard userSkills={userData.skills} />
+      <UserExperienceCard
+        canEdit={canEdit}
+        userExperiences={userData.userExperiences}
+      />
+      <UserEducationCard
+        canEdit={canEdit}
+        userEducations={userData.userEducations}
+      />
+      <UserSkillsCard canEdit={canEdit} userSkills={userData.skills} />
     </div>
   )
 }

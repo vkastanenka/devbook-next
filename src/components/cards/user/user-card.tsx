@@ -2,11 +2,13 @@
 import { Card } from '@/components/primitives/card'
 import { Avatar } from '@/components/primitives/avatar'
 import { UserCardButtons } from '@/components/modules/user-card-buttons'
+import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // types
 import { User } from '@/types/user-types'
 
 interface UserCard {
+  canEdit?: boolean
   user: User
 }
 
@@ -18,9 +20,10 @@ interface UserCard {
  * 3. Make sure optional fields like address are updated to be required so no weird front end
  */
 
-export const UserCard: React.FC<UserCard> = ({ user }) => {
+export const UserCard: React.FC<UserCard> = ({ canEdit, user }) => {
   return (
-    <Card className="flex flex-col gap-2">
+    <Card className="flex flex-col gap-2 relative">
+      {canEdit && <UserEditButton />}
       <Avatar src={user.image || undefined} className="avatar-lg" />
       <div>
         <div className="flex gap-2">
