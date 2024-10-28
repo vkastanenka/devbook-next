@@ -1,7 +1,6 @@
 // components
 import Link from 'next/link'
 import { Card } from '@/components/primitives/card'
-import { Typography } from '@/components/ui/typography'
 import { AuthSendResetPasswordTokenForm } from '@/components/forms/auth/auth-send-reset-password-token-form'
 import { Separator } from '@radix-ui/react-separator'
 
@@ -9,10 +8,8 @@ export const AuthSendResetPasswordTokenCard = () => {
   return (
     <Card className="form-card">
       <div className="flex flex-col gap-2 items-center">
-        <Typography.H3>Forgot your password?</Typography.H3>
-        <Typography.Muted>
-          Get recovery instructions in your email
-        </Typography.Muted>
+        <h1 className="h3">Forgot your password?</h1>
+        <h2 className="muted">Get recovery instructions in your email</h2>
       </div>
 
       <AuthSendResetPasswordTokenForm />
@@ -21,7 +18,7 @@ export const AuthSendResetPasswordTokenCard = () => {
 
       <div className="text-center">
         <Link href="/">
-          <Typography.P>Remembered your password?</Typography.P>
+          <p className="p">Remembered your password?</p>
         </Link>
       </div>
     </Card>

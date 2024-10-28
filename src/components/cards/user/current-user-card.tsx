@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Avatar } from '@/components/primitives/avatar'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { getCurrentUser } from '@/actions/user-actions'
@@ -23,11 +22,9 @@ export const CurrentUserCard = async () => {
         <div className="card flex flex-col gap-4">
           <Avatar src={currentUser.image || undefined} className="avatar-lg" />
           <div>
-            <Typography.H4>{currentUser.name}</Typography.H4>
+            <p className="h4">{currentUser.name}</p>
             {currentUser.headline && (
-              <Typography.Muted className="text-accent">
-                {currentUser.headline}
-              </Typography.Muted>
+              <p className="muted text-accent">{currentUser.headline}</p>
             )}
           </div>
         </div>

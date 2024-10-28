@@ -1,6 +1,5 @@
 // components
 import { Card } from '@/components/primitives/card'
-import { Typography } from '@/components/ui/typography'
 
 // types
 import { User } from '@/types/user-types'
@@ -15,7 +14,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({
   return (
     <Card>
       <div className="flex flex-col gap-4">
-        <Typography.H4>Contacts</Typography.H4>
+        <p className="h4">Contacts</p>
         <div>
           {userContacts?.length ? (
             <div>
@@ -24,10 +23,8 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({
             </div>
           ) : (
             <>
-              <Typography.H3>Nothing here yet!</Typography.H3>
-              <Typography.P>
-                {`This user hasn't found any contacts yet.`}
-              </Typography.P>
+              <p className="h3">Nothing here yet!</p>
+              <p className="p">{`This user hasn't found any contacts yet.`}</p>
             </>
           )}
         </div>

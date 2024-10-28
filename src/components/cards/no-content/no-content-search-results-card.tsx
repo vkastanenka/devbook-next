@@ -2,7 +2,6 @@
 
 // components
 import { Card } from '@/components/ui/card'
-import { Typography } from '@/components/ui/typography'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 
 export const NoContentSearchResultsCard = () => {
@@ -20,8 +19,8 @@ export const NoContentSearchResultsCard = () => {
         }}
       >
         <div className="card">
-          <Typography.H3>No current results!</Typography.H3>
-          <Typography.P>Click here to enter another query.</Typography.P>
+          <p className="h3">No current results!</p>
+          <p className="p">Click here to enter another query.</p>
         </div>
       </button>
     </Card>

@@ -1,7 +1,6 @@
 // components
 import Link from 'next/link'
 import { Card } from '@/components/primitives/card'
-import { Typography } from '@/components/ui/typography'
 import { AuthResetPasswordForm } from '@/components/forms/auth/auth-reset-password-form'
 import { Separator } from '@radix-ui/react-separator'
 
@@ -15,8 +14,8 @@ export const AuthResetPasswordCard: React.FC<ResetPasswordCard> = ({
   return (
     <Card className="form-card">
       <div className="flex flex-col gap-2 items-center">
-        <Typography.H3>Update your password</Typography.H3>
-        <Typography.Muted>You can log in as normal afterwards</Typography.Muted>
+        <h1 className="h3">Update your password</h1>
+        <h2 className="muted">You can log in as normal afterwards</h2>
       </div>
 
       <AuthResetPasswordForm resetPasswordToken={resetPasswordToken} />
@@ -25,7 +24,7 @@ export const AuthResetPasswordCard: React.FC<ResetPasswordCard> = ({
 
       <div className="text-center">
         <Link href="/">
-          <Typography.P>Remembered your password?</Typography.P>
+          <p className="p">Remembered your password?</p>
         </Link>
       </div>
     </Card>

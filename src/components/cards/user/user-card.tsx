@@ -1,7 +1,6 @@
 // components
 import { Card } from '@/components/primitives/card'
 import { Avatar } from '@/components/primitives/avatar'
-import { Typography } from '@/components/ui/typography'
 import { UserCardButtons } from '@/components/modules/user-card-buttons'
 
 // types
@@ -13,7 +12,7 @@ interface UserCard {
 
 /**
  * TODO:
- * 
+ *
  * 1. If current user, add edit icon in profile page
  * 2. If not current user, add add contact / remove contact icon
  * 3. Make sure optional fields like address are updated to be required so no weird front end
@@ -25,20 +24,18 @@ export const UserCard: React.FC<UserCard> = ({ user }) => {
       <Avatar src={user.image || undefined} className="avatar-lg" />
       <div>
         <div className="flex gap-2">
-          <Typography.H3>{user.name}</Typography.H3>
+          <p className="h3">{user.name}</p>
           {user.pronouns && (
-            <Typography.Muted className="text-accent">
-              {user.pronouns}
-            </Typography.Muted>
+            <p className="muted text-accent">{user.pronouns}</p>
           )}
         </div>
-        {user.headline && <Typography.P>{user.headline}</Typography.P>}
+        {user.headline && <p className="p">{user.headline}</p>}
         {user.addresses?.length && (
-          <Typography.Muted className="text-accent">
+          <p className="muted text-accent">
             <span>{`${user.addresses[0].suburbName}, `}</span>
             <span>{`${user.addresses[0].stateName}, `}</span>
             <span>{`${user.addresses[0].country}`}</span>
-          </Typography.Muted>
+          </p>
         )}
       </div>
       <UserCardButtons user={user} />

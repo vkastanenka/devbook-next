@@ -92,7 +92,7 @@ const PostCardUser: React.FC<{ user: User }> = ({ user }) => {
 const PostCardText = () => {
   return (
     <div className="px-card">
-      <Typography.P className="flex flex-col gap-4">
+      <p className="p flex flex-col gap-4">
         <span className="block">
           🌐 Just launched my latest full stack web app, and I couldn’t be more
           thrilled! 🎉 It’s a task management tool designed to enhance team
@@ -115,7 +115,7 @@ const PostCardText = () => {
           supported me during the development process! 🙌
         </span>
         <span className="block">Can’t wait to hear what you all think!</span>
-      </Typography.P>
+      </p>
     </div>
   )
 }
@@ -140,16 +140,16 @@ const PostCardActivity = () => {
       <div className="flex justify-between text-accent">
         <div className="flex justify-center gap-1">
           <ThumbsUp className="w-4" />
-          <Typography.Muted>45</Typography.Muted>
+          <p className="muted">45</p>
         </div>
         <div className="flex justify-center gap-4">
           <div className="flex justify-center gap-1">
             <Repeat className="w-4" />
-            <Typography.Muted>52</Typography.Muted>
+            <p className="muted">52</p>
           </div>
           <div className="flex justify-center gap-1">
             <MessageSquareText className="w-4" />
-            <Typography.Muted>248</Typography.Muted>
+            <p className="muted">248</p>
           </div>
         </div>
       </div>
@@ -165,19 +165,19 @@ const PostCardActions = () => {
       <div className="flex items-center gap-1">
         <button className={styleButton}>
           <ThumbsUp />
-          <Typography.P>Like</Typography.P>
+          <p className="p">Like</p>
         </button>
         <button className={styleButton}>
           <MessageSquareText />
-          <Typography.P>Comment</Typography.P>
+          <p className="p">Comment</p>
         </button>
         <button className={styleButton}>
           <Repeat />
-          <Typography.P>Repost</Typography.P>
+          <p className="p">Repost</p>
         </button>
         <button className={styleButton}>
           <Forward />
-          <Typography.P>Share</Typography.P>
+          <p className="p">Share</p>
         </button>
       </div>
     </div>
