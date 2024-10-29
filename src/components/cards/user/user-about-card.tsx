@@ -14,7 +14,7 @@ export const UserAboutCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
   if (!user.bio)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton />}
+        {isEditable && <UserEditButton modalType="userAboutForm" user={user} />}
         <NoContentCard
           className="text-left"
           heading="About"
@@ -25,7 +25,7 @@ export const UserAboutCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {isEditable && <UserEditButton />}
+      {isEditable && <UserEditButton modalType="userAboutForm" user={user} />}
       <p className="h4">About</p>
       <CollapsibleContent includeTrigger={user.bio.length > 250}>
         <div className="flex flex-col gap-4">{formatText(user.bio)}</div>

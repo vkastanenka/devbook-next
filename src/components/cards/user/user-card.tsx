@@ -18,7 +18,7 @@ import { UserDataCard } from '@/types/user-types'
 export const UserCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
   return (
     <Card className="flex flex-col gap-2 relative">
-      {isEditable && <UserEditButton />}
+      {isEditable && <UserEditButton modalType="userForm" user={user} />}
       <Avatar src={user.image || undefined} className="avatar-lg" />
       <div>
         <div className="flex gap-2">

@@ -13,7 +13,7 @@ export const UserEducationCard: React.FC<UserDataCard> = ({
   if (!user.userEducations?.length)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton />}
+        {isEditable && <UserEditButton modalType="userEducationForm" user={user} />}
         <NoContentCard
           className="text-left"
           heading="Education"
@@ -24,7 +24,7 @@ export const UserEducationCard: React.FC<UserDataCard> = ({
 
   return (
     <Card className="relative">
-      {isEditable && <UserEditButton />}
+      {isEditable && <UserEditButton modalType="userEducationForm" user={user} />}
       <div className="flex flex-col gap-4">
         <p className="h4">Education</p>
         {user.userEducations.map((education) => (

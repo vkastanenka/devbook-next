@@ -4,12 +4,20 @@ import { create } from 'zustand'
 // types
 import { User } from '@/types/user-types'
 
-export type ModalType = 'createPost' | 'userContactInformation' | 'userSkills'
+export type ModalType =
+  | 'createPost'
+  | 'userContactInformation'
+  | 'userSkills'
+  | 'userAboutForm'
+  | 'userEducationForm'
+  | 'userExperienceForm'
+  | 'userForm'
+  | 'userGithubReposForm'
+  | 'userSkillsForm'
 
 interface ModalData {
   placeholder?: string
   user?: User
-  skills?: string[]
 }
 
 interface ModalStore {
@@ -25,5 +33,5 @@ export const useModal = create<ModalStore>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
-  onClose: () => set({ isOpen: false, type: null }),
+  onClose: () => set({ isOpen: false, type: null, data: {} }),
 }))

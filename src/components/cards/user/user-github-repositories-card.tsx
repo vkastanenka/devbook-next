@@ -64,7 +64,9 @@ export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
   if (!user.githubRepositories.length)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton />}
+        {isEditable && (
+          <UserEditButton modalType="userGithubReposForm" user={user} />
+        )}
         <NoContentCard
           className="text-left"
           heading="Github Repositories"
@@ -75,7 +77,9 @@ export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {isEditable && <UserEditButton />}
+      {isEditable && (
+        <UserEditButton modalType="userGithubReposForm" user={user} />
+      )}
       <div className="flex items-center gap-2">
         <p className="h4">Github Repositories</p>
         <GithubRainbow />

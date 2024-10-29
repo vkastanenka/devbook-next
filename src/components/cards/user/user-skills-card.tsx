@@ -19,14 +19,16 @@ const NUM_VISIBLE_SKILLS = 2
 
 export const UserSkillsCard: React.FC<UserDataCard> = ({
   isEditable,
-  user: { skills },
+  user,
 }) => {
   const { onOpen } = useModal()
 
-  if (!skills.length)
+  if (!user.skills.length)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton />}
+        {isEditable && (
+          <UserEditButton modalType="userSkillsForm" user={user} />
+        )}
         <NoContentCard
           className="text-left"
           heading="Skills"
@@ -37,11 +39,11 @@ export const UserSkillsCard: React.FC<UserDataCard> = ({
 
   return (
     <Card className="relative">
-      {isEditable && <UserEditButton />}
+      {isEditable && <UserEditButton modalType="userSkillsForm" user={user} />}
       <div className="card">
         <div className="flex flex-col gap-4">
           <p className="h4">Skills</p>
-          {skills
+          {user.skills
             .filter((_, i) => i < NUM_VISIBLE_SKILLS)
             .map((skill, i, arr) => (
               <div key={i} className="flex flex-col gap-4">
@@ -51,15 +53,15 @@ export const UserSkillsCard: React.FC<UserDataCard> = ({
             ))}
         </div>
       </div>
-      {skills.length > NUM_VISIBLE_SKILLS && (
+      {user.skills.length > NUM_VISIBLE_SKILLS && (
         <div>
           <Separator className="separator" />
           <div className="flex justify-center py-card">
             <button
               className="is-interactive flex gap-2 items-center"
-              onClick={() => onOpen('userSkills', { skills: skills })}
+              onClick={() => onOpen('userSkills', { user })}
             >
-              <p className="h4">{`Show all ${skills.length} skills`}</p>
+              <p className="h4">{`Show all ${user.skills} skills`}</p>
               <CircleArrowRight />
             </button>
           </div>
