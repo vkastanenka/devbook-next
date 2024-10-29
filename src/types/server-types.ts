@@ -31,6 +31,10 @@ export interface LoginResData extends ResData {
   data: { jwt: string }
 }
 
+export interface PatchUserResData extends ResData {
+  data: User
+}
+
 export interface RegisterResData extends ResData {
   data: User
 }

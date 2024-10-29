@@ -21,8 +21,8 @@ export const UserFormModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update User</p>
+      <DialogContent className="bg-card flex flex-col gap-4 max-h-[75vh] overflow-scroll">
+        <p className="h3">Update user</p>
         <UserForm user={user} />
       </DialogContent>
     </Dialog>

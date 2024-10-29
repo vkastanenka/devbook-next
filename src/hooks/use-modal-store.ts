@@ -8,7 +8,7 @@ export type ModalType =
   | 'createPost'
   | 'userContactInformation'
   | 'userSkills'
-  | 'userAboutForm'
+  | 'userBioForm'
   | 'userEducationForm'
   | 'userExperienceForm'
   | 'userForm'

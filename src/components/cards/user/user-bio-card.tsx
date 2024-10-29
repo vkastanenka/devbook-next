@@ -10,14 +10,14 @@ import { formatText } from '@/lib/utils'
 // types
 import { UserDataCard } from '@/types/user-types'
 
-export const UserAboutCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
+export const UserBioCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
   if (!user.bio)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton modalType="userAboutForm" user={user} />}
+        {isEditable && <UserEditButton modalType="userBioForm" user={user} />}
         <NoContentCard
           className="text-left"
-          heading="About"
+          heading="Bio"
           subheading={`This user hasn't written about themselves yet.`}
         />
       </div>
@@ -25,8 +25,8 @@ export const UserAboutCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {isEditable && <UserEditButton modalType="userAboutForm" user={user} />}
-      <p className="h4">About</p>
+      {isEditable && <UserEditButton modalType="userBioForm" user={user} />}
+      <p className="h4">Bio</p>
       <CollapsibleContent includeTrigger={user.bio.length > 250}>
         <div className="flex flex-col gap-4">{formatText(user.bio)}</div>
       </CollapsibleContent>

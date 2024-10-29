@@ -2,7 +2,7 @@
 
 // components
 import { PostCreatePostModal } from '@/components/modals/post/post-create-post-modal'
-import { UserAboutFormModal } from '@/components/modals/user/user-about-form-modal'
+import { UserBioFormModal } from '@/components/modals/user/user-bio-form-modal'
 import { UserContactInformationModal } from '@/components/modals/user/user-contact-information-modal'
 import { UserEducationFormModal } from '@/components/modals/user/user-education-form-modal'
 import { UserExperienceFormModal } from '@/components/modals/user/user-experience-form-modal'
@@ -26,7 +26,7 @@ export const ModalProvider = () => {
   return (
     <>
       <PostCreatePostModal />
-      <UserAboutFormModal />
+      <UserBioFormModal />
       <UserContactInformationModal />
       <UserEducationFormModal />
       <UserExperienceFormModal />

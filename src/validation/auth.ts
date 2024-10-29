@@ -5,7 +5,7 @@ const nameSchema = z.string().refine((s) => {
   if (names.length === 2) return true
 }, 'First and last names are required.')
 
-const emailSchema = z.string().email()
+export const emailSchema = z.string().email()
 
 const usernameSchema = z
   .string()

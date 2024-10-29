@@ -17,15 +17,18 @@ import {
   GetUserGithubReposRes,
   GetUsernameResData,
   GetUserSearchResData,
+  PatchUserResData,
   ResData,
 } from '@/types/server-types'
 import { User } from '@/types/user-types'
+import { BioFormData, UserFormReqBodySchema } from '@/validation/user'
 
 // constants
 import {
   USERS_GET_CURRENT_USER,
   USERS_GET_DEVBOOK_SEARCH,
   USERS_GET_USERNAME,
+  USERS_USER,
 } from '@/constants/api-endpoint-constants'
 
 // Obtains currently logged in user from session
@@ -112,4 +115,19 @@ export const getUserGithubRepos = async (
   )
 
   return repositoryResponses
+}
+
+// Updates user
+export const updateUser = async (
+  data: BioFormData | UserFormReqBodySchema,
+  user: User
+): Promise<ResData> => {
+  try {
+    // Send post request with provided data
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_USER}/${user.id}`
+    const response = await axios.patch(url, data)
+    return response.data as PatchUserResData
+  } catch (err) {
+    return formatServerErrorData(err)
+  }
 }

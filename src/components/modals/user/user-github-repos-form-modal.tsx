@@ -22,7 +22,7 @@ export const UserGithubReposFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update User Github Repos</p>
+        <p className="h3">Update Github</p>
         <UserGithubReposForm user={user} />
       </DialogContent>
     </Dialog>
