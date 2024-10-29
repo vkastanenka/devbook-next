@@ -23,21 +23,21 @@ import {
 } from '@/types/server-types'
 import { UserDataCard } from '@/types/user-types'
 
-export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
+export const UserGithubReposCard: React.FC<UserDataCard> = ({
   isEditable,
   user,
 }) => {
   const { toast } = useToast()
 
-  const [repositories, setRepositories] = useState<GetUserGithubReposRes>()
+  const [repos, setRepos] = useState<GetUserGithubReposRes>()
 
   useEffect(() => {
     const getRepos = async () => {
-      const repositories = await getUserGithubRepos(user.githubRepositories)
+      const repos = await getUserGithubRepos(user.githubRepositories)
 
       const failedRequestUrls: string[] = []
 
-      repositories.forEach((repo) => {
+      repos.forEach((repo) => {
         if (!(repo as GetUserGithubRepoRes).status) {
           failedRequestUrls.push(repo.url)
         }
@@ -53,7 +53,7 @@ export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
         })
       }
 
-      setRepositories(repositories)
+      setRepos(repos)
     }
 
     if (user.githubRepositories.length) {
@@ -85,7 +85,7 @@ export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
         <GithubRainbow />
       </div>
       {/* Repositories in profile but no response yet */}
-      {!user.githubRepositories.length && !repositories?.length && (
+      {user.githubRepositories.length && !repos?.length && (
         <div className="flex gap-4">
           <CardShadCn className="sm:basis-1/2 p-[18px]">
             <Skeleton className="h-[40px] w-full" />
@@ -96,27 +96,23 @@ export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
         </div>
       )}
       {/* Repositories in profile and response */}
-      {repositories && (
+      {repos?.length && (
         <div className="flex flex-col sm:flex-row gap-4">
-          {repositories.map((repository, i) => {
-            if (!(repository as GetUserGithubRepoRes).status) {
+          {repos.map((repo, i) => {
+            if (!(repo as GetUserGithubRepoRes).status) {
               return null
             }
-            const repositorySuccess = repository as GetUserGithubRepoRes
+            const repoSuccess = repo as GetUserGithubRepoRes
             return (
               <CardShadCn key={i} className="sm:basis-1/2">
                 <Link
                   className="p-[18px] h-full w-full"
-                  href={repositorySuccess.data.html_url}
+                  href={repoSuccess.data.html_url}
                   target="_blank"
                 >
-                  <p className="muted font-bold">
-                    {repositorySuccess.data.name}
-                  </p>
-                  {repositorySuccess.data.description && (
-                    <p className="muted">
-                      {repositorySuccess.data.description}
-                    </p>
+                  <p className="muted font-bold">{repoSuccess.data.name}</p>
+                  {repoSuccess.data.description && (
+                    <p className="muted">{repoSuccess.data.description}</p>
                   )}
                 </Link>
               </CardShadCn>
