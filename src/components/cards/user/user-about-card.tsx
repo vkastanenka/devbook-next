@@ -1,44 +1,34 @@
 // components
 import { Card } from '@/components/primitives/card'
+import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { CollapsibleContent } from '@/components/modules/collapsible-content'
 import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
-interface UserAboutCard {
-  canEdit?: boolean
-  userAbout?: string | null
-}
+// utils
+import { formatText } from '@/lib/utils'
 
-export const UserAboutCard: React.FC<UserAboutCard> = ({
-  canEdit,
-  userAbout,
-}) => {
-  if (!userAbout)
+// types
+import { UserDataCard } from '@/types/user-types'
+
+export const UserAboutCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
+  if (!user.bio)
     return (
-      <Card className="flex flex-col gap-4">
-        <p className="h4">About</p>
-        <p className="h4">Nothing here yet!</p>
-        <p className="p">{`This user hasn't written about themselves yet.`}</p>
-      </Card>
+      <div className="relative">
+        {isEditable && <UserEditButton />}
+        <NoContentCard
+          className="text-left"
+          heading="About"
+          subheading={`This user hasn't written about themselves yet.`}
+        />
+      </div>
     )
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {canEdit && <UserEditButton />}
+      {isEditable && <UserEditButton />}
       <p className="h4">About</p>
-      <CollapsibleContent includeTrigger={userAbout.length > 250}>
-        <div className="flex flex-col gap-4">
-          {userAbout.split('\n').map((line, i) => {
-            if (line === '') {
-              return <div key={i} />
-            }
-
-            return (
-              <p className="p" key={i}>
-                {line}
-              </p>
-            )
-          })}
-        </div>
+      <CollapsibleContent includeTrigger={user.bio.length > 250}>
+        <div className="flex flex-col gap-4">{formatText(user.bio)}</div>
       </CollapsibleContent>
     </Card>
   )

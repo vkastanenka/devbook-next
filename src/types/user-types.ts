@@ -32,6 +32,11 @@ export interface User {
   userExperiences?: UserExperience[]
 }
 
+export interface UserDataCard {
+  isEditable?: boolean
+  user: User
+}
+
 export interface UserEducation {
   id: string
   school: string

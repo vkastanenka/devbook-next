@@ -1,41 +1,40 @@
 // components
 import { Card } from '@/components/primitives/card'
 import { CollapsibleContent } from '@/components/modules/collapsible-content'
-import { Typography } from '@/components/ui/typography'
+import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // svg
 import { Briefcase } from 'lucide-react'
 
+// utils
+import { formatText } from '@/lib/utils'
+
 // types
-import { UserExperience } from '@/types/user-types'
+import { UserDataCard } from '@/types/user-types'
 
-interface UserExperienceCard {
-  canEdit?: boolean
-  userExperiences?: UserExperience[]
-}
-
-export const UserExperienceCard: React.FC<UserExperienceCard> = ({
-  canEdit,
-  userExperiences,
+export const UserExperienceCard: React.FC<UserDataCard> = ({
+  isEditable,
+  user,
 }) => {
-  if (!userExperiences?.length)
+  if (!user.userExperiences?.length)
     return (
-      <Card className="flex flex-col gap-4">
-        <Typography.H4>Experience</Typography.H4>
-        <Typography.H4>Nothing here yet!</Typography.H4>
-        <Typography.P>
-          {`This user hasn't provided any past work experience.`}
-        </Typography.P>
-      </Card>
+      <div className="relative">
+        {isEditable && <UserEditButton />}
+        <NoContentCard
+          className="text-left"
+          heading="Experience"
+          subheading={`This user has not provided any past work experience.`}
+        />
+      </div>
     )
 
   return (
     <Card className="relative">
-      {canEdit && <UserEditButton />}
+      {isEditable && <UserEditButton />}
       <div className="flex flex-col gap-4">
-        <Typography.H4>Experience</Typography.H4>
-        {userExperiences.map((experience) => (
+        <p className="h4">Experience</p>
+        {user.userExperiences.map((experience) => (
           <div key={experience.id}>
             <CollapsibleContent
               includeTrigger={experience.description.length > 100}
@@ -43,7 +42,7 @@ export const UserExperienceCard: React.FC<UserExperienceCard> = ({
               <div className="flex gap-4 items-center">
                 <div className="min-w-6"></div>
                 <div>
-                  <Typography.Large>{experience.company}</Typography.Large>
+                  <p className="large">{experience.company}</p>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -52,24 +51,19 @@ export const UserExperienceCard: React.FC<UserExperienceCard> = ({
                 </div>
                 <div className="flex flex-col gap-4">
                   <div>
-                    <Typography.Large>{experience.title}</Typography.Large>
-                    <Typography.Muted className="text-accent">
+                    <p className="large">{experience.title}</p>
+                    <p className="muted text-accent">
                       <span>{`${experience.type} `}</span>
                       <span>{experience.schedule}</span>
-                    </Typography.Muted>
-                    <Typography.Muted className="text-accent">
+                    </p>
+                    <p className="muted text-accent">
                       <span>{experience.startYear}</span>
                       <span>{' - '}</span>
                       <span>{experience.endYear || 'Present'}</span>
-                    </Typography.Muted>
+                    </p>
                   </div>
                   <div className="flex flex-col gap-4">
-                    {experience.description.split('\n').map((line, i) => {
-                      if (line === '') {
-                        return <div key={i} />
-                      }
-                      return <Typography.P key={i}>{line}</Typography.P>
-                    })}
+                    {formatText(experience.description)}
                   </div>
                 </div>
               </div>

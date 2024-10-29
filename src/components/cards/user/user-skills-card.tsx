@@ -3,7 +3,7 @@
 // components
 import { Separator } from '@radix-ui/react-separator'
 import { Card } from '@/components/ui/card'
-import { Typography } from '@/components/ui/typography'
+import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // svg
@@ -12,52 +12,54 @@ import { CircleArrowRight } from 'lucide-react'
 // utils
 import { useModal } from '@/hooks/use-modal-store'
 
-interface UserSkillCard {
-  canEdit?: boolean
-  userSkills: string[]
-}
+// types
+import { UserDataCard } from '@/types/user-types'
 
-export const UserSkillsCard: React.FC<UserSkillCard> = ({
-  canEdit,
-  userSkills,
+const NUM_VISIBLE_SKILLS = 2
+
+export const UserSkillsCard: React.FC<UserDataCard> = ({
+  isEditable,
+  user: { skills },
 }) => {
   const { onOpen } = useModal()
 
-  if (!userSkills?.length)
+  if (!skills.length)
     return (
-      <Card className="flex flex-col gap-4">
-        <Typography.H4>Skills</Typography.H4>
-        <Typography.H4>Nothing here yet!</Typography.H4>
-        <Typography.P>{`This user hasn't provided any skills.`}</Typography.P>
-      </Card>
+      <div className="relative">
+        {isEditable && <UserEditButton />}
+        <NoContentCard
+          className="text-left"
+          heading="Skills"
+          subheading={`This user has not provided any skills.`}
+        />
+      </div>
     )
-
-  const shownSkills =
-    userSkills.length > 2 ? [userSkills[0], userSkills[1]] : userSkills
 
   return (
     <Card className="relative">
-      {canEdit && <UserEditButton />}
+      {isEditable && <UserEditButton />}
       <div className="card">
         <div className="flex flex-col gap-4">
-          <Typography.H4>Skills</Typography.H4>
-          {shownSkills.map((skill, i, arr) => (
-            <div key={i} className="flex flex-col gap-4">
-              <Typography.Large>{skill}</Typography.Large>
-              {i !== arr.length - 1 && <Separator className="separator" />}
-            </div>
-          ))}
+          <p className="h4">Skills</p>
+          {skills
+            .filter((_, i) => i < NUM_VISIBLE_SKILLS)
+            .map((skill, i, arr) => (
+              <div key={i} className="flex flex-col gap-4">
+                <p className="large">{skill}</p>
+                {i !== arr.length - 1 && <Separator className="separator" />}
+              </div>
+            ))}
         </div>
       </div>
-      {userSkills.length > 2 && (
+      {skills.length > NUM_VISIBLE_SKILLS && (
         <div>
           <Separator className="separator" />
           <div className="flex justify-center py-card">
             <button
               className="is-interactive flex gap-2 items-center"
-              onClick={() => onOpen('userSkills', { skills: userSkills })}
+              onClick={() => onOpen('userSkills', { skills: skills })}
             >
-              <Typography.H4>{`Show all ${userSkills.length} skills`}</Typography.H4>
+              <p className="h4">{`Show all ${skills.length} skills`}</p>
               <CircleArrowRight />
             </button>
           </div>

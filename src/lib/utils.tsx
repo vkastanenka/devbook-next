@@ -15,7 +15,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * TODO
- * 
+ *
  * Catch async error handling
  */
 
@@ -29,4 +29,18 @@ export const formatServerErrorData = (err: unknown) => {
 
   // Return default async error if axios troubles
   return DEFAULT_INTERNAL_SERVER_ERROR_RESPONSE_DATA as ResData
+}
+
+export const formatText = (text: string) => {
+  return text.split('\n').map((line, i) => {
+    if (line === '') {
+      return <div key={i} />
+    }
+
+    return (
+      <p className="p" key={i}>
+        {line}
+      </p>
+    )
+  })
 }

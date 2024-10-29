@@ -4,6 +4,12 @@ import { Card } from '@/components/primitives/card'
 // utils
 import { cn } from '@/src/lib/utils'
 
+/**
+ * TODO
+ * 
+ * Figure out complete implementation for all types of cards
+ */
+
 export const NoContentCard: React.FC<{
   heading: string
   subheading?: string

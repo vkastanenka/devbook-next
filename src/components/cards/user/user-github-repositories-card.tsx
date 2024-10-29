@@ -4,8 +4,8 @@
 import Link from 'next/link'
 import { Card as CardShadCn } from '@/components/ui/card'
 import { Card } from '@/components/primitives/card'
+import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Typography } from '@/components/ui/typography'
 import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // svg
@@ -21,15 +21,11 @@ import {
   GetUserGithubReposRes,
   GetUserGithubRepoRes,
 } from '@/types/server-types'
+import { UserDataCard } from '@/types/user-types'
 
-interface UserCard {
-  canEdit?: boolean
-  githubRepositories: string[]
-}
-
-export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
-  canEdit,
-  githubRepositories,
+export const UserGithubRepositoriesCard: React.FC<UserDataCard> = ({
+  isEditable,
+  user,
 }) => {
   const { toast } = useToast()
 
@@ -37,7 +33,7 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
 
   useEffect(() => {
     const getRepos = async () => {
-      const repositories = await getUserGithubRepos(githubRepositories)
+      const repositories = await getUserGithubRepos(user.githubRepositories)
 
       const failedRequestUrls: string[] = []
 
@@ -59,26 +55,33 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
 
       setRepositories(repositories)
     }
-    if (githubRepositories.length) {
+
+    if (user.githubRepositories.length) {
       getRepos()
     }
-  }, [toast, githubRepositories])
+  }, [toast, user])
+
+  if (!user.githubRepositories.length)
+    return (
+      <div className="relative">
+        {isEditable && <UserEditButton />}
+        <NoContentCard
+          className="text-left"
+          heading="Github Repositories"
+          subheading={`This user has not added any Github repositories to their profile.`}
+        />
+      </div>
+    )
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {canEdit && <UserEditButton />}
+      {isEditable && <UserEditButton />}
       <div className="flex items-center gap-2">
-        <Typography.H4>Github Repositories</Typography.H4>
+        <p className="h4">Github Repositories</p>
         <GithubRainbow />
       </div>
-      {/* No repositories in their profile */}
-      {!githubRepositories.length && (
-        <Typography.P>
-          This user has not added any Github repositories to their profile.
-        </Typography.P>
-      )}
       {/* Repositories in profile but no response yet */}
-      {githubRepositories.length && !repositories?.length && (
+      {!user.githubRepositories.length && !repositories?.length && (
         <div className="flex gap-4">
           <CardShadCn className="sm:basis-1/2 p-[18px]">
             <Skeleton className="h-[40px] w-full" />
@@ -103,13 +106,13 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
                   href={repositorySuccess.data.html_url}
                   target="_blank"
                 >
-                  <Typography.Muted className="font-bold">
+                  <p className="muted font-bold">
                     {repositorySuccess.data.name}
-                  </Typography.Muted>
+                  </p>
                   {repositorySuccess.data.description && (
-                    <Typography.Muted className="font">
+                    <p className="muted">
                       {repositorySuccess.data.description}
-                    </Typography.Muted>
+                    </p>
                   )}
                 </Link>
               </CardShadCn>
@@ -124,7 +127,7 @@ export const UserGithubRepositoriesCard: React.FC<UserCard> = ({
 const ErrorDescription: React.FC<{ failedRequestUrls?: string[] }> = ({
   failedRequestUrls,
 }) => (
-  <Typography.Muted>
+  <p className="muted">
     <span className="block">Failed to fetch repositories from:</span>
     {failedRequestUrls?.map((url, i) => (
       <span key={i} className="block">
@@ -132,5 +135,5 @@ const ErrorDescription: React.FC<{ failedRequestUrls?: string[] }> = ({
       </span>
     ))}
     <span className="block">Please check the urls or try later.</span>
-  </Typography.Muted>
+  </p>
 )
