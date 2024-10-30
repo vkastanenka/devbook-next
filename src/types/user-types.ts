@@ -14,7 +14,7 @@ export interface User {
   website: string | null
   resume: string | null
   githubRepositories: string[]
-  skills: []
+  skills: string[]
   role: UserRoles
   resetPasswordToken: string | null
   resetPasswordTokenExpires: string | null

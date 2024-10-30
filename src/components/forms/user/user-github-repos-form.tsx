@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input'
 import { X } from 'lucide-react'
 
 // utils
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { updateUser } from '@/actions/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -82,24 +82,27 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
+        {!renderedFormValues?.length && (
+          <FormField
+            name={`githubRepositories.0`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="Repo URL"
+                    disabled={isSubmitting}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         {renderedFormValues.length &&
           renderedFormValues.map((_, i) => {
             return (
               <div key={i} className="relative">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const formValues = getValues()
-                    const filteredRepos = formValues.githubRepositories.filter(
-                      (_, j) => !(i === j)
-                    )
-                    setValue('githubRepositories', filteredRepos)
-                    setRenderedFormValues(filteredRepos)
-                  }}
-                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
-                >
-                  <X className="w-4 h-4" />
-                </button>
                 <FormField
                   name={`githubRepositories.${i}`}
                   render={({ field }) => (
@@ -115,6 +118,20 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
                     </FormItem>
                   )}
                 />
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const formValues = getValues()
+                    const filteredRepos = formValues.githubRepositories.filter(
+                      (_, j) => !(i === j)
+                    )
+                    setValue('githubRepositories', filteredRepos)
+                    setRenderedFormValues(filteredRepos)
+                  }}
+                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             )
           })}

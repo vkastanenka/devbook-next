@@ -61,7 +61,7 @@ export const UserSkillsCard: React.FC<UserDataCard> = ({
               className="is-interactive flex gap-2 items-center"
               onClick={() => onOpen('userSkills', { user })}
             >
-              <p className="h4">{`Show all ${user.skills} skills`}</p>
+              <p className="h4">{`Show all ${user.skills.length} skills`}</p>
               <CircleArrowRight />
             </button>
           </div>

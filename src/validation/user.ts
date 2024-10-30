@@ -65,6 +65,19 @@ export const githubReposFormSchema = z.object({
 
 export type GithubReposFormData = z.infer<typeof githubReposFormSchema>
 
+export const skillsFormSchema = z.object({
+  skills: z.array(
+    z
+      .string()
+      .min(1, { message: 'Skill must be at least 1 character.' })
+      .max(30, {
+        message: 'Skill must not be longer than 30 characters.',
+      })
+  ),
+})
+
+export type SkillsFormData = z.infer<typeof skillsFormSchema>
+
 export const userFormSchema = z
   .object({
     name: nameSchema,
