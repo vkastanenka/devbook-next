@@ -28,7 +28,7 @@ export const UserSkillsModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card flex flex-col gap-4">
+      <DialogContent className="bg-card flex flex-col gap-4 max-h-[75vh] overflow-scroll">
         <Typography.H4>Skills</Typography.H4>
         {user.skills.map((skill, i, arr) => (
           <div key={i} className="flex flex-col gap-4">

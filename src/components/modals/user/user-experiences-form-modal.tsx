@@ -2,12 +2,12 @@
 
 // components
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { UserExperienceForm } from '@/components/forms/user/user-experience-form'
+import { UserExperiencesForm } from '@/components/forms/user/user-experiences-form'
 
 // utils
 import { useModal } from '@/hooks/use-modal-store'
 
-export const UserExperienceFormModal = () => {
+export const UserExperiencesFormModal = () => {
   const {
     isOpen,
     onClose,
@@ -21,9 +21,9 @@ export const UserExperienceFormModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-card flex flex-col gap-4">
+      <DialogContent className="bg-card flex flex-col gap-4 max-h-[75vh] overflow-scroll">
         <p className="h3">Update experience</p>
-        <UserExperienceForm user={user} />
+        <UserExperiencesForm user={user} />
       </DialogContent>
     </Dialog>
   )

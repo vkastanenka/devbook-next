@@ -26,6 +26,8 @@ import {
   GithubReposFormData,
   SkillsFormData,
   UserFormReqBodySchema,
+  UserEducationsFormReqBodyDataCreates,
+  UserEducationsFormReqBodyDataUpdates,
 } from '@/validation/user'
 
 // constants
@@ -125,10 +127,13 @@ export const getUserGithubRepos = async (
 // Updates user
 export const updateUser = async (
   data:
+    | any
     | BioFormData
     | GithubReposFormData
     | SkillsFormData
-    | UserFormReqBodySchema,
+    | UserFormReqBodySchema
+    | UserEducationsFormReqBodyDataCreates
+    | UserEducationsFormReqBodyDataUpdates,
   user: User
 ): Promise<ResData> => {
   try {

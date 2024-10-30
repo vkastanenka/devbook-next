@@ -40,7 +40,6 @@ import {
 } from '@/validation/user'
 
 export const UserForm: React.FC<{ className?: string; user: User }> = ({
-  className,
   user,
 }) => {
   const currentAddress = user.addresses?.length ? user.addresses[0] : null
