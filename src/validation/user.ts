@@ -52,6 +52,19 @@ export const bioFormSchema = z
 
 export type BioFormData = z.infer<typeof bioFormSchema>
 
+export const githubReposFormSchema = z.object({
+  githubRepositories: z.array(
+    z
+      .string()
+      .min(5, { message: 'Repo URL must be at least 5 characters.' })
+      .max(100, {
+        message: 'Repo URL must not be longer than 100 characters.',
+      })
+  ),
+})
+
+export type GithubReposFormData = z.infer<typeof githubReposFormSchema>
+
 export const userFormSchema = z
   .object({
     name: nameSchema,

@@ -23,6 +23,12 @@ import {
 } from '@/types/server-types'
 import { UserDataCard } from '@/types/user-types'
 
+/**
+ * TODO
+ * 
+ * Collapsible content for more than 2 repos
+ */
+
 export const UserGithubReposCard: React.FC<UserDataCard> = ({
   isEditable,
   user,

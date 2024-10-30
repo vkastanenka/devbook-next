@@ -21,7 +21,11 @@ import {
   ResData,
 } from '@/types/server-types'
 import { User } from '@/types/user-types'
-import { BioFormData, UserFormReqBodySchema } from '@/validation/user'
+import {
+  BioFormData,
+  GithubReposFormData,
+  UserFormReqBodySchema,
+} from '@/validation/user'
 
 // constants
 import {
@@ -119,7 +123,7 @@ export const getUserGithubRepos = async (
 
 // Updates user
 export const updateUser = async (
-  data: BioFormData | UserFormReqBodySchema,
+  data: BioFormData | GithubReposFormData | UserFormReqBodySchema,
   user: User
 ): Promise<ResData> => {
   try {
