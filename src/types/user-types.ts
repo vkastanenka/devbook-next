@@ -37,17 +37,39 @@ export interface UserDataCard {
   user: User
 }
 
-export interface UserEducation {
+export interface UserEducation extends UserEducationsFormItem {
   id: string
-  school: string
-  degree: string
-  startYear?: string | null
-  endYear?: string | null
-  current: boolean
   createdAt: string
   updatedAt: string
-  // user
-  userId: string
+  userId?: string
+}
+
+export interface UserEducationsFormItem {
+  school: string
+  degree: string
+  startYear: string
+  endYear?: string | null
+}
+
+export interface UserEducationsFormData {
+  userEducations?: (UserEducation | UserEducationsFormItem)[]
+}
+
+export type UserEducationsFormItems = (UserEducation | UserEducationsFormItem)[]
+
+export interface CreateUserEducationsReqBody {
+  userEducations: { create: UserEducationsFormItem[] }
+}
+
+export interface UpdateUserEducationReqBody {
+  userEducations: {
+    update: {
+      where: {
+        id: string
+      }
+      data: UserEducation
+    }
+  }
 }
 
 export interface UserExperience {
@@ -56,7 +78,7 @@ export interface UserExperience {
   type: string
   schedule: string
   title: string
-  startYear?: string | null
+  startYear: string
   endYear?: string | null
   current: boolean
   description: string

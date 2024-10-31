@@ -25,29 +25,36 @@ import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
 
+// validation
+import { userEducationsFormSchema } from '@/validation/user'
+
 // types
 import { User } from '@/types/user-types'
 import {
-  userEducationsFormSchema,
+  UserEducation,
+  UserEducationsFormItem,
   UserEducationsFormData,
-  UserEducationData,
-  UserEducationsFormReqBodyData,
-  UserEducationsFormReqBodyDataUpdates,
-} from '@/validation/user'
+  CreateUserEducationsReqBody,
+  UpdateUserEducationReqBody,
+  UserEducationsFormItems,
+} from '@/types/user-types'
 
 export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
+  const [userEducationsToDelete, setUserEducationsToDelete] =
+    useState<{ id: string }[]>()
+
   const [renderedFormValues, setRenderedFormValues] = useState<
-    UserEducationData[]
-  >((user.userEducations as UserEducationData[]) || [])
+    UserEducationsFormItems | undefined
+  >(user.userEducations)
 
   const form = useForm({
     resolver: zodResolver(userEducationsFormSchema),
     defaultValues: {
-      userEducations: (user.userEducations as UserEducationData[]) || [],
+      userEducations: user.userEducations,
     },
   })
 
@@ -55,54 +62,80 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
     getValues,
     handleSubmit,
     formState: { isSubmitting },
+    setValue,
   } = form
 
   const action: () => void = handleSubmit(
     async (formData: UserEducationsFormData) => {
-      let createsResponse
-      const formattedReqBody = formatRequestBodies({ formData })
+      const { userEducations } = formData
+      if (userEducations) {
+        let createRes, updateRes, deleteRes
+        const { createReqBody, updateReqsBodies } =
+          formatReqBody(userEducations)
 
-      if (formattedReqBody.creates) {
-        console.log(formattedReqBody.creates)
-        await updateUser(formattedReqBody.creates, user)
-      }
+        // Send req to create educations
+        if (createReqBody) {
+          createRes = await updateUser(createReqBody, user)
+        }
 
-      if (formattedReqBody.updates) {
-        await Promise.all(
-          formattedReqBody.updates.map(async (update) => {
-            const response = await updateUser(update, user)
-            return response
+        // Send requests to update educations
+        if (updateReqsBodies) {
+          updateRes = await Promise.all(
+            updateReqsBodies.map(async (reqBody) => {
+              return await updateUser(reqBody, user)
+            })
+          )
+        }
+
+        // Send req to delete educations
+        if (userEducationsToDelete) {
+          const reqBody = {
+            userEducations: {
+              deleteMany: userEducationsToDelete,
+            },
+          }
+
+          deleteRes = await updateUser(reqBody, user)
+        }
+
+        // Check if any response has server error
+        let resIncludesServerError = false
+
+        if (createRes && !createRes?.success) {
+          resIncludesServerError = true
+        }
+
+        updateRes?.every((res) => {
+          if (!res?.success) {
+            resIncludesServerError = true
+            return false
+          }
+          return true
+        })
+
+        // if (!deleteRes?.success && !deleteRes?.errors) {
+        //   resIncludesServerError = true
+        // }
+
+        // If any server errors from any response, give toast message
+        if (resIncludesServerError) {
+          toast({
+            title: 'Error!',
+            description: createRes?.message,
+            variant: 'destructive',
           })
-        )
+        }
+
+        // If successful, refresh page
+        if (!resIncludesServerError) {
+          onClose()
+          router.refresh()
+          toast({
+            title: 'Success!',
+            description: createRes?.message,
+          })
+        }
       }
-
-      // if (formattedReqBody.updates?.length) {
-      //   await Promise.all(
-      //     formattedReqBody.updates.map(async (update) => {
-      //       await updateUser(update, user)
-      //     })
-      //   )
-      // }
-      // const response = await updateUser(formattedReqBody, user)
-
-      // // If other error, show toast message
-      // if (!response.success && !response.errors) {
-      //   toast({
-      //     title: 'Error!',
-      //     description: response.message,
-      //     variant: 'destructive',
-      //   })
-      // }
-
-      // // If successful, push to user feed
-      // if (response.success) {
-      //   onClose()
-      //   router.refresh()
-      //   toast({
-      //     title: 'Success!',
-      //     description: response.message,
-      //   })
-      // }
     }
   )
 
@@ -130,7 +163,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
             )}
           />
         )} */}
-        {renderedFormValues.length &&
+        {renderedFormValues?.length &&
           renderedFormValues.map((_, i, arr) => {
             return (
               <div key={i} className="relative flex flex-col gap-4">
@@ -203,34 +236,43 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
                 />
 
                 {i !== arr.length - 1 && <Separator />}
-                {/* <button
+
+                <button
                   onClick={(e) => {
                     e.preventDefault()
                     const formValues = getValues()
-                    const filteredRepos = formValues.skills.filter(
-                      (_, j) => !(i === j)
+                    const filteredValues = formValues.userEducations?.filter(
+                      (edu, j) => {
+                        const isFiltered = i === j
+                        if (isFiltered && edu.id) {
+                          setUserEducationsToDelete((prevState) => [
+                            ...(prevState ? prevState : []),
+                            { id: edu.id },
+                          ])
+                        }
+                        return !isFiltered
+                      }
                     )
-                    setValue('skills', filteredRepos)
-                    setRenderedFormValues(filteredRepos)
+                    setValue('userEducations', filteredValues)
+                    setRenderedFormValues(filteredValues)
                   }}
                   className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
                 >
                   <X className="w-4 h-4" />
-                </button> */}
+                </button>
               </div>
             )
           })}
 
-        <Button
+        <button
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
             setRenderedFormValues([
-              ...formValues.userEducations,
+              ...(formValues.userEducations || []),
               {
                 school: '',
                 degree: '',
-                current: false,
                 startYear: '',
                 endYear: null,
               },
@@ -238,7 +280,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
           }}
         >
           <p className="h4">Add education</p>
-        </Button>
+        </button>
 
         <Button disabled={isSubmitting}>
           <p className="h4">Update educations</p>
@@ -248,40 +290,44 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
   )
 }
 
-const formatRequestBodies = ({
-  formData,
-}: {
-  formData: UserEducationsFormData
-}) => {
-  const removedUserIds = formData.userEducations.map((education) => {
-    delete education.userId
-    return education
+const formatReqBody = (formItems: UserEducationsFormItems) => {
+  const formItemsNoUserId = formItems.map((formItem) => {
+    if ((formItem as UserEducation).userId) {
+      delete (formItem as UserEducation).userId
+    }
+    return formItem
   })
 
-  const createEducations = removedUserIds.filter((education) => !education.id)
+  const createFormItems: UserEducationsFormItem[] = formItemsNoUserId.filter(
+    (formItem) => !(formItem as UserEducation).id
+  )
 
-  const updateEducations = removedUserIds
-    .filter((education) => education.id)
-    .map((education) => ({
+  const createReqBody: CreateUserEducationsReqBody = {
+    userEducations: { create: createFormItems },
+  }
+
+  const updateReqsBodies: UpdateUserEducationReqBody[] = formItemsNoUserId
+    .filter((formItem) => (formItem as UserEducation).id)
+    .map((formItem) => ({
       userEducations: {
         update: {
           where: {
-            id: education.id || '',
+            id: (formItem as UserEducation).id,
           },
-          data: education,
+          data: formItem as UserEducation,
         },
       },
     }))
 
   const formattedRequestBodies = {
-    ...(createEducations.length
+    ...(createFormItems.length
       ? {
-          creates: { userEducations: { create: createEducations } },
+          createReqBody,
         }
       : {}),
-    ...(updateEducations.length
+    ...(updateReqsBodies.length
       ? {
-          updates: updateEducations,
+          updateReqsBodies,
         }
       : {}),
   }

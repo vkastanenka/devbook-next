@@ -20,14 +20,16 @@ import {
   PatchUserResData,
   ResData,
 } from '@/types/server-types'
-import { User } from '@/types/user-types'
+import {
+  User,
+  CreateUserEducationsReqBody,
+  UpdateUserEducationReqBody,
+} from '@/types/user-types'
 import {
   BioFormData,
   GithubReposFormData,
   SkillsFormData,
   UserFormReqBodySchema,
-  UserEducationsFormReqBodyDataCreates,
-  UserEducationsFormReqBodyDataUpdates,
 } from '@/validation/user'
 
 // constants
@@ -132,8 +134,8 @@ export const updateUser = async (
     | GithubReposFormData
     | SkillsFormData
     | UserFormReqBodySchema
-    | UserEducationsFormReqBodyDataCreates
-    | UserEducationsFormReqBodyDataUpdates,
+    | CreateUserEducationsReqBody
+    | UpdateUserEducationReqBody,
   user: User
 ): Promise<ResData> => {
   try {
