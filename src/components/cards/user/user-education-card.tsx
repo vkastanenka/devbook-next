@@ -1,7 +1,7 @@
 // components
 import { Card } from '@/components/primitives/card'
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // types
 import { UserProfileCard } from '@/types/user-types'
@@ -13,7 +13,7 @@ export const UserEducationCard: React.FC<UserProfileCard> = ({
   if (!user.userEducations?.length)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton modalType="userEducationForm" user={user} />}
+        {isEditable && <UserEditCardButton modalType="userEducationForm" user={user} />}
         <NoContentCard
           className="text-left"
           heading="Education"
@@ -24,7 +24,7 @@ export const UserEducationCard: React.FC<UserProfileCard> = ({
 
   return (
     <Card className="relative">
-      {isEditable && <UserEditButton modalType="userEducationForm" user={user} />}
+      {isEditable && <UserEditCardButton modalType="userEducationForm" user={user} />}
       <div className="flex flex-col gap-4">
         <p className="h4">Education</p>
         {user.userEducations.map((education) => (

@@ -6,7 +6,7 @@ import { Card as CardShadCn } from '@/components/ui/card'
 import { Card } from '@/components/primitives/card'
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // svg
 import GithubRainbow from '/public/svg/github-rainbow.svg'
@@ -71,7 +71,7 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
     return (
       <div className="relative">
         {isEditable && (
-          <UserEditButton modalType="userGithubReposForm" user={user} />
+          <UserEditCardButton modalType="userGithubReposForm" user={user} />
         )}
         <NoContentCard
           className="text-left"
@@ -84,7 +84,7 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
   return (
     <Card className="flex flex-col gap-4 relative">
       {isEditable && (
-        <UserEditButton modalType="userGithubReposForm" user={user} />
+        <UserEditCardButton modalType="userGithubReposForm" user={user} />
       )}
       <div className="flex items-center gap-2">
         <p className="h4">Github Repositories</p>

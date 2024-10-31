@@ -1,6 +1,5 @@
 export interface Address {
   id: string
-  unitNumber: string | null
   streetNumber: string
   streetName: string
   suburb: string
@@ -9,4 +8,12 @@ export interface Address {
   createdAt: string
   updatedAt: string
   userId?: string
+}
+
+export interface UserDetailsFormDataAddress {
+  streetNumber?: string
+  streetName?: string
+  suburb?: string
+  state?: string
+  country?: string
 }

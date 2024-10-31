@@ -27,16 +27,16 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   const user = await getUsername(params.username, {
     include: { addresses: true },
   })
-  if (!user) return null // TODO: Proper error handling
+  if (!user) return null
 
-  // const userData: User = (user as GetUsernameResData).data
+  const userData: User = (user as GetUsernameResData).data
 
   return (
     <div className="flex gap-8">
       {/* user info */}
       <div className="basis-1/2 flex flex-col gap-4">
-        {/* <UserDetailsCard user={userData} /> */}
-        {/* {userData.bio && <UserBioCard user={userData} />} */}
+        <UserDetailsCard user={userData} />
+        <UserBioCard user={userData} />
         {/* {userData.contacts?.length && <UserContactsCard />} */}
       </div>
       {/* user feed */}

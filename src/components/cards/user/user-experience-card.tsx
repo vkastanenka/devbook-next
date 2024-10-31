@@ -2,7 +2,7 @@
 import { Card } from '@/components/primitives/card'
 import { CollapsibleContent } from '@/components/modules/collapsible-content'
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // svg
 import { Briefcase } from 'lucide-react'
@@ -21,7 +21,7 @@ export const UserExperienceCard: React.FC<UserProfileCard> = ({
     return (
       <div className="relative">
         {isEditable && (
-          <UserEditButton modalType="userExperienceForm" user={user} />
+          <UserEditCardButton modalType="userExperienceForm" user={user} />
         )}
         <NoContentCard
           className="text-left"
@@ -34,7 +34,7 @@ export const UserExperienceCard: React.FC<UserProfileCard> = ({
   return (
     <Card className="relative">
       {isEditable && (
-        <UserEditButton modalType="userExperienceForm" user={user} />
+        <UserEditCardButton modalType="userExperienceForm" user={user} />
       )}
       <div className="flex flex-col gap-4">
         <p className="h4">Experience</p>

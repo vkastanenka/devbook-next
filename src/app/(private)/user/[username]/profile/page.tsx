@@ -19,14 +19,6 @@ interface UserProfilePage {
   }
 }
 
-/**
- * TODO:
- *
- * 1. Allow user to edit information for complete profile / each card if current user profile
- * 2. Error handling for not obtaining current user
- * 3. Error handling for not obtaining user from params
- */
-
 const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
   if (!params?.username) return null
 

@@ -2,7 +2,7 @@
 import { Card } from '@/components/primitives/card'
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { CollapsibleContent } from '@/components/modules/collapsible-content'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // utils
 import { formatText } from '@/lib/utils'
@@ -14,7 +14,7 @@ export const UserBioCard: React.FC<UserProfileCard> = ({ isEditable, user }) => 
   if (!user.bio)
     return (
       <div className="relative">
-        {isEditable && <UserEditButton modalType="userBioForm" user={user} />}
+        {isEditable && <UserEditCardButton modalType="userBioForm" user={user} />}
         <NoContentCard
           className="text-left"
           heading="Bio"
@@ -25,7 +25,7 @@ export const UserBioCard: React.FC<UserProfileCard> = ({ isEditable, user }) => 
 
   return (
     <Card className="flex flex-col gap-4 relative">
-      {isEditable && <UserEditButton modalType="userBioForm" user={user} />}
+      {isEditable && <UserEditCardButton modalType="userBioForm" user={user} />}
       <p className="h4">Bio</p>
       <CollapsibleContent includeTrigger={user.bio.length > 250}>
         <div className="flex flex-col gap-4">{formatText(user.bio)}</div>

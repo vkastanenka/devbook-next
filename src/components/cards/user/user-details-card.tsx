@@ -2,7 +2,7 @@
 import { Card } from '@/components/ui/card'
 import { UserAvatar } from '@/components/ui/avatar'
 import { UserCardButtons } from '@/components/modules/user-card-buttons'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // types
 import { UserProfileCard } from '@/types/user-types'
@@ -19,7 +19,7 @@ export const UserDetailsCard: React.FC<UserProfileCard> = ({
 }) => {
   return (
     <Card className="card flex flex-col gap-2 relative">
-      {isEditable && <UserEditButton modalType="userDetailsForm" user={user} />}
+      {isEditable && <UserEditCardButton modalType="userDetailsForm" user={user} />}
       <UserAvatar
         src={user.image || undefined}
         className="avatar-lg"

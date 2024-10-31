@@ -1,4 +1,4 @@
-import { Address } from '@/types/'
+import { Address, UserDetailsFormDataAddress } from '@/types/'
 
 export interface User {
   id: string
@@ -33,12 +33,29 @@ export interface UserDetailsFormData {
   headline: string | null
   phone: string | null
   website: string | null
-  unitNumber?: string | null
   streetNumber?: string
   streetName?: string
   suburb?: string
   state?: string
   country?: string
+}
+
+export interface UserDetailsReqBody {
+  name: string
+  email: string
+  pronouns: string | null
+  headline: string | null
+  phone: string | null
+  website: string | null
+  addresses?: {
+    update?: {
+      where: {
+        id: string
+      }
+      data: UserDetailsFormDataAddress
+    }
+    create?: UserDetailsFormDataAddress[]
+  }
 }
 
 export interface UserProfileCard {

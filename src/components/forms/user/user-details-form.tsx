@@ -31,7 +31,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import { Address } from '@/types/'
-import { User, UserDetailsFormData } from '@/types/user-types'
+import {
+  User,
+  UserDetailsFormData,
+  UserDetailsReqBody,
+} from '@/types/user-types'
 import { userDetailsFormSchema } from '@/validation/user'
 
 /**
@@ -59,7 +63,6 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
       headline: user.headline,
       phone: user.phone,
       website: user.website,
-      unitNumber: currentAddress?.unitNumber,
       streetNumber: currentAddress?.streetNumber,
       streetName: currentAddress?.streetName,
       suburb: currentAddress?.suburb,
@@ -227,28 +230,7 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
 
           <Separator />
 
-          <div>
-            <p className="h4">Address</p>
-            <p className="p">Requires all but Unit number to update</p>
-          </div>
-
-          <FormField
-            name="unitNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Unit number</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Unit number"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <p className="h4">Address</p>
 
           <FormField
             name="streetNumber"
@@ -351,8 +333,7 @@ const formatReqBody = ({
 }: {
   formData: UserDetailsFormData
   currentAddress: Address | null
-}) => {
-  const unitNumber = formData.unitNumber
+}): UserDetailsReqBody => {
   const streetNumber = formData.streetNumber
   const streetName = formData.streetName
   const suburb = formData.suburb
@@ -360,7 +341,6 @@ const formatReqBody = ({
   const country = formData.country
 
   const reqBodyAddress = {
-    unitNumber,
     streetNumber,
     streetName,
     suburb,

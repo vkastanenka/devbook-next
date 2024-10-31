@@ -4,7 +4,7 @@
 import { Separator } from '@radix-ui/react-separator'
 import { Card } from '@/components/ui/card'
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
-import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
+import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // svg
 import { CircleArrowRight } from 'lucide-react'
@@ -27,7 +27,7 @@ export const UserSkillsCard: React.FC<UserProfileCard> = ({
     return (
       <div className="relative">
         {isEditable && (
-          <UserEditButton modalType="userSkillsForm" user={user} />
+          <UserEditCardButton modalType="userSkillsForm" user={user} />
         )}
         <NoContentCard
           className="text-left"
@@ -39,7 +39,7 @@ export const UserSkillsCard: React.FC<UserProfileCard> = ({
 
   return (
     <Card className="relative">
-      {isEditable && <UserEditButton modalType="userSkillsForm" user={user} />}
+      {isEditable && <UserEditCardButton modalType="userSkillsForm" user={user} />}
       <div className="card">
         <div className="flex flex-col gap-4">
           <p className="h4">Skills</p>

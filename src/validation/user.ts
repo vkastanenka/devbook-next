@@ -80,15 +80,6 @@ const suburbSchema = z
 
 const websiteSchema = z.string().refine(validator.isURL).nullable()
 
-const unitNumberSchema = z
-  .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
-  })
-  .optional()
-  .nullable()
-
 export const nameSchema = z.string().refine((s) => {
   const names = s.split(' ')
   if (names.length === 2) return true
@@ -237,7 +228,6 @@ export const userDetailsFormSchema: z.ZodType<UserDetailsFormData> = z.object({
   headline: headlineSchema,
   phone: phoneSchema,
   website: websiteSchema,
-  unitNumber: unitNumberSchema,
   streetNumber: streetNumberSchema,
   streetName: streetNameSchema,
   suburb: suburbSchema,
