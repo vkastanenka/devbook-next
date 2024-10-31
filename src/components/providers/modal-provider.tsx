@@ -6,7 +6,7 @@ import { UserBioFormModal } from '@/components/modals/user/user-bio-form-modal'
 import { UserContactInformationModal } from '@/components/modals/user/user-contact-information-modal'
 import { UserEducationsFormModal } from '@/components/modals/user/user-educations-form-modal'
 import { UserExperiencesFormModal } from '@/components/modals/user/user-experiences-form-modal'
-import { UserFormModal } from '@/components/modals/user/user-form-modal'
+import { UserDetailsFormModal } from '@/components/modals/user/user-details-form-modal'
 import { UserGithubReposFormModal } from '@/components/modals/user/user-github-repos-form-modal'
 import { UserSkillsFormModal } from '@/components/modals/user/user-skills-form-modal'
 import { UserSkillsModal } from '@/components/modals/user/user-skills-modal'
@@ -30,7 +30,7 @@ export const ModalProvider = () => {
       <UserContactInformationModal />
       <UserEducationsFormModal />
       <UserExperiencesFormModal />
-      <UserFormModal />
+      <UserDetailsFormModal />
       <UserGithubReposFormModal />
       <UserSkillsFormModal />
       <UserSkillsModal />

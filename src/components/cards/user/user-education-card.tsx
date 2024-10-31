@@ -4,9 +4,9 @@ import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 
 // types
-import { UserDataCard } from '@/types/user-types'
+import { UserProfileCard } from '@/types/user-types'
 
-export const UserEducationCard: React.FC<UserDataCard> = ({
+export const UserEducationCard: React.FC<UserProfileCard> = ({
   isEditable,
   user,
 }) => {

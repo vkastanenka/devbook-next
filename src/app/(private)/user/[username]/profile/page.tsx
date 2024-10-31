@@ -1,5 +1,5 @@
 // components
-import { UserCard } from '@/components/cards/user/user-card'
+import { UserDetailsCard } from '@/components/cards/user/user-details-card'
 import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
 import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'
 import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
@@ -43,7 +43,7 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <UserCard isEditable={isCurrentUser} user={userData} />
+      <UserDetailsCard isEditable={isCurrentUser} user={userData} />
       <UserBioCard isEditable={isCurrentUser} user={userData} />
       <UserGithubReposCard isEditable={isCurrentUser} user={userData} />
       <UserExperienceCard isEditable={isCurrentUser} user={userData} />

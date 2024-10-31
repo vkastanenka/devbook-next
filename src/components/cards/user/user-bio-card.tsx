@@ -8,9 +8,9 @@ import { UserEditButton } from '@/components/modules/buttons/user-edit-button'
 import { formatText } from '@/lib/utils'
 
 // types
-import { UserDataCard } from '@/types/user-types'
+import { UserProfileCard } from '@/types/user-types'
 
-export const UserBioCard: React.FC<UserDataCard> = ({ isEditable, user }) => {
+export const UserBioCard: React.FC<UserProfileCard> = ({ isEditable, user }) => {
   if (!user.bio)
     return (
       <div className="relative">

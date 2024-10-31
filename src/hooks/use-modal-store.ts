@@ -6,13 +6,13 @@ import { User } from '@/types/user-types'
 
 export type ModalType =
   | 'createPost'
-  | 'userContactInformation'
-  | 'userSkills'
   | 'userBioForm'
+  | 'userContactInformation'
+  | 'userDetailsForm'
   | 'userEducationForm'
   | 'userExperienceForm'
-  | 'userForm'
   | 'userGithubReposForm'
+  | 'userSkills'
   | 'userSkillsForm'
 
 interface ModalData {

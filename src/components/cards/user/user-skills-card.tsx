@@ -13,11 +13,11 @@ import { CircleArrowRight } from 'lucide-react'
 import { useModal } from '@/hooks/use-modal-store'
 
 // types
-import { UserDataCard } from '@/types/user-types'
+import { UserProfileCard } from '@/types/user-types'
 
 const NUM_VISIBLE_SKILLS = 2
 
-export const UserSkillsCard: React.FC<UserDataCard> = ({
+export const UserSkillsCard: React.FC<UserProfileCard> = ({
   isEditable,
   user,
 }) => {

@@ -21,7 +21,7 @@ import {
   GetUserGithubReposRes,
   GetUserGithubRepoRes,
 } from '@/types/server-types'
-import { UserDataCard } from '@/types/user-types'
+import { UserProfileCard } from '@/types/user-types'
 
 /**
  * TODO
@@ -29,7 +29,7 @@ import { UserDataCard } from '@/types/user-types'
  * Collapsible content for more than 2 repos
  */
 
-export const UserGithubReposCard: React.FC<UserDataCard> = ({
+export const UserGithubReposCard: React.FC<UserProfileCard> = ({
   isEditable,
   user,
 }) => {

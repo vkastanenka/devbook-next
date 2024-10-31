@@ -11,23 +11,34 @@ import {
   UserExperience,
   UserExperiencesFormData,
   UserExperiencesFormItem,
+  UserDetailsFormData,
 } from '@/types/user-types'
+
+/**
+ * Form Inputs
+ */
 
 const bioSchema = z
   .string()
-  .min(10, { message: 'Bio must be at least 10 characters.' })
+  .min(10, { message: 'Minimum 10 characters.' })
   .max(1000, {
-    message: 'Bio must not be longer than 1000 characters.',
+    message: 'Maximum 1000.',
   })
   .nullable()
 
-const countrySchema = z.string().nullable()
+const countrySchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
 
 const headlineSchema = z
   .string()
-  .min(3, { message: 'Headling must be at least 3 characters.' })
+  .min(2, { message: 'Minimum 2 characters.' })
   .max(50, {
-    message: 'Headline must be no longer than 50 characters.',
+    message: 'Maximum 50 characters.',
   })
   .nullable()
 
@@ -35,22 +46,57 @@ const phoneSchema = z.string().refine(validator.isMobilePhone).nullable()
 
 const pronounsSchema = z.string().nullable()
 
-const stateNameSchema = z.string().nullable()
+const stateSchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
 
-const streetNameSchema = z.string().nullable()
+const streetNameSchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
 
-const streetNumberSchema = z.string().nullable()
+const streetNumberSchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
 
-const suburbNameSchema = z.string().nullable()
+const suburbSchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
 
 const websiteSchema = z.string().refine(validator.isURL).nullable()
 
-const unitNumberSchema = z.string().nullable()
+const unitNumberSchema = z
+  .string()
+  .min(2, { message: 'Minimum 2 characters.' })
+  .max(50, {
+    message: 'Maximum 50 characters.',
+  })
+  .optional()
+  .nullable()
 
 export const nameSchema = z.string().refine((s) => {
   const names = s.split(' ')
   if (names.length === 2) return true
 }, 'First and last names are required.')
+
+/**
+ * Forms
+ */
 
 export const bioFormSchema = z
   .object({
@@ -184,63 +230,17 @@ export const userExperiencesFormSchema: z.ZodType<UserExperiencesFormData> =
     ),
   })
 
-export const userFormSchema = z
-  .object({
-    name: nameSchema,
-    email: emailSchema,
-    pronouns: pronounsSchema,
-    headline: headlineSchema,
-    phone: phoneSchema,
-    website: websiteSchema,
-    unitNumber: unitNumberSchema,
-    streetNumber: streetNumberSchema,
-    streetName: streetNameSchema,
-    suburbName: suburbNameSchema,
-    stateName: stateNameSchema,
-    country: countrySchema,
-    // image
-    // resume
-  })
-  .strict()
-
-export type UserFormData = z.infer<typeof userFormSchema>
-
-export const userFormReqBodySchema = z.object({
+export const userDetailsFormSchema: z.ZodType<UserDetailsFormData> = z.object({
   name: nameSchema,
   email: emailSchema,
   pronouns: pronounsSchema,
   headline: headlineSchema,
   phone: phoneSchema,
   website: websiteSchema,
-  addresses: z
-    .object({
-      update: z
-        .object({
-          where: z.object({ id: z.string() }),
-          data: z.object({
-            unitNumber: unitNumberSchema,
-            streetNumber: streetNumberSchema,
-            streetName: streetNameSchema,
-            suburbName: suburbNameSchema,
-            stateName: stateNameSchema,
-            country: countrySchema,
-          }),
-        })
-        .optional(),
-      create: z
-        .array(
-          z.object({
-            unitNumber: unitNumberSchema,
-            streetNumber: streetNumberSchema,
-            streetName: streetNameSchema,
-            suburbName: suburbNameSchema,
-            stateName: stateNameSchema,
-            country: countrySchema,
-          })
-        )
-        .optional(),
-    })
-    .optional(),
+  unitNumber: unitNumberSchema,
+  streetNumber: streetNumberSchema,
+  streetName: streetNameSchema,
+  suburb: suburbSchema,
+  state: stateSchema,
+  country: countrySchema,
 })
-
-export type UserFormReqBodySchema = z.infer<typeof userFormReqBodySchema>

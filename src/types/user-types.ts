@@ -6,8 +6,8 @@ export interface User {
   email: string
   username: string
   password: string
-  phone?: string | null
-  pronouns?: string | null
+  phone: string | null
+  pronouns: string | null
   image: string | null
   headline: string | null
   bio: string | null
@@ -21,18 +21,27 @@ export interface User {
   passwordUpdatedAt: string | null
   createdAt: string
   updatedAt: string
-  // attachments: Attachment[]
   addresses?: Address[]
-  // comments: Comment[]
-  // commentLikes: CommentLike[]
-  // posts: Post[]
-  // postLikes: PostLike[]
-  // sessions: Session[]
   userEducations?: UserEducation[]
   userExperiences?: UserExperience[]
 }
 
-export interface UserDataCard {
+export interface UserDetailsFormData {
+  name: string
+  email: string
+  pronouns: string | null
+  headline: string | null
+  phone: string | null
+  website: string | null
+  unitNumber?: string | null
+  streetNumber?: string
+  streetName?: string
+  suburb?: string
+  state?: string
+  country?: string
+}
+
+export interface UserProfileCard {
   isEditable?: boolean
   user: User
 }

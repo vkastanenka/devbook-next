@@ -147,7 +147,7 @@
 
 @layer utilities {
   .avatar-lg {
-    @apply w-[72px] h-[72px];
+    @apply w-[72px] h-[72px] text-2xl;
   }
 
   .avatar-sm {

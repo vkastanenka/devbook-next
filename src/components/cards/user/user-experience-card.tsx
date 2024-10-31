@@ -11,9 +11,9 @@ import { Briefcase } from 'lucide-react'
 import { formatText } from '@/lib/utils'
 
 // types
-import { UserDataCard } from '@/types/user-types'
+import { UserProfileCard } from '@/types/user-types'
 
-export const UserExperienceCard: React.FC<UserDataCard> = ({
+export const UserExperienceCard: React.FC<UserProfileCard> = ({
   isEditable,
   user,
 }) => {
