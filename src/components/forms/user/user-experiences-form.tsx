@@ -77,7 +77,7 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
     async (formData: UserExperiencesFormData) => {
       const { userExperiences } = formData
       if (userExperiences) {
-        let createRes, updateRes, deleteRes
+        let createRes, updateRes
         const { createReqBody, updateReqsBodies } =
           formatReqBody(userExperiences)
 
@@ -103,7 +103,7 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
             },
           }
 
-          deleteRes = await updateUser(reqBody, user)
+          await updateUser(reqBody, user)
         }
 
         // Check if any response has server error
@@ -120,10 +120,6 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
           }
           return true
         })
-
-        // if (!deleteRes?.success && !deleteRes?.errors) {
-        //   resIncludesServerError = true
-        // }
 
         // If any server errors from any response, give toast message
         if (resIncludesServerError) {
@@ -159,6 +155,8 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
             ? renderedFormValues.map((_, i, arr) => {
                 return (
                   <div key={i} className="relative flex flex-col gap-4">
+                    <p className='h4'>Past experience</p>
+
                     <FormField
                       name={`userExperiences.${i}.company`}
                       render={({ field }) => (
@@ -220,6 +218,7 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       name={`userExperiences.${i}.schedule`}
                       render={({ field }) => (
@@ -340,12 +339,12 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
             const updatedValues = [
               {
                 company: '',
-                type: '',
-                schedule: '',
+                type: 'Permanent',
+                schedule: 'Full-time',
                 title: '',
                 description: '',
                 startYear: '',
-                endYear: null,
+                endYear: '',
               } as UserExperience,
               ...(formValues.userExperiences || []),
             ]

@@ -17,6 +17,7 @@ import { Separator } from '@/components/ui/separator'
 import { X } from 'lucide-react'
 
 // utils
+import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
 import { updateUser } from '@/actions/user-actions'
 import { useForm } from 'react-hook-form'
@@ -38,7 +39,6 @@ import {
   UpdateUserEducationsReqBody,
   UserEducationsFormItems,
 } from '@/types/user-types'
-import { cn } from '@/src/lib/utils'
 
 export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -70,7 +70,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
     async (formData: UserEducationsFormData) => {
       const { userEducations } = formData
       if (userEducations) {
-        let createRes, updateRes, deleteRes
+        let createRes, updateRes
         const { createReqBody, updateReqsBodies } =
           formatReqBody(userEducations)
 
@@ -96,7 +96,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
             },
           }
 
-          deleteRes = await updateUser(reqBody, user)
+          await updateUser(reqBody, user)
         }
 
         // Check if any response has server error
@@ -113,10 +113,6 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
           }
           return true
         })
-
-        // if (!deleteRes?.success && !deleteRes?.errors) {
-        //   resIncludesServerError = true
-        // }
 
         // If any server errors from any response, give toast message
         if (resIncludesServerError) {
@@ -157,6 +153,8 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
             ? renderedFormValues.map((_, i, arr) => {
                 return (
                   <div key={i} className="relative flex flex-col gap-4">
+                    <p className="h4">Past education</p>
+
                     <FormField
                       name={`userEducations.${i}.school`}
                       render={({ field }) => (
@@ -198,6 +196,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
                           <FormLabel>Start year</FormLabel>
                           <FormControl>
                             <Input
+                              type="number"
                               placeholder="Start year"
                               disabled={isSubmitting}
                               {...field}
@@ -215,6 +214,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
                           <FormLabel>End year</FormLabel>
                           <FormControl>
                             <Input
+                              type="number"
                               placeholder="End year"
                               disabled={isSubmitting}
                               {...field}
@@ -265,7 +265,7 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
                 school: '',
                 degree: '',
                 startYear: '',
-                endYear: null,
+                endYear: '',
               } as UserEducation,
               ...(formValues.userEducations || []),
             ]

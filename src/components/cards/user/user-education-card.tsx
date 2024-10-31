@@ -1,6 +1,6 @@
 // components
 import { Card } from '@/components/primitives/card'
-import { NoContentCard } from '@/components/cards/no-content/no-content-card'
+import { Separator } from '@/components/ui/separator'
 import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // types
@@ -10,34 +10,29 @@ export const UserEducationCard: React.FC<UserProfileCard> = ({
   isEditable,
   user,
 }) => {
-  if (!user.userEducations?.length)
-    return (
-      <div className="relative">
-        {isEditable && <UserEditCardButton modalType="userEducationForm" user={user} />}
-        <NoContentCard
-          className="text-left"
-          heading="Education"
-          subheading={`This user has not provided any past education.`}
-        />
-      </div>
-    )
-
   return (
     <Card className="relative">
-      {isEditable && <UserEditCardButton modalType="userEducationForm" user={user} />}
+      {isEditable && (
+        <UserEditCardButton modalType="userEducationForm" user={user} />
+      )}
       <div className="flex flex-col gap-4">
         <p className="h4">Education</p>
-        {user.userEducations.map((education) => (
-          <div key={education.id}>
-            <p className="large">{education.school}</p>
-            <p className="p">{education.degree}</p>
-            <p className="muted text-accent">
-              <span>{education.startYear}</span>
-              <span>{' - '}</span>
-              <span>{education.endYear || 'Present'}</span>
-            </p>
-          </div>
-        ))}
+        {user.userEducations && user.userEducations.length > 0 ? (
+          user.userEducations.map((edu, i, arr) => (
+            <div key={edu.id}>
+              <p className="large">{edu.school}</p>
+              <p className="p">{edu.degree}</p>
+              <p className="muted text-accent">
+                <span>{edu.startYear}</span>
+                <span>{' - '}</span>
+                <span>{edu.endYear || 'Present'}</span>
+              </p>
+              {i < arr.length - 1 && <Separator className="separator mt-4" />}
+            </div>
+          ))
+        ) : (
+          <p className="p">{`This user hasn't provided any past education.`}</p>
+        )}
       </div>
     </Card>
   )

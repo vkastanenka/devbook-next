@@ -183,8 +183,8 @@ export const userExperiencesFormItemSchema: z.ZodType<UserExperiencesFormItem> =
     description: z
       .string()
       .min(1, { message: 'Description must be at least 1 character.' })
-      .max(1000, {
-        message: 'Description must not be longer than 1000 characters.',
+      .max(5000, {
+        message: 'Description must not be longer than 5000 characters.',
       }),
     startYear: z
       .string()

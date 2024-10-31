@@ -6,6 +6,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
@@ -77,6 +78,7 @@ export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
           name="bio"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
                   rows={10}
