@@ -6,6 +6,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,7 @@ import { Input } from '@/components/ui/input'
 import { X } from 'lucide-react'
 
 // utils
+import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
 import { updateUser } from '@/actions/user-actions'
 import { useForm } from 'react-hook-form'
@@ -82,69 +84,65 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        {!renderedFormValues?.length && (
-          <FormField
-            name={`githubRepositories.0`}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="Repo URL"
-                    disabled={isSubmitting}
-                    {...field}
+        <div
+          className={cn(
+            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
+            renderedFormValues && renderedFormValues?.length > 4 ? 'pr-4' : ''
+          )}
+        >
+          {renderedFormValues.length > 0 &&
+            renderedFormValues.map((_, i) => {
+              return (
+                <div key={i} className="relative">
+                  <FormField
+                    name={`githubRepositories.${i}`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Repo URL</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Repo URL"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        {renderedFormValues.length &&
-          renderedFormValues.map((_, i) => {
-            return (
-              <div key={i} className="relative">
-                <FormField
-                  name={`githubRepositories.${i}`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Repo URL"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const formValues = getValues()
-                    const filteredRepos = formValues.githubRepositories.filter(
-                      (_, j) => !(i === j)
-                    )
-                    setValue('githubRepositories', filteredRepos)
-                    setRenderedFormValues(filteredRepos)
-                  }}
-                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )
-          })}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredRepos =
+                        formValues.githubRepositories.filter(
+                          (_, j) => !(i === j)
+                        )
+                      setValue('githubRepositories', filteredRepos)
+                      setRenderedFormValues(filteredRepos)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+        </div>
 
-        <Button
+        <button
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
-            setRenderedFormValues([...formValues.githubRepositories, ''])
+
+            const updatedValues = ['', ...formValues.githubRepositories]
+
+            setRenderedFormValues(updatedValues)
+            setValue('githubRepositories', updatedValues)
           }}
         >
           <p className="h4">Add repo</p>
-        </Button>
+        </button>
 
         <Button disabled={isSubmitting}>
           <p className="h4">Update repos</p>

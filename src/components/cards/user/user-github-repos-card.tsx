@@ -2,9 +2,7 @@
 
 // components
 import Link from 'next/link'
-import { Card as CardShadCn } from '@/components/ui/card'
-import { Card } from '@/components/primitives/card'
-import { NoContentCard } from '@/components/cards/no-content/no-content-card'
+import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
@@ -22,11 +20,12 @@ import {
   GetUserGithubRepoRes,
 } from '@/types/server-types'
 import { UserProfileCard } from '@/types/user-types'
+import { CollapsibleContent } from '../../modules/collapsible-content'
 
 /**
  * TODO
  * 
- * Collapsible content for more than 2 repos
+ * Figure out why deleting last repo will still keep 1 card
  */
 
 export const UserGithubReposCard: React.FC<UserProfileCard> = ({
@@ -67,22 +66,8 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
     }
   }, [toast, user])
 
-  if (!user.githubRepositories.length)
-    return (
-      <div className="relative">
-        {isEditable && (
-          <UserEditCardButton modalType="userGithubReposForm" user={user} />
-        )}
-        <NoContentCard
-          className="text-left"
-          heading="Github Repositories"
-          subheading={`This user has not added any Github repositories to their profile.`}
-        />
-      </div>
-    )
-
   return (
-    <Card className="flex flex-col gap-4 relative">
+    <Card className="card flex flex-col gap-4 relative">
       {isEditable && (
         <UserEditCardButton modalType="userGithubReposForm" user={user} />
       )}
@@ -90,42 +75,44 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
         <p className="h4">Github Repositories</p>
         <GithubRainbow />
       </div>
-      {/* Repositories in profile but no response yet */}
-      {user.githubRepositories.length && !repos?.length && (
-        <div className="flex gap-4">
-          <CardShadCn className="sm:basis-1/2 p-[18px]">
-            <Skeleton className="h-[40px] w-full" />
-          </CardShadCn>
-          <CardShadCn className="sm:basis-1/2 p-[18px]">
-            <Skeleton className="h-[40px] w-full" />
-          </CardShadCn>
-        </div>
+      {user.githubRepositories.length === 0 && (
+        <p className="p">{`This user hasn't provided any Github repositories.`}</p>
       )}
-      {/* Repositories in profile and response */}
-      {repos?.length && (
-        <div className="flex flex-col sm:flex-row gap-4">
-          {repos.map((repo, i) => {
-            if (!(repo as GetUserGithubRepoRes).status) {
-              return null
-            }
-            const repoSuccess = repo as GetUserGithubRepoRes
-            return (
-              <CardShadCn key={i} className="sm:basis-1/2">
-                <Link
-                  className="p-[18px] h-full w-full"
-                  href={repoSuccess.data.html_url}
-                  target="_blank"
-                >
-                  <p className="muted font-bold">{repoSuccess.data.name}</p>
-                  {repoSuccess.data.description && (
-                    <p className="muted">{repoSuccess.data.description}</p>
-                  )}
-                </Link>
-              </CardShadCn>
-            )
-          })}
+      <CollapsibleContent includeTrigger={user.githubRepositories.length > 4}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Repositories in profile but no response yet */}
+          {user.githubRepositories.length > 0 &&
+            !repos?.length &&
+            user.githubRepositories.map((repo) => (
+              <Card key={repo} className="col-span-2 sm:col-span-1 p-[18px]">
+                <Skeleton className="h-[40px] w-full" />
+              </Card>
+            ))}
+
+          {/* Repositories in profile and response */}
+          {repos?.length &&
+            repos.map((repo, i) => {
+              if (!(repo as GetUserGithubRepoRes).status) {
+                return null
+              }
+              const repoSuccess = repo as GetUserGithubRepoRes
+              return (
+                <Card key={i} className="col-span-2 sm:col-span-1">
+                  <Link
+                    className="p-[18px] h-full w-full"
+                    href={repoSuccess.data.html_url}
+                    target="_blank"
+                  >
+                    <p className="muted font-bold">{repoSuccess.data.name}</p>
+                    {repoSuccess.data.description && (
+                      <p className="muted">{repoSuccess.data.description}</p>
+                    )}
+                  </Link>
+                </Card>
+              )
+            })}
         </div>
-      )}
+      </CollapsibleContent>
     </Card>
   )
 }
