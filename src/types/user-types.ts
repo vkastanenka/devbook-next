@@ -51,17 +51,17 @@ export interface UserEducationsFormItem {
   endYear?: string | null
 }
 
-export interface UserEducationsFormData {
-  userEducations?: (UserEducation | UserEducationsFormItem)[]
-}
-
 export type UserEducationsFormItems = (UserEducation | UserEducationsFormItem)[]
+
+export interface UserEducationsFormData {
+  userEducations?: UserEducationsFormItems
+}
 
 export interface CreateUserEducationsReqBody {
   userEducations: { create: UserEducationsFormItem[] }
 }
 
-export interface UpdateUserEducationReqBody {
+export interface UpdateUserEducationsReqBody {
   userEducations: {
     update: {
       where: {
@@ -72,22 +72,45 @@ export interface UpdateUserEducationReqBody {
   }
 }
 
-export interface UserExperience {
+export interface UserExperience extends UserExperiencesFormItem {
   id: string
+  createdAt: string
+  updatedAt: string
+  userId?: string
+}
+
+export interface UserExperiencesFormItem {
   company: string
   type: string
   schedule: string
   title: string
   startYear: string
   endYear?: string | null
-  current: boolean
   description: string
-  skills: string[]
-  createdAt: string
-  updatedAt: string
-  // user
-  userId: string
-  addresses?: Address[]
+}
+
+export type UserExperiencesFormItems = (
+  | UserExperience
+  | UserExperiencesFormItem
+)[]
+
+export interface UserExperiencesFormData {
+  userExperiences?: UserExperiencesFormItems
+}
+
+export interface CreateUserExperiencesReqBody {
+  userExperiences: { create: UserExperiencesFormItem[] }
+}
+
+export interface UpdateUserExperiencesReqBody {
+  userExperiences: {
+    update: {
+      where: {
+        id: string
+      }
+      data: UserExperience
+    }
+  }
 }
 
 export enum UserRoles {

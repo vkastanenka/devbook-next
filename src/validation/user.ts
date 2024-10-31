@@ -8,6 +8,9 @@ import {
   UserEducation,
   UserEducationsFormData,
   UserEducationsFormItem,
+  UserExperience,
+  UserExperiencesFormData,
+  UserExperiencesFormItem,
 } from '@/types/user-types'
 
 const bioSchema = z
@@ -125,6 +128,59 @@ export const userEducationsFormSchema: z.ZodType<UserEducationsFormData> =
   z.object({
     userEducations: z.array(
       z.union([userEducationSchema, userEducationsFormItemSchema])
+    ),
+  })
+
+export const userExperiencesFormItemSchema: z.ZodType<UserExperiencesFormItem> =
+  z.object({
+    company: z
+      .string()
+      .min(1, { message: 'School must be at least 1 character.' })
+      .max(100, {
+        message: 'School must not be longer than 100 characters.',
+      }),
+    type: z
+      .string()
+      .min(1, { message: 'Degree must be at least 1 character.' })
+      .max(100, {
+        message: 'Degree must not be longer than 100 characters.',
+      }),
+    schedule: z.string(),
+    title: z.string(),
+    description: z
+      .string()
+      .min(1, { message: 'Description must be at least 1 character.' })
+      .max(1000, {
+        message: 'Description must not be longer than 1000 characters.',
+      }),
+    startYear: z
+      .string()
+      .min(4, { message: 'Start year must be at least 4 characters.' })
+      .max(4, {
+        message: 'Start year must not be longer than 4 characters.',
+      }),
+    endYear: z
+      .string()
+      .min(4, { message: 'End year must be at least 4 characters.' })
+      .max(4, {
+        message: 'End year must not be longer than 4 characters.',
+      })
+      .nullable(),
+  })
+
+export const userExperienceSchema: z.ZodType<UserExperience> = z
+  .object({
+    id: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    userId: z.string().optional(),
+  })
+  .and(userExperiencesFormItemSchema)
+
+export const userExperiencesFormSchema: z.ZodType<UserExperiencesFormData> =
+  z.object({
+    userExperiences: z.array(
+      z.union([userExperienceSchema, userExperiencesFormItemSchema])
     ),
   })
 

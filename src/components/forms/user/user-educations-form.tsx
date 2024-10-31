@@ -35,7 +35,7 @@ import {
   UserEducationsFormItem,
   UserEducationsFormData,
   CreateUserEducationsReqBody,
-  UpdateUserEducationReqBody,
+  UpdateUserEducationsReqBody,
   UserEducationsFormItems,
 } from '@/types/user-types'
 import { cn } from '@/src/lib/utils'
@@ -261,13 +261,13 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
             const formValues = getValues()
 
             const updatedValues = [
-              ...(formValues.userEducations || []),
               {
                 school: '',
                 degree: '',
                 startYear: '',
                 endYear: null,
               } as UserEducation,
+              ...(formValues.userEducations || []),
             ]
 
             setRenderedFormValues(updatedValues)
@@ -301,7 +301,7 @@ const formatReqBody = (formItems: UserEducationsFormItems) => {
     userEducations: { create: createFormItems },
   }
 
-  const updateReqsBodies: UpdateUserEducationReqBody[] = formItemsNoUserId
+  const updateReqsBodies: UpdateUserEducationsReqBody[] = formItemsNoUserId
     .filter((formItem) => (formItem as UserEducation).id)
     .map((formItem) => ({
       userEducations: {
