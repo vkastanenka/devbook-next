@@ -46,6 +46,8 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
     })
   }
 
+  console.log(userData)
+
   return (
     <div className="flex gap-8">
       {/* user info */}

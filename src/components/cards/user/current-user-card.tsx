@@ -1,26 +1,23 @@
 // components
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
-import { Avatar } from '@/components/primitives/avatar'
+import { UserAvatar } from '@/components/ui/avatar'
 
-// utils
-import { getCurrentUser } from '@/actions/user-actions'
+// types
+import { User } from '@/types/user-types'
 
-/**
- * TODO:
- *
- * 1. Error handling for error responses
- */
-
-export const CurrentUserCard = async () => {
-  const currentUser = await getCurrentUser()
-  if (!currentUser) return null
-
+export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
+  currentUser,
+}) => {
   return (
     <Card>
       <Link className="block" href={`/user/${currentUser.username}`}>
-        <div className="card flex flex-col gap-4">
-          <Avatar src={currentUser.image || undefined} className="avatar-lg" />
+        <div className="card flex flex-col gap-2">
+          <UserAvatar
+            className="avatar-lg"
+            src={currentUser.image || undefined}
+            user={currentUser}
+          />
           <div>
             <p className="h4">{currentUser.name}</p>
             {currentUser.headline && (

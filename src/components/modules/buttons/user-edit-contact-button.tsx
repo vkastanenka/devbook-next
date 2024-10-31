@@ -50,7 +50,7 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
       },
     }
 
-    const currentUserResponse = await updateUser(currentUserReqBody, user)
+    const currentUserResponse = await updateUser(currentUserReqBody, currentUser)
     const userResponse = await updateUser(userReqBody, user)
 
     setIsSubmitting(false)
