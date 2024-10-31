@@ -6,6 +6,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,7 @@ import { Input } from '@/components/ui/input'
 import { X } from 'lucide-react'
 
 // utils
+import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
 import { updateUser } from '@/actions/user-actions'
 import { useForm } from 'react-hook-form'
@@ -24,8 +26,10 @@ import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
 
 // types
-import { User } from '@/types/user-types'
-import { skillsFormSchema, SkillsFormData } from '@/validation/user'
+import { User, UserSkillsFormData } from '@/types/user-types'
+
+// validation
+import { skillsFormSchema } from '@/validation/user'
 
 export const UserSkillsForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -50,28 +54,30 @@ export const UserSkillsForm: React.FC<{ user: User }> = ({ user }) => {
     setValue,
   } = form
 
-  const action: () => void = handleSubmit(async (formData: SkillsFormData) => {
-    const response = await updateUser(formData, user)
+  const action: () => void = handleSubmit(
+    async (formData: UserSkillsFormData) => {
+      const response = await updateUser(formData, user)
 
-    // If other error, show toast message
-    if (!response.success && !response.errors) {
-      toast({
-        title: 'Error!',
-        description: response.message,
-        variant: 'destructive',
-      })
-    }
+      // If other error, show toast message
+      if (!response.success && !response.errors) {
+        toast({
+          title: 'Error!',
+          description: response.message,
+          variant: 'destructive',
+        })
+      }
 
-    // If successful, push to user feed
-    if (response.success) {
-      onClose()
-      router.refresh()
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
+      // If successful, push to user feed
+      if (response.success) {
+        onClose()
+        router.refresh()
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+      }
     }
-  })
+  )
 
   return (
     <Form {...form}>
@@ -80,69 +86,64 @@ export const UserSkillsForm: React.FC<{ user: User }> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        {!renderedFormValues?.length && (
-          <FormField
-            name={`skills.0`}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="Skill"
-                    disabled={isSubmitting}
-                    {...field}
+        <div
+          className={cn(
+            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
+            renderedFormValues && renderedFormValues?.length > 4 ? 'pr-4' : ''
+          )}
+        >
+          {renderedFormValues.length > 0 &&
+            renderedFormValues.map((_, i) => {
+              return (
+                <div key={i} className="relative">
+                  <FormField
+                    name={`skills.${i}`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Skill</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Skill"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        {renderedFormValues.length &&
-          renderedFormValues.map((_, i) => {
-            return (
-              <div key={i} className="relative">
-                <FormField
-                  name={`skills.${i}`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Skill"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const formValues = getValues()
-                    const filteredRepos = formValues.skills.filter(
-                      (_, j) => !(i === j)
-                    )
-                    setValue('skills', filteredRepos)
-                    setRenderedFormValues(filteredRepos)
-                  }}
-                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )
-          })}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredRepos = formValues.skills.filter(
+                        (_, j) => !(i === j)
+                      )
+                      setValue('skills', filteredRepos)
+                      setRenderedFormValues(filteredRepos)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+        </div>
 
-        <Button
+        <button
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
-            setRenderedFormValues([...formValues.skills, ''])
+
+            const updatedValues = ['', ...formValues.skills]
+
+            setRenderedFormValues(updatedValues)
+            setValue('skills', updatedValues)
           }}
         >
           <p className="h4">Add skill</p>
-        </Button>
+        </button>
 
         <Button disabled={isSubmitting}>
           <p className="h4">Update skills</p>

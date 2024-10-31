@@ -13,6 +13,8 @@ import {
   UserExperiencesFormItem,
   UserDetailsFormData,
   UserBioFormData,
+  UserGithubReposFormData,
+  UserSkillsFormData,
 } from '@/types/user-types'
 
 /**
@@ -94,20 +96,19 @@ export const bioFormSchema: z.ZodType<UserBioFormData> = z.object({
   bio: bioSchema,
 })
 
-export const githubReposFormSchema = z.object({
-  githubRepositories: z.array(
-    z
-      .string()
-      .min(5, { message: 'Repo URL must be at least 5 characters.' })
-      .max(100, {
-        message: 'Repo URL must not be longer than 100 characters.',
-      })
-  ),
-})
+export const githubReposFormSchema: z.ZodType<UserGithubReposFormData> =
+  z.object({
+    githubRepositories: z.array(
+      z
+        .string()
+        .min(5, { message: 'Repo URL must be at least 5 characters.' })
+        .max(100, {
+          message: 'Repo URL must not be longer than 100 characters.',
+        })
+    ),
+  })
 
-export type GithubReposFormData = z.infer<typeof githubReposFormSchema>
-
-export const skillsFormSchema = z.object({
+export const skillsFormSchema: z.ZodType<UserSkillsFormData> = z.object({
   skills: z.array(
     z
       .string()
@@ -117,8 +118,6 @@ export const skillsFormSchema = z.object({
       })
   ),
 })
-
-export type SkillsFormData = z.infer<typeof skillsFormSchema>
 
 export const userEducationsFormItemSchema: z.ZodType<UserEducationsFormItem> =
   z.object({

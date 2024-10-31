@@ -143,7 +143,15 @@ export interface UpdateUserExperiencesReqBody {
   }
 }
 
+export interface UserGithubReposFormData {
+  githubRepositories: string[]
+}
+
 export enum UserRoles {
   'USER',
   'ADMIN',
+}
+
+export interface UserSkillsFormData {
+  skills: string[]
 }

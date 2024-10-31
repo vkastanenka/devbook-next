@@ -3,7 +3,6 @@
 // components
 import { Separator } from '@radix-ui/react-separator'
 import { Card } from '@/components/ui/card'
-import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // svg
@@ -23,34 +22,26 @@ export const UserSkillsCard: React.FC<UserProfileCard> = ({
 }) => {
   const { onOpen } = useModal()
 
-  if (!user.skills.length)
-    return (
-      <div className="relative">
-        {isEditable && (
-          <UserEditCardButton modalType="userSkillsForm" user={user} />
-        )}
-        <NoContentCard
-          className="text-left"
-          heading="Skills"
-          subheading={`This user has not provided any skills.`}
-        />
-      </div>
-    )
-
   return (
     <Card className="relative">
-      {isEditable && <UserEditCardButton modalType="userSkillsForm" user={user} />}
+      {isEditable && (
+        <UserEditCardButton modalType="userSkillsForm" user={user} />
+      )}
       <div className="card">
         <div className="flex flex-col gap-4">
           <p className="h4">Skills</p>
-          {user.skills
-            .filter((_, i) => i < NUM_VISIBLE_SKILLS)
-            .map((skill, i, arr) => (
-              <div key={i} className="flex flex-col gap-4">
-                <p className="large">{skill}</p>
-                {i !== arr.length - 1 && <Separator className="separator" />}
-              </div>
-            ))}
+          {user.skills.length > 0 ? (
+            user.skills
+              .filter((_, i) => i < NUM_VISIBLE_SKILLS)
+              .map((skill, i, arr) => (
+                <div key={i} className="flex flex-col gap-4">
+                  <p className="large">{skill}</p>
+                  {i !== arr.length - 1 && <Separator className="separator" />}
+                </div>
+              ))
+          ) : (
+            <p className="p">{`This user has not provided any skills.`}</p>
+          )}
         </div>
       </div>
       {user.skills.length > NUM_VISIBLE_SKILLS && (

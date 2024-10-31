@@ -26,8 +26,10 @@ import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
 
 // types
-import { User } from '@/types/user-types'
-import { githubReposFormSchema, GithubReposFormData } from '@/validation/user'
+import { User, UserGithubReposFormData } from '@/types/user-types'
+
+// validation
+import { githubReposFormSchema } from '@/validation/user'
 
 export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -53,7 +55,7 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: GithubReposFormData) => {
+    async (formData: UserGithubReposFormData) => {
       const response = await updateUser(formData, user)
 
       // If other error, show toast message
