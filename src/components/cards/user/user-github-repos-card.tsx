@@ -29,6 +29,7 @@ import { CollapsibleContent } from '../../modules/collapsible-content'
  */
 
 export const UserGithubReposCard: React.FC<UserProfileCard> = ({
+  isCurrentUser,
   isEditable,
   user,
 }) => {
@@ -68,7 +69,7 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
 
   return (
     <Card className="card flex flex-col gap-4 relative">
-      {isEditable && (
+      {isCurrentUser && isEditable && (
         <UserEditCardButton modalType="userGithubReposForm" user={user} />
       )}
       <div className="flex items-center gap-2">

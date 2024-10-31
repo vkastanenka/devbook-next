@@ -3,23 +3,30 @@ import { Card } from '@/components/ui/card'
 import { UserAvatar } from '@/components/ui/avatar'
 import { UserCardButtons } from '@/components/modules/user-card-buttons'
 import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
+import { UserEditContactButton } from '@/components/modules/buttons/user-edit-contact-button'
 
 // types
-import { UserProfileCard } from '@/types/user-types'
+import { UserDetailsCard as UserDetailsCardProps } from '@/types/user-types'
 
-/**
- * TODO:
- *
- * If not current user, add add contact / remove contact icon
- */
-
-export const UserDetailsCard: React.FC<UserProfileCard> = ({
+export const UserDetailsCard: React.FC<UserDetailsCardProps> = ({
+  currentUser,
+  isContact,
+  isCurrentUser,
   isEditable,
   user,
 }) => {
   return (
     <Card className="card flex flex-col gap-2 relative">
-      {isEditable && <UserEditCardButton modalType="userDetailsForm" user={user} />}
+      {isCurrentUser && isEditable && (
+        <UserEditCardButton modalType="userDetailsForm" user={user} />
+      )}
+      {!isCurrentUser && (
+        <UserEditContactButton
+          currentUser={currentUser}
+          isContact={isContact}
+          user={user}
+        />
+      )}
       <UserAvatar
         src={user.image || undefined}
         className="avatar-lg"

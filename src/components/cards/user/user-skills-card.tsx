@@ -17,6 +17,7 @@ import { UserProfileCard } from '@/types/user-types'
 const NUM_VISIBLE_SKILLS = 2
 
 export const UserSkillsCard: React.FC<UserProfileCard> = ({
+  isCurrentUser,
   isEditable,
   user,
 }) => {
@@ -24,7 +25,7 @@ export const UserSkillsCard: React.FC<UserProfileCard> = ({
 
   return (
     <Card className="relative">
-      {isEditable && (
+      {isCurrentUser && isEditable && (
         <UserEditCardButton modalType="userSkillsForm" user={user} />
       )}
       <div className="card">

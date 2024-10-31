@@ -11,12 +11,13 @@ import { formatText } from '@/lib/utils'
 import { UserProfileCard } from '@/types/user-types'
 
 export const UserExperienceCard: React.FC<UserProfileCard> = ({
+  isCurrentUser,
   isEditable,
   user,
 }) => {
   return (
     <Card className="relative">
-      {isEditable && (
+      {isCurrentUser && isEditable && (
         <UserEditCardButton modalType="userExperienceForm" user={user} />
       )}
 
@@ -25,9 +26,7 @@ export const UserExperienceCard: React.FC<UserProfileCard> = ({
         {user.userExperiences && user.userExperiences.length > 0 ? (
           user.userExperiences.map((exp, i, arr) => (
             <div key={exp.id}>
-              <CollapsibleContent
-                includeTrigger={exp.description.length > 150}
-              >
+              <CollapsibleContent includeTrigger={exp.description.length > 150}>
                 <p className="large">{exp.company}</p>
                 <div className="flex flex-col gap-4">
                   <div>

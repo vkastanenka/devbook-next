@@ -10,12 +10,15 @@ import { formatText } from '@/lib/utils'
 import { UserProfileCard } from '@/types/user-types'
 
 export const UserBioCard: React.FC<UserProfileCard> = ({
+  isCurrentUser,
   isEditable,
   user,
 }) => {
   return (
     <Card className="flex flex-col gap-4 relative">
-      {isEditable && <UserEditCardButton modalType="userBioForm" user={user} />}
+      {isCurrentUser && isEditable && (
+        <UserEditCardButton modalType="userBioForm" user={user} />
+      )}
       <p className="h4">Bio</p>
       {user.bio ? (
         <CollapsibleContent includeTrigger={user.bio.length > 250}>

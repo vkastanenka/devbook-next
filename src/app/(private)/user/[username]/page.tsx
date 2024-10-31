@@ -25,17 +25,37 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   if (!currentUser) return null
 
   const user = await getUsername(params.username, {
-    include: { addresses: true },
+    include: { addresses: true, contacts: true },
   })
   if (!user) return null
 
   const userData: User = (user as GetUsernameResData).data
 
+  // Check if user is current user
+  const isCurrentUser = currentUser.id === userData.id
+
+  // Check if current user in user contacts
+  let isContact
+  if (!isCurrentUser && userData.contacts && userData.contacts.length > 0) {
+    userData.contacts.every((contact) => {
+      if (contact.id === currentUser.id) {
+        isContact = true
+        return false
+      }
+      return true
+    })
+  }
+
   return (
     <div className="flex gap-8">
       {/* user info */}
       <div className="basis-1/2 flex flex-col gap-4">
-        <UserDetailsCard user={userData} />
+        <UserDetailsCard
+          currentUser={currentUser}
+          isContact={isContact}
+          isCurrentUser={isCurrentUser}
+          user={userData}
+        />
         <UserBioCard user={userData} />
         {/* {userData.contacts?.length && <UserContactsCard />} */}
       </div>

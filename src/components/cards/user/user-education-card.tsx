@@ -7,12 +7,13 @@ import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-
 import { UserProfileCard } from '@/types/user-types'
 
 export const UserEducationCard: React.FC<UserProfileCard> = ({
+  isCurrentUser,
   isEditable,
   user,
 }) => {
   return (
     <Card className="relative">
-      {isEditable && (
+      {isCurrentUser && isEditable && (
         <UserEditCardButton modalType="userEducationForm" user={user} />
       )}
       <div className="flex flex-col gap-4">

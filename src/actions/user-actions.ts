@@ -23,10 +23,13 @@ import {
 import {
   User,
   CreateUserEducationsReqBody,
+  UpdateUserEducationsReqBody,
   UserDetailsReqBody,
   UserBioFormData,
+  UserGithubReposFormData,
+  UserSkillsFormData,
+  UserEditContactReqBody,
 } from '@/types/user-types'
-import { GithubReposFormData, SkillsFormData } from '@/validation/user'
 
 // constants
 import {
@@ -81,6 +84,7 @@ export const getUsername = async (
   data?: {
     include: {
       addresses?: boolean
+      contacts?: boolean
       userEducations?: boolean
       userExperiences?: boolean
     }
@@ -126,9 +130,11 @@ export const getUserGithubRepos = async (
 export const updateUser = async (
   data:
     | UserBioFormData
-    | GithubReposFormData
-    | SkillsFormData
+    | UserGithubReposFormData
+    | UserSkillsFormData
     | CreateUserEducationsReqBody
+    | UpdateUserEducationsReqBody
+    | UserEditContactReqBody
     | UserDetailsReqBody,
   user: User
 ): Promise<ResData> => {

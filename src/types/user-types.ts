@@ -22,6 +22,7 @@ export interface User {
   createdAt: string
   updatedAt: string
   addresses?: Address[]
+  contacts?: User[]
   userEducations?: UserEducation[]
   userExperiences?: UserExperience[]
 }
@@ -63,8 +64,14 @@ export interface UserDetailsReqBody {
 }
 
 export interface UserProfileCard {
+  isCurrentUser?: boolean
   isEditable?: boolean
   user: User
+}
+
+export interface UserDetailsCard extends UserProfileCard {
+  currentUser: User
+  isContact?: boolean
 }
 
 export interface UserEducation extends UserEducationsFormItem {
@@ -154,4 +161,11 @@ export enum UserRoles {
 
 export interface UserSkillsFormData {
   skills: string[]
+}
+
+export interface UserEditContactReqBody {
+  contacts: {
+    connect?: { id: string }
+    disconnect?: { id: string }
+  }
 }
