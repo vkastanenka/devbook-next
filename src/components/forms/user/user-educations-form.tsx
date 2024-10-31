@@ -38,6 +38,7 @@ import {
   UpdateUserEducationReqBody,
   UserEducationsFormItems,
 } from '@/types/user-types'
+import { cn } from '@/src/lib/utils'
 
 export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -146,137 +147,131 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        {/* {!renderedFormValues?.length && (
-          <FormField
-            name={`skills.0`}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="Skill"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )} */}
-        {renderedFormValues?.length &&
-          renderedFormValues.map((_, i, arr) => {
-            return (
-              <div key={i} className="relative flex flex-col gap-4">
-                <FormField
-                  name={`userEducations.${i}.school`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>School</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="School"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+        <div
+          className={cn(
+            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
+            renderedFormValues && renderedFormValues?.length > 1 ? 'pr-4' : ''
+          )}
+        >
+          {renderedFormValues?.length
+            ? renderedFormValues.map((_, i, arr) => {
+                return (
+                  <div key={i} className="relative flex flex-col gap-4">
+                    <FormField
+                      name={`userEducations.${i}.school`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>School</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="School"
+                              disabled={isSubmitting}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  name={`userEducations.${i}.degree`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Degree</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Degree"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      name={`userEducations.${i}.degree`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Degree</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Degree"
+                              disabled={isSubmitting}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  name={`userEducations.${i}.startYear`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Start year</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Start year"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      name={`userEducations.${i}.startYear`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Start year</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Start year"
+                              disabled={isSubmitting}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  name={`userEducations.${i}.endYear`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>End year</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="End year"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      name={`userEducations.${i}.endYear`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>End year</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="End year"
+                              disabled={isSubmitting}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                {i !== arr.length - 1 && <Separator />}
+                    {i !== arr.length - 1 && <Separator />}
 
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const formValues = getValues()
-                    const filteredValues = formValues.userEducations?.filter(
-                      (edu, j) => {
-                        const isFiltered = i === j
-                        if (isFiltered && edu.id) {
-                          setUserEducationsToDelete((prevState) => [
-                            ...(prevState ? prevState : []),
-                            { id: edu.id },
-                          ])
-                        }
-                        return !isFiltered
-                      }
-                    )
-                    setValue('userEducations', filteredValues)
-                    setRenderedFormValues(filteredValues)
-                  }}
-                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-1 -right-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )
-          })}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        const formValues = getValues()
+                        const filteredValues =
+                          formValues.userEducations?.filter((edu, j) => {
+                            const isFiltered = i === j
+                            if (isFiltered && edu.id) {
+                              setUserEducationsToDelete((prevState) => [
+                                ...(prevState ? prevState : []),
+                                { id: edu.id },
+                              ])
+                            }
+                            return !isFiltered
+                          })
+                        setValue('userEducations', filteredValues)
+                        setRenderedFormValues(filteredValues)
+                      }}
+                      className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )
+              })
+            : null}
+        </div>
 
         <button
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
-            setRenderedFormValues([
+
+            const updatedValues = [
               ...(formValues.userEducations || []),
               {
                 school: '',
                 degree: '',
                 startYear: '',
                 endYear: null,
-              },
-            ])
+              } as UserEducation,
+            ]
+
+            setRenderedFormValues(updatedValues)
+            setValue('userEducations', updatedValues)
           }}
         >
           <p className="h4">Add education</p>
