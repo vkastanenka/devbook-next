@@ -26,6 +26,10 @@ export interface User {
   userExperiences?: UserExperience[]
 }
 
+export interface UserBioFormData {
+  bio: string | null
+}
+
 export interface UserDetailsFormData {
   name: string
   email: string

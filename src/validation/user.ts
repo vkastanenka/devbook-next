@@ -12,6 +12,7 @@ import {
   UserExperiencesFormData,
   UserExperiencesFormItem,
   UserDetailsFormData,
+  UserBioFormData,
 } from '@/types/user-types'
 
 /**
@@ -22,7 +23,7 @@ const bioSchema = z
   .string()
   .min(10, { message: 'Minimum 10 characters.' })
   .max(1000, {
-    message: 'Maximum 1000.',
+    message: 'Maximum 1000 characters.',
   })
   .nullable()
 
@@ -89,13 +90,9 @@ export const nameSchema = z.string().refine((s) => {
  * Forms
  */
 
-export const bioFormSchema = z
-  .object({
-    bio: bioSchema,
-  })
-  .strict()
-
-export type BioFormData = z.infer<typeof bioFormSchema>
+export const bioFormSchema: z.ZodType<UserBioFormData> = z.object({
+  bio: bioSchema,
+})
 
 export const githubReposFormSchema = z.object({
   githubRepositories: z.array(

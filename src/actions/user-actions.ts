@@ -24,12 +24,9 @@ import {
   User,
   CreateUserEducationsReqBody,
   UserDetailsReqBody,
+  UserBioFormData,
 } from '@/types/user-types'
-import {
-  BioFormData,
-  GithubReposFormData,
-  SkillsFormData,
-} from '@/validation/user'
+import { GithubReposFormData, SkillsFormData } from '@/validation/user'
 
 // constants
 import {
@@ -128,7 +125,7 @@ export const getUserGithubRepos = async (
 // Updates user
 export const updateUser = async (
   data:
-    | BioFormData
+    | UserBioFormData
     | GithubReposFormData
     | SkillsFormData
     | CreateUserEducationsReqBody
