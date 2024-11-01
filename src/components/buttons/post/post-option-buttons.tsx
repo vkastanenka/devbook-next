@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast'
 import { Post } from '@/types/post-types'
 import { User } from '@/types/user-types'
 
-export const PostCurrentUserOptionsButtons: React.FC<{
+export const PostOptionButtons: React.FC<{
   currentUser: User
   post: Post
 }> = ({ currentUser, post }) => {

@@ -1,23 +1,12 @@
 // components
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { PostCurrentUserOptionsButtons } from '@/components/buttons/post/post-current-user-options-buttons'
+import { PostActionButtons } from '@/components/buttons/post/post-action-buttons'
+import { PostOptionButtons } from '@/components/buttons/post/post-option-buttons'
 import { Separator } from '@/components/ui/separator'
 
 // svg
-import {
-  CircleArrowRight,
-  MessageSquareText,
-  Pencil,
-  ThumbsUp,
-  X,
-} from 'lucide-react'
+import { MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
 import { formatText } from '@/lib/utils'
@@ -35,12 +24,12 @@ export const PostCard: React.FC<{
 }> = ({ currentUser, post }) => {
   return (
     <Card className="relative py-card bg-card flex flex-col gap-4">
-      <PostCurrentUserOptionsButtons currentUser={currentUser} post={post} />
+      <PostOptionButtons currentUser={currentUser} post={post} />
       <PostCardUser post={post} />
       <PostCardBody post={post} />
       <PostCardActivity post={post} />
       <Separator />
-      <PostCardActions />
+      <PostActionButtons currentUser={currentUser} post={post} />
     </Card>
   )
 }
@@ -86,31 +75,6 @@ const PostCardActivity: React.FC<{ post: Post }> = ({ post }) => {
           <MessageSquareText className="w-4" />
           <p className="muted">{post.comments ? post.comments.length : 0}</p>
         </div>
-      </div>
-    </div>
-  )
-}
-
-const PostCardActions = () => {
-  const styleButton = 'gap-2 flex justify-center items-center py-3'
-
-  return (
-    <div className="px-card">
-      <div className="flex items-center justify-between gap-1 w-full">
-        <div className="flex items-center gap-4">
-          <button className={styleButton}>
-            <ThumbsUp />
-            <p className="p">Like</p>
-          </button>
-          <button className={styleButton}>
-            <MessageSquareText />
-            <p className="p">Comment</p>
-          </button>
-        </div>
-        <button className={styleButton}>
-          <p className="p">View comments</p>
-          <CircleArrowRight />
-        </button>
       </div>
     </div>
   )

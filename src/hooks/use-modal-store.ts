@@ -6,6 +6,8 @@ import { Post } from '@/types/post-types'
 import { User } from '@/types/user-types'
 
 export type ModalType =
+  | 'postCommentForm'
+  | 'postComments'
   | 'postForm'
   | 'userBioForm'
   | 'userContactInformation'

@@ -1,6 +1,8 @@
 'use client'
 
 // components
+import { PostCommentFormModal } from '@/components/modals/post/post-comment-form-modal'
+import { PostCommentsModal } from '@/components/modals/post/post-comments-modal'
 import { PostFormModal } from '@/components/modals/post/post-form-modal'
 import { UserBioFormModal } from '@/components/modals/user/user-bio-form-modal'
 import { UserContactsModal } from '@/components/modals/user/user-contacts-modal'
@@ -26,6 +28,8 @@ export const ModalProvider = () => {
 
   return (
     <>
+      <PostCommentFormModal />
+      <PostCommentsModal />
       <PostFormModal />
       <UserBioFormModal />
       <UserContactsModal />
