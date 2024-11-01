@@ -85,7 +85,15 @@ export const getUsername = async (
     include: {
       addresses?: boolean
       contacts?: boolean
-      posts?: boolean
+      posts?:
+        | boolean
+        | {
+            include: {
+              user?: boolean
+              comments?: boolean
+              postLikes?: boolean
+            }
+          }
       userEducations?: boolean
       userExperiences?: boolean
     }

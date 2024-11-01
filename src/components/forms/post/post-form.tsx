@@ -50,8 +50,10 @@ export const PostForm: React.FC<{ post?: Post; user: User }> = ({
   } = form
 
   const action: () => void = handleSubmit(async (formData: PostFormData) => {
-    // TODO: Format formData
-    const response = await updateUser(formData, user)
+    const formattedReqBody = formatReqBody({ formData, post })
+
+    // TODO: Update typescript
+    const response = await updateUser(formattedReqBody, user)
 
     // If other error, show toast message
     if (!response.success && !response.errors) {
@@ -109,4 +111,29 @@ export const PostForm: React.FC<{ post?: Post; user: User }> = ({
       </form>
     </Form>
   )
+}
+
+const formatReqBody = ({
+  formData,
+  post,
+}: {
+  formData: PostFormData
+  post?: Post
+}) => {
+  const reqBody = {
+    posts: {
+      ...(post
+        ? {
+            update: {
+              where: {
+                id: post.id,
+              },
+              data: formData,
+            },
+          }
+        : { create: [formData] }),
+    },
+  }
+
+  return reqBody
 }

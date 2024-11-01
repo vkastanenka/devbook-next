@@ -19,7 +19,13 @@ const FeedPage: React.FC = async () => {
   const currentUserUsernameResponse = await getUsername(currentUser.username, {
     include: {
       contacts: true,
-      posts: true,
+      posts: {
+        include: {
+          user: true,
+          comments: true,
+          postLikes: true,
+        },
+      },
     },
   })
   if (!currentUserUsernameResponse.status) return null
@@ -39,7 +45,11 @@ const FeedPage: React.FC = async () => {
       <div className="basis-full lg:basis-2/3 xl:basis-1/2 flex flex-col gap-4">
         <CurrentUserCreatePostCard currentUser={currentUserWithRelations} />
         <Separator />
-        <Feed posts={currentUserWithRelations.posts} />
+        <Feed
+          currentUser={currentUserWithRelations}
+          // TODO: Update to be current user feed (combination of all posts)
+          posts={currentUserWithRelations.posts}
+        />
       </div>
 
       {/* contacts */}
