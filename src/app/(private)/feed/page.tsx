@@ -19,6 +19,7 @@ const FeedPage: React.FC = async () => {
   const currentUserUsernameResponse = await getUsername(currentUser.username, {
     include: {
       contacts: true,
+      posts: true,
     },
   })
   if (!currentUserUsernameResponse.status) return null
@@ -36,9 +37,9 @@ const FeedPage: React.FC = async () => {
 
       {/* timeline */}
       <div className="basis-full lg:basis-2/3 xl:basis-1/2 flex flex-col gap-4">
-        <CurrentUserCreatePostCard />
+        <CurrentUserCreatePostCard currentUser={currentUserWithRelations} />
         <Separator />
-        <UserFeed />
+        <UserFeed posts={currentUserWithRelations.posts} />
       </div>
 
       {/* contacts */}

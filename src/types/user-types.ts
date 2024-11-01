@@ -1,4 +1,7 @@
+// types
 import { Address, UserDetailsFormDataAddress } from '@/types/'
+import { Comment, CommentLike, Post, PostLike } from '@/types/post-types'
+import { Session } from '@/types/auth-types'
 
 export interface User {
   id: string
@@ -19,10 +22,16 @@ export interface User {
   resetPasswordToken: string | null
   resetPasswordTokenExpires: string | null
   passwordUpdatedAt: string | null
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
   addresses?: Address[]
+  comments?: Comment[]
+  commentLikes?: CommentLike[]
   contacts?: User[]
+  contactsOf?: User[]
+  posts?: Post[]
+  postLikes?: PostLike[]
+  sessions?: Session[]
   userEducations?: UserEducation[]
   userExperiences?: UserExperience[]
 }

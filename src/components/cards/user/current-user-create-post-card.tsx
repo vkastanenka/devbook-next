@@ -1,28 +1,30 @@
+'use client'
+
 // components
 import Link from 'next/link'
-import { Avatar } from '@/components/primitives/avatar'
-import { CreatePostButton } from '@/src/components/modules/buttons/create-post-button'
-import { Card } from '@/components/primitives/card'
+import { Card } from '@/components/ui/card'
+import { UserAvatar } from '@/components/ui/avatar'
 
 // utils
-import { getCurrentUser } from '@/actions/user-actions'
+import { useModal } from '@/hooks/use-modal-store'
 
-/**
- * TODO:
- *
- * 1. Update create post button
- */
+// types
+import { User } from '@/types/user-types'
 
-export const CurrentUserCreatePostCard = async () => {
-  const currentUser = await getCurrentUser()
-  if (!currentUser) return null
+export const CurrentUserCreatePostCard: React.FC<{
+  currentUser: User
+}> = ({ currentUser }) => {
+  const { onOpen } = useModal()
 
   return (
-    <Card>
+    <Card className="card flex items-center gap-2">
       <Link className="rounded-full" href={`/user/${currentUser.username}`}>
-        <Avatar src={currentUser.image || undefined} />
+        <UserAvatar user={currentUser} />
       </Link>
-      <CreatePostButton user={currentUser} />
+      <button
+        className="button-rounded"
+        onClick={() => onOpen('createPost', { user: currentUser })}
+      >{`What's on your mind, ${currentUser.name.split(' ')[0]}?`}</button>
     </Card>
   )
 }

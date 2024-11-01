@@ -49,18 +49,17 @@ const AvatarFallback = React.forwardRef<
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
 interface UserAvatar {
-  src?: string
   className?: string
   user: User
 }
 
-const UserAvatar: React.FC<UserAvatar> = ({ src, className, user }) => {
+const UserAvatar: React.FC<UserAvatar> = ({ className, user }) => {
   const userNameSplit = user.name.toUpperCase().split(' ')
   const fallbackText = `${userNameSplit[0][0]}${userNameSplit[1][0]}`
 
   return (
     <Avatar className={className}>
-      <AvatarImage src={src} />
+      <AvatarImage src={user.image || undefined} />
       <AvatarFallback className="bg-primary">{fallbackText}</AvatarFallback>
     </Avatar>
   )

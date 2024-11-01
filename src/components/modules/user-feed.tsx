@@ -2,13 +2,26 @@
 import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 
 // types
-// import { User } from '@/lib/types'
+import { Post } from '@/types/post-types'
 
-export const UserFeed: React.FC = () => {
+interface UserFeed {
+  posts?: Post[]
+}
+
+export const UserFeed: React.FC<UserFeed> = ({ posts }) => {
+  if (!posts || posts.length === 0) {
+    return (
+      <NoContentCard
+        heading="Welcome to Devbook!"
+        subheading="Create a post above to get started."
+      />
+    )
+  }
+
   return (
     <NoContentCard
-      heading="Welcome to Devbook!"
-      subheading="Create a post above to get started."
+      heading="We've got posts!"
+      subheading="This user has posts on their model."
     />
   )
 }
