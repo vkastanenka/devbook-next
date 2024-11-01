@@ -12,6 +12,12 @@ interface CollapsibleContent {
   includeTrigger?: boolean
 }
 
+/**
+ * TODO
+ * 
+ * Move to UI folder
+ */
+
 export const CollapsibleContent: React.FC<CollapsibleContent> = ({
   children,
   className,

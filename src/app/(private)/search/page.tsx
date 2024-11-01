@@ -15,7 +15,7 @@ const SearchPage = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       {searchDevbookResults.map((user) => (
         <SearchResultUserCard key={user.id} user={user} />
       ))}

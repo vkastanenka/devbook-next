@@ -7,6 +7,7 @@ import { User } from '@/types/user-types'
 export type ModalType =
   | 'createPost'
   | 'userBioForm'
+  | 'userContacts'
   | 'userContactInformation'
   | 'userDetailsForm'
   | 'userEducationForm'

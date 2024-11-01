@@ -2,8 +2,8 @@
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 // import { Separator } from '@/src/components/ui/separator'
 import { UserDetailsCard } from '@/components/cards/user/user-details-card'
-import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
-// import { UserContactsCard } from '@/src/components/cards/user-contacts-card'
+import { UserBioCard } from '@/components/cards/user/user-bio-card'
+import { UserContactsCard } from '@/src/components/cards/user/user-contacts-card'
 
 // utils
 import { getCurrentUser, getUsername } from '@/actions/user-actions'
@@ -57,6 +57,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
           user={userData}
         />
         <UserBioCard user={userData} />
+        <UserContactsCard user={userData} />
         {/* {userData.contacts?.length && <UserContactsCard />} */}
       </div>
       {/* user feed */}
