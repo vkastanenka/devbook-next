@@ -33,7 +33,7 @@ export const SearchResultUserCard: React.FC<SearchResultUserCard> = ({
             )}
           </div>
         </Link>
-        {/* TODO: Remove from current user */}
+        {/* TODO: Remove from current user / contact */}
         <Button>Add friend</Button>
       </div>
     </Card>

@@ -7,6 +7,12 @@ import { SearchResultUserCard } from '@/src/components/cards/search/search-resul
 // utils
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 
+/**
+ * TODO
+ * 
+ * Figure out why going back in browser history to this page results in errors
+ */
+
 const SearchPage = () => {
   const { searchDevbookResults } = useLayoutStore()
 
