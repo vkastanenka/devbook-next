@@ -2,13 +2,14 @@
 import { create } from 'zustand'
 
 // types
+import { Post } from '@/types/post-types'
 import { User } from '@/types/user-types'
 
 export type ModalType =
-  | 'createPost'
+  | 'postForm'
   | 'userBioForm'
-  | 'userContacts'
   | 'userContactInformation'
+  | 'userContacts'
   | 'userDetailsForm'
   | 'userEducationForm'
   | 'userExperienceForm'
@@ -18,6 +19,7 @@ export type ModalType =
 
 interface ModalData {
   placeholder?: string
+  post?: Post
   user?: User
 }
 
