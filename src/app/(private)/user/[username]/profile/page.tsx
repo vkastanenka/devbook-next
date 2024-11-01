@@ -1,17 +1,17 @@
 // components
-import { UserDetailsCard } from '@/components/cards/user/user-details-card'
 import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
-import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'
+import { UserDetailsCard } from '@/components/cards/user/user-details-card'
 import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
 import { UserExperienceCard } from '@/src/components/cards/user/user-experience-card'
+import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'
 import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
 import { getCurrentUser, getUsername } from '@/actions/user-actions'
 
 // types
-import { User } from '@/types/user-types'
 import { GetUsernameResData } from '@/types/server-types'
+import { User } from '@/types/user-types'
 
 interface UserProfilePage {
   params: {

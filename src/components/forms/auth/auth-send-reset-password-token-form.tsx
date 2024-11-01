@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useState } from 'react'
@@ -106,16 +105,16 @@ export const AuthSendResetPasswordTokenForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.email && (
-                <Typography.Muted className="text-destructive">
+                <p className="muted text-destructive">
                   {responseErrors.email}
-                </Typography.Muted>
+                </p>
               )}
             </FormItem>
           )}
         />
 
         <Button disabled={isSubmitting}>
-          <Typography.H4>Send recovery email</Typography.H4>
+          <p className='h4'>Send recovery email</p>
         </Button>
       </form>
     </Form>

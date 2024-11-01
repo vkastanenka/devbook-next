@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useState } from 'react'
@@ -104,9 +103,7 @@ export const AuthLoginForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.email && (
-                <Typography.Muted className="text-destructive">
-                  {responseErrors.email}
-                </Typography.Muted>
+                <p className="muted text-destructive">{responseErrors.email}</p>
               )}
             </FormItem>
           )}
@@ -135,16 +132,16 @@ export const AuthLoginForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.password && (
-                <Typography.Muted className="text-destructive">
+                <p className="muted text-destructive">
                   {responseErrors.password}
-                </Typography.Muted>
+                </p>
               )}
             </FormItem>
           )}
         />
 
         <Button disabled={isSubmitting}>
-          <Typography.H4>Log In</Typography.H4>
+          <p className="h4">Log In</p>
         </Button>
       </form>
     </Form>

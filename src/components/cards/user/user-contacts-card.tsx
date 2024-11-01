@@ -2,7 +2,7 @@
 
 // components
 import Link from 'next/link'
-import { Card } from '@/components/primitives/card'
+import { Card } from '@/components/ui/card'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 
 // utils
@@ -22,7 +22,7 @@ export const UserContactsCard: React.FC<{ user: User }> = ({ user }) => {
   }
 
   return (
-    <Card className="flex flex-col gap-4">
+    <Card className="card flex flex-col gap-4">
       <p className="h4">Contacts</p>
       {renderedContacts.length > 0 ? (
         <div className="flex flex-col gap-2 items-end">

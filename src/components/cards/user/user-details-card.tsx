@@ -1,9 +1,9 @@
 // components
 import { Card } from '@/components/ui/card'
 import { UserAvatar } from '@/components/ui/avatar'
-import { UserCardButtons } from '@/components/modules/user-card-buttons'
-import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
-import { UserEditContactButton } from '@/components/modules/buttons/user-edit-contact-button'
+import { UserDetailsCardButtons } from '@/components/buttons/user/user-details-card-buttons'
+import { UserEditContactButton } from '@/components/buttons/user/user-edit-contact-button'
+import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
 
 // types
 import { UserDetailsCard as UserDetailsCardProps } from '@/types/user-types'
@@ -18,7 +18,7 @@ export const UserDetailsCard: React.FC<UserDetailsCardProps> = ({
   return (
     <Card className="card flex flex-col gap-2 relative">
       {isCurrentUser && isEditable && (
-        <UserEditCardButton modalType="userDetailsForm" user={user} />
+        <UserEditProfileCardButton modalType="userDetailsForm" user={user} />
       )}
       {!isCurrentUser && (
         <UserEditContactButton
@@ -27,11 +27,7 @@ export const UserDetailsCard: React.FC<UserDetailsCardProps> = ({
           user={user}
         />
       )}
-      <UserAvatar
-        src={user.image || undefined}
-        className="avatar-lg"
-        user={user}
-      />
+      <UserAvatar className="avatar-lg" user={user} />
       <div>
         <div className="flex gap-2">
           <p className="h3">{user.name}</p>
@@ -48,7 +44,7 @@ export const UserDetailsCard: React.FC<UserDetailsCardProps> = ({
           </p>
         )}
       </div>
-      <UserCardButtons user={user} />
+      <UserDetailsCardButtons user={user} />
     </Card>
   )
 }

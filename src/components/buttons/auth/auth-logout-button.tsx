@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
  * 1. Server error handling
  */
 
-export const LogoutButton = () => {
+export const AuthLogoutButton = () => {
   const router = useRouter()
 
   const action: () => void = async () => {

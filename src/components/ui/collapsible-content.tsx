@@ -3,20 +3,13 @@
 // utils
 import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
-import { Typography } from '../ui/typography'
-import { Separator } from '../ui/separator'
+import { Separator } from '@/components/ui/separator'
 
 interface CollapsibleContent {
   children: React.ReactNode
   className?: string
   includeTrigger?: boolean
 }
-
-/**
- * TODO
- * 
- * Move to UI folder
- */
 
 export const CollapsibleContent: React.FC<CollapsibleContent> = ({
   children,
@@ -49,12 +42,10 @@ export const CollapsibleContent: React.FC<CollapsibleContent> = ({
           )}
           onClick={() => setIsCollapsed((prevState) => !prevState)}
         >
-          {isCollapsed && (
-            <Typography.Muted className="text-accent">...</Typography.Muted>
-          )}
-          <Typography.Muted className="text-accent">
+          {isCollapsed && <p className="muted text-accent">...</p>}
+          <p className="muted text-accent">
             {isCollapsed ? 'see more' : 'see less'}
-          </Typography.Muted>
+          </p>
         </button>
       )}
     </div>

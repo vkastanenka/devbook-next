@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useState } from 'react'
@@ -122,9 +121,9 @@ export const AuthRegisterForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.username && (
-                <Typography.Muted className="text-destructive">
+                <p className="muted text-destructive">
                   {responseErrors.username}
-                </Typography.Muted>
+                </p>
               )}
             </FormItem>
           )}
@@ -152,9 +151,7 @@ export const AuthRegisterForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.email && (
-                <Typography.Muted className="text-destructive">
-                  {responseErrors.email}
-                </Typography.Muted>
+                <p className="muted text-destructive">{responseErrors.email}</p>
               )}
             </FormItem>
           )}
@@ -178,7 +175,7 @@ export const AuthRegisterForm = () => {
         />
 
         <Button disabled={isSubmitting}>
-          <Typography.H4>Register</Typography.H4>
+          <p className='h4'>Register</p>
         </Button>
       </form>
     </Form>

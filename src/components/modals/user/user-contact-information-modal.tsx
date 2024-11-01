@@ -2,7 +2,6 @@
 
 // components
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useModal } from '@/hooks/use-modal-store'
@@ -26,26 +25,26 @@ export const UserContactInformationModal = () => {
       <DialogContent className="bg-card flex flex-col gap-4">
         <div>
           <div>
-            <Typography.H3>Page Url</Typography.H3>
+            <p className="h3">Page Url</p>
           </div>
           <Link href={`http://localhost:3000/user/${user.username}`}>
-            <Typography.P>{`http://localhost:3000/user/${user.username}`}</Typography.P>
+            <p className="p">{`http://localhost:3000/user/${user.username}`}</p>
           </Link>
         </div>
         <div>
           <div>
-            <Typography.H3>Email</Typography.H3>
+            <p className="h3">Email</p>
           </div>
           <Link href={`mailto:${user.email}`}>
-            <Typography.P>{user.email}</Typography.P>
+            <p className="p">{user.email}</p>
           </Link>
         </div>
         {user.phone && (
           <div>
             <div>
-              <Typography.H3>Phone Number</Typography.H3>
+              <p className="h3">Phone Number</p>
             </div>
-            <Typography.P>{user.phone}</Typography.P>
+            <p className="p">{user.phone}</p>
           </div>
         )}
       </DialogContent>

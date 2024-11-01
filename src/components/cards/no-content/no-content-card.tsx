@@ -1,5 +1,5 @@
 // components
-import { Card } from '@/components/primitives/card'
+import { Card } from '@/components/ui/card'
 
 // utils
 import { cn } from '@/src/lib/utils'
@@ -15,7 +15,7 @@ export const NoContentCard: React.FC<{
   subheading?: string
   className?: string
 }> = ({ heading, subheading, className }) => (
-  <Card className={cn('text-center', className)}>
+  <Card className={cn('card text-center', className)}>
     <p className="h4">{heading}</p>
     {subheading && <p className="p">{subheading}</p>}
   </Card>

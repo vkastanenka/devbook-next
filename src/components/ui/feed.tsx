@@ -4,11 +4,11 @@ import { NoContentCard } from '@/components/cards/no-content/no-content-card'
 // types
 import { Post } from '@/types/post-types'
 
-interface UserFeed {
+interface Feed {
   posts?: Post[]
 }
 
-export const UserFeed: React.FC<UserFeed> = ({ posts }) => {
+export const Feed: React.FC<Feed> = ({ posts }) => {
   if (!posts || posts.length === 0) {
     return (
       <NoContentCard

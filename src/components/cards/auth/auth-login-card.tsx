@@ -1,6 +1,6 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/primitives/card'
+import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { AuthLoginForm } from '@/components/forms/auth/auth-login-form'
 import { Separator } from '@radix-ui/react-separator'
@@ -13,7 +13,7 @@ import { Separator } from '@radix-ui/react-separator'
 
 export const AuthLoginCard = () => {
   return (
-    <Card className="form-card">
+    <Card className="card form-card">
       <AuthLoginForm />
 
       <div className="text-center">

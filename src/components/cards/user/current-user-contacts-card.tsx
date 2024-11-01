@@ -5,7 +5,7 @@ import { NoContentCurrentUserContactsCard } from '@/components/cards/no-content/
 
 // types
 import { User } from '@/types/user-types'
-import { UserAvatar } from '../../ui/avatar'
+import { UserAvatar } from '@/components/ui/avatar'
 
 export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
   currentUser,
@@ -26,7 +26,7 @@ export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
             className="flex items-center gap-2"
             href={`/user/${contact.username}`}
           >
-            <UserAvatar src={contact.image || undefined} user={contact} />
+            <UserAvatar user={contact} />
             <p className="p">{contact.name}</p>
           </Link>
         </div>

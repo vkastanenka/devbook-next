@@ -35,7 +35,7 @@ export const UserContactsModal = () => {
                   href={`/user/${contact.username}`}
                   onClick={onClose}
                 >
-                  <UserAvatar src={contact.image || undefined} user={contact} />
+                  <UserAvatar user={contact} />
                   <p className="p">{contact.name}</p>
                 </Link>
               </div>

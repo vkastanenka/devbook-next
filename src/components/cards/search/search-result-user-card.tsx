@@ -21,11 +21,7 @@ export const SearchResultUserCard: React.FC<SearchResultUserCard> = ({
           href={`/user/${user.username}`}
           className="flex items-center gap-4"
         >
-          <UserAvatar
-            src={user.image || undefined}
-            user={user}
-            className="avatar-lg"
-          />
+          <UserAvatar user={user} className="avatar-lg" />
           <div>
             <p className="h4">{user.name}</p>
             {user.headline && (

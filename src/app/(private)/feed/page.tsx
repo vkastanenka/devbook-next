@@ -1,16 +1,16 @@
 // components
-import { Separator } from '@/src/components/ui/separator'
 import { CurrentUserCard } from '@/components/cards/user/current-user-card'
-import { CurrentUserCreatePostCard } from '@/components/cards/user/current-user-create-post-card'
-import { UserFeed } from '@/src/components/modules/user-feed'
 import { CurrentUserContactsCard } from '@/components/cards/user/current-user-contacts-card'
+import { CurrentUserCreatePostCard } from '@/components/cards/user/current-user-create-post-card'
+import { Feed } from '@/components/ui/feed'
+import { Separator } from '@/components/ui/separator'
 
 // utils
 import { getCurrentUser, getUsername } from '@/actions/user-actions'
 
 // types
-import { User } from '@/types/user-types'
 import { GetUsernameResData } from '@/types/server-types'
+import { User } from '@/types/user-types'
 
 const FeedPage: React.FC = async () => {
   const currentUser = await getCurrentUser()
@@ -39,7 +39,7 @@ const FeedPage: React.FC = async () => {
       <div className="basis-full lg:basis-2/3 xl:basis-1/2 flex flex-col gap-4">
         <CurrentUserCreatePostCard currentUser={currentUserWithRelations} />
         <Separator />
-        <UserFeed posts={currentUserWithRelations.posts} />
+        <Feed posts={currentUserWithRelations.posts} />
       </div>
 
       {/* contacts */}

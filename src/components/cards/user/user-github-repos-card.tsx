@@ -3,8 +3,9 @@
 // components
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
+import { CollapsibleContent } from '@/components/ui/collapsible-content'
 import { Skeleton } from '@/components/ui/skeleton'
-import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
+import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
 
 // svg
 import GithubRainbow from '/public/svg/github-rainbow.svg'
@@ -20,7 +21,6 @@ import {
   GetUserGithubRepoRes,
 } from '@/types/server-types'
 import { UserProfileCard } from '@/types/user-types'
-import { CollapsibleContent } from '../../modules/collapsible-content'
 
 /**
  * TODO
@@ -70,7 +70,10 @@ export const UserGithubReposCard: React.FC<UserProfileCard> = ({
   return (
     <Card className="card flex flex-col gap-4 relative">
       {isCurrentUser && isEditable && (
-        <UserEditCardButton modalType="userGithubReposForm" user={user} />
+        <UserEditProfileCardButton
+          modalType="userGithubReposForm"
+          user={user}
+        />
       )}
       <div className="flex items-center gap-2">
         <p className="h4">Github Repositories</p>

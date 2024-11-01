@@ -1,5 +1,5 @@
 // components
-import { PrivateNav } from '@/components/modules/private-nav'
+import { Navbar } from '@/components/ui/navbar'
 
 export default function PrivateLayout({
   children,
@@ -8,7 +8,7 @@ export default function PrivateLayout({
 }>) {
   return (
     <>
-      <PrivateNav />
+      <Navbar />
       <div className="mt-nav flex justify-center gutter">
         <div className="container py-8">{children}</div>
       </div>

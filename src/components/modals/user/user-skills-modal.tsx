@@ -3,7 +3,6 @@
 // components
 import { Separator } from '@/components/ui/separator'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { cn } from '@/src/lib/utils'
@@ -24,7 +23,7 @@ export const UserSkillsModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4 max-h-[75vh] overflow-scroll">
-        <Typography.H4>Skills</Typography.H4>
+        <p className="h4">Skills</p>
         <div
           className={cn(
             'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
@@ -33,7 +32,7 @@ export const UserSkillsModal = () => {
         >
           {user.skills.map((skill, i, arr) => (
             <div key={i} className="flex flex-col gap-4">
-              <Typography.Large>{skill}</Typography.Large>
+              <p className="large">{skill}</p>
               {i !== arr.length - 1 && <Separator className="separator" />}
             </div>
           ))}

@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
 
 // utils
 import { useForm } from 'react-hook-form'
@@ -98,7 +97,7 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
         />
 
         <Button disabled={isSubmitting}>
-          <Typography.H4>Update password</Typography.H4>
+          <p className='h4'>Update password</p>
         </Button>
       </form>
     </Form>

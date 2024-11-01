@@ -1,7 +1,7 @@
 // components
-import { Card } from '@/components/primitives/card'
+import { Card } from '@/components/ui/card'
+import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
 import { Separator } from '@/components/ui/separator'
-import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
 
 // types
 import { UserProfileCard } from '@/types/user-types'
@@ -12,9 +12,9 @@ export const UserEducationCard: React.FC<UserProfileCard> = ({
   user,
 }) => {
   return (
-    <Card className="relative">
+    <Card className="card relative">
       {isCurrentUser && isEditable && (
-        <UserEditCardButton modalType="userEducationForm" user={user} />
+        <UserEditProfileCardButton modalType="userEducationForm" user={user} />
       )}
       <div className="flex flex-col gap-4">
         <p className="h4">Education</p>

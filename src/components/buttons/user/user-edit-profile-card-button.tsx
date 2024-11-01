@@ -11,13 +11,13 @@ import { useModal } from '@/hooks/use-modal-store'
 import { ModalType } from '@/hooks/use-modal-store'
 import { User } from '@/types/user-types'
 
-interface UserEditCardButton {
+interface UserEditProfileCardButton {
   className?: string
   modalType: ModalType
   user: User
 }
 
-export const UserEditCardButton: React.FC<UserEditCardButton> = ({
+export const UserEditProfileCardButton: React.FC<UserEditProfileCardButton> = ({
   className,
   modalType,
   user,

@@ -1,7 +1,7 @@
 // components
-import { Card } from '@/components/primitives/card'
-import { CollapsibleContent } from '@/components/modules/collapsible-content'
-import { UserEditCardButton } from '@/components/modules/buttons/user-edit-card-button'
+import { Card } from '@/components/ui/card'
+import { CollapsibleContent } from '@/components/ui/collapsible-content'
+import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
 
 // utils
 import { formatText } from '@/lib/utils'
@@ -15,9 +15,9 @@ export const UserBioCard: React.FC<UserProfileCard> = ({
   user,
 }) => {
   return (
-    <Card className="flex flex-col gap-4 relative">
+    <Card className="card flex flex-col gap-4 relative">
       {isCurrentUser && isEditable && (
-        <UserEditCardButton modalType="userBioForm" user={user} />
+        <UserEditProfileCardButton modalType="userBioForm" user={user} />
       )}
       <p className="h4">Bio</p>
       {user.bio ? (

@@ -1,8 +1,5 @@
 'use client'
 
-// components
-// import { UserDetails } from '@/components/primitives/user-details'
-
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -71,9 +68,7 @@ export const PostCreatePostModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-card">
         {user && (
-          <DialogHeader>
-            {/* <UserDetails user={user} /> */}
-          </DialogHeader>
+          <DialogHeader>{/* <UserDetails user={user} /> */}</DialogHeader>
         )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

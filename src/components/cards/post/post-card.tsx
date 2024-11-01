@@ -11,18 +11,16 @@ import {
 
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { Card } from '@/components/ui/card'
-import { CreateComment } from '@/components/modules/create-comment'
-import { Separator } from '@radix-ui/react-dropdown-menu'
-import { Typography } from '@/components/ui/typography'
+import { Separator } from '@/components/ui/separator'
 
 import {
-  ThumbsUp,
-  Repeat,
-  MessageSquareText,
-  Forward,
   CircleArrowRight,
-  Pencil,
   Ellipsis,
+  Forward,
+  MessageSquareText,
+  Pencil,
+  Repeat,
+  ThumbsUp,
   X,
 } from 'lucide-react'
 
@@ -44,7 +42,6 @@ export const PostCard: React.FC<PostCard> = ({ user }) => {
       <PostCardActivity />
       <Separator className="separator w-full" />
       <PostCardActions />
-      <PostCardCreateComment />
       <PostCardViewCommentsButton />
     </Card>
   )
@@ -184,21 +181,13 @@ const PostCardActions = () => {
   )
 }
 
-const PostCardCreateComment = () => {
-  return (
-    <div className="px-card">
-      <CreateComment />
-    </div>
-  )
-}
-
 const PostCardViewCommentsButton = () => {
   return (
     <div className="px-card">
       <div className="flex justify-end">
         {/* <Overlay> */}
         <button className="flex items-center gap-2 px-3 py-2">
-          <Typography.P>View comments</Typography.P>
+          <p className="p">View comments</p>
           <CircleArrowRight />
         </button>
         {/* </Overlay> */}

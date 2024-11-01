@@ -2,7 +2,6 @@
 
 // components
 import Link from 'next/link'
-import { Typography } from '@/components/ui/typography'
 
 // svg
 import {
@@ -20,12 +19,12 @@ import { useModal } from '@/hooks/use-modal-store'
 // types
 import { User } from '@/types/user-types'
 
-export const UserCardButtons: React.FC<{ user: User }> = ({ user }) => {
+export const UserDetailsCardButtons: React.FC<{ user: User }> = ({ user }) => {
   const { onOpen } = useModal()
 
   let userPageLink = (
     <Link href={`/user/${user.username}/profile`}>
-      <Typography.Muted>Profile</Typography.Muted>
+      <p className="muted">Profile</p>
       <CircleUserRound />
     </Link>
   )
@@ -35,7 +34,7 @@ export const UserCardButtons: React.FC<{ user: User }> = ({ user }) => {
   if (pathname.includes('/profile')) {
     userPageLink = (
       <Link href={`/user/${user.username}`}>
-        <Typography.Muted>Feed</Typography.Muted>
+        <p className="muted">Feed</p>
         <Logs />
       </Link>
     )
@@ -45,18 +44,18 @@ export const UserCardButtons: React.FC<{ user: User }> = ({ user }) => {
     <div className="flex gap-4 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:is-interactive [&>*]:text-purple-400">
       {userPageLink}
       <button onClick={() => onOpen('userContactInformation', { user })}>
-        <Typography.Muted>Contact info</Typography.Muted>
+        <p className="muted">Contact info</p>
         <Contact />
       </button>
       {user.resume && (
         <a href={user.resume} download>
-          <Typography.Muted>Resume</Typography.Muted>
+          <p className="muted">Resume</p>
           <File />
         </a>
       )}
       {user.website && (
         <Link href={user.website} target="_blank">
-          <Typography.Muted>Website</Typography.Muted>
+          <p className="muted">Website</p>
           <LucideLink />
         </Link>
       )}
