@@ -1,232 +1,221 @@
-// utils
+// validation
 import { z } from 'zod'
-import validator from 'validator'
-
-// types
-import { emailSchema } from '@/validation/auth'
 import {
-  UserEducation,
-  UserEducationsFormData,
-  UserEducationsFormItem,
-  UserExperience,
-  UserExperiencesFormData,
-  UserExperiencesFormItem,
-  UserDetailsFormData,
-  UserBioFormData,
-  UserGithubReposFormData,
-  UserSkillsFormData,
-} from '@/types/user-types'
+  emailSchema,
+  phoneSchema,
+  urlSchema,
+  startYearSchema,
+  endYearSchema,
+} from '@/validation/'
 
 /**
- * Form Inputs
+ * Fields
  */
 
-const bioSchema = z
+// User
+
+export const userNameSchema = z
   .string()
-  .min(10, { message: 'Minimum 10 characters.' })
-  .max(1000, {
-    message: 'Maximum 1000 characters.',
+  .min(3, { message: '3 character(s) min' })
+  .max(100, { message: '100 character(s) max' })
+  .refine((s) => {
+    const names = s.split(' ')
+    if (names.length === 2) return true
+  }, 'First and last names are required.')
+
+export const userUsernameSchema = z
+  .string()
+  .min(4, { message: '4 character(s) min' })
+  .max(15, { message: '15 character(s) max' })
+  .refine((s) => {
+    const spaces = s.split(' ')
+    if (spaces.length === 1) return true
+  }, 'No spaces allowed.')
+
+export const userPasswordSchema = z
+  .string()
+  .min(8, { message: '8 character(s) min' })
+  .max(100, { message: '100 character(s) max' })
+
+const userPhoneSchema = phoneSchema.nullable()
+
+const userPronounsSchema = z
+  .union([
+    z.literal('he/him'),
+    z.literal('she/her'),
+    z.literal('they/them'),
+    z.literal('other'),
+  ])
+  .nullable()
+
+const userHeadlineSchema = z
+  .string()
+  .min(2, { message: '2 character(s) min' })
+  .max(50, {
+    message: '50 character(s) max',
   })
   .nullable()
 
-const countrySchema = z
+const userBioSchema = z
   .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
-  })
-  .optional()
-
-const headlineSchema = z
-  .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
+  .min(10, { message: '10 character(s) min' })
+  .max(5000, {
+    message: '5000 character(s) max',
   })
   .nullable()
 
-const phoneSchema = z.string().refine(validator.isMobilePhone).nullable()
+const userWebsiteSchema = urlSchema.nullable()
 
-const pronounsSchema = z.string().nullable()
+const userGithubReposSchema = z.array(urlSchema)
 
-const stateSchema = z
+const userSkillSchema = z
   .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
+  .min(1, { message: '1 character(s) min' })
+  .max(30, {
+    message: '30 character(s) max',
   })
-  .optional()
 
-const streetNameSchema = z
+const userSkillsSchema = z.array(userSkillSchema)
+
+// UserEducation
+
+const userEducationSchoolSchema = z
   .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
+  .min(1, { message: '1 character(s) min' })
+  .max(100, {
+    message: '100 character(s) max',
   })
-  .optional()
 
-const streetNumberSchema = z
+const userEducationDegreeSchema = z
   .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
+  .min(1, { message: '1 character(s) min' })
+  .max(100, {
+    message: '100 character(s) max',
   })
-  .optional()
 
-const suburbSchema = z
+// User experience
+
+const userExperienceCompanySchema = z
   .string()
-  .min(2, { message: 'Minimum 2 characters.' })
-  .max(50, {
-    message: 'Maximum 50 characters.',
+  .min(1, { message: '1 character(s) min' })
+  .max(100, {
+    message: '100 character(s) max',
   })
-  .optional()
 
-const websiteSchema = z.string().refine(validator.isURL).nullable()
+const userExperienceTypeSchema = z.union([
+  z.literal('Contract'),
+  z.literal('Permanent'),
+])
 
-export const nameSchema = z.string().refine((s) => {
-  const names = s.split(' ')
-  if (names.length === 2) return true
-}, 'First and last names are required.')
+const userExperienceScheduleSchema = z.union([
+  z.literal('Full-time'),
+  z.literal('Part-time'),
+])
+
+const userExperienceTitleSchema = z
+  .string()
+  .min(1, { message: '1 character(s) min' })
+  .max(100, {
+    message: '100 character(s) max',
+  })
+
+const userExperienceDescriptionSchema = z
+  .string()
+  .min(10, { message: '10 character(s) min' })
+  .max(5000, {
+    message: '5000 character(s) max',
+  })
 
 /**
- * Forms
+ * Request bodies
  */
 
-export const bioFormSchema: z.ZodType<UserBioFormData> = z.object({
-  bio: bioSchema,
-})
-
-export const githubReposFormSchema: z.ZodType<UserGithubReposFormData> =
-  z.object({
-    githubRepositories: z.array(
-      z
-        .string()
-        .min(5, { message: 'Repo URL must be at least 5 characters.' })
-        .max(100, {
-          message: 'Repo URL must not be longer than 100 characters.',
-        })
-    ),
-  })
-
-export const skillsFormSchema: z.ZodType<UserSkillsFormData> = z.object({
-  skills: z.array(
-    z
-      .string()
-      .min(1, { message: 'Skill must be at least 1 character.' })
-      .max(30, {
-        message: 'Skill must not be longer than 30 characters.',
-      })
-  ),
-})
-
-export const userEducationsFormItemSchema: z.ZodType<UserEducationsFormItem> =
-  z.object({
-    school: z
-      .string()
-      .min(1, { message: 'School must be at least 1 character.' })
-      .max(100, {
-        message: 'School must not be longer than 100 characters.',
-      }),
-    degree: z
-      .string()
-      .min(1, { message: 'Degree must be at least 1 character.' })
-      .max(100, {
-        message: 'Degree must not be longer than 100 characters.',
-      }),
-    startYear: z
-      .string()
-      .min(4, { message: 'Start year must be at least 4 characters.' })
-      .max(4, {
-        message: 'Start year must not be longer than 4 characters.',
-      }),
-    endYear: z
-      .string()
-      .min(4, { message: 'End year must be at least 4 characters.' })
-      .max(4, {
-        message: 'End year must not be longer than 4 characters.',
-      })
-      .nullable(),
-  })
-
-export const userEducationSchema: z.ZodType<UserEducation> = z
+export const userUpdateUserReqBodySchema = z
   .object({
-    id: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-    userId: z.string().optional(),
+    name: userNameSchema.optional(),
+    email: emailSchema.optional(),
+    pronouns: userPronounsSchema.optional(),
+    headline: userHeadlineSchema.optional(),
+    phone: userPhoneSchema.optional(),
+    website: userWebsiteSchema.optional(),
+    bio: userBioSchema.optional(),
+    githubRepos: userGithubReposSchema.optional(),
+    skills: userSkillsSchema.optional(),
   })
-  .and(userEducationsFormItemSchema)
+  .strict()
 
-export const userEducationsFormSchema: z.ZodType<UserEducationsFormData> =
-  z.object({
-    userEducations: z.array(
-      z.union([userEducationSchema, userEducationsFormItemSchema])
-    ),
-  })
-
-export const userExperiencesFormItemSchema: z.ZodType<UserExperiencesFormItem> =
-  z.object({
-    company: z
-      .string()
-      .min(1, { message: 'School must be at least 1 character.' })
-      .max(100, {
-        message: 'School must not be longer than 100 characters.',
-      }),
-    type: z
-      .string()
-      .min(1, { message: 'Degree must be at least 1 character.' })
-      .max(100, {
-        message: 'Degree must not be longer than 100 characters.',
-      }),
-    schedule: z.string(),
-    title: z.string(),
-    description: z
-      .string()
-      .min(1, { message: 'Description must be at least 1 character.' })
-      .max(5000, {
-        message: 'Description must not be longer than 5000 characters.',
-      }),
-    startYear: z
-      .string()
-      .min(4, { message: 'Start year must be at least 4 characters.' })
-      .max(4, {
-        message: 'Start year must not be longer than 4 characters.',
-      }),
-    endYear: z
-      .string()
-      .min(4, { message: 'End year must be at least 4 characters.' })
-      .max(4, {
-        message: 'End year must not be longer than 4 characters.',
-      })
-      .nullable(),
-  })
-
-export const userExperienceSchema: z.ZodType<UserExperience> = z
+export const userCreateEducationReqBodySchema = z
   .object({
-    id: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-    userId: z.string().optional(),
+    school: userEducationSchoolSchema,
+    degree: userEducationDegreeSchema,
+    startYear: startYearSchema,
+    endYear: endYearSchema.nullable(),
+    userId: z.string(),
   })
-  .and(userExperiencesFormItemSchema)
+  .strict()
+  .refine((s) => {
+    if (s.endYear) {
+      if (Number(s.endYear) > Number(s.startYear)) return false
+    }
+    return true
+  }, 'End year cannot be greater than start year')
 
-export const userExperiencesFormSchema: z.ZodType<UserExperiencesFormData> =
-  z.object({
-    userExperiences: z.array(
-      z.union([userExperienceSchema, userExperiencesFormItemSchema])
-    ),
+export const userUpdateEducationReqBodySchema = z
+  .object({
+    school: userEducationSchoolSchema.optional(),
+    degree: userEducationDegreeSchema.optional(),
+    startYear: startYearSchema.optional(),
+    endYear: endYearSchema.nullable().optional(),
   })
+  .strict()
+  .refine((s) => {
+    if (s.endYear) {
+      if (Number(s.endYear) > Number(s.startYear)) return false
+    }
+    return true
+  }, 'End year cannot be greater than start year')
 
-export const userDetailsFormSchema: z.ZodType<UserDetailsFormData> = z.object({
-  name: nameSchema,
-  email: emailSchema,
-  pronouns: pronounsSchema,
-  headline: headlineSchema,
-  phone: phoneSchema,
-  website: websiteSchema,
-  streetNumber: streetNumberSchema,
-  streetName: streetNameSchema,
-  suburb: suburbSchema,
-  state: stateSchema,
-  country: countrySchema,
-})
+export const userCreateExperienceReqBodySchema = z
+  .object({
+    company: userExperienceCompanySchema,
+    type: userExperienceTypeSchema,
+    schedule: userExperienceScheduleSchema,
+    title: userExperienceTitleSchema,
+    description: userExperienceDescriptionSchema,
+    startYear: startYearSchema,
+    endYear: endYearSchema.nullable(),
+    userId: z.string(),
+  })
+  .strict()
+  .refine((s) => {
+    if (s.endYear) {
+      if (Number(s.endYear) > Number(s.startYear)) return false
+    }
+    return true
+  }, 'End year cannot be greater than start year')
+
+export const userUpdateExperienceReqBodySchema = z
+  .object({
+    company: userExperienceCompanySchema.optional(),
+    type: userExperienceTypeSchema.optional(),
+    schedule: userExperienceScheduleSchema.optional(),
+    title: userExperienceTitleSchema.optional(),
+    description: userExperienceDescriptionSchema.optional(),
+    startYear: startYearSchema.optional(),
+    endYear: endYearSchema.nullable().optional(),
+  })
+  .strict()
+  .refine((s) => {
+    if (s.endYear) {
+      if (Number(s.endYear) > Number(s.startYear)) return false
+    }
+    return true
+  }, 'End year cannot be greater than start year')
+
+export const userValidation = {
+  userUpdateUserReqBodySchema,
+  userCreateEducationReqBodySchema,
+  userUpdateEducationReqBodySchema,
+  userCreateExperienceReqBodySchema,
+  userUpdateExperienceReqBodySchema,
+}

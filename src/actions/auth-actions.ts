@@ -5,143 +5,135 @@ import axios from 'axios'
 import { cookies } from 'next/headers'
 import { verify as jwtVerify } from 'jsonwebtoken'
 import { addDays } from 'date-fns'
-import { formatServerErrorData } from '@/lib/utils'
+import { formatServerError } from '@/lib/utils'
 
 // types
-import { DecodedSession } from '@/types/auth-types'
-import { LoginResData, RegisterResData, ResData } from '@/types/server-types'
-
 import {
-  RegisterFormData,
-  LoginFormData,
-  SendResetPasswordTokenFormData,
-  ResetPasswordFormData,
-} from '@/validation/auth'
+  AuthLoginReqBody,
+  AuthRegisterReqBody,
+  AuthResetPasswordReqBody,
+  AuthSendResetPasswordTokenReqBody,
+  DecodedSession,
+} from '@/types/auth-types'
+import { ServerResponse } from '@/types/server-types'
+import { User } from '@/types/user-types'
 
 // constants
 import {
   AUTH_LOGIN,
   AUTH_REGISTER,
-  AUTH_RESET_PASSWORD,
   AUTH_SEND_RESET_PASSWORD_TOKEN,
-  AUTH_SESSION,
-} from '@/constants/api-endpoint-constants'
+  AUTH_RESET_PASSWORD,
+  AUTH_CURRENT_USER_SESSION,
+} from '@/constants/server-endpoint-constants'
+
+// Session
 
 // Get session jwt from cookie
-export const getSessionCookieValue = async () => {
-  // Get session cookie if value
+export const authGetSessionJwt = async () => {
   const sessionCookie = await cookies().get('session')
   if (sessionCookie?.value) return sessionCookie.value
   return null
 }
 
 // Decode session jwt
-export const decodeSession = async (): Promise<DecodedSession | null> => {
-  // Get session cookie
-  const sessionCookieValue = await getSessionCookieValue()
-  if (!sessionCookieValue) return null
+export const authDecodeSessionJwt =
+  async (): Promise<DecodedSession | null> => {
+    // Get session jwt
+    const sessionJwt = await authGetSessionJwt()
 
-  // Decode session cookie
-  const decodedSession = await jwtVerify(
-    sessionCookieValue,
-    process.env.NEXT_JWT_SECRET || ''
-  )
+    if (sessionJwt) {
+      // Decode session cookie
+      const decodedSession = await jwtVerify(
+        sessionJwt,
+        process.env.NEXT_JWT_SECRET || ''
+      )
 
-  return decodedSession as DecodedSession
-}
+      return decodedSession as DecodedSession
+    }
 
-// Deletes current user session and session cookie
-export const deleteSession = async (data: DecodedSession) => {
-  // Send delete request to session and delete cookie
-  const { id } = data
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SESSION}/${id}`
-  await axios.delete(url)
-  await cookies().delete('session')
-}
-
-// Checks if session is still valid
-export const validateSession = async (data: DecodedSession) => {
-  // Check if session has expired, delete if has
-  if (data.expires < new Date()) {
-    await deleteSession(data)
-    return false
+    return null
   }
-  return true
-}
 
-// Creates new user record
-export const register = async (data: RegisterFormData) => {
+// Delete current user session
+export const authDeleteCurrentUserSession = async (recordId: string) => {
   try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
-    const response = await axios.post(url, {
-      // TODO: Remove after testing done
-      id: 'f1bdf45e-1b1c-11ec-9621-0242ac130002',
-      ...data,
-    })
-    return response.data as RegisterResData
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_CURRENT_USER_SESSION}/${recordId}`
+    const axiosResponse = await axios.delete(url)
+    return axiosResponse.data as ServerResponse
   } catch (err) {
-    return formatServerErrorData(err)
+    formatServerError(err)
   }
 }
+
+// Authorization
 
 // Create session and set jwt cookie
-export const login = async (data: LoginFormData) => {
+export const authLogin = async (reqBody: AuthLoginReqBody) => {
   try {
     // Send post request to receive session jwt
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_LOGIN}`
-    const response = await axios.post(url, data)
-    const responseData: LoginResData = response.data
+    const axiosResponse = await axios.post(url, reqBody)
+    const serverResponse = axiosResponse.data as ServerResponse<{ jwt: string }>
 
     // Set session jwt in a cookie
     const cookieExpires = addDays(new Date(), 1)
-    await cookies().set('session', responseData.data.jwt, {
+    await cookies().set('session', serverResponse.data?.jwt || '', {
       httpOnly: true,
       expires: cookieExpires,
     })
 
     // Return successful response data
-    return responseData
+    return serverResponse
   } catch (err) {
-    return formatServerErrorData(err)
+    return formatServerError(err)
   }
 }
 
-// Delete session cookie and session record - TODO: Async error handling
-export const logout = async () => {
-  // Decode session jwt
-  const sessionCookie = await decodeSession()
-  if (!sessionCookie) return null
-
-  // Delete session + session jwt
-  await deleteSession(sessionCookie)
+// Register new user
+export const authRegister = async (reqBody: AuthRegisterReqBody) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_REGISTER}`
+    const response = await axios.post(url, reqBody)
+    return response.data as ServerResponse<User>
+  } catch (err) {
+    return formatServerError(err)
+  }
 }
 
 // Send password reset link to email
-export const sendResetPasswordToken = async (
-  data: SendResetPasswordTokenFormData
+export const authSendResetPasswordToken = async (
+  reqBody: AuthSendResetPasswordTokenReqBody
 ) => {
   try {
-    // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_SEND_RESET_PASSWORD_TOKEN}`
-    const response = await axios.post(url, data)
-    return response.data as ResData
+    const response = await axios.post(url, reqBody)
+    return response.data as ServerResponse
   } catch (err) {
-    return formatServerErrorData(err)
+    return formatServerError(err)
   }
 }
 
 // Reset user password with token
 export const resetPassword = async (
-  data: ResetPasswordFormData,
-  resetPasswordToken: string
+  resetPasswordToken: string,
+  reqBody: AuthResetPasswordReqBody
 ) => {
   try {
-    // Send post request with provided data
     const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_RESET_PASSWORD}/${resetPasswordToken}`
-    const response = await axios.patch(url, data)
-    return response.data as ResData
+    const response = await axios.patch(url, reqBody)
+    return response.data as ServerResponse
   } catch (err) {
-    return formatServerErrorData(err)
+    return formatServerError(err)
   }
+}
+
+// Delete session cookie and session record
+export const logout = async () => {
+  const sessionJwt = await authGetSessionJwt()
+  if (!sessionJwt) return null
+
+  await cookies().delete('session')
+
+  return await authDeleteCurrentUserSession(sessionJwt)
 }

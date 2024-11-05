@@ -4,7 +4,7 @@
 import { Button } from '@/components/ui/button'
 
 // utils
-import { logout } from '@/actions/auth-actions'
+import { logout } from '@/src/actions-old/auth-actions'
 import { useRouter } from 'next/navigation'
 
 /**

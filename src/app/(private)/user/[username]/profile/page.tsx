@@ -7,7 +7,7 @@ import { UserGithubReposCard } from '@/src/components/cards/user/user-github-rep
 import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/actions/user-actions'
+import { getCurrentUser, getUsername } from '@/src/actions-old/user-actions'
 
 // types
 import { GetUsernameResData } from '@/types/server-types'

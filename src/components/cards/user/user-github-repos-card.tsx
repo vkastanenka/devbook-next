@@ -12,7 +12,7 @@ import GithubRainbow from '/public/svg/github-rainbow.svg'
 
 // utils
 import { useState, useEffect } from 'react'
-import { getUserGithubRepos } from '@/actions/user-actions'
+import { getUserGithubRepos } from '@/src/actions-old/user-actions'
 import { useToast } from '@/hooks/use-toast'
 
 // types

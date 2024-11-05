@@ -22,7 +22,7 @@ import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 
 // utils
-import { updateUser } from '@/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'

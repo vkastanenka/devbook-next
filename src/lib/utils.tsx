@@ -4,31 +4,29 @@ import { twMerge } from 'tailwind-merge'
 
 // types
 import { AxiosError } from 'axios'
-import { ResData } from '@/types/server-types'
-
-// constants
-import { DEFAULT_INTERNAL_SERVER_ERROR_RESPONSE_DATA } from '@/constants/server-constants'
+import { ServerResponse } from '@/types/server-types'
+import { HttpStatusCode } from '@/types/http-status-code'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/**
- * TODO
- *
- * Catch async error handling
- */
-
-export const formatServerErrorData = (err: unknown) => {
+// Formats error received from our server
+export const formatServerError = (err: unknown) => {
   const error = err as AxiosError
 
   // Return axios error if data
   if (error?.response?.data) {
-    return error.response.data as ResData
+    return error.response.data as ServerResponse
   }
 
   // Return default async error if axios troubles
-  return DEFAULT_INTERNAL_SERVER_ERROR_RESPONSE_DATA as ResData
+  return {
+    message: 'Internal server error!',
+    status: 'error',
+    statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+    success: false,
+  } as ServerResponse
 }
 
 export const formatText = (text: string) => {

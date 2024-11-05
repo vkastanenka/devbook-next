@@ -7,7 +7,7 @@ import { UserPlus, UserMinus } from 'lucide-react'
 import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { updateUser } from '@/src/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 
 // types
 import { User } from '@/types/user-types'
@@ -50,7 +50,10 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
       },
     }
 
-    const currentUserResponse = await updateUser(currentUserReqBody, currentUser)
+    const currentUserResponse = await updateUser(
+      currentUserReqBody,
+      currentUser
+    )
     const userResponse = await updateUser(userReqBody, user)
 
     setIsSubmitting(false)

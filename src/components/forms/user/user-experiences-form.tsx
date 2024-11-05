@@ -26,7 +26,7 @@ import { X } from 'lucide-react'
 
 // utils
 import { useState } from 'react'
-import { updateUser } from '@/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
@@ -155,7 +155,7 @@ export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
             ? renderedFormValues.map((_, i, arr) => {
                 return (
                   <div key={i} className="relative flex flex-col gap-4">
-                    <p className='h4'>Past experience</p>
+                    <p className="h4">Past experience</p>
 
                     <FormField
                       name={`userExperiences.${i}.company`}

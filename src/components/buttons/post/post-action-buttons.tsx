@@ -4,7 +4,7 @@
 import { CircleArrowRight, MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
-import { updateUser } from '@/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 import { useModal } from '@/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'

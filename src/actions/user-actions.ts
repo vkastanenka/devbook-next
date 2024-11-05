@@ -5,56 +5,69 @@ import axios from 'axios'
 import { Octokit } from 'octokit'
 import { createTokenAuth } from '@octokit/auth-token'
 import {
-  decodeSession,
-  validateSession,
-  getSessionCookieValue,
-} from './auth-actions'
-import { formatServerErrorData } from '@/lib/utils'
+  authGetSessionJwt,
+  authDecodeSessionJwt,
+  authDeleteCurrentUserSession,
+} from '@/actions/auth-actions'
+import { formatServerError } from '@/lib/utils'
 
 // types
 import {
-  GetUserGithubRepoRes,
-  GetUserGithubReposRes,
-  GetUsernameResData,
-  GetUserSearchResData,
-  PatchUserResData,
-  ResData,
+  ServerResponse,
+  ReadGithubRepoServerResponse,
 } from '@/types/server-types'
 import {
   User,
-  CreateUserEducationsReqBody,
-  UpdateUserEducationsReqBody,
-  UserDetailsReqBody,
-  UserBioFormData,
-  UserGithubReposFormData,
-  UserSkillsFormData,
-  UserEditContactReqBody,
+  UserCreateEducationReqBody,
+  UserCreateExperienceReqBody,
+  UserEducation,
+  UserExperience,
+  UserUpdateEducationReqBody,
+  UserUpdateExperienceReqBody,
+  UserUpdateUserReqBody,
 } from '@/types/user-types'
+import { HttpStatusCode } from '@/types/http-status-code'
 
 // constants
 import {
-  USERS_GET_CURRENT_USER,
-  USERS_GET_DEVBOOK_SEARCH,
-  USERS_GET_USERNAME,
-  USERS_USER,
-} from '@/constants/api-endpoint-constants'
+  USERS_USERNAME,
+  USERS_CURRENT_USER,
+  USERS_CURRENT_USER_EDUCATION,
+  USERS_CURRENT_USER_EXPERIENCE,
+} from '@/constants/server-endpoint-constants'
+
+// Username
+
+// Reads user based on username
+export const readUsername = async (username: string) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_USERNAME}/${username}`
+    const response = await axios.get(url)
+    return response.data as ServerResponse<User>
+  } catch (err) {
+    return formatServerError(err)
+  }
+}
+
+// Current user
 
 // Obtains currently logged in user from session
-export const getCurrentUser = async () => {
-  // Decode session
-  const sessionCookie = await decodeSession()
-  if (!sessionCookie) return null
+export const readCurrentUser = async () => {
+  // Decode session jwt
+  const decodedSession = await authDecodeSessionJwt()
+  if (!decodedSession) return null
 
   // Check if session valid, otherwise delete session and cookie
-  const isSessionValid = await validateSession(sessionCookie)
-  if (!isSessionValid) return null
+  if (decodedSession.expires < new Date()) {
+    return await authDeleteCurrentUserSession(decodedSession.id)
+  }
 
   // Get session jwt
-  const sessionCookieValue = await getSessionCookieValue()
+  const sessionCookieValue = await authGetSessionJwt()
   if (!sessionCookieValue) return null
 
   // Get the current user
-  const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_CURRENT_USER}`
+  const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER}`
   const {
     data: { data },
   } = await axios.get(url, {
@@ -64,60 +77,113 @@ export const getCurrentUser = async () => {
   return data as User
 }
 
-// Gets results from user search
-export const getUserSearch = async (
-  query: string
-): Promise<GetUserSearchResData | ResData> => {
+// Update current user
+export const updateCurrentUser = async (
+  recordId: string,
+  reqBody: UserUpdateUserReqBody
+) => {
   try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_DEVBOOK_SEARCH}/${query}`
-    const response = await axios.get(url)
-    return response.data as GetUserSearchResData
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER}/${recordId}`
+    const axiosResponse = await axios.patch(url, reqBody)
+    return axiosResponse.data as ServerResponse<User>
   } catch (err) {
-    return formatServerErrorData(err)
+    formatServerError(err)
   }
 }
 
-// Gets user based on username
-export const getUsername = async (
-  username: string,
-  data?: {
-    include: {
-      addresses?: boolean
-      contacts?: boolean
-      posts?:
-        | boolean
-        | {
-            include: {
-              user?: boolean
-              comments?: boolean
-              postLikes?: boolean
-            }
-          }
-      userEducations?: boolean
-      userExperiences?: boolean
-    }
-  }
-): Promise<GetUsernameResData | ResData> => {
+// UserEducation
+
+// Create current user education
+export const createCurrentUserEducation = async (
+  reqBody: UserCreateEducationReqBody
+) => {
   try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_GET_USERNAME}/${username}`
-    const response = await axios.post(url, data)
-    return response.data as GetUsernameResData
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EDUCATION}`
+    const axiosResponse = await axios.post(url, reqBody)
+    return axiosResponse.data as ServerResponse<UserEducation>
   } catch (err) {
-    return formatServerErrorData(err)
+    formatServerError(err)
   }
 }
+
+// Update current user education
+export const updateCurrentUserEducation = async (
+  recordId: string,
+  reqBody: UserUpdateEducationReqBody
+) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EDUCATION}/${recordId}`
+    const axiosResponse = await axios.patch(url, reqBody)
+    return axiosResponse.data as ServerResponse<UserEducation>
+  } catch (err) {
+    formatServerError(err)
+  }
+}
+
+// Delete current user education
+export const deleteCurrentUserEducation = async (recordId: string) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EDUCATION}/${recordId}`
+    const axiosResponse = await axios.delete(url)
+    return axiosResponse.data as ServerResponse
+  } catch (err) {
+    formatServerError(err)
+  }
+}
+
+// UserExperience
+
+// Create current user education
+export const createCurrentUserExperience = async (
+  reqBody: UserCreateExperienceReqBody
+) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EXPERIENCE}`
+    const axiosResponse = await axios.post(url, reqBody)
+    return axiosResponse.data as ServerResponse<UserExperience>
+  } catch (err) {
+    formatServerError(err)
+  }
+}
+
+// Update current user education
+export const updateCurrentUserExperience = async (
+  recordId: string,
+  reqBody: UserUpdateExperienceReqBody
+) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EXPERIENCE}/${recordId}`
+    const axiosResponse = await axios.patch(url, reqBody)
+    return axiosResponse.data as ServerResponse<UserExperience>
+  } catch (err) {
+    formatServerError(err)
+  }
+}
+
+// Delete current user education
+export const deleteCurrentUserExperience = async (recordId: string) => {
+  try {
+    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_CURRENT_USER_EXPERIENCE}/${recordId}`
+    const axiosResponse = await axios.delete(url)
+    return axiosResponse.data as ServerResponse
+  } catch (err) {
+    formatServerError(err)
+  }
+}
+
+// Github repositories
 
 // Gets user github repos
-export const getUserGithubRepos = async (
+export const readUserGithubRepos = async (
   githubRepositories: string[]
-): Promise<GetUserGithubReposRes> => {
+): Promise<ReadGithubRepoServerResponse[]> => {
+  // Setup octokit
   const auth = createTokenAuth(process.env.NEXT_GITHUB_AUTH_TOKEN || '')
   const { token } = await auth()
   const octokit = new Octokit({ auth: token })
 
-  const repositoryResponses = await Promise.all(
+  // Obtain repositories / errors
+  const repoResponses = await Promise.all(
     githubRepositories.map(async (repository) => {
       const endpoint = repository.split('.com/')[1]
 
@@ -125,34 +191,17 @@ export const getUserGithubRepos = async (
         const repositoryResponse = await octokit.request(
           `GET /repos/${endpoint}`
         )
-        return repositoryResponse as GetUserGithubRepoRes
+        return repositoryResponse as ReadGithubRepoServerResponse
       } catch {
-        return { url: repository, success: false }
+        return {
+          status: HttpStatusCode.INTERNAL_SERVER_ERROR,
+          success: false,
+          type: 'error',
+          url: 'http:localhost:3000/feed',
+        }
       }
     })
   )
 
-  return repositoryResponses
-}
-
-// Updates user
-export const updateUser = async (
-  data:
-    | UserBioFormData
-    | UserGithubReposFormData
-    | UserSkillsFormData
-    | CreateUserEducationsReqBody
-    | UpdateUserEducationsReqBody
-    | UserEditContactReqBody
-    | UserDetailsReqBody,
-  user: User
-): Promise<ResData> => {
-  try {
-    // Send post request with provided data
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${USERS_USER}/${user.id}`
-    const response = await axios.patch(url, data)
-    return response.data as PatchUserResData
-  } catch (err) {
-    return formatServerErrorData(err)
-  }
+  return repoResponses
 }

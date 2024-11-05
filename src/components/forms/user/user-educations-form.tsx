@@ -19,7 +19,7 @@ import { X } from 'lucide-react'
 // utils
 import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
-import { updateUser } from '@/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'

@@ -11,7 +11,7 @@ import { useEffect, useRef } from 'react'
 import { useToast } from '@/src/hooks/use-toast'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
-import { getUserSearch } from '@/actions/user-actions'
+import { getUserSearch } from '@/src/actions-old/user-actions'
 
 // types
 import { GetUserSearchResData } from '@/types/server-types'
@@ -53,9 +53,7 @@ export const SearchForm = () => {
         title: 'Success!',
         description: response.message,
       })
-      setSearchDevbookResults(
-        (response as GetUserSearchResData).data
-      )
+      setSearchDevbookResults((response as GetUserSearchResData).data)
     }
   }
 

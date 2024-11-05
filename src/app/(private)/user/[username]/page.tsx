@@ -6,7 +6,7 @@ import { UserBioCard } from '@/components/cards/user/user-bio-card'
 import { UserContactsCard } from '@/src/components/cards/user/user-contacts-card'
 
 // utils
-import { getCurrentUser, getUsername } from '@/actions/user-actions'
+import { getCurrentUser, getUsername } from '@/src/actions-old/user-actions'
 
 // types
 import { User } from '@/types/user-types'

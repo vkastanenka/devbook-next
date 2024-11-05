@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
 // utils
-import { updateUser } from '@/actions/user-actions'
+import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'

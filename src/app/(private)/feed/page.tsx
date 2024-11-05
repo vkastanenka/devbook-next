@@ -6,7 +6,7 @@ import { Feed } from '@/components/ui/feed'
 import { Separator } from '@/components/ui/separator'
 
 // utils
-import { getCurrentUser, getUsername } from '@/actions/user-actions'
+import { getCurrentUser, getUsername } from '@/src/actions-old/user-actions'
 
 // types
 import { GetUsernameResData } from '@/types/server-types'

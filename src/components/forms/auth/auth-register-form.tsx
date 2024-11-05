@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 
 // utils
 import { useState } from 'react'
-import { register } from '@/actions/auth-actions'
+import { register } from '@/src/actions-old/auth-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
@@ -175,7 +175,7 @@ export const AuthRegisterForm = () => {
         />
 
         <Button disabled={isSubmitting}>
-          <p className='h4'>Register</p>
+          <p className="h4">Register</p>
         </Button>
       </form>
     </Form>

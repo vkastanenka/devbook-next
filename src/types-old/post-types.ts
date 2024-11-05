@@ -1,43 +1,4 @@
-// types
 import { User } from '@/types/user-types'
-
-// validation
-import { z } from 'zod'
-import { postValidation } from '@/validation/post'
-
-// Comment
-
-export type PostCreateCommentReqBody = z.infer<
-  typeof postValidation.postCreateCommentReqBodySchema
->
-
-export type PostUpdateCommentReqBody = z.infer<
-  typeof postValidation.postUpdateCommentReqBodySchema
->
-
-// CommentLike
-
-export type PostCreateCommentLikeReqBody = z.infer<
-  typeof postValidation.postCreateCommentLikeReqBodySchema
->
-
-// Post
-
-export type PostCreatePostReqBody = z.infer<
-  typeof postValidation.postCreatePostReqBodySchema
->
-
-export type PostUpdatePostReqBody = z.infer<
-  typeof postValidation.postUpdatePostReqBodySchema
->
-
-// PostLike
-
-export type PostCreatePostLikeReqBody = z.infer<
-  typeof postValidation.postCreatePostLikeReqBodySchema
->
-
-// Comment
 
 export interface Comment {
   id: string
@@ -54,8 +15,6 @@ export interface Comment {
   subComments?: Comment[]
 }
 
-// CommentLike
-
 export interface CommentLike {
   id: string
   createdAt: Date
@@ -65,8 +24,6 @@ export interface CommentLike {
   user?: User
   userId: string
 }
-
-// Post
 
 export enum PostType {
   DEFAULT,
@@ -85,8 +42,6 @@ export interface Post {
   comments?: Comment[]
   postLikes?: PostLike[]
 }
-
-// PostLike
 
 export interface PostLike {
   id: string

@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { resetPassword } from '@/actions/auth-actions'
+import { resetPassword } from '@/src/actions-old/auth-actions'
 
 // types
 import {
@@ -97,7 +97,7 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
         />
 
         <Button disabled={isSubmitting}>
-          <p className='h4'>Update password</p>
+          <p className="h4">Update password</p>
         </Button>
       </form>
     </Form>

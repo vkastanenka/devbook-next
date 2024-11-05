@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { sendResetPasswordToken } from '@/actions/auth-actions'
+import { sendResetPasswordToken } from '@/src/actions-old/auth-actions'
 
 // types
 import {
@@ -105,16 +105,14 @@ export const AuthSendResetPasswordTokenForm = () => {
               </FormControl>
               <FormMessage />
               {responseErrors?.email && (
-                <p className="muted text-destructive">
-                  {responseErrors.email}
-                </p>
+                <p className="muted text-destructive">{responseErrors.email}</p>
               )}
             </FormItem>
           )}
         />
 
         <Button disabled={isSubmitting}>
-          <p className='h4'>Send recovery email</p>
+          <p className="h4">Send recovery email</p>
         </Button>
       </form>
     </Form>
