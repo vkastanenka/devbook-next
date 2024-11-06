@@ -1,5 +1,12 @@
 'use client'
 
+// actions
+import {
+  userCreateCurrentUserEducation,
+  userUpdateCurrentUserEducation,
+  userDeleteCurrentUserEducation,
+} from '@/src/actions/user-actions'
+
 // components
 import {
   Form,
@@ -8,56 +15,80 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
+} from '@/src/components/ui/form'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
+import { Separator } from '@/src/components/ui/separator'
 
 // svg
 import { X } from 'lucide-react'
 
 // utils
 import { cn } from '@/src/lib/utils'
-import { useState } from 'react'
-import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
-import { useModal } from '@/hooks/use-modal-store'
+import { useState } from 'react'
+import { useToast } from '@/src/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { User, UserEducation, UserEducationsFormData } from '@/types/user-types'
 import {
-  UserEducation,
-  UserCreateEducationReqBody,
+  User,
+  UserEducationFormItem,
+  UserCreateUpdateEducationsFormData,
+  UserCreateCurrentUserEducationReqBody,
   UserUpdateEducationReqBody,
-  UserEducationsFormData,
-  UserEducationsFormItems,
-} from '@/types/user-types'
+} from '@/src/types/user-types'
+import { ServerResponse } from '@/src/types/server-types'
 
 // validation
-import {
-  userEducationsFormItemSchema,
-  userEducationsFormDataSchema,
-} from '@/validation/user-validation'
+import { userCreateUpdateEducationsFormSchema } from '@/src/validation/user-validation'
 
-export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
+interface UserEducationsForm {
+  user: User
+}
+
+export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
-  const [userEducationsToDelete, setUserEducationsToDelete] =
-    useState<{ id: string }[]>()
+  const defaultCreatesValues: UserEducationFormItem[] = []
 
-  const [renderedFormValues, setRenderedFormValues] = useState<
-    UserEducationsFormItems | undefined
-  >(user.userEducations)
+  const defaultUpdateValues: {
+    recordId: string
+    reqBody: UserEducationFormItem
+  }[] =
+    user.userEducations?.map((edu) => ({
+      recordId: edu.id,
+      reqBody: {
+        school: edu.school,
+        degree: edu.degree,
+        startYear: edu.startYear,
+        endYear: edu.endYear,
+      },
+    })) || []
+
+  const [createFormValues, setCreateFormValues] =
+    useState<UserEducationFormItem[]>(defaultCreatesValues)
+
+  const [updateFormValues, setUpdateFormValues] = useState<
+    {
+      recordId: string
+      reqBody: UserEducationFormItem
+    }[]
+  >(defaultUpdateValues)
+
+  const [userEducationsToDelete, setUserEducationsToDelete] = useState<
+    { id: string }[]
+  >([])
 
   const form = useForm({
-    resolver: zodResolver(userEducationsFormDataSchema),
+    resolver: zodResolver(userCreateUpdateEducationsFormSchema),
     defaultValues: {
-      userEducations: user.userEducations,
+      create: defaultCreatesValues,
+      update: defaultUpdateValues,
     },
   })
 
@@ -69,71 +100,74 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: UserEducationsFormData) => {
-      const { userEducations } = formData
-      if (userEducations) {
-        let createRes, updateRes
-        const { createReqBody, updateReqsBodies } =
-          formatReqBody(userEducations)
+    async ({ create, update }: UserCreateUpdateEducationsFormData) => {
+      const errorResponses: ServerResponse[] = []
 
-        // Send req to create educations
-        if (createReqBody) {
-          createRes = await updateUser(createReqBody, user)
-        }
-
-        // Send requests to update educations
-        if (updateReqsBodies) {
-          updateRes = await Promise.all(
-            updateReqsBodies.map(async (reqBody) => {
-              return await updateUser(reqBody, user)
-            })
+      if (create.length) {
+        const createReqBodies: UserCreateCurrentUserEducationReqBody[] =
+          create.map(
+            (reqBody) =>
+              ({
+                ...reqBody,
+                userId: user.id,
+              } as UserCreateCurrentUserEducationReqBody)
           )
-        }
 
-        // Send req to delete educations
-        if (userEducationsToDelete) {
-          const reqBody = {
-            userEducations: {
-              deleteMany: userEducationsToDelete,
-            },
-          }
+        const createResponses = await Promise.all(
+          createReqBodies.map(async (reqBody) => {
+            return await userCreateCurrentUserEducation(reqBody)
+          })
+        )
 
-          await updateUser(reqBody, user)
-        }
-
-        // Check if any response has server error
-        let resIncludesServerError = false
-
-        if (createRes && !createRes?.success) {
-          resIncludesServerError = true
-        }
-
-        updateRes?.every((res) => {
-          if (!res?.success) {
-            resIncludesServerError = true
-            return false
-          }
-          return true
+        createResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
         })
+      }
 
-        // If any server errors from any response, give toast message
-        if (resIncludesServerError) {
-          toast({
-            title: 'Error!',
-            description: createRes?.message,
-            variant: 'destructive',
+      if (update.length) {
+        const updateResponses = await Promise.all(
+          update.map(async (formItem) => {
+            return await userUpdateCurrentUserEducation(
+              formItem.recordId,
+              formItem.reqBody as UserUpdateEducationReqBody
+            )
           })
-        }
+        )
 
-        // If successful, refresh page
-        if (!resIncludesServerError) {
-          onClose()
-          router.refresh()
-          toast({
-            title: 'Success!',
-            description: createRes?.message,
+        updateResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
+        })
+      }
+
+      if (userEducationsToDelete.length) {
+        const deleteResponses = await Promise.all(
+          userEducationsToDelete.map(async ({ id }) => {
+            return await userDeleteCurrentUserEducation(id)
           })
-        }
+        )
+
+        deleteResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
+        })
+      }
+
+      // If any server errors from any response, give toast message
+      if (errorResponses.length) {
+        toast({
+          title: 'Error!',
+          description: 'Error performing update',
+          variant: 'destructive',
+        })
+      }
+
+      // If successful, refresh page
+      if (!errorResponses.length) {
+        onClose()
+        router.refresh()
+        toast({
+          title: 'Success!',
+          description: 'User educations updated',
+        })
       }
     }
   )
@@ -148,113 +182,214 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
         <div
           className={cn(
             'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
-            renderedFormValues && renderedFormValues?.length > 1 ? 'pr-4' : ''
+            createFormValues.length > 1 || updateFormValues.length > 1
+              ? 'pr-4'
+              : ''
           )}
         >
-          {renderedFormValues?.length
-            ? renderedFormValues.map((_, i, arr) => {
-                return (
-                  <div key={i} className="relative flex flex-col gap-4">
-                    <p className="h4">Past education</p>
+          {createFormValues.length > 0 &&
+            createFormValues.map((_, i, arr) => {
+              return (
+                <div key={i} className="relative flex flex-col gap-4">
+                  <p className="h4">Past education</p>
 
-                    <FormField
-                      name={`userEducations.${i}.school`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>School</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="School"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    name={`create.${i}.school`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>School</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="School"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      name={`userEducations.${i}.degree`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Degree</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Degree"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    name={`create.${i}.degree`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Degree</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Degree"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      name={`userEducations.${i}.startYear`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Start year</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Start year"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    name={`create.${i}.startYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Start year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    <FormField
-                      name={`userEducations.${i}.endYear`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>End year</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="End year"
-                              disabled={isSubmitting}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <FormField
+                    name={`create.${i}.endYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="End year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    {i !== arr.length - 1 && <Separator />}
+                  {i !== arr.length - 1 && <Separator />}
 
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault()
-                        const formValues = getValues()
-                        const filteredValues =
-                          formValues.userEducations?.filter((edu, j) => {
-                            const isFiltered = i === j
-                            if (isFiltered && edu.id) {
-                              setUserEducationsToDelete((prevState) => [
-                                ...(prevState ? prevState : []),
-                                { id: edu.id },
-                              ])
-                            }
-                            return !isFiltered
-                          })
-                        setValue('userEducations', filteredValues)
-                        setRenderedFormValues(filteredValues)
-                      }}
-                      className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                )
-              })
-            : null}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.create?.filter(
+                        (_, j) => {
+                          const isFiltered = i === j
+                          return !isFiltered
+                        }
+                      )
+                      setValue('create', filteredValues)
+                      setCreateFormValues(filteredValues)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+
+          {updateFormValues.length > 0 &&
+            updateFormValues.map((_, i, arr) => {
+              return (
+                <div key={i} className="relative flex flex-col gap-4">
+                  <p className="h4">Past education</p>
+
+                  <FormField
+                    name={`update.${i}.reqBody.school`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>School</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="School"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name={`update.${i}.reqBody.degree`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Degree</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Degree"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name={`update.${i}.reqBody.startYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Start year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    name={`update.${i}.reqBody.endYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="End year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {i !== arr.length - 1 && <Separator />}
+
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.update?.filter(
+                        (edu, j) => {
+                          const isFiltered = i === j
+                          if (isFiltered && edu.recordId) {
+                            setUserEducationsToDelete((prevState) => [
+                              ...(prevState ? prevState : []),
+                              { id: edu.recordId },
+                            ])
+                          }
+                          return !isFiltered
+                        }
+                      )
+                      setValue('update', filteredValues)
+                      setUpdateFormValues(filteredValues)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
         </div>
 
         <button
@@ -262,18 +397,18 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
             e.preventDefault()
             const formValues = getValues()
 
-            const updatedValues = [
+            const updatedCreateValues: UserEducationFormItem[] = [
               {
                 school: '',
                 degree: '',
                 startYear: '',
-                endYear: '',
-              } as UserEducation,
-              ...(formValues.userEducations || []),
+                endYear: undefined,
+              } as UserEducationFormItem,
+              ...formValues.create,
             ]
 
-            setRenderedFormValues(updatedValues)
-            setValue('userEducations', updatedValues)
+            setCreateFormValues(updatedCreateValues)
+            setValue('create', updatedCreateValues)
           }}
         >
           <p className="h4">Add education</p>
@@ -285,49 +420,4 @@ export const UserEducationsForm: React.FC<{ user: User }> = ({ user }) => {
       </form>
     </Form>
   )
-}
-
-const formatReqBody = (formItems: UserEducationsFormItems) => {
-  const formItemsNoUserId = formItems.map((formItem) => {
-    if ((formItem as UserEducation).userId) {
-      delete (formItem as UserEducation).userId
-    }
-    return formItem
-  })
-
-  const createFormItems: UserEducationsFormItem[] = formItemsNoUserId.filter(
-    (formItem) => !(formItem as UserEducation).id
-  )
-
-  const createReqBody: CreateUserEducationsReqBody = {
-    userEducations: { create: createFormItems },
-  }
-
-  const updateReqsBodies: UpdateUserEducationsReqBody[] = formItemsNoUserId
-    .filter((formItem) => (formItem as UserEducation).id)
-    .map((formItem) => ({
-      userEducations: {
-        update: {
-          where: {
-            id: (formItem as UserEducation).id,
-          },
-          data: formItem as UserEducation,
-        },
-      },
-    }))
-
-  const formattedRequestBodies = {
-    ...(createFormItems.length
-      ? {
-          createReqBody,
-        }
-      : {}),
-    ...(updateReqsBodies.length
-      ? {
-          updateReqsBodies,
-        }
-      : {}),
-  }
-
-  return formattedRequestBodies
 }

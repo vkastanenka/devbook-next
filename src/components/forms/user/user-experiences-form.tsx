@@ -1,410 +1,585 @@
-// 'use client'
+'use client'
 
-// // components
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from '@/components/ui/form'
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from '@/components/ui/select'
-// import { Button } from '@/components/ui/button'
-// import { Input } from '@/components/ui/input'
-// import { Textarea } from '@/components/ui/textarea'
-// import { Separator } from '@/components/ui/separator'
+// actions
+import {
+  userCreateCurrentUserExperience,
+  userUpdateCurrentUserExperience,
+  userDeleteCurrentUserExperience,
+} from '@/actions/user-actions'
 
-// // svg
-// import { X } from 'lucide-react'
+// components
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Separator } from '@/components/ui/separator'
 
-// // utils
-// import { useState } from 'react'
-// import { updateUser } from '@/src/actions-old/user-actions'
-// import { useForm } from 'react-hook-form'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { useToast } from '@/hooks/use-toast'
-// import { useRouter } from 'next/navigation'
-// import { useModal } from '@/hooks/use-modal-store'
+// svg
+import { X } from 'lucide-react'
 
-// // validation
-// import { userExperiencesFormSchema } from '@/validation/user'
+// utils
+import { cn } from '@/src/lib/utils'
+import { useForm } from 'react-hook-form'
+import { useModal } from '@/hooks/use-modal-store'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-// // types
-// import { User } from '@/types/user-types'
-// import {
-//   UserExperience,
-//   UserExperiencesFormItem,
-//   UserExperiencesFormData,
-//   CreateUserExperiencesReqBody,
-//   UpdateUserExperiencesReqBody,
-//   UserExperiencesFormItems,
-// } from '@/types/user-types'
+// types
+import {
+  User,
+  UserExperienceFormItem,
+  UserCreateUpdateExperiencesFormData,
+  UserCreateCurrentUserExperienceReqBody,
+  UserUpdateExperienceReqBody,
+} from '@/src/types/user-types'
+import { ServerResponse } from '@/src/types/server-types'
 
-// export const UserExperiencesForm: React.FC<{ user: User }> = ({ user }) => {
-//   const router = useRouter()
-//   const { toast } = useToast()
-//   const { onClose } = useModal()
+// validation
+import { userCreateUpdateExperiencesFormSchema } from '@/src/validation/user-validation'
 
-//   const [userExperiencesToDelete, setUserExperiencesToDelete] =
-//     useState<{ id: string }[]>()
+interface UserExperiencesForm {
+  user: User
+}
 
-//   const [renderedFormValues, setRenderedFormValues] = useState<
-//     UserExperiencesFormItems | undefined
-//   >(user.userExperiences)
+export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
+  user,
+}) => {
+  const router = useRouter()
+  const { toast } = useToast()
+  const { onClose } = useModal()
 
-//   const form = useForm({
-//     resolver: zodResolver(userExperiencesFormSchema),
-//     defaultValues: {
-//       userExperiences: user.userExperiences,
-//     },
-//   })
+  const defaultCreatesValues: UserExperienceFormItem[] = []
 
-//   const {
-//     getValues,
-//     handleSubmit,
-//     formState: { isSubmitting },
-//     setValue,
-//   } = form
+  const defaultUpdateValues: {
+    recordId: string
+    reqBody: UserExperienceFormItem
+  }[] =
+    user.userExperiences?.map((exp) => ({
+      recordId: exp.id,
+      reqBody: {
+        company: exp.company,
+        type: exp.type,
+        schedule: exp.schedule,
+        title: exp.title,
+        description: exp.description,
+        startYear: exp.startYear,
+        endYear: exp.endYear,
+      },
+    })) || []
 
-//   const action: () => void = handleSubmit(
-//     async (formData: UserExperiencesFormData) => {
-//       const { userExperiences } = formData
-//       if (userExperiences) {
-//         let createRes, updateRes
-//         const { createReqBody, updateReqsBodies } =
-//           formatReqBody(userExperiences)
+  const [createFormValues, setCreateFormValues] =
+    useState<UserExperienceFormItem[]>(defaultCreatesValues)
 
-//         // Send req to create educations
-//         if (createReqBody) {
-//           createRes = await updateUser(createReqBody, user)
-//         }
+  const [updateFormValues, setUpdateFormValues] = useState<
+    {
+      recordId: string
+      reqBody: UserExperienceFormItem
+    }[]
+  >(defaultUpdateValues)
 
-//         // Send requests to update educations
-//         if (updateReqsBodies) {
-//           updateRes = await Promise.all(
-//             updateReqsBodies.map(async (reqBody) => {
-//               return await updateUser(reqBody, user)
-//             })
-//           )
-//         }
+  const [userExperiencesToDelete, setUserExperiencesToDelete] = useState<
+    { id: string }[]
+  >([])
 
-//         // Send req to delete educations
-//         if (userExperiencesToDelete) {
-//           const reqBody = {
-//             userExperiences: {
-//               deleteMany: userExperiencesToDelete,
-//             },
-//           }
+  const form = useForm({
+    resolver: zodResolver(userCreateUpdateExperiencesFormSchema),
+    defaultValues: {
+      create: defaultCreatesValues,
+      update: defaultUpdateValues,
+    },
+  })
 
-//           await updateUser(reqBody, user)
-//         }
+  const {
+    getValues,
+    handleSubmit,
+    formState: { isSubmitting },
+    setValue,
+  } = form
 
-//         // Check if any response has server error
-//         let resIncludesServerError = false
+  const action: () => void = handleSubmit(
+    async ({ create, update }: UserCreateUpdateExperiencesFormData) => {
+      const errorResponses: ServerResponse[] = []
 
-//         if (createRes && !createRes?.success) {
-//           resIncludesServerError = true
-//         }
+      if (create.length) {
+        const createReqBodies: UserCreateCurrentUserExperienceReqBody[] =
+          create.map(
+            (reqBody) =>
+              ({
+                ...reqBody,
+                userId: user.id,
+              } as UserCreateCurrentUserExperienceReqBody)
+          )
 
-//         updateRes?.every((res) => {
-//           if (!res?.success) {
-//             resIncludesServerError = true
-//             return false
-//           }
-//           return true
-//         })
+        const createResponses = await Promise.all(
+          createReqBodies.map(async (reqBody) => {
+            return await userCreateCurrentUserExperience(reqBody)
+          })
+        )
 
-//         // If any server errors from any response, give toast message
-//         if (resIncludesServerError) {
-//           toast({
-//             title: 'Error!',
-//             description: createRes?.message,
-//             variant: 'destructive',
-//           })
-//         }
+        createResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
+        })
+      }
 
-//         // If successful, refresh page
-//         if (!resIncludesServerError) {
-//           onClose()
-//           router.refresh()
-//           toast({
-//             title: 'Success!',
-//             description: createRes?.message,
-//           })
-//         }
-//       }
-//     }
-//   )
+      if (update.length) {
+        const updateResponses = await Promise.all(
+          update.map(async (formItem) => {
+            return await userUpdateCurrentUserExperience(
+              formItem.recordId,
+              formItem.reqBody as UserUpdateExperienceReqBody
+            )
+          })
+        )
 
-//   return (
-//     <Form {...form}>
-//       <form
-//         action={action}
-//         autoComplete="off"
-//         className="flex flex-col gap-4 justify-center"
-//       >
-//         <div className="flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-4">
-//           {renderedFormValues?.length
-//             ? renderedFormValues.map((_, i, arr) => {
-//                 return (
-//                   <div key={i} className="relative flex flex-col gap-4">
-//                     <p className="h4">Past experience</p>
+        updateResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
+        })
+      }
 
-//                     <FormField
-//                       name={`userExperiences.${i}.company`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Company</FormLabel>
-//                           <FormControl>
-//                             <Input
-//                               placeholder="Company"
-//                               disabled={isSubmitting}
-//                               {...field}
-//                             />
-//                           </FormControl>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+      if (userExperiencesToDelete.length) {
+        const deleteResponses = await Promise.all(
+          userExperiencesToDelete.map(async ({ id }) => {
+            return await userDeleteCurrentUserExperience(id)
+          })
+        )
 
-//                     <FormField
-//                       name={`userExperiences.${i}.title`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Title</FormLabel>
-//                           <FormControl>
-//                             <Input
-//                               placeholder="Title"
-//                               disabled={isSubmitting}
-//                               {...field}
-//                             />
-//                           </FormControl>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+        deleteResponses.forEach((res) => {
+          if (!res?.success) errorResponses.push(res as ServerResponse)
+        })
+      }
 
-//                     <FormField
-//                       name={`userExperiences.${i}.type`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Type</FormLabel>
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             defaultValue={field.value}
-//                           >
-//                             <FormControl>
-//                               <SelectTrigger>
-//                                 <SelectValue placeholder="Type" />
-//                               </SelectTrigger>
-//                             </FormControl>
-//                             <SelectContent>
-//                               <SelectItem value="Permanent">
-//                                 {'Permanent'}
-//                               </SelectItem>
-//                               <SelectItem value="Contract">
-//                                 {'Contract'}
-//                               </SelectItem>
-//                             </SelectContent>
-//                           </Select>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+      // If any server errors from any response, give toast message
+      if (errorResponses.length) {
+        toast({
+          title: 'Error!',
+          description: 'Error performing update',
+          variant: 'destructive',
+        })
+      }
 
-//                     <FormField
-//                       name={`userExperiences.${i}.schedule`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Schedule</FormLabel>
-//                           <Select
-//                             onValueChange={field.onChange}
-//                             defaultValue={field.value}
-//                           >
-//                             <FormControl>
-//                               <SelectTrigger>
-//                                 <SelectValue placeholder="Schedule" />
-//                               </SelectTrigger>
-//                             </FormControl>
-//                             <SelectContent>
-//                               <SelectItem value="Full-time">
-//                                 {'Full-time'}
-//                               </SelectItem>
-//                               <SelectItem value="Part-time">
-//                                 {'Part-time'}
-//                               </SelectItem>
-//                             </SelectContent>
-//                           </Select>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+      // If successful, refresh page
+      if (!errorResponses.length) {
+        onClose()
+        router.refresh()
+        toast({
+          title: 'Success!',
+          description: 'User experiences updated',
+        })
+      }
+    }
+  )
 
-//                     <FormField
-//                       name={`userExperiences.${i}.description`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Description</FormLabel>
-//                           <FormControl>
-//                             <Textarea
-//                               rows={10}
-//                               placeholder="Description"
-//                               disabled={isSubmitting}
-//                               {...field}
-//                             />
-//                           </FormControl>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+  return (
+    <Form {...form}>
+      <form
+        action={action}
+        autoComplete="off"
+        className="flex flex-col gap-4 justify-center"
+      >
+        <div
+          className={cn(
+            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
+            createFormValues.length > 1 || updateFormValues.length > 1
+              ? 'pr-4'
+              : ''
+          )}
+        >
+          {createFormValues.length > 0 &&
+            createFormValues.map((_, i, arr) => {
+              return (
+                <div key={i} className="relative flex flex-col gap-4">
+                  <p className="h4">Past experience</p>
 
-//                     <FormField
-//                       name={`userExperiences.${i}.startYear`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>Start year</FormLabel>
-//                           <FormControl>
-//                             <Input
-//                               type="number"
-//                               placeholder="Start year"
-//                               disabled={isSubmitting}
-//                               {...field}
-//                             />
-//                           </FormControl>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+                  <FormField
+                    name={`create.${i}.company`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Company"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//                     <FormField
-//                       name={`userExperiences.${i}.endYear`}
-//                       render={({ field }) => (
-//                         <FormItem>
-//                           <FormLabel>End year</FormLabel>
-//                           <FormControl>
-//                             <Input
-//                               type="number"
-//                               placeholder="End year"
-//                               disabled={isSubmitting}
-//                               {...field}
-//                             />
-//                           </FormControl>
-//                           <FormMessage />
-//                         </FormItem>
-//                       )}
-//                     />
+                  <FormField
+                    name={`create.${i}.title`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Title"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//                     {i !== arr.length - 1 && <Separator />}
+                  <FormField
+                    name={`create.${i}.type`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Type</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Permanent">
+                              {'Permanent'}
+                            </SelectItem>
+                            <SelectItem value="Contract">
+                              {'Contract'}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//                     <button
-//                       onClick={(e) => {
-//                         e.preventDefault()
-//                         const formValues = getValues()
-//                         const filteredValues =
-//                           formValues.userExperiences?.filter((edu, j) => {
-//                             const isFiltered = i === j
-//                             if (isFiltered && edu.id) {
-//                               setUserExperiencesToDelete((prevState) => [
-//                                 ...(prevState ? prevState : []),
-//                                 { id: edu.id },
-//                               ])
-//                             }
-//                             return !isFiltered
-//                           })
-//                         setValue('userExperiences', filteredValues)
-//                         setRenderedFormValues(filteredValues)
-//                       }}
-//                       className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
-//                     >
-//                       <X className="w-4 h-4" />
-//                     </button>
-//                   </div>
-//                 )
-//               })
-//             : null}
-//         </div>
+                  <FormField
+                    name={`create.${i}.schedule`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Schedule</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Schedule" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Full-time">
+                              {'Full-time'}
+                            </SelectItem>
+                            <SelectItem value="Part-time">
+                              {'Part-time'}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//         <button
-//           onClick={(e) => {
-//             e.preventDefault()
-//             const formValues = getValues()
+                  <FormField
+                    name={`create.${i}.description`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            rows={10}
+                            placeholder="Description"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//             const updatedValues = [
-//               {
-//                 company: '',
-//                 type: 'Permanent',
-//                 schedule: 'Full-time',
-//                 title: '',
-//                 description: '',
-//                 startYear: '',
-//                 endYear: '',
-//               } as UserExperience,
-//               ...(formValues.userExperiences || []),
-//             ]
+                  <FormField
+                    name={`create.${i}.startYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Start year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//             setRenderedFormValues(updatedValues)
-//             setValue('userExperiences', updatedValues)
-//           }}
-//         >
-//           <p className="h4">Add experience</p>
-//         </button>
+                  <FormField
+                    name={`create.${i}.endYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="End year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-//         <Button disabled={isSubmitting}>
-//           <p className="h4">Update experiences</p>
-//         </Button>
-//       </form>
-//     </Form>
-//   )
-// }
+                  {i !== arr.length - 1 && <Separator />}
 
-// const formatReqBody = (formItems: UserExperiencesFormItems) => {
-//   const formItemsNoUserId = formItems.map((formItem) => {
-//     if ((formItem as UserExperience).userId) {
-//       delete (formItem as UserExperience).userId
-//     }
-//     return formItem
-//   })
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.create?.filter(
+                        (exp, j) => {
+                          const isFiltered = i === j
+                          return !isFiltered
+                        }
+                      )
+                      setValue('create', filteredValues)
+                      setCreateFormValues(filteredValues)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+        </div>
 
-//   const createFormItems: UserExperiencesFormItem[] = formItemsNoUserId.filter(
-//     (formItem) => !(formItem as UserExperience).id
-//   )
+        {updateFormValues.length > 0 &&
+          updateFormValues.map((_, i, arr) => {
+            return (
+              <div key={i} className="relative flex flex-col gap-4">
+                <p className="h4">Past experience</p>
 
-//   const createReqBody: CreateUserExperiencesReqBody = {
-//     userExperiences: { create: createFormItems },
-//   }
+                <FormField
+                  name={`update.${i}.reqBody.company`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Company"
+                          disabled={isSubmitting}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-//   const updateReqsBodies: UpdateUserExperiencesReqBody[] = formItemsNoUserId
-//     .filter((formItem) => (formItem as UserExperience).id)
-//     .map((formItem) => ({
-//       userExperiences: {
-//         update: {
-//           where: {
-//             id: (formItem as UserExperience).id,
-//           },
-//           data: formItem as UserExperience,
-//         },
-//       },
-//     }))
+                <FormField
+                  name={`update.${i}.reqBody.title`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Title"
+                          disabled={isSubmitting}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-//   const formattedRequestBodies = {
-//     ...(createFormItems.length
-//       ? {
-//           createReqBody,
-//         }
-//       : {}),
-//     ...(updateReqsBodies.length
-//       ? {
-//           updateReqsBodies,
-//         }
-//       : {}),
-//   }
+                <FormField
+                  name={`update.${i}.reqBody.type`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Permanent">
+                            {'Permanent'}
+                          </SelectItem>
+                          <SelectItem value="Contract">{'Contract'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-//   return formattedRequestBodies
-// }
+                <FormField
+                  name={`update.${i}.reqBody.schedule`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Schedule</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Schedule" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Full-time">
+                            {'Full-time'}
+                          </SelectItem>
+                          <SelectItem value="Part-time">
+                            {'Part-time'}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name={`update.${i}.reqBody.description`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows={10}
+                          placeholder="Description"
+                          disabled={isSubmitting}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name={`update.${i}.reqBody.startYear`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Start year</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Start year"
+                          disabled={isSubmitting}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name={`update.${i}.reqBody.endYear`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>End year</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="End year"
+                          disabled={isSubmitting}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {i !== arr.length - 1 && <Separator />}
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const formValues = getValues()
+                    const filteredValues = formValues.update?.filter(
+                      (exp, j) => {
+                        const isFiltered = i === j
+                        if (isFiltered && exp.recordId) {
+                          setUserExperiencesToDelete((prevState) => [
+                            ...(prevState ? prevState : []),
+                            { id: exp.recordId },
+                          ])
+                        }
+                        return !isFiltered
+                      }
+                    )
+                    setValue('update', filteredValues)
+                    setUpdateFormValues(filteredValues)
+                  }}
+                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )
+          })}
+
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            const formValues = getValues()
+
+            const updatedCreateValues: UserExperienceFormItem[] = [
+              {
+                company: '',
+                type: 'Permanent',
+                schedule: 'Full-time',
+                title: '',
+                description: '',
+                startYear: '',
+                endYear: '',
+              } as UserExperienceFormItem,
+              ...formValues.create,
+            ]
+
+            setCreateFormValues(updatedCreateValues)
+            setValue('create', updatedCreateValues)
+          }}
+        >
+          <p className="h4">Add experience</p>
+        </button>
+
+        <Button disabled={isSubmitting}>
+          <p className="h4">Update experiences</p>
+        </Button>
+      </form>
+    </Form>
+  )
+}

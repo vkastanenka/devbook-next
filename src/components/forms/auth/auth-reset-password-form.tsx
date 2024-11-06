@@ -1,5 +1,8 @@
 'use client'
 
+// actions
+import { authResetPassword } from '@/actions/auth-actions'
+
 // components
 import {
   Form,
@@ -13,10 +16,9 @@ import { Button } from '@/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { authResetPassword } from '@/actions/auth-actions'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import { AuthResetPasswordReqBody } from '@/types/auth-types'

@@ -5,7 +5,7 @@ import { User } from '@/types/user-types'
  * Fields
  */
 
-export type PostCommentBody = string
+export type CommentBody = string
 export type PostBody = string
 
 /**
@@ -14,28 +14,28 @@ export type PostBody = string
 
 // Comment
 
-export interface PostComment {
+export interface Comment {
   id: string
-  body: PostCommentBody
+  body: CommentBody
   createdAt: Date
   updatedAt: Date
-  parentComment?: PostComment
+  parentComment?: Comment
   parentCommentId?: string
   post?: Post
   postId: string
   user?: User
   userId: string
-  commentLikes?: PostCommentLike[]
-  subComments?: PostComment[]
+  commentLikes?: CommentLike[]
+  subComments?: Comment[]
 }
 
 // CommentLike
 
-export interface PostCommentLike {
+export interface CommentLike {
   id: string
   createdAt: Date
   updatedAt: Date
-  comment?: PostComment
+  comment?: Comment
   commentId: string
   user?: User
   userId: string
@@ -104,14 +104,14 @@ export interface PostUpdatePostFormData {
 // Comment
 
 export interface PostCreateCurrentUserCommentReqBody {
-  body: PostCommentBody
+  body: CommentBody
   parentCommentId?: string | null
   postId: string
   userId: string
 }
 
 export interface PostUpdateCommentReqBody {
-  body?: PostCommentBody
+  body?: CommentBody
 }
 
 // CommentLike

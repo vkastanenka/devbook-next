@@ -1,5 +1,11 @@
 'use client'
 
+// actions
+import {
+  addressCreateCurrentUserAddress,
+  addressUpdateCurrentUserAddress,
+} from '@/src/actions/address-actions'
+
 // components
 import {
   Form,
@@ -13,10 +19,6 @@ import { Input } from '@/src/components/ui/input'
 import { Button } from '@/src/components/ui/button'
 
 // utils
-import {
-  addressCreateCurrentUserAddress,
-  addressUpdateCurrentUserAddress,
-} from '@/src/actions/address-actions'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
@@ -26,30 +28,33 @@ import { zodResolver } from '@hookform/resolvers/zod'
 // types
 import {
   Address,
-  AddressFormData,
+  AddressCreateAddressFormData,
+  AddressUpdateAddressFormData,
   AddressCreateCurrentUserAddressReqBody,
   AddressUpdateAddressReqBody,
 } from '@/src/types/address-types'
 import { User } from '@/src/types/user-types'
 
 // validation
-import { addressFormSchema } from '@/src/validation/address-validation'
+import {
+  addressCreateAddressFormSchema,
+  addressUpdateAddressFormSchema,
+} from '@/src/validation/address-validation'
 
 interface AddressForm {
   address?: Address
-  currentUser?: User
+  user?: User
 }
 
-export const AddressForm: React.FC<AddressForm> = ({
-  address,
-  currentUser,
-}) => {
+export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
   const form = useForm({
-    resolver: zodResolver(addressFormSchema),
+    resolver: zodResolver(
+      address ? addressUpdateAddressFormSchema : addressCreateAddressFormSchema
+    ),
     defaultValues: {
       unitNumber: address?.unitNumber || undefined,
       streetNumber: address?.streetNumber || '',
@@ -66,13 +71,13 @@ export const AddressForm: React.FC<AddressForm> = ({
   } = form
 
   const createAction: () => void = handleSubmit(
-    async (formData: AddressFormData) => {
+    async (formData: AddressCreateAddressFormData) => {
       let response
 
-      if (currentUser) {
+      if (user) {
         const reqBody = {
-          userId: currentUser.id,
           ...formData,
+          userId: user.id,
         } as AddressCreateCurrentUserAddressReqBody
 
         response = await addressCreateCurrentUserAddress(reqBody)
@@ -99,7 +104,7 @@ export const AddressForm: React.FC<AddressForm> = ({
   )
 
   const updateAction: () => void = handleSubmit(
-    async (formData: AddressFormData) => {
+    async (formData: AddressUpdateAddressFormData) => {
       let response
 
       if (address) {

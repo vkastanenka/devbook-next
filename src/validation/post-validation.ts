@@ -1,5 +1,5 @@
 import {
-  PostCommentBody,
+  CommentBody,
   PostBody,
   PostCreateCommentFormData,
   PostUpdateCommentFormData,
@@ -16,7 +16,7 @@ import { z } from 'zod'
 
 // Comment
 
-const postCommentBodySchema: z.ZodType<PostCommentBody> = z
+const postCommentBodySchema: z.ZodType<CommentBody> = z
   .string()
   .min(10, { message: '10 character(s) min' })
   .max(1000, {

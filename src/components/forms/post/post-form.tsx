@@ -1,5 +1,11 @@
 'use client'
 
+// actions
+import {
+  postCreateCurrentUserPost,
+  postUpdateCurrentUserPost,
+} from '@/actions/post-actions'
+
 // components
 import { EmojiButton } from '@/components/buttons/emoji-button'
 import {
@@ -15,37 +21,41 @@ import { Button } from '@/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
-import {
-  postCreateCurrentUserPost,
-  postUpdateCurrentUserPost,
-} from '@/actions/post-actions'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
-  PostFormData,
-  PostCreatePostReqBody,
+  Post,
+  PostCreatePostFormData,
+  PostUpdatePostFormData,
+  PostCreateCurrentUserPostReqBody,
   PostUpdatePostReqBody,
 } from '@/types/post-types'
-import { Post } from '@/types/post-types'
 import { User } from '@/types/user-types'
 
 // validation
-import { postFormSchema } from '@/validation/post-validation'
+import {
+  postCreatePostFormSchema,
+  postUpdatePostFormSchema,
+} from '@/validation/post-validation'
 
-export const PostForm: React.FC<{
+interface PostForm {
   post?: Post
   user: User
-}> = ({ post, user }) => {
+}
+
+export const PostForm: React.FC<PostForm> = ({ post, user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
   const form = useForm({
-    resolver: zodResolver(postFormSchema),
+    resolver: zodResolver(
+      post ? postCreatePostFormSchema : postUpdatePostFormSchema
+    ),
     defaultValues: {
       body: post?.body || '',
     },
@@ -57,11 +67,11 @@ export const PostForm: React.FC<{
   } = form
 
   const createAction: () => void = handleSubmit(
-    async (formData: PostFormData) => {
+    async (formData: PostCreatePostFormData) => {
       const reqBody = {
-        userId: user.id,
         ...formData,
-      } as PostCreatePostReqBody
+        userId: user.id,
+      } as PostCreateCurrentUserPostReqBody
 
       const response = await postCreateCurrentUserPost(reqBody)
 
@@ -87,7 +97,7 @@ export const PostForm: React.FC<{
   )
 
   const updateAction: () => void = handleSubmit(
-    async (formData: PostFormData) => {
+    async (formData: PostUpdatePostFormData) => {
       if (post) {
         const response = await postUpdateCurrentUserPost(
           post.id,

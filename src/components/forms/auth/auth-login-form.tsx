@@ -1,5 +1,8 @@
 'use client'
 
+// actions
+import { authLogin } from '@/actions/auth-actions'
+
 // components
 import {
   Form,
@@ -12,12 +15,11 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 // utils
-import { useState } from 'react'
-import { authLogin } from '@/actions/auth-actions'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import { AuthLoginReqBody } from '@/types/auth-types'

@@ -1,5 +1,8 @@
 'use client'
 
+// actions
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
+
 // components
 import {
   Form,
@@ -22,7 +25,6 @@ import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 
 // utils
-import { userUpdateCurrentUser } from '@/src/actions/user-actions'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
@@ -32,12 +34,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 // types
 import { User } from '@/src/types/user-types'
 import {
-  UserDetailsFormData,
-  UserUpdateUserReqBody,
+  UserUpdateDetailsFormData,
+  UserUpdateCurrentUserReqBody,
 } from '@/src/types/user-types'
 
 // validation
-import { userDetailsFormSchema } from '@/src/validation/user-validation'
+import { userUpdateDetailsFormSchema } from '@/src/validation/user-validation'
 
 interface UserDetailsForm {
   user: User
@@ -49,7 +51,7 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
   const { onClose } = useModal()
 
   const form = useForm({
-    resolver: zodResolver(userDetailsFormSchema),
+    resolver: zodResolver(userUpdateDetailsFormSchema),
     defaultValues: {
       name: user.name,
       email: user.email,
@@ -66,10 +68,10 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: UserDetailsFormData) => {
+    async (formData: UserUpdateDetailsFormData) => {
       const response = await userUpdateCurrentUser(
         user.id,
-        formData as UserUpdateUserReqBody
+        formData as UserUpdateCurrentUserReqBody
       )
 
       // If other error, show toast message

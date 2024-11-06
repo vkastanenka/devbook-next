@@ -1,5 +1,8 @@
 'use client'
 
+// actions
+import { searchDevbook } from '@/actions/search-actions'
+
 // components
 import { Input } from '@/components/ui/input'
 
@@ -8,10 +11,9 @@ import { Search } from 'lucide-react'
 
 // utils
 import { useEffect, useRef } from 'react'
-import { useToast } from '@/hooks/use-toast'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useLayoutStore } from '@/hooks/use-layout-store'
-import { searchDevbook } from '@/actions/search-actions'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
 
 // types
 import { ServerResponse } from '@/src/types/server-types'

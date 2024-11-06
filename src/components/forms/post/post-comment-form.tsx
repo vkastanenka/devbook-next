@@ -1,5 +1,11 @@
 'use client'
 
+// actions
+import {
+  postCreateCurrentUserComment,
+  postUpdateCurrentUserComment,
+} from '@/actions/post-actions'
+
 // components
 import { EmojiButton } from '@/components/buttons/emoji-button'
 import {
@@ -15,39 +21,49 @@ import { Button } from '@/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
-import {
-  postCreateCurrentUserComment,
-  postUpdateCurrentUserComment,
-} from '@/actions/post-actions'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
-  PostCommentFormData,
-  PostCreateCommentReqBody,
+  Comment,
+  Post,
+  PostCreateCommentFormData,
+  PostUpdateCommentFormData,
+  PostCreateCurrentUserCommentReqBody,
   PostUpdateCommentReqBody,
 } from '@/types/post-types'
-import { Comment, Post } from '@/types/post-types'
 import { User } from '@/types/user-types'
 
 // validation
-import { postCommentFormSchema } from '@/validation/post-validation'
+import {
+  postCreateCommentFormSchema,
+  postUpdateCommentFormSchema,
+} from '@/validation/post-validation'
 
-export const PostCommentForm: React.FC<{
+interface PostCommentForm {
   comment?: Comment
   parentComment?: Comment
   post: Post
   user: User
-}> = ({ comment, parentComment, post, user }) => {
+}
+
+export const PostCommentForm: React.FC<PostCommentForm> = ({
+  comment,
+  parentComment,
+  post,
+  user,
+}) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
   const form = useForm({
-    resolver: zodResolver(postCommentFormSchema),
+    resolver: zodResolver(
+      comment ? postUpdateCommentFormSchema : postCreateCommentFormSchema
+    ),
     defaultValues: {
       body: comment?.body || '',
     },
@@ -59,13 +75,13 @@ export const PostCommentForm: React.FC<{
   } = form
 
   const createAction: () => void = handleSubmit(
-    async (formData: PostCommentFormData) => {
+    async (formData: PostCreateCommentFormData) => {
       const reqBody = {
-        postId: post.id,
-        userId: user.id,
         ...formData,
         ...(parentComment?.id ? { parentComment: parentComment.id } : {}),
-      } as PostCreateCommentReqBody
+        postId: post.id,
+        userId: user.id,
+      } as PostCreateCurrentUserCommentReqBody
 
       const response = await postCreateCurrentUserComment(reqBody)
 
@@ -91,7 +107,7 @@ export const PostCommentForm: React.FC<{
   )
 
   const updateAction: () => void = handleSubmit(
-    async (formData: PostCommentFormData) => {
+    async (formData: PostUpdateCommentFormData) => {
       if (comment) {
         const response = await postUpdateCurrentUserComment(
           comment.id,

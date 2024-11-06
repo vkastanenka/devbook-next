@@ -2,8 +2,8 @@
 import { Address } from '@/types/address-types'
 import { AuthSession } from '@/types/auth-types'
 import {
-  PostComment,
-  PostCommentLike,
+  Comment,
+  CommentLike,
   Post,
   PostLike,
 } from '@/types/post-types'
@@ -77,8 +77,8 @@ export interface User {
   createdAt: Date
   updatedAt: Date
   addresses?: Address[]
-  comments?: PostComment[]
-  commentLikes?: PostCommentLike[]
+  comments?: Comment[]
+  commentLikes?: CommentLike[]
   contacts?: User[]
   contactsOf?: User[]
   posts?: Post[]
