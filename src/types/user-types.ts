@@ -1,44 +1,52 @@
 // types
 import { Address } from '@/types/address-types'
-import { CommentLike, Post, PostLike } from '@/types/post-types'
-import { Session } from '@/types/auth-types'
-
-// validation
-import { z } from 'zod'
+import { AuthSession } from '@/types/auth-types'
 import {
-  userBioFormSchema,
-  userUpdateUserReqBodySchema,
-  userCreateEducationReqBodySchema,
-  userUpdateEducationReqBodySchema,
-  userCreateExperienceReqBodySchema,
-  userUpdateExperienceReqBodySchema,
-} from '@/validation/user-validation'
+  PostComment,
+  PostCommentLike,
+  Post,
+  PostLike,
+} from '@/types/post-types'
+
+/**
+ * Fields
+ */
 
 // User
 
-export type UserBioFormData = z.infer<typeof userBioFormSchema>
-
-export type UserUpdateUserReqBody = z.infer<typeof userUpdateUserReqBodySchema>
+export type UserName = string
+export type UserEmail = string
+export type UserUsername = string
+export type UserPassword = string
+export type UserPhone = string | null
+export type UserPronouns = string | null
+export type UserImage = string | null
+export type UserHeadline = string | null
+export type UserBio = string | null
+export type UserWebsite = string | null
+export type UserResume = string | null
+export type UserGithubRepos = string[]
+export type UserSkills = string[]
+export type UserResetPasswordToken = string | null
+export type UserResetPasswordTokenExpires = string | null
+export type UserPasswordUpdatedAt = string | null
 
 // UserEducation
 
-export type UserCreateEducationReqBody = z.infer<
-  typeof userCreateEducationReqBodySchema
->
-
-export type UserUpdateEducationReqBody = z.infer<
-  typeof userUpdateEducationReqBodySchema
->
+export type UserEducationSchool = string
+export type UserEducationDegree = string
 
 // UserExperience
 
-export type UserCreateExperienceReqBody = z.infer<
-  typeof userCreateExperienceReqBodySchema
->
+export type UserExperienceCompany = string
+export type UserExperienceType = string
+export type UserExperienceSchedule = string
+export type UserExperienceTitle = string
+export type UserExperienceDescription = string
 
-export type UserUpdateExperienceReqBody = z.infer<
-  typeof userUpdateExperienceReqBodySchema
->
+/**
+ * Models
+ */
 
 // User
 
@@ -49,33 +57,33 @@ export enum UserRole {
 
 export interface User {
   id: string
-  name: string
-  email: string
-  username: string
-  password: string
-  phone?: string | null
-  pronouns?: string | null
-  image?: string | null
-  headline?: string | null
-  bio?: string | null
-  website?: string | null
-  resume?: string | null
-  githubRepos: string[]
-  skills: string[]
+  name: UserName
+  email: UserEmail
+  username: UserUsername
+  password: UserPassword
+  phone?: UserPhone
+  pronouns?: UserPronouns
+  image?: UserImage
+  headline?: UserHeadline
+  bio?: UserBio
+  website?: UserWebsite
+  resume?: UserResume
+  githubRepos: UserGithubRepos
+  skills: UserSkills
   role: UserRole
-  resetPasswordToken?: string | null
-  resetPasswordTokenExpires?: string | null
-  passwordUpdatedAt?: string | null
+  resetPasswordToken?: UserResetPasswordToken
+  resetPasswordTokenExpires?: UserResetPasswordTokenExpires
+  passwordUpdatedAt?: UserPasswordUpdatedAt
   createdAt: Date
   updatedAt: Date
   addresses?: Address[]
-  comments?: Comment[]
-  commentLikes?: CommentLike[]
+  comments?: PostComment[]
+  commentLikes?: PostCommentLike[]
   contacts?: User[]
   contactsOf?: User[]
   posts?: Post[]
   postLikes?: PostLike[]
-  sessions?: Session[]
+  sessions?: AuthSession[]
   userEducations?: UserEducation[]
   userExperiences?: UserExperience[]
 }
@@ -84,8 +92,8 @@ export interface User {
 
 export interface UserEducation {
   id: string
-  school: string
-  degree: string
+  school: UserEducationSchool
+  degree: UserEducationDegree
   startYear: string
   endYear?: string | null
   createdAt: Date
@@ -98,14 +106,133 @@ export interface UserEducation {
 
 export interface UserExperience {
   id: string
-  company: string
-  type: string
-  schedule: string
-  title: string
+  company: UserExperienceCompany
+  type: UserExperienceType
+  schedule: UserExperienceSchedule
+  title: UserExperienceTitle
+  description: UserExperienceDescription
   startYear: string
   endYear?: string | null
   createdAt: Date
   updatedAt: Date
   user?: User
   userId: string
+}
+
+/**
+ * Forms
+ */
+
+// User
+
+export interface UserUpdateBioFormData {
+  bio?: UserBio
+}
+
+export interface UserUpdateDetailsFormData {
+  name?: UserName
+  email?: string
+  pronouns?: UserPronouns
+  headline?: UserHeadline
+  phone?: UserPhone
+  website?: UserWebsite
+}
+
+export interface UserUpdateGithubReposFormData {
+  githubRepos: UserGithubRepos
+}
+
+export interface UserUpdateSkillsFormData {
+  skills: UserSkills
+}
+
+// UserEducation
+
+export interface UserEducationFormItem {
+  school: UserEducationSchool
+  degree: UserEducationDegree
+  startYear: string
+  endYear?: string | null
+}
+
+export interface UserCreateUpdateEducationsFormData {
+  create: UserEducationFormItem[]
+  update: { recordId: string; reqBody: UserEducationFormItem }[]
+}
+
+// UserExperience
+
+export interface UserExperienceFormItem {
+  company: UserExperienceCompany
+  type: UserExperienceType
+  schedule: UserExperienceSchedule
+  title: UserExperienceTitle
+  description: UserExperienceDescription
+  startYear: string
+  endYear?: string | null
+}
+
+export interface UserCreateUpdateExperiencesFormData {
+  create: UserExperienceFormItem[]
+  update: { recordId: string; reqBody: UserExperienceFormItem }[]
+}
+
+/**
+ * Request bodies
+ */
+
+// User
+
+export interface UserUpdateCurrentUserReqBody {
+  name?: UserName
+  email?: UserEmail
+  phone?: UserPhone
+  pronouns?: UserPronouns
+  image?: UserImage
+  headline?: UserHeadline
+  bio?: UserBio
+  website?: UserWebsite
+  resume?: UserResume
+  githubRepos?: UserGithubRepos
+  skills?: UserSkills
+}
+
+// UserEducation
+
+export interface UserCreateCurrentUserEducationReqBody {
+  school: UserEducationSchool
+  degree: UserEducationDegree
+  startYear: string
+  endYear?: string | null
+  userId: string
+}
+
+export interface UserUpdateEducationReqBody {
+  school?: UserEducationSchool
+  degree?: UserEducationDegree
+  startYear?: string
+  endYear?: string | null
+}
+
+// UserExperience
+
+export interface UserCreateCurrentUserExperienceReqBody {
+  company: UserExperienceCompany
+  type: UserExperienceType
+  schedule: UserExperienceSchedule
+  title: UserExperienceTitle
+  description: UserExperienceDescription
+  startYear: string
+  endYear?: string | null
+  userId: string
+}
+
+export interface UserUpdateExperienceReqBody {
+  company?: UserExperienceCompany
+  type?: UserExperienceType
+  schedule?: UserExperienceSchedule
+  title?: UserExperienceTitle
+  description?: UserExperienceDescription
+  startYear?: string
+  endYear?: string | null
 }

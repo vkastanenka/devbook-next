@@ -1,7 +1,21 @@
-// validation
-import { z } from 'zod'
-import { searchDevbookReqBodySchema } from '@/validation/search-validation'
+/**
+ * Fields
+ */
 
-// Devbook
+export type SearchDevbookQuery = string
 
-export type SearchDevbookReqBody = z.infer<typeof searchDevbookReqBodySchema>
+/**
+ * Forms
+ */
+
+export interface SearchDevbookFormData {
+  query: SearchDevbookQuery
+}
+
+/**
+ * Request bodies
+ */
+
+export interface SearchDevbookReqBody {
+  query: SearchDevbookQuery
+}

@@ -1,3 +1,12 @@
+import {
+  PostCommentBody,
+  PostBody,
+  PostCreateCommentFormData,
+  PostUpdateCommentFormData,
+  PostCreatePostFormData,
+  PostUpdatePostFormData,
+} from '@/src/types/post-types'
+
 // validation
 import { z } from 'zod'
 
@@ -7,7 +16,7 @@ import { z } from 'zod'
 
 // Comment
 
-const postCommentBodySchema = z
+const postCommentBodySchema: z.ZodType<PostCommentBody> = z
   .string()
   .min(10, { message: '10 character(s) min' })
   .max(1000, {
@@ -16,7 +25,7 @@ const postCommentBodySchema = z
 
 // Post
 
-const postBodySchema = z
+const postBodySchema: z.ZodType<PostBody> = z
   .string()
   .min(10, { message: '10 character(s) min' })
   .max(1000, {
@@ -29,69 +38,30 @@ const postBodySchema = z
 
 // Comment
 
-export const postCommentFormSchema = z
-  .object({
-    body: postCommentBodySchema,
-  })
-  .strict()
+export const postCreateCommentFormSchema: z.ZodType<PostCreateCommentFormData> =
+  z
+    .object({
+      body: postCommentBodySchema,
+    })
+    .strict()
+
+export const postUpdateCommentFormSchema: z.ZodType<PostUpdateCommentFormData> =
+  z
+    .object({
+      body: postCommentBodySchema.optional(),
+    })
+    .strict()
 
 // Post
-export const postFormSchema = z
+
+export const postCreatePostFormSchema: z.ZodType<PostCreatePostFormData> = z
   .object({
     body: postBodySchema,
   })
   .strict()
 
-/**
- * Request bodies
- */
-
-// Comment
-
-export const postCreateCommentReqBodySchema = z
-  .object({
-    body: postCommentBodySchema,
-    parentCommentId: z.string().nullable().optional(),
-    postId: z.string(),
-    userId: z.string(),
-  })
-  .strict()
-
-export const postUpdateCommentReqBodySchema = z
-  .object({
-    body: postCommentBodySchema.optional(),
-  })
-  .strict()
-
-// CommentLike
-
-export const postCreateCommentLikeReqBodySchema = z
-  .object({
-    commentId: z.string(),
-    userId: z.string(),
-  })
-  .strict()
-
-// Post
-
-export const postCreatePostReqBodySchema = z
-  .object({
-    body: postBodySchema,
-    userId: z.string(),
-  })
-  .strict()
-
-export const postUpdatePostReqBodySchema = z
+export const postUpdatePostFormSchema: z.ZodType<PostUpdatePostFormData> = z
   .object({
     body: postBodySchema.optional(),
-  })
-  .strict()
-
-// PostLike
-
-export const postCreatePostLikeReqBodySchema = z
-  .object({
-    postId: z.string(),
-    userId: z.string(),
   })
   .strict()

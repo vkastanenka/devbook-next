@@ -9,13 +9,13 @@ import { serverRequestServer } from '@/actions/server-actions'
 import { ReadGithubRepoServerResponse } from '@/types/server-types'
 import {
   User,
-  UserCreateEducationReqBody,
-  UserCreateExperienceReqBody,
+  UserCreateCurrentUserEducationReqBody,
+  UserUpdateEducationReqBody,
+  UserCreateCurrentUserExperienceReqBody,
+  UserUpdateExperienceReqBody,
   UserEducation,
   UserExperience,
-  UserUpdateEducationReqBody,
-  UserUpdateExperienceReqBody,
-  UserUpdateUserReqBody,
+  UserUpdateCurrentUserReqBody,
 } from '@/types/user-types'
 import { HttpStatusCode } from '@/types/http-status-code'
 import { Prisma } from '@vkastanenka/devbook-prisma'
@@ -62,9 +62,9 @@ export const userReadCurrentUser = async (reqBody?: {
 // Update current user
 export const userUpdateCurrentUser = async (
   recordId: string,
-  reqBody: UserUpdateUserReqBody
+  reqBody: UserUpdateCurrentUserReqBody
 ) => {
-  return await serverRequestServer<User, UserUpdateUserReqBody>({
+  return await serverRequestServer<User, UserUpdateCurrentUserReqBody>({
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER}/${recordId}`,
     method: 'patch',
@@ -75,9 +75,9 @@ export const userUpdateCurrentUser = async (
 
 // Create current user education
 export const userCreateCurrentUserEducation = async (
-  reqBody: UserCreateEducationReqBody
+  reqBody: UserCreateCurrentUserEducationReqBody
 ) => {
-  return await serverRequestServer<UserEducation, UserCreateEducationReqBody>({
+  return await serverRequestServer<UserEducation, UserCreateCurrentUserEducationReqBody>({
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER_EDUCATION}`,
     method: 'post',
@@ -108,9 +108,9 @@ export const userDeleteCurrentUserEducation = async (recordId: string) => {
 
 // Create current user experience
 export const userCreateCurrentUserExperience = async (
-  reqBody: UserCreateExperienceReqBody
+  reqBody: UserCreateCurrentUserExperienceReqBody
 ) => {
-  return await serverRequestServer<UserExperience, UserCreateExperienceReqBody>(
+  return await serverRequestServer<UserExperience, UserCreateCurrentUserExperienceReqBody>(
     {
       data: reqBody,
       endpoint: `${USERS_CURRENT_USER_EXPERIENCE}`,
@@ -144,7 +144,7 @@ export const userDeleteCurrentUserExperience = async (recordId: string) => {
 // Github repositories
 
 // Gets user github repos
-export const userReadUserGithubRepos = async (
+export const userReadCurrentUserGithubRepos = async (
   githubRepositories: string[]
 ): Promise<ReadGithubRepoServerResponse[]> => {
   // Setup octokit

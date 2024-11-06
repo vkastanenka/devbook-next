@@ -5,14 +5,14 @@ import { serverRequestServer } from '@/actions/server-actions'
 
 // types
 import {
-  PostCreateCommentReqBody,
+  PostCreateCurrentUserCommentReqBody,
   PostUpdateCommentReqBody,
-  PostCreateCommentLikeReqBody,
-  PostCreatePostReqBody,
+  PostCreateCurrentUserCommentLikeReqBody,
+  PostCreateCurrentUserPostReqBody,
   PostUpdatePostReqBody,
-  PostCreatePostLikeReqBody,
-  Comment,
-  CommentLike,
+  PostCreateCurrentUserPostLikeReqBody,
+  PostComment,
+  PostCommentLike,
   Post,
   PostLike,
 } from '@/types/post-types'
@@ -29,9 +29,12 @@ import {
 
 // Create current user comment
 export const postCreateCurrentUserComment = async (
-  reqBody: PostCreateCommentReqBody
+  reqBody: PostCreateCurrentUserCommentReqBody
 ) => {
-  return await serverRequestServer<Comment, PostCreateCommentReqBody>({
+  return await serverRequestServer<
+    PostComment,
+    PostCreateCurrentUserCommentReqBody
+  >({
     data: reqBody,
     endpoint: POSTS_CURRENT_USER_COMMENT,
     method: 'post',
@@ -43,7 +46,7 @@ export const postUpdateCurrentUserComment = async (
   recordId: string,
   reqBody: PostUpdateCommentReqBody
 ) => {
-  return await serverRequestServer<Comment, PostUpdateCommentReqBody>({
+  return await serverRequestServer<PostComment, PostUpdateCommentReqBody>({
     data: reqBody,
     endpoint: `${POSTS_CURRENT_USER_COMMENT}/${recordId}`,
     method: 'patch',
@@ -62,9 +65,12 @@ export const postDeleteCurrentUserComment = async (recordId: string) => {
 
 // Create current user comment like
 export const postCreateCurrentUserCommentLike = async (
-  reqBody: PostCreateCommentLikeReqBody
+  reqBody: PostCreateCurrentUserCommentLikeReqBody
 ) => {
-  return await serverRequestServer<CommentLike, PostCreateCommentLikeReqBody>({
+  return await serverRequestServer<
+    PostCommentLike,
+    PostCreateCurrentUserCommentLikeReqBody
+  >({
     data: reqBody,
     endpoint: `${POSTS_CURRENT_USER_COMMENT_LIKE}`,
     method: 'post',
@@ -83,9 +89,12 @@ export const postDeleteCurrentUserCommentLike = async (recordId: string) => {
 
 // Create current user post
 export const postCreateCurrentUserPost = async (
-  reqBody: PostCreatePostReqBody
+  reqBody: PostCreateCurrentUserPostReqBody
 ) => {
-  return await serverRequestServer<Comment, PostCreatePostReqBody>({
+  return await serverRequestServer<
+    PostComment,
+    PostCreateCurrentUserPostReqBody
+  >({
     data: reqBody,
     endpoint: `${POSTS_CURRENT_USER_POST}`,
     method: 'post',
@@ -116,9 +125,12 @@ export const postDeleteCurrentUserPost = async (recordId: string) => {
 
 // Create current user post like
 export const postCreateCurrentUserPostLike = async (
-  reqBody: PostCreatePostLikeReqBody
+  reqBody: PostCreateCurrentUserPostLikeReqBody
 ) => {
-  return await serverRequestServer<PostLike, PostCreatePostLikeReqBody>({
+  return await serverRequestServer<
+    PostLike,
+    PostCreateCurrentUserPostLikeReqBody
+  >({
     data: reqBody,
     endpoint: `${POSTS_CURRENT_USER_POST_LIKE}`,
     method: 'post',

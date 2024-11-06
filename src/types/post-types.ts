@@ -1,75 +1,41 @@
 // types
 import { User } from '@/types/user-types'
 
-// validation
-import { z } from 'zod'
-import {
-  postFormSchema,
-  postCommentFormSchema,
-  postCreateCommentReqBodySchema,
-  postUpdateCommentReqBodySchema,
-  postCreateCommentLikeReqBodySchema,
-  postCreatePostReqBodySchema,
-  postUpdatePostReqBodySchema,
-  postCreatePostLikeReqBodySchema,
-} from '@/validation/post-validation'
+/**
+ * Fields
+ */
+
+export type PostCommentBody = string
+export type PostBody = string
+
+/**
+ * Models
+ */
 
 // Comment
 
-export type PostCommentFormData = z.infer<typeof postCommentFormSchema>
-
-export type PostCreateCommentReqBody = z.infer<
-  typeof postCreateCommentReqBodySchema
->
-
-export type PostUpdateCommentReqBody = z.infer<
-  typeof postUpdateCommentReqBodySchema
->
-
-// CommentLike
-
-export type PostCreateCommentLikeReqBody = z.infer<
-  typeof postCreateCommentLikeReqBodySchema
->
-
-// Post
-
-export type PostFormData = z.infer<typeof postFormSchema>
-
-export type PostCreatePostReqBody = z.infer<typeof postCreatePostReqBodySchema>
-
-export type PostUpdatePostReqBody = z.infer<typeof postUpdatePostReqBodySchema>
-
-// PostLike
-
-export type PostCreatePostLikeReqBody = z.infer<
-  typeof postCreatePostLikeReqBodySchema
->
-
-// Comment
-
-export interface Comment {
+export interface PostComment {
   id: string
-  body: string
+  body: PostCommentBody
   createdAt: Date
   updatedAt: Date
-  parentComment?: Comment
+  parentComment?: PostComment
   parentCommentId?: string
   post?: Post
   postId: string
   user?: User
   userId: string
-  commentLikes?: CommentLike[]
-  subComments?: Comment[]
+  commentLikes?: PostCommentLike[]
+  subComments?: PostComment[]
 }
 
 // CommentLike
 
-export interface CommentLike {
+export interface PostCommentLike {
   id: string
   createdAt: Date
   updatedAt: Date
-  comment?: Comment
+  comment?: PostComment
   commentId: string
   user?: User
   userId: string
@@ -85,7 +51,7 @@ export enum PostType {
 
 export interface Post {
   id: string
-  body: string
+  body: PostBody
   postType: PostType
   createdAt: Date
   updatedAt: Date
@@ -104,5 +70,71 @@ export interface PostLike {
   post?: Post
   postId: string
   user?: User
+  userId: string
+}
+
+/**
+ * Forms
+ */
+
+// Comment
+
+export interface PostCreateCommentFormData {
+  body: string
+}
+
+export interface PostUpdateCommentFormData {
+  body?: string
+}
+
+// Post
+
+export interface PostCreatePostFormData {
+  body: string
+}
+
+export interface PostUpdatePostFormData {
+  body?: string
+}
+
+/**
+ * Request bodies
+ */
+
+// Comment
+
+export interface PostCreateCurrentUserCommentReqBody {
+  body: PostCommentBody
+  parentCommentId?: string | null
+  postId: string
+  userId: string
+}
+
+export interface PostUpdateCommentReqBody {
+  body?: PostCommentBody
+}
+
+// CommentLike
+
+export interface PostCreateCurrentUserCommentLikeReqBody {
+  commentId: string
+  userId: string
+}
+
+// Post
+
+export interface PostCreateCurrentUserPostReqBody {
+  body: PostBody
+  userId: string
+}
+
+export interface PostUpdatePostReqBody {
+  body?: PostBody
+}
+
+// PostLike
+
+export interface PostCreateCurrentUserPostLikeReqBody {
+  postId: string
   userId: string
 }

@@ -1,6 +1,14 @@
+// types
+import {
+  AuthLoginFormData,
+  AuthRegisterFormData,
+  AuthSendResetPasswordTokenFormData,
+  AuthResetPasswordFormData,
+} from '@/src/types/auth-types'
+
 // validation
 import { z } from 'zod'
-import { emailSchema } from '@/validation/shared-validation'
+import { emailSchema } from '@/validation/general-validation'
 import {
   userNameSchema,
   userUsernameSchema,
@@ -11,14 +19,14 @@ import {
  * Request bodies
  */
 
-export const authLoginReqBodySchema = z
+export const authLoginReqBodySchema: z.ZodType<AuthLoginFormData> = z
   .object({
     email: emailSchema,
     password: userPasswordSchema,
   })
   .strict()
 
-export const authRegisterReqBodySchema = z
+export const authRegisterReqBodySchema: z.ZodType<AuthRegisterFormData> = z
   .object({
     name: userNameSchema,
     email: emailSchema,
@@ -27,14 +35,16 @@ export const authRegisterReqBodySchema = z
   })
   .strict()
 
-export const authSendResetPasswordTokenReqBodySchema = z
-  .object({
-    email: emailSchema,
-  })
-  .strict()
+export const authSendResetPasswordTokenReqBodySchema: z.ZodType<AuthSendResetPasswordTokenFormData> =
+  z
+    .object({
+      email: emailSchema,
+    })
+    .strict()
 
-export const authResetPasswordReqBodySchema = z
-  .object({
-    password: userPasswordSchema,
-  })
-  .strict()
+export const authResetPasswordReqBodySchema: z.ZodType<AuthResetPasswordFormData> =
+  z
+    .object({
+      password: userPasswordSchema,
+    })
+    .strict()

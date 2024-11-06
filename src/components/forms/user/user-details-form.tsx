@@ -22,37 +22,31 @@ import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 
 // utils
-import { updateUser } from '@/src/actions-old/user-actions'
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { Address } from '@/types/'
+import { User } from '@/src/types/user-types'
 import {
-  User,
   UserDetailsFormData,
-  UserDetailsReqBody,
-} from '@/types/user-types'
-import { userDetailsFormSchema } from '@/validation/user'
+  UserUpdateUserReqBody,
+} from '@/src/types/user-types'
 
-/**
- * TODO
- *
- * Handle image and resume
- * Remove unit number from address
- * Response errors
- */
+// validation
+import { userDetailsFormSchema } from '@/src/validation/user-validation'
 
-export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
+interface UserDetailsForm {
+  user: User
+}
+
+export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
-
-  const currentAddress =
-    user.addresses && user.addresses?.length ? user.addresses[0] : null
 
   const form = useForm({
     resolver: zodResolver(userDetailsFormSchema),
@@ -63,11 +57,6 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
       headline: user.headline,
       phone: user.phone,
       website: user.website,
-      streetNumber: currentAddress?.streetNumber,
-      streetName: currentAddress?.streetName,
-      suburb: currentAddress?.suburb,
-      state: currentAddress?.state,
-      country: currentAddress?.country,
     },
   })
 
@@ -78,8 +67,10 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
 
   const action: () => void = handleSubmit(
     async (formData: UserDetailsFormData) => {
-      const reqBody = formatReqBody({ formData, currentAddress })
-      const response = await updateUser(reqBody, user)
+      const response = await userUpdateCurrentUser(
+        user.id,
+        formData as UserUpdateUserReqBody
+      )
 
       // If other error, show toast message
       if (!response.success && !response.errors) {
@@ -227,96 +218,6 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
               </FormItem>
             )}
           />
-
-          <Separator />
-
-          <p className="h4">Address</p>
-
-          <FormField
-            name="streetNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Street number</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Street number"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="streetName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Street name</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Street name"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="suburb"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="City"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>State/Province</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="State/Province"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Country"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
 
         <Button disabled={isSubmitting}>
@@ -325,61 +226,4 @@ export const UserDetailsForm: React.FC<{ user: User }> = ({ user }) => {
       </form>
     </Form>
   )
-}
-
-const formatReqBody = ({
-  formData,
-  currentAddress,
-}: {
-  formData: UserDetailsFormData
-  currentAddress: Address | null
-}): UserDetailsReqBody => {
-  const streetNumber = formData.streetNumber
-  const streetName = formData.streetName
-  const suburb = formData.suburb
-  const state = formData.state
-  const country = formData.country
-
-  const reqBodyAddress = {
-    streetNumber,
-    streetName,
-    suburb,
-    state,
-    country,
-  }
-
-  const hasAddressData = !!(
-    streetNumber &&
-    streetName &&
-    suburb &&
-    state &&
-    country
-  )
-
-  const reqBody = {
-    name: formData.name,
-    email: formData.email,
-    pronouns: formData.pronouns,
-    headline: formData.headline,
-    phone: formData.phone,
-    website: formData.website,
-    ...(hasAddressData
-      ? {
-          addresses: {
-            ...(currentAddress
-              ? {
-                  update: {
-                    where: {
-                      id: currentAddress.id,
-                    },
-                    data: reqBodyAddress,
-                  },
-                }
-              : { create: [reqBodyAddress] }),
-          },
-        }
-      : {}),
-  }
-
-  return reqBody
 }

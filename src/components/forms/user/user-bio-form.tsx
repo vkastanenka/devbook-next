@@ -8,24 +8,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+} from '@/src/components/ui/form'
+import { Textarea } from '@/src/components/ui/textarea'
+import { Button } from '@/src/components/ui/button'
 
 // utils
 import { userUpdateCurrentUser } from '@/src/actions/user-actions'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
-import { useModal } from '@/hooks/use-modal-store'
+import { useToast } from '@/src/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { User } from '@/types/user-types'
-import { UserBioFormData, UserUpdateUserReqBody } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
+import { UserBioFormData, UserUpdateUserReqBody } from '@/src/types/user-types'
 
 // validation
-import { userBioFormSchema } from '@/validation/user-validation'
+import { userBioFormSchema } from '@/src/validation/user-validation'
 
 export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()

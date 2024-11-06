@@ -1,11 +1,23 @@
+// types
+import {
+  AddressUnitNumber,
+  AddressStreetNumber,
+  AddressStreetName,
+  AddressSuburb,
+  AddressState,
+  AddressCountry,
+  AddressCreateAddressFormData,
+  AddressUpdateAddressFormData,
+} from '@/src/types/address-types'
+
 // validation
 import { z } from 'zod'
 
 /**
- * Inputs
+ * Fields
  */
 
-const addressUnitNumberSchema = z
+const addressUnitNumberSchema: z.ZodType<AddressUnitNumber> = z
   .string()
   .min(1, { message: '1 characters(s) min' })
   .max(20, {
@@ -13,35 +25,35 @@ const addressUnitNumberSchema = z
   })
   .nullable()
 
-const addressStreetNumberSchema = z
+const addressStreetNumberSchema: z.ZodType<AddressStreetNumber> = z
   .string()
   .min(1, { message: '1 characters(s) min' })
   .max(20, {
     message: '20 characters(s) max',
   })
 
-const addressStreetNameSchema = z
+const addressStreetNameSchema: z.ZodType<AddressStreetName> = z
   .string()
   .min(2, { message: '2 characters(s) min' })
   .max(50, {
     message: '50 characters(s) max',
   })
 
-const addressSuburbSchema = z
+const addressSuburbSchema: z.ZodType<AddressSuburb> = z
   .string()
   .min(1, { message: '1 characters(s) min' })
   .max(50, {
     message: '50 characters(s) max',
   })
 
-const addressStateSchema = z
+const addressStateSchema: z.ZodType<AddressState> = z
   .string()
   .min(2, { message: '2 characters(s) min' })
   .max(50, {
     message: '50 characters(s) max',
   })
 
-const addressCountrySchema = z
+const addressCountrySchema: z.ZodType<AddressCountry> = z
   .string()
   .min(1, { message: '1 characters(s) min' })
   .max(50, {
@@ -49,28 +61,29 @@ const addressCountrySchema = z
   })
 
 /**
- * Request bodies
+ * Forms
  */
 
-export const addressCreateAddressReqBodySchema = z
-  .object({
-    unitNumber: addressUnitNumberSchema.optional(),
-    streetNumber: addressStreetNumberSchema,
-    streetName: addressStreetNameSchema,
-    suburb: addressSuburbSchema,
-    state: addressStateSchema,
-    country: addressCountrySchema,
-    userId: z.string(),
-  })
-  .strict()
+export const addressCreateAddressFormSchema: z.ZodType<AddressCreateAddressFormData> =
+  z
+    .object({
+      unitNumber: addressUnitNumberSchema.optional(),
+      streetNumber: addressStreetNumberSchema,
+      streetName: addressStreetNameSchema,
+      suburb: addressSuburbSchema,
+      state: addressStateSchema,
+      country: addressCountrySchema,
+    })
+    .strict()
 
-export const addressUpdateAddressReqBodySchema = z
-  .object({
-    unitNumber: addressUnitNumberSchema.optional(),
-    streetNumber: addressStreetNumberSchema.optional(),
-    streetName: addressStreetNameSchema.optional(),
-    suburb: addressSuburbSchema.optional(),
-    state: addressStateSchema.optional(),
-    country: addressCountrySchema.optional(),
-  })
-  .strict()
+export const addressUpdateAddressFormSchema: z.ZodType<AddressUpdateAddressFormData> =
+  z
+    .object({
+      unitNumber: addressUnitNumberSchema.optional(),
+      streetNumber: addressStreetNumberSchema.optional(),
+      streetName: addressStreetNameSchema.optional(),
+      suburb: addressSuburbSchema.optional(),
+      state: addressStateSchema.optional(),
+      country: addressCountrySchema.optional(),
+    })
+    .strict()

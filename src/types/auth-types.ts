@@ -1,32 +1,10 @@
-// types
 import { User } from '@/types/user-types'
 
-// validation
-import { z } from 'zod'
-import {
-  authLoginReqBodySchema,
-  authRegisterReqBodySchema,
-  authSendResetPasswordTokenReqBodySchema,
-  authResetPasswordReqBodySchema,
-} from '@/validation/auth-validation'
+/**
+ * Models
+ */
 
-// Authorization
-
-export type AuthLoginReqBody = z.infer<typeof authLoginReqBodySchema>
-
-export type AuthRegisterReqBody = z.infer<typeof authRegisterReqBodySchema>
-
-export type AuthSendResetPasswordTokenReqBody = z.infer<
-  typeof authSendResetPasswordTokenReqBodySchema
->
-
-export type AuthResetPasswordReqBody = z.infer<
-  typeof authResetPasswordReqBodySchema
->
-
-// Session
-
-export interface Session {
+export interface AuthSession {
   id: string
   expires: Date
   createdAt: Date
@@ -34,3 +12,37 @@ export interface Session {
   user?: User
   userId: string
 }
+
+/**
+ * Forms
+ */
+
+export interface AuthLoginFormData {
+  email: string
+  password: string
+}
+
+export interface AuthRegisterFormData {
+  name: string
+  email: string
+  username: string
+  password: string
+}
+
+export interface AuthSendResetPasswordTokenFormData {
+  email: string
+}
+
+export interface AuthResetPasswordFormData {
+  password: string
+}
+
+/**
+ * Request bodies
+ */
+
+export type AuthLoginReqBody = AuthLoginFormData
+export type AuthRegisterReqBody = AuthRegisterFormData
+export type AuthSendResetPasswordTokenReqBody =
+  AuthSendResetPasswordTokenFormData
+export type AuthResetPasswordReqBody = AuthResetPasswordFormData
