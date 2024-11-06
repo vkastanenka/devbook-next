@@ -5,12 +5,6 @@ import { Button } from '@/components/ui/button'
 import { AuthLoginForm } from '@/components/forms/auth/auth-login-form'
 import { Separator } from '@radix-ui/react-separator'
 
-/**
- * TODO
- * 
- * Refactor link button into its own component
- */
-
 export const AuthLoginCard = () => {
   return (
     <Card className="card form-card">

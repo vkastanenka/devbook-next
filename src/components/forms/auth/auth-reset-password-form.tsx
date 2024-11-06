@@ -16,13 +16,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { resetPassword } from '@/src/actions-old/auth-actions'
+import { authResetPassword } from '@/actions/auth-actions'
 
 // types
-import {
-  resetPasswordFormSchema,
-  ResetPasswordFormData,
-} from '@/src/validation/auth'
+import { AuthResetPasswordReqBody } from '@/types/auth-types'
+
+// validation
+import { authResetPasswordReqBodySchema } from '@/validation/auth-validation'
 
 interface ResetPasswordForm {
   resetPasswordToken: string
@@ -37,7 +37,7 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
   const { toast } = useToast()
 
   const form = useForm({
-    resolver: zodResolver(resetPasswordFormSchema),
+    resolver: zodResolver(authResetPasswordReqBodySchema),
     defaultValues: {
       password: password,
     },
@@ -49,8 +49,8 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: ResetPasswordFormData) => {
-      const response = await resetPassword(formData, resetPasswordToken)
+    async (formData: AuthResetPasswordReqBody) => {
+      const response = await authResetPassword(resetPasswordToken, formData)
 
       // If other error, show toast message
       if (!response.success) {

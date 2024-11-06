@@ -6,7 +6,7 @@ import {
   urlSchema,
   startYearSchema,
   endYearSchema,
-} from '@/validation/'
+} from '@/validation/shared-validation'
 
 /**
  * Fields
@@ -127,6 +127,16 @@ const userExperienceDescriptionSchema = z
   })
 
 /**
+ * Forms
+ */
+
+export const userBioFormSchema = z
+  .object({
+    bio: userBioSchema,
+  })
+  .strict()
+
+/**
  * Request bodies
  */
 
@@ -211,11 +221,3 @@ export const userUpdateExperienceReqBodySchema = z
     }
     return true
   }, 'End year cannot be greater than start year')
-
-export const userValidation = {
-  userUpdateUserReqBodySchema,
-  userCreateEducationReqBodySchema,
-  userUpdateEducationReqBodySchema,
-  userCreateExperienceReqBodySchema,
-  userUpdateExperienceReqBodySchema,
-}

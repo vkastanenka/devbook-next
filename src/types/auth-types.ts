@@ -3,34 +3,28 @@ import { User } from '@/types/user-types'
 
 // validation
 import { z } from 'zod'
-import { authValidation } from '@/validation/auth'
+import {
+  authLoginReqBodySchema,
+  authRegisterReqBodySchema,
+  authSendResetPasswordTokenReqBodySchema,
+  authResetPasswordReqBodySchema,
+} from '@/validation/auth-validation'
 
 // Authorization
 
-export type AuthLoginReqBody = z.infer<
-  typeof authValidation.authLoginReqBodySchema
->
+export type AuthLoginReqBody = z.infer<typeof authLoginReqBodySchema>
 
-export type AuthRegisterReqBody = z.infer<
-  typeof authValidation.authRegisterReqBodySchema
->
+export type AuthRegisterReqBody = z.infer<typeof authRegisterReqBodySchema>
 
 export type AuthSendResetPasswordTokenReqBody = z.infer<
-  typeof authValidation.authSendResetPasswordTokenReqBodySchema
+  typeof authSendResetPasswordTokenReqBodySchema
 >
 
 export type AuthResetPasswordReqBody = z.infer<
-  typeof authValidation.authResetPasswordReqBodySchema
+  typeof authResetPasswordReqBodySchema
 >
 
 // Session
-
-export interface DecodedSession {
-  id: string
-  expires: Date
-  iat: number
-  exp: number
-}
 
 export interface Session {
   id: string

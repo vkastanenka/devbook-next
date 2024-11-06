@@ -8,13 +8,14 @@ import { Search } from 'lucide-react'
 
 // utils
 import { useEffect, useRef } from 'react'
-import { useToast } from '@/src/hooks/use-toast'
+import { useToast } from '@/hooks/use-toast'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { useLayoutStore } from '@/src/hooks/use-layout-store'
-import { getUserSearch } from '@/src/actions-old/user-actions'
+import { useLayoutStore } from '@/hooks/use-layout-store'
+import { searchDevbook } from '@/actions/search-actions'
 
 // types
-import { GetUserSearchResData } from '@/types/server-types'
+import { ServerResponse } from '@/src/types/server-types'
+import { User } from '@/src/types/user-types'
 
 export const SearchForm = () => {
   const { toast } = useToast()
@@ -36,7 +37,7 @@ export const SearchForm = () => {
       return
     }
 
-    const response = await getUserSearch(searchDevbookInputValue)
+    const response = await searchDevbook({ query: searchDevbookInputValue })
 
     if (!response.success) {
       toast({
@@ -47,13 +48,15 @@ export const SearchForm = () => {
       setSearchDevbookResults(null)
     }
 
+    const { data } = response as ServerResponse<User[]>
+
     // If successful, set layoutStore
-    if (response.success) {
+    if (data) {
       toast({
         title: 'Success!',
         description: response.message,
       })
-      setSearchDevbookResults((response as GetUserSearchResData).data)
+      setSearchDevbookResults(data)
     }
   }
 

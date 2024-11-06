@@ -4,9 +4,10 @@ import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-p
 import { Separator } from '@/components/ui/separator'
 
 // types
-import { UserProfileCard } from '@/types/user-types'
+// import { UserProfileCard } from '@/types/user-types'
 
-export const UserEducationCard: React.FC<UserProfileCard> = ({
+// export const UserEducationCard: React.FC<UserProfileCard> = ({
+export const UserEducationCard = ({
   isCurrentUser,
   isEditable,
   user,

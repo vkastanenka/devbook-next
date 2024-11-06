@@ -5,32 +5,39 @@ import { Session } from '@/types/auth-types'
 
 // validation
 import { z } from 'zod'
-import { userValidation } from '@/validation/user'
+import {
+  userBioFormSchema,
+  userUpdateUserReqBodySchema,
+  userCreateEducationReqBodySchema,
+  userUpdateEducationReqBodySchema,
+  userCreateExperienceReqBodySchema,
+  userUpdateExperienceReqBodySchema,
+} from '@/validation/user-validation'
 
 // User
 
-export type UserUpdateUserReqBody = z.infer<
-  typeof userValidation.userUpdateUserReqBodySchema
->
+export type UserBioFormData = z.infer<typeof userBioFormSchema>
+
+export type UserUpdateUserReqBody = z.infer<typeof userUpdateUserReqBodySchema>
 
 // UserEducation
 
 export type UserCreateEducationReqBody = z.infer<
-  typeof userValidation.userCreateEducationReqBodySchema
+  typeof userCreateEducationReqBodySchema
 >
 
 export type UserUpdateEducationReqBody = z.infer<
-  typeof userValidation.userUpdateEducationReqBodySchema
+  typeof userUpdateEducationReqBodySchema
 >
 
 // UserExperience
 
 export type UserCreateExperienceReqBody = z.infer<
-  typeof userValidation.userCreateExperienceReqBodySchema
+  typeof userCreateExperienceReqBodySchema
 >
 
 export type UserUpdateExperienceReqBody = z.infer<
-  typeof userValidation.userUpdateExperienceReqBodySchema
+  typeof userUpdateExperienceReqBodySchema
 >
 
 // User

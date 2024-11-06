@@ -7,9 +7,10 @@ import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-p
 import { formatText } from '@/lib/utils'
 
 // types
-import { UserProfileCard } from '@/types/user-types'
+// import { UserProfileCard } from '@/types/user-types'
 
-export const UserBioCard: React.FC<UserProfileCard> = ({
+// export const UserBioCard: React.FC<UserProfileCard> = ({
+export const UserBioCard = ({
   isCurrentUser,
   isEditable,
   user,

@@ -3,16 +3,19 @@ import { User } from '@/types/user-types'
 
 // validation
 import { z } from 'zod'
-import { addressValidation } from '@/validation/address'
+import {
+  addressCreateAddressReqBodySchema,
+  addressUpdateAddressReqBodySchema,
+} from '@/validation/address-validation'
 
 // Address
 
 export type AddressCreateAddressReqBody = z.infer<
-  typeof addressValidation.addressCreateAddressReqBodySchema
+  typeof addressCreateAddressReqBodySchema
 >
 
 export type AddressUpdateAddressReqBody = z.infer<
-  typeof addressValidation.addressUpdateAddressReqBodySchema
+  typeof addressUpdateAddressReqBodySchema
 >
 
 // Address

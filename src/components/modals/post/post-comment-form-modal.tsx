@@ -2,7 +2,7 @@
 
 // components
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { PostCommentForm } from '@/components/forms/post/post-comment-form'
+// import { PostCommentForm } from '@/components/forms/post/post-comment-form'
 
 // utils
 import { useModal } from '@/hooks/use-modal-store'
@@ -23,7 +23,7 @@ export const PostCommentFormModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
         <p className="h3">Leave a comment</p>
-        <PostCommentForm post={post} user={user} />
+        {/* <PostCommentForm post={post} user={user} /> */}
       </DialogContent>
     </Dialog>
   )

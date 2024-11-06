@@ -3,9 +3,9 @@
 // utils
 import axios from 'axios'
 import { cookies } from 'next/headers'
-import { verify as jwtVerify } from 'jsonwebtoken'
 import { addDays } from 'date-fns'
 import { formatServerError } from '@/lib/utils'
+import { serverRequestServer } from '@/actions/server-actions'
 
 // types
 import {
@@ -13,7 +13,6 @@ import {
   AuthRegisterReqBody,
   AuthResetPasswordReqBody,
   AuthSendResetPasswordTokenReqBody,
-  DecodedSession,
 } from '@/types/auth-types'
 import { ServerResponse } from '@/types/server-types'
 import { User } from '@/types/user-types'
@@ -36,34 +35,12 @@ export const authGetSessionJwt = async () => {
   return null
 }
 
-// Decode session jwt
-export const authDecodeSessionJwt =
-  async (): Promise<DecodedSession | null> => {
-    // Get session jwt
-    const sessionJwt = await authGetSessionJwt()
-
-    if (sessionJwt) {
-      // Decode session cookie
-      const decodedSession = await jwtVerify(
-        sessionJwt,
-        process.env.NEXT_JWT_SECRET || ''
-      )
-
-      return decodedSession as DecodedSession
-    }
-
-    return null
-  }
-
 // Delete current user session
 export const authDeleteCurrentUserSession = async (recordId: string) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${AUTH_CURRENT_USER_SESSION}/${recordId}`
-    const axiosResponse = await axios.delete(url)
-    return axiosResponse.data as ServerResponse
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer({
+    endpoint: `${AUTH_CURRENT_USER_SESSION}/${recordId}`,
+    method: 'delete',
+  })
 }
 
 // Authorization
@@ -115,7 +92,7 @@ export const authSendResetPasswordToken = async (
 }
 
 // Reset user password with token
-export const resetPassword = async (
+export const authResetPassword = async (
   resetPasswordToken: string,
   reqBody: AuthResetPasswordReqBody
 ) => {
@@ -129,7 +106,7 @@ export const resetPassword = async (
 }
 
 // Delete session cookie and session record
-export const logout = async () => {
+export const authLogout = async () => {
   const sessionJwt = await authGetSessionJwt()
   if (!sessionJwt) return null
 

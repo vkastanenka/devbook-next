@@ -1,11 +1,9 @@
 'use server'
 
 // utils
-import axios from 'axios'
-import { formatServerError } from '@/lib/utils'
+import { serverRequestServer } from '@/actions/server-actions'
 
 // types
-import { ServerResponse } from '@/types/server-types'
 import {
   PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
@@ -33,13 +31,11 @@ import {
 export const postCreateCurrentUserComment = async (
   reqBody: PostCreateCommentReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_COMMENT}`
-    const axiosResponse = await axios.post(url, reqBody)
-    return axiosResponse.data as ServerResponse<Comment>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<Comment, PostCreateCommentReqBody>({
+    data: reqBody,
+    endpoint: POSTS_CURRENT_USER_COMMENT,
+    method: 'post',
+  })
 }
 
 // Update current user comment
@@ -47,24 +43,19 @@ export const postUpdateCurrentUserComment = async (
   recordId: string,
   reqBody: PostUpdateCommentReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_COMMENT}/${recordId}`
-    const axiosResponse = await axios.patch(url, reqBody)
-    return axiosResponse.data as ServerResponse<Comment>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<Comment, PostUpdateCommentReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_CURRENT_USER_COMMENT}/${recordId}`,
+    method: 'patch',
+  })
 }
 
 // Delete current user comment
 export const postDeleteCurrentUserComment = async (recordId: string) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_COMMENT}/${recordId}`
-    const axiosResponse = await axios.delete(url)
-    return axiosResponse.data as ServerResponse
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer({
+    endpoint: `${POSTS_CURRENT_USER_COMMENT}/${recordId}`,
+    method: 'delete',
+  })
 }
 
 // CommentLike
@@ -73,24 +64,19 @@ export const postDeleteCurrentUserComment = async (recordId: string) => {
 export const postCreateCurrentUserCommentLike = async (
   reqBody: PostCreateCommentLikeReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_COMMENT_LIKE}`
-    const axiosResponse = await axios.post(url, reqBody)
-    return axiosResponse.data as ServerResponse<CommentLike>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<CommentLike, PostCreateCommentLikeReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_CURRENT_USER_COMMENT_LIKE}`,
+    method: 'post',
+  })
 }
 
 // Delete current user comment like
 export const postDeleteCurrentUserCommentLike = async (recordId: string) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_COMMENT_LIKE}/${recordId}`
-    const axiosResponse = await axios.delete(url)
-    return axiosResponse.data as ServerResponse
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer({
+    endpoint: `${POSTS_CURRENT_USER_COMMENT_LIKE}/${recordId}`,
+    method: 'delete',
+  })
 }
 
 // Post
@@ -99,13 +85,11 @@ export const postDeleteCurrentUserCommentLike = async (recordId: string) => {
 export const postCreateCurrentUserPost = async (
   reqBody: PostCreatePostReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_POST}`
-    const axiosResponse = await axios.post(url, reqBody)
-    return axiosResponse.data as ServerResponse<Comment>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<Comment, PostCreatePostReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_CURRENT_USER_POST}`,
+    method: 'post',
+  })
 }
 
 // Update current user post
@@ -113,24 +97,19 @@ export const postUpdateCurrentUserPost = async (
   recordId: string,
   reqBody: PostUpdatePostReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_POST}/${recordId}`
-    const axiosResponse = await axios.patch(url, reqBody)
-    return axiosResponse.data as ServerResponse<Post>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<Post, PostUpdatePostReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_CURRENT_USER_POST}/${recordId}`,
+    method: 'patch',
+  })
 }
 
 // Delete current user post
 export const postDeleteCurrentUserPost = async (recordId: string) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_POST}/${recordId}`
-    const axiosResponse = await axios.delete(url)
-    return axiosResponse.data as ServerResponse
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer({
+    endpoint: `${POSTS_CURRENT_USER_POST}/${recordId}`,
+    method: 'delete',
+  })
 }
 
 // PostLike
@@ -139,22 +118,17 @@ export const postDeleteCurrentUserPost = async (recordId: string) => {
 export const postCreateCurrentUserPostLike = async (
   reqBody: PostCreatePostLikeReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_POST_LIKE}`
-    const axiosResponse = await axios.post(url, reqBody)
-    return axiosResponse.data as ServerResponse<PostLike>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<PostLike, PostCreatePostLikeReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_CURRENT_USER_POST_LIKE}`,
+    method: 'post',
+  })
 }
 
 // Delete current user post like
 export const postDeleteCurrentUserPostLike = async (recordId: string) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${POSTS_CURRENT_USER_POST_LIKE}/${recordId}`
-    const axiosResponse = await axios.delete(url)
-    return axiosResponse.data as ServerResponse
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer({
+    endpoint: `${POSTS_CURRENT_USER_POST_LIKE}/${recordId}`,
+    method: 'delete',
+  })
 }

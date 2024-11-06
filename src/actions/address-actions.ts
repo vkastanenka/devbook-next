@@ -1,11 +1,9 @@
 'use server'
 
 // utils
-import axios from 'axios'
-import { formatServerError } from '@/lib/utils'
+import { serverRequestServer } from '@/actions/server-actions'
 
 // types
-import { ServerResponse } from '@/types/server-types'
 import {
   Address,
   AddressCreateAddressReqBody,
@@ -18,26 +16,22 @@ import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/constants/server-endpoint-cons
 // Address
 
 // Create address
-export const createAddress = async (reqBody: AddressCreateAddressReqBody) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${ADDRESSES_CURRENT_USER_ADDRESS}`
-    const axiosResponse = await axios.post(url, reqBody)
-    return axiosResponse.data as ServerResponse<Address>
-  } catch (err) {
-    formatServerError(err)
-  }
+export const addressCreateAddress = async (reqBody: AddressCreateAddressReqBody) => {
+  return await serverRequestServer<Address, AddressCreateAddressReqBody>({
+    data: reqBody,
+    endpoint: ADDRESSES_CURRENT_USER_ADDRESS,
+    method: 'post',
+  })
 }
 
 // Update address
-export const updateAddress = async (
+export const addressUpdateAddress = async (
   recordId: string,
   reqBody: AddressUpdateAddressReqBody
 ) => {
-  try {
-    const url = `${process.env.NEXT_DEVBOOK_API_URL}${ADDRESSES_CURRENT_USER_ADDRESS}/${recordId}`
-    const axiosResponse = await axios.patch(url, reqBody)
-    return axiosResponse.data as ServerResponse<Address>
-  } catch (err) {
-    formatServerError(err)
-  }
+  return await serverRequestServer<Address, AddressUpdateAddressReqBody>({
+    data: reqBody,
+    endpoint: `${ADDRESSES_CURRENT_USER_ADDRESS}/${recordId}`,
+    method: 'patch',
+  })
 }

@@ -52,7 +52,7 @@ const addressCountrySchema = z
  * Request bodies
  */
 
-const addressCreateAddressReqBodySchema = z
+export const addressCreateAddressReqBodySchema = z
   .object({
     unitNumber: addressUnitNumberSchema.optional(),
     streetNumber: addressStreetNumberSchema,
@@ -64,7 +64,7 @@ const addressCreateAddressReqBodySchema = z
   })
   .strict()
 
-const addressUpdateAddressReqBodySchema = z
+export const addressUpdateAddressReqBodySchema = z
   .object({
     unitNumber: addressUnitNumberSchema.optional(),
     streetNumber: addressStreetNumberSchema.optional(),
@@ -74,8 +74,3 @@ const addressUpdateAddressReqBodySchema = z
     country: addressCountrySchema.optional(),
   })
   .strict()
-
-export const addressValidation = {
-  addressCreateAddressReqBodySchema,
-  addressUpdateAddressReqBodySchema,
-}

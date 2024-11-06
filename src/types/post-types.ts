@@ -3,38 +3,47 @@ import { User } from '@/types/user-types'
 
 // validation
 import { z } from 'zod'
-import { postValidation } from '@/validation/post'
+import {
+  postFormSchema,
+  postCommentFormSchema,
+  postCreateCommentReqBodySchema,
+  postUpdateCommentReqBodySchema,
+  postCreateCommentLikeReqBodySchema,
+  postCreatePostReqBodySchema,
+  postUpdatePostReqBodySchema,
+  postCreatePostLikeReqBodySchema,
+} from '@/validation/post-validation'
 
 // Comment
 
+export type PostCommentFormData = z.infer<typeof postCommentFormSchema>
+
 export type PostCreateCommentReqBody = z.infer<
-  typeof postValidation.postCreateCommentReqBodySchema
+  typeof postCreateCommentReqBodySchema
 >
 
 export type PostUpdateCommentReqBody = z.infer<
-  typeof postValidation.postUpdateCommentReqBodySchema
+  typeof postUpdateCommentReqBodySchema
 >
 
 // CommentLike
 
 export type PostCreateCommentLikeReqBody = z.infer<
-  typeof postValidation.postCreateCommentLikeReqBodySchema
+  typeof postCreateCommentLikeReqBodySchema
 >
 
 // Post
 
-export type PostCreatePostReqBody = z.infer<
-  typeof postValidation.postCreatePostReqBodySchema
->
+export type PostFormData = z.infer<typeof postFormSchema>
 
-export type PostUpdatePostReqBody = z.infer<
-  typeof postValidation.postUpdatePostReqBodySchema
->
+export type PostCreatePostReqBody = z.infer<typeof postCreatePostReqBodySchema>
+
+export type PostUpdatePostReqBody = z.infer<typeof postUpdatePostReqBodySchema>
 
 // PostLike
 
 export type PostCreatePostLikeReqBody = z.infer<
-  typeof postValidation.postCreatePostLikeReqBodySchema
+  typeof postCreatePostLikeReqBodySchema
 >
 
 // Comment

@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
 // utils
-import { updateUser } from '@/src/actions-old/user-actions'
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
@@ -22,10 +22,10 @@ import { useModal } from '@/hooks/use-modal-store'
 
 // types
 import { User } from '@/types/user-types'
-import { UserBioFormData } from '@/types/user-types'
+import { UserBioFormData, UserUpdateUserReqBody } from '@/types/user-types'
 
 // validation
-import { bioFormSchema } from '@/validation/user'
+import { userBioFormSchema } from '@/validation/user-validation'
 
 export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -33,9 +33,9 @@ export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
   const { onClose } = useModal()
 
   const form = useForm({
-    resolver: zodResolver(bioFormSchema),
+    resolver: zodResolver(userBioFormSchema),
     defaultValues: {
-      bio: user.bio,
+      bio: user.bio || '',
     },
   })
 
@@ -45,7 +45,10 @@ export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
   } = form
 
   const action: () => void = handleSubmit(async (formData: UserBioFormData) => {
-    const response = await updateUser(formData, user)
+    const response = await userUpdateCurrentUser(
+      user.id,
+      formData as UserUpdateUserReqBody
+    )
 
     // If other error, show toast message
     if (!response.success && !response.errors) {

@@ -24,12 +24,31 @@ const postBodySchema = z
   })
 
 /**
+ * Forms
+ */
+
+// Comment
+
+export const postCommentFormSchema = z
+  .object({
+    body: postCommentBodySchema,
+  })
+  .strict()
+
+// Post
+export const postFormSchema = z
+  .object({
+    body: postBodySchema,
+  })
+  .strict()
+
+/**
  * Request bodies
  */
 
 // Comment
 
-const postCreateCommentReqBodySchema = z
+export const postCreateCommentReqBodySchema = z
   .object({
     body: postCommentBodySchema,
     parentCommentId: z.string().nullable().optional(),
@@ -38,7 +57,7 @@ const postCreateCommentReqBodySchema = z
   })
   .strict()
 
-const postUpdateCommentReqBodySchema = z
+export const postUpdateCommentReqBodySchema = z
   .object({
     body: postCommentBodySchema.optional(),
   })
@@ -46,7 +65,7 @@ const postUpdateCommentReqBodySchema = z
 
 // CommentLike
 
-const postCreateCommentLikeReqBodySchema = z
+export const postCreateCommentLikeReqBodySchema = z
   .object({
     commentId: z.string(),
     userId: z.string(),
@@ -55,14 +74,14 @@ const postCreateCommentLikeReqBodySchema = z
 
 // Post
 
-const postCreatePostReqBodySchema = z
+export const postCreatePostReqBodySchema = z
   .object({
     body: postBodySchema,
     userId: z.string(),
   })
   .strict()
 
-const postUpdatePostReqBodySchema = z
+export const postUpdatePostReqBodySchema = z
   .object({
     body: postBodySchema.optional(),
   })
@@ -70,18 +89,9 @@ const postUpdatePostReqBodySchema = z
 
 // PostLike
 
-const postCreatePostLikeReqBodySchema = z
+export const postCreatePostLikeReqBodySchema = z
   .object({
     postId: z.string(),
     userId: z.string(),
   })
   .strict()
-
-export const postValidation = {
-  postCreateCommentReqBodySchema,
-  postUpdateCommentReqBodySchema,
-  postCreateCommentLikeReqBodySchema,
-  postCreatePostReqBodySchema,
-  postUpdatePostReqBodySchema,
-  postCreatePostLikeReqBodySchema,
-}

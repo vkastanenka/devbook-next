@@ -14,25 +14,32 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
 // utils
-import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
+import {
+  postCreateCurrentUserPost,
+  postUpdateCurrentUserPost,
+} from '@/actions/post-actions'
 
 // types
+import {
+  PostFormData,
+  PostCreatePostReqBody,
+  PostUpdatePostReqBody,
+} from '@/types/post-types'
 import { Post } from '@/types/post-types'
-import { PostFormData } from '@/types/form-types'
 import { User } from '@/types/user-types'
 
 // validation
-import { postFormSchema } from '@/validation/post'
+import { postFormSchema } from '@/validation/post-validation'
 
-export const PostForm: React.FC<{ post?: Post; user: User }> = ({
-  post,
-  user,
-}) => {
+export const PostForm: React.FC<{
+  post?: Post
+  user: User
+}> = ({ post, user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
@@ -49,36 +56,70 @@ export const PostForm: React.FC<{ post?: Post; user: User }> = ({
     formState: { isSubmitting },
   } = form
 
-  const action: () => void = handleSubmit(async (formData: PostFormData) => {
-    const formattedReqBody = formatReqBody({ formData, post })
+  const createAction: () => void = handleSubmit(
+    async (formData: PostFormData) => {
+      const reqBody = {
+        userId: user.id,
+        ...formData,
+      } as PostCreatePostReqBody
 
-    // TODO: Update typescript
-    const response = await updateUser(formattedReqBody, user)
+      const response = await postCreateCurrentUserPost(reqBody)
 
-    // If other error, show toast message
-    if (!response.success && !response.errors) {
-      toast({
-        title: 'Error!',
-        description: response.message,
-        variant: 'destructive',
-      })
+      // If other error, show toast message
+      if (!response.success && !response.errors) {
+        toast({
+          title: 'Error!',
+          description: response.message,
+          variant: 'destructive',
+        })
+      }
+
+      // If successful, push to user feed
+      if (response.success) {
+        onClose()
+        router.refresh()
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+      }
     }
+  )
 
-    // If successful, push to user feed
-    if (response.success) {
-      onClose()
-      router.refresh()
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
+  const updateAction: () => void = handleSubmit(
+    async (formData: PostFormData) => {
+      if (post) {
+        const response = await postUpdateCurrentUserPost(
+          post.id,
+          formData as PostUpdatePostReqBody
+        )
+
+        // If other error, show toast message
+        if (!response.success && !response.errors) {
+          toast({
+            title: 'Error!',
+            description: response.message,
+            variant: 'destructive',
+          })
+        }
+
+        // If successful, push to user feed
+        if (response.success) {
+          onClose()
+          router.refresh()
+          toast({
+            title: 'Success!',
+            description: response.message,
+          })
+        }
+      }
     }
-  })
+  )
 
   return (
     <Form {...form}>
       <form
-        action={action}
+        action={post ? updateAction : createAction}
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
@@ -86,11 +127,11 @@ export const PostForm: React.FC<{ post?: Post; user: User }> = ({
           name="body"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Post body</FormLabel>
+              <FormLabel>Comment</FormLabel>
               <FormControl>
                 <Textarea
                   rows={10}
-                  placeholder="Post body"
+                  placeholder="Comment"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -111,29 +152,4 @@ export const PostForm: React.FC<{ post?: Post; user: User }> = ({
       </form>
     </Form>
   )
-}
-
-const formatReqBody = ({
-  formData,
-  post,
-}: {
-  formData: PostFormData
-  post?: Post
-}) => {
-  const reqBody = {
-    posts: {
-      ...(post
-        ? {
-            update: {
-              where: {
-                id: post.id,
-              },
-              data: formData,
-            },
-          }
-        : { create: [formData] }),
-    },
-  }
-
-  return reqBody
 }

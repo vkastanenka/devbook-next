@@ -35,13 +35,3 @@ export const endYearSchema = z
     const newDateYear = newDate.getFullYear()
     if (Number(s) <= newDateYear) return true
   }, 'End year cannot be greater than current year')
-
-/**
- * Request bodies
- */
-
-export const deleteCurrentUserModelReqBodySchema = z
-  .object({
-    userId: z.string(),
-  })
-  .strict()

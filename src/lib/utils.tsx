@@ -1,6 +1,7 @@
 // utils
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { appError } from '@/lib/app-error'
 
 // types
 import { AxiosError } from 'axios'
@@ -21,12 +22,10 @@ export const formatServerError = (err: unknown) => {
   }
 
   // Return default async error if axios troubles
-  return {
+  return appError({
     message: 'Internal server error!',
-    status: 'error',
     statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
-    success: false,
-  } as ServerResponse
+  })
 }
 
 export const formatText = (text: string) => {

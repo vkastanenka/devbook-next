@@ -13,14 +13,17 @@ import { Button } from '@/components/ui/button'
 
 // utils
 import { useState } from 'react'
-import { register } from '@/src/actions-old/auth-actions'
+import { authRegister } from '@/actions/auth-actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
 // types
-import { registerFormSchema, RegisterFormData } from '@/src/validation/auth'
+import { AuthRegisterReqBody } from '@/types/auth-types'
+
+// validation
+import { authRegisterReqBodySchema } from '@/validation/auth-validation'
 
 export const AuthRegisterForm = () => {
   const name = 'Victoria Kastanenka'
@@ -37,7 +40,7 @@ export const AuthRegisterForm = () => {
   }>()
 
   const form = useForm({
-    resolver: zodResolver(registerFormSchema),
+    resolver: zodResolver(authRegisterReqBodySchema),
     defaultValues: {
       name,
       username,
@@ -52,8 +55,8 @@ export const AuthRegisterForm = () => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: RegisterFormData) => {
-      const response = await register(formData)
+    async (formData: AuthRegisterReqBody) => {
+      const response = await authRegister(formData)
 
       // If form errors, show errors in corresponding field
       if (!response.success && response.errors) {

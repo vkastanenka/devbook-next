@@ -4,7 +4,7 @@
 import { Button } from '@/components/ui/button'
 
 // utils
-import { logout } from '@/src/actions-old/auth-actions'
+// import { logout } from '@/src/actions-old/auth-actions'
 import { useRouter } from 'next/navigation'
 
 /**
@@ -17,7 +17,7 @@ export const AuthLogoutButton = () => {
   const router = useRouter()
 
   const action: () => void = async () => {
-    await logout()
+    // await logout()
     router.push('/')
   }
 

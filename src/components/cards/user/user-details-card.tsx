@@ -6,19 +6,38 @@ import { UserEditContactButton } from '@/components/buttons/user/user-edit-conta
 import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
 
 // types
-import { UserDetailsCard as UserDetailsCardProps } from '@/types/user-types'
+import { User } from '@/types/user-types'
 
-export const UserDetailsCard: React.FC<UserDetailsCardProps> = ({
+interface UserDetailsCard {
+  currentUser: User
+  isEditable?: boolean
+  user: User
+}
+
+export const UserDetailsCard: React.FC<UserDetailsCard> = ({
   currentUser,
-  isContact,
-  isCurrentUser,
   isEditable,
   user,
 }) => {
+  // Check if user is current user
+  const isCurrentUser = currentUser.id === user.id
+
+  // Check if current user in user contacts // TODO: Better implementation
+  let isContact
+  if (!isCurrentUser && user.contacts && user.contacts.length > 0) {
+    user.contacts.every((contact) => {
+      if (contact.id === currentUser.id) {
+        isContact = true
+        return false
+      }
+      return true
+    })
+  }
+
   return (
     <Card className="card flex flex-col gap-2 relative">
       {isCurrentUser && isEditable && (
-        <UserEditProfileCardButton modalType="userDetailsForm" user={user} />
+        <UserEditProfileCardButton modalType="userDetailsForm" user={currentUser} />
       )}
       {!isCurrentUser && (
         <UserEditContactButton

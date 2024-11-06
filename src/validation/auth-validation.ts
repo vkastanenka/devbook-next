@@ -1,11 +1,11 @@
 // validation
 import { z } from 'zod'
-import { emailSchema } from '@/validation/'
+import { emailSchema } from '@/validation/shared-validation'
 import {
   userNameSchema,
   userUsernameSchema,
   userPasswordSchema,
-} from '@/validation/user'
+} from '@/validation/user-validation'
 
 /**
  * Request bodies
@@ -38,10 +38,3 @@ export const authResetPasswordReqBodySchema = z
     password: userPasswordSchema,
   })
   .strict()
-
-export const authValidation = {
-  authLoginReqBodySchema,
-  authRegisterReqBodySchema,
-  authSendResetPasswordTokenReqBodySchema,
-  authResetPasswordReqBodySchema,
-}

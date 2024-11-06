@@ -14,12 +14,8 @@ const searchDevbookQuerySchema = z
  * Request bodies
  */
 
-const searchDevbookReqBodySchema = z
+export const searchDevbookReqBodySchema = z
   .object({
     query: searchDevbookQuerySchema,
   })
   .strict()
-
-export const searchValidation = {
-  searchDevbookReqBodySchema,
-}

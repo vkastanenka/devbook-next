@@ -17,13 +17,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-import { sendResetPasswordToken } from '@/src/actions-old/auth-actions'
+import { authSendResetPasswordToken } from '@/actions/auth-actions'
 
 // types
-import {
-  sendResetPasswordTokenFormSchema,
-  SendResetPasswordTokenFormData,
-} from '@/src/validation/auth'
+import { AuthSendResetPasswordTokenReqBody } from '@/types/auth-types'
+
+// validation
+import { authSendResetPasswordTokenReqBodySchema } from '@/validation/auth-validation'
 
 export const AuthSendResetPasswordTokenForm = () => {
   const email = 'vkastanenka@gmail.com'
@@ -36,7 +36,7 @@ export const AuthSendResetPasswordTokenForm = () => {
   }>()
 
   const form = useForm({
-    resolver: zodResolver(sendResetPasswordTokenFormSchema),
+    resolver: zodResolver(authSendResetPasswordTokenReqBodySchema),
     defaultValues: {
       email: email,
     },
@@ -48,8 +48,8 @@ export const AuthSendResetPasswordTokenForm = () => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: SendResetPasswordTokenFormData) => {
-      const response = await sendResetPasswordToken(formData)
+    async (formData: AuthSendResetPasswordTokenReqBody) => {
+      const response = await authSendResetPasswordToken(formData)
 
       // If form errors, show errors in corresponding field
       if (!response.success && response.errors) {

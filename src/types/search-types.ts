@@ -1,9 +1,7 @@
 // validation
 import { z } from 'zod'
-import { searchValidation } from '@/validation/search'
+import { searchDevbookReqBodySchema } from '@/validation/search-validation'
 
 // Devbook
 
-export type SearchDevbookReqBody = z.infer<
-  typeof searchValidation.searchDevbookReqBodySchema
->
+export type SearchDevbookReqBody = z.infer<typeof searchDevbookReqBodySchema>
