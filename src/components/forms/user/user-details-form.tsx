@@ -32,8 +32,8 @@ import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { User } from '@/src/types/user-types'
 import {
+  User,
   UserUpdateDetailsFormData,
   UserUpdateCurrentUserReqBody,
 } from '@/src/types/user-types'

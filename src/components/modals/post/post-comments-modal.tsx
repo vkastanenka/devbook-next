@@ -11,7 +11,7 @@ export const PostCommentsModal = () => {
     isOpen,
     onClose,
     type,
-    data: { post, user },
+    data: { user },
   } = useModal()
   const isModalOpen = isOpen && type === 'postComments'
 

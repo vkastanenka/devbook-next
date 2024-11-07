@@ -1,5 +1,8 @@
 'use client'
 
+// actions
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
+
 // components
 import {
   Form,
@@ -17,19 +20,22 @@ import { X } from 'lucide-react'
 
 // utils
 import { cn } from '@/src/lib/utils'
-import { useState } from 'react'
-import { updateUser } from '@/src/actions-old/user-actions'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
 import { useModal } from '@/hooks/use-modal-store'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { User, UserGithubReposFormData } from '@/types/user-types'
+import {
+  User,
+  UserUpdateGithubReposFormData,
+  UserUpdateCurrentUserReqBody,
+} from '@/src/types/user-types'
 
 // validation
-import { githubReposFormSchema } from '@/validation/user'
+import { userUpdateGithubReposFormSchema } from '@/src/validation/user-validation'
 
 export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()
@@ -37,13 +43,13 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   const { onClose } = useModal()
 
   const [renderedFormValues, setRenderedFormValues] = useState<string[]>(
-    user.githubRepositories
+    user.githubRepos
   )
 
   const form = useForm({
-    resolver: zodResolver(githubReposFormSchema),
+    resolver: zodResolver(userUpdateGithubReposFormSchema),
     defaultValues: {
-      githubRepositories: user.githubRepositories,
+      githubRepos: user.githubRepos,
     },
   })
 
@@ -55,8 +61,11 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   } = form
 
   const action: () => void = handleSubmit(
-    async (formData: UserGithubReposFormData) => {
-      const response = await updateUser(formData, user)
+    async (formData: UserUpdateGithubReposFormData) => {
+      const response = await userUpdateCurrentUser(
+        user.id,
+        formData as UserUpdateCurrentUserReqBody
+      )
 
       // If other error, show toast message
       if (!response.success && !response.errors) {
@@ -116,11 +125,10 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
                     onClick={(e) => {
                       e.preventDefault()
                       const formValues = getValues()
-                      const filteredRepos =
-                        formValues.githubRepositories.filter(
-                          (_, j) => !(i === j)
-                        )
-                      setValue('githubRepositories', filteredRepos)
+                      const filteredRepos = formValues.githubRepos.filter(
+                        (_, j) => !(i === j)
+                      )
+                      setValue('githubRepos', filteredRepos)
                       setRenderedFormValues(filteredRepos)
                     }}
                     className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
@@ -137,10 +145,10 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
             e.preventDefault()
             const formValues = getValues()
 
-            const updatedValues = ['', ...formValues.githubRepositories]
+            const updatedValues = ['', ...formValues.githubRepos]
 
             setRenderedFormValues(updatedValues)
-            setValue('githubRepositories', updatedValues)
+            setValue('githubRepos', updatedValues)
           }}
         >
           <p className="h4">Add repo</p>

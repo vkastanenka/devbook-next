@@ -43,14 +43,14 @@ import {
   postUpdateCommentFormSchema,
 } from '@/validation/post-validation'
 
-interface PostCommentForm {
+interface CommentForm {
   comment?: Comment
   parentComment?: Comment
   post: Post
   user: User
 }
 
-export const PostCommentForm: React.FC<PostCommentForm> = ({
+export const CommentForm: React.FC<CommentForm> = ({
   comment,
   parentComment,
   post,

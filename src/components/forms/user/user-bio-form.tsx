@@ -23,8 +23,8 @@ import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { User } from '@/src/types/user-types'
 import {
+  User,
   UserUpdateBioFormData,
   UserUpdateCurrentUserReqBody,
 } from '@/src/types/user-types'
@@ -32,7 +32,11 @@ import {
 // validation
 import { userUpdateBioFormSchema } from '@/src/validation/user-validation'
 
-export const UserBioForm: React.FC<{ user: User }> = ({ user }) => {
+interface UserBioForm {
+  user: User
+}
+
+export const UserBioForm: React.FC<UserBioForm> = ({ user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()

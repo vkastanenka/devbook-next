@@ -1,154 +1,167 @@
-// 'use client'
+'use client'
 
-// // components
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from '@/components/ui/form'
-// import { Button } from '@/components/ui/button'
-// import { Input } from '@/components/ui/input'
+// actions
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
 
-// // svg
-// import { X } from 'lucide-react'
+// components
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
-// // utils
-// import { cn } from '@/src/lib/utils'
-// import { useState } from 'react'
-// import { updateUser } from '@/src/actions-old/user-actions'
-// import { useForm } from 'react-hook-form'
-// import { zodResolver } from '@hookform/resolvers/zod'
-// import { useToast } from '@/hooks/use-toast'
-// import { useRouter } from 'next/navigation'
-// import { useModal } from '@/hooks/use-modal-store'
+// svg
+import { X } from 'lucide-react'
 
-// // types
-// import { User, UserSkillsFormData } from '@/types/user-types'
+// utils
+import { cn } from '@/src/lib/utils'
+import { useForm } from 'react-hook-form'
+import { useModal } from '@/hooks/use-modal-store'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-// // validation
-// import { skillsFormSchema } from '@/validation/user'
+// types
+import {
+  User,
+  UserUpdateSkillsFormData,
+  UserUpdateCurrentUserReqBody,
+} from '@/src/types/user-types'
 
-// export const UserSkillsForm: React.FC<{ user: User }> = ({ user }) => {
-//   const router = useRouter()
-//   const { toast } = useToast()
-//   const { onClose } = useModal()
+// validation
+import { userUpdateSkillsFormSchema } from '@/src/validation/user-validation'
 
-//   const [renderedFormValues, setRenderedFormValues] = useState<string[]>(
-//     user.skills
-//   )
+interface UserSkillsForm {
+  user: User
+}
 
-//   const form = useForm({
-//     resolver: zodResolver(skillsFormSchema),
-//     defaultValues: {
-//       skills: user.skills,
-//     },
-//   })
+export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
+  const router = useRouter()
+  const { toast } = useToast()
+  const { onClose } = useModal()
 
-//   const {
-//     getValues,
-//     handleSubmit,
-//     formState: { isSubmitting },
-//     setValue,
-//   } = form
+  const [renderedFormValues, setRenderedFormValues] = useState<string[]>(
+    user.skills
+  )
 
-//   const action: () => void = handleSubmit(
-//     async (formData: UserSkillsFormData) => {
-//       const response = await updateUser(formData, user)
+  const form = useForm({
+    resolver: zodResolver(userUpdateSkillsFormSchema),
+    defaultValues: {
+      skills: user.skills,
+    },
+  })
 
-//       // If other error, show toast message
-//       if (!response.success && !response.errors) {
-//         toast({
-//           title: 'Error!',
-//           description: response.message,
-//           variant: 'destructive',
-//         })
-//       }
+  const {
+    getValues,
+    handleSubmit,
+    formState: { isSubmitting },
+    setValue,
+  } = form
 
-//       // If successful, push to user feed
-//       if (response.success) {
-//         onClose()
-//         router.refresh()
-//         toast({
-//           title: 'Success!',
-//           description: response.message,
-//         })
-//       }
-//     }
-//   )
+  const action: () => void = handleSubmit(
+    async (formData: UserUpdateSkillsFormData) => {
+      const response = await userUpdateCurrentUser(
+        user.id,
+        formData as UserUpdateCurrentUserReqBody
+      )
 
-//   return (
-//     <Form {...form}>
-//       <form
-//         action={action}
-//         autoComplete="off"
-//         className="flex flex-col gap-4 justify-center"
-//       >
-//         <div
-//           className={cn(
-//             'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
-//             renderedFormValues && renderedFormValues?.length > 4 ? 'pr-4' : ''
-//           )}
-//         >
-//           {renderedFormValues.length > 0 &&
-//             renderedFormValues.map((_, i) => {
-//               return (
-//                 <div key={i} className="relative">
-//                   <FormField
-//                     name={`skills.${i}`}
-//                     render={({ field }) => (
-//                       <FormItem>
-//                         <FormLabel>Skill</FormLabel>
-//                         <FormControl>
-//                           <Input
-//                             placeholder="Skill"
-//                             disabled={isSubmitting}
-//                             {...field}
-//                           />
-//                         </FormControl>
-//                         <FormMessage />
-//                       </FormItem>
-//                     )}
-//                   />
-//                   <button
-//                     onClick={(e) => {
-//                       e.preventDefault()
-//                       const formValues = getValues()
-//                       const filteredRepos = formValues.skills.filter(
-//                         (_, j) => !(i === j)
-//                       )
-//                       setValue('skills', filteredRepos)
-//                       setRenderedFormValues(filteredRepos)
-//                     }}
-//                     className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
-//                   >
-//                     <X className="w-4 h-4" />
-//                   </button>
-//                 </div>
-//               )
-//             })}
-//         </div>
+      // If other error, show toast message
+      if (!response.success && !response.errors) {
+        toast({
+          title: 'Error!',
+          description: response.message,
+          variant: 'destructive',
+        })
+      }
 
-//         <button
-//           onClick={(e) => {
-//             e.preventDefault()
-//             const formValues = getValues()
+      // If successful, push to user feed
+      if (response.success) {
+        onClose()
+        router.refresh()
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+      }
+    }
+  )
 
-//             const updatedValues = ['', ...formValues.skills]
+  return (
+    <Form {...form}>
+      <form
+        action={action}
+        autoComplete="off"
+        className="flex flex-col gap-4 justify-center"
+      >
+        <div
+          className={cn(
+            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
+            renderedFormValues && renderedFormValues?.length > 4 ? 'pr-4' : ''
+          )}
+        >
+          {renderedFormValues.length > 0 &&
+            renderedFormValues.map((_, i) => {
+              return (
+                <div key={i} className="relative">
+                  <FormField
+                    name={`skills.${i}`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Skill</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Skill"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredRepos = formValues.skills.filter(
+                        (_, j) => !(i === j)
+                      )
+                      setValue('skills', filteredRepos)
+                      setRenderedFormValues(filteredRepos)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+        </div>
 
-//             setRenderedFormValues(updatedValues)
-//             setValue('skills', updatedValues)
-//           }}
-//         >
-//           <p className="h4">Add skill</p>
-//         </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            const formValues = getValues()
 
-//         <Button disabled={isSubmitting}>
-//           <p className="h4">Update skills</p>
-//         </Button>
-//       </form>
-//     </Form>
-//   )
-// }
+            const updatedValues = ['', ...formValues.skills]
+
+            setRenderedFormValues(updatedValues)
+            setValue('skills', updatedValues)
+          }}
+        >
+          <p className="h4">Add skill</p>
+        </button>
+
+        <Button disabled={isSubmitting}>
+          <p className="h4">Update skills</p>
+        </Button>
+      </form>
+    </Form>
+  )
+}

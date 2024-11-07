@@ -1,29 +1,34 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-// import { PostCommentForm } from '@/components/forms/post/post-comment-form'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { CommentForm } from '@/src/components/forms/post/post-comment-form'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const PostCommentFormModal = () => {
   const {
     isOpen,
     onClose,
     type,
-    data: { post, user },
+    data: { comment, parentComment, post, user },
   } = useModal()
   const isModalOpen = isOpen && type === 'postCommentForm'
 
-  if (!user && isModalOpen) onClose()
-  if (!user) return null
+  if ((!user || !post) && isModalOpen) onClose()
+  if (!user || !post) return null
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
         <p className="h3">Leave a comment</p>
-        {/* <PostCommentForm post={post} user={user} /> */}
+        <CommentForm
+          comment={comment}
+          parentComment={parentComment}
+          post={post}
+          user={user}
+        />
       </DialogContent>
     </Dialog>
   )
