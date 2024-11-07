@@ -9,13 +9,13 @@ import { serverRequestServer } from '@/actions/server-actions'
 import { ReadGithubRepoServerResponse } from '@/types/server-types'
 import {
   User,
-  UserCreateCurrentUserEducationReqBody,
+  UserCreateEducationReqBody,
   UserUpdateEducationReqBody,
-  UserCreateCurrentUserExperienceReqBody,
+  UserCreateExperienceReqBody,
   UserUpdateExperienceReqBody,
   UserEducation,
   UserExperience,
-  UserUpdateCurrentUserReqBody,
+  UserUpdateUserReqBody,
 } from '@/types/user-types'
 import { HttpStatusCode } from '@/types/http-status-code'
 import { Prisma } from '@vkastanenka/devbook-prisma'
@@ -62,9 +62,9 @@ export const userReadCurrentUser = async (reqBody?: {
 // Update current user
 export const userUpdateCurrentUser = async (
   recordId: string,
-  reqBody: UserUpdateCurrentUserReqBody
+  reqBody: UserUpdateUserReqBody
 ) => {
-  return await serverRequestServer<User, UserUpdateCurrentUserReqBody>({
+  return await serverRequestServer<User, UserUpdateUserReqBody>({
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER}/${recordId}`,
     method: 'patch',
@@ -75,9 +75,9 @@ export const userUpdateCurrentUser = async (
 
 // Create current user education
 export const userCreateCurrentUserEducation = async (
-  reqBody: UserCreateCurrentUserEducationReqBody
+  reqBody: UserCreateEducationReqBody
 ) => {
-  return await serverRequestServer<UserEducation, UserCreateCurrentUserEducationReqBody>({
+  return await serverRequestServer<UserEducation, UserCreateEducationReqBody>({
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER_EDUCATION}`,
     method: 'post',
@@ -108,9 +108,9 @@ export const userDeleteCurrentUserEducation = async (recordId: string) => {
 
 // Create current user experience
 export const userCreateCurrentUserExperience = async (
-  reqBody: UserCreateCurrentUserExperienceReqBody
+  reqBody: UserCreateExperienceReqBody
 ) => {
-  return await serverRequestServer<UserExperience, UserCreateCurrentUserExperienceReqBody>(
+  return await serverRequestServer<UserExperience, UserCreateExperienceReqBody>(
     {
       data: reqBody,
       endpoint: `${USERS_CURRENT_USER_EXPERIENCE}`,

@@ -1,11 +1,11 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-// import { UserBioForm } from '@/components/forms/user/user-bio-form'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { UserBioForm } from '@/src/components/forms/user/user-bio-form'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserBioFormModal = () => {
   const {
@@ -23,7 +23,7 @@ export const UserBioFormModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
         <p className="h3">Update bio</p>
-        {/* <UserBioForm user={user} /> */}
+        <UserBioForm user={user} />
       </DialogContent>
     </Dialog>
   )

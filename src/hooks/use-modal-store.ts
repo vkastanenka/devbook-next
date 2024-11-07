@@ -2,8 +2,8 @@
 import { create } from 'zustand'
 
 // types
-import { Post } from '@/types/post-types'
-import { User } from '@/types/user-types'
+import { Comment, Post } from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 export type ModalType =
   | 'postCommentForm'
@@ -21,6 +21,8 @@ export type ModalType =
 
 interface ModalData {
   placeholder?: string
+  comment?: Comment
+  parentComment?: Comment
   post?: Post
   user?: User
 }

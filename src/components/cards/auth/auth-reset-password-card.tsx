@@ -1,8 +1,10 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { AuthResetPasswordForm } from '@/components/forms/auth/auth-reset-password-form'
-import { Separator } from '@radix-ui/react-separator'
+import { Card } from '@/src/components/ui/card'
+import { Separator } from '@/src/components/ui/separator'
+
+// forms
+import { AuthResetPasswordForm } from '@/src/components/forms/auth/auth-reset-password-form'
 
 interface ResetPasswordCard {
   resetPasswordToken: string
@@ -20,7 +22,7 @@ export const AuthResetPasswordCard: React.FC<ResetPasswordCard> = ({
 
       <AuthResetPasswordForm resetPasswordToken={resetPasswordToken} />
 
-      <Separator className="separator" />
+      <Separator />
 
       <div className="text-center">
         <Link href="/">

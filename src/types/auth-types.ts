@@ -1,4 +1,4 @@
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 /**
  * Models

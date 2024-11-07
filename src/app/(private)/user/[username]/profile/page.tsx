@@ -1,17 +1,20 @@
+// actions
+import { userReadCurrentUser } from '@/src/actions/user-actions'
+import { userReadUsername } from '@/src/actions/user-actions'
+
 // components
-// import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
-// import { UserDetailsCard } from '@/components/cards/user/user-details-card'
-// import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
-// import { UserExperienceCard } from '@/src/components/cards/user/user-experience-card'
-// import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'
-// import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
+import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
+import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
+import { UserDetailsCard } from '@/components/cards/user/user-details-card'
+import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
+import { UserExperienceCard } from '@/src/components/cards/user/user-experience-card'
+import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'
+import { UserSkillsCard } from '@/src/components/cards/user/user-skills-card'
 
 // utils
-// import { getCurrentUser, getUsername } from '@/src/actions-old/user-actions'
+import { redirect } from 'next/navigation'
 
 // types
-// import { GetUsernameResData } from '@/types/server-types'
-// import { User } from '@/types/user-types'
 
 interface UserProfilePage {
   params: {
@@ -20,72 +23,64 @@ interface UserProfilePage {
 }
 
 const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
-  // if (!params?.username) return null
+  if (!params?.username) redirect('/feed')
 
-  // const currentUser = await getCurrentUser()
-  // if (!currentUser) return null
+  const { data: currentUser, message: currentUserResMessage } =
+    await userReadCurrentUser()
 
-  // const user = await getUsername(params.username, {
-  //   include: {
-  //     addresses: true,
-  //     contacts: true,
-  //     userEducations: true,
-  //     userExperiences: true,
-  //   },
-  // })
-  // if (!user) return null
+  if (!currentUser) {
+    return <NoContentCard heading="Error!" subheading={currentUserResMessage} />
+  }
 
-  // const userData: User = (user as GetUsernameResData).data
+  let isCurrentUser = true
+  let user = currentUser
 
-  // // Check if user is current user
-  // const isCurrentUser = currentUser.id === userData.id
+  if (currentUser.username !== params.username) {
+    isCurrentUser = false
 
-  // // Check if current user in user contacts
-  // let isContact
-  // if (!isCurrentUser && userData.contacts && userData.contacts.length > 0) {
-  //   userData.contacts.every((contact) => {
-  //     if (contact.id === currentUser.id) {
-  //       isContact = true
-  //       return false
-  //     }
-  //     return true
-  //   })
-  // }
+    const { data: userData, message: userMessage } = await userReadUsername(
+      params.username
+    )
+
+    if (!userData) {
+      return <NoContentCard heading="Error!" subheading={userMessage} />
+    }
+
+    user = userData
+  }
 
   return (
     <div className="flex flex-col gap-4">
-      {/* <UserDetailsCard
+      <UserDetailsCard
         currentUser={currentUser}
-        isContact={isContact}
-        isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
+        user={user}
       />
       <UserBioCard
         isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
+        user={user}
       />
       <UserGithubReposCard
         isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
+        user={user}
       />
       <UserExperienceCard
         isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
+        user={user}
       />
       <UserEducationCard
         isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
+        user={user}
       />
       <UserSkillsCard
         isCurrentUser={isCurrentUser}
         isEditable={isCurrentUser}
-        user={userData}
-      /> */}
+        user={user}
+      />
     </div>
   )
 }

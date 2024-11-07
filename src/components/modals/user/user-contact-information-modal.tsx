@@ -1,24 +1,23 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import Link from 'next/link'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
-import Link from 'next/link'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserContactInformationModal = () => {
-  const { isOpen, onClose, type, data } = useModal()
-
+  const {
+    isOpen,
+    onClose,
+    type,
+    data: { user },
+  } = useModal()
   const isModalOpen = isOpen && type === 'userContactInformation'
 
-  const { user } = data
+  if (!user && isModalOpen) onClose()
   if (!user) return null
-
-  if (!user && isModalOpen) {
-    onClose()
-    return null
-  }
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>

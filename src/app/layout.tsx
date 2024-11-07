@@ -1,10 +1,10 @@
 // components
-import { Toaster } from '@/components/ui/toaster'
-import { ModalProvider } from '@/components/providers/modal-provider'
-import { ThemeProvider } from '@/components/providers/theme-provider'
+import { Toaster } from '@/src/components/ui/toaster'
+import { ModalProvider } from '@/src/components/providers/modal-provider'
+import { ThemeProvider } from '@/src/components/providers/theme-provider'
 
 // utils
-import { cn } from '@/lib/utils'
+import { cn } from '@/src/lib/utils'
 
 // types
 import type { Metadata } from 'next'

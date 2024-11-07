@@ -1,10 +1,10 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { UserAvatar } from '@/components/ui/avatar'
+import { Card } from '@/src/components/ui/card'
+import { UserAvatar } from '@/src/components/ui/avatar'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
   currentUser,

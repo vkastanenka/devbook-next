@@ -1,5 +1,5 @@
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 /**
  * Fields
@@ -56,7 +56,7 @@ export interface AddressUpdateAddressFormData {
  * Request bodies
  */
 
-export interface AddressCreateCurrentUserAddressReqBody {
+export interface AddressCreateUserAddressReqBody {
   unitNumber?: AddressUnitNumber
   streetNumber: AddressStreetNumber
   streetName: AddressStreetName

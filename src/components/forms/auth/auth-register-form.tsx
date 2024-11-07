@@ -1,7 +1,7 @@
 'use client'
 
 // actions
-import { authRegister } from '@/actions/auth-actions'
+import { authRegister } from '@/src/actions/auth-actions'
 
 // components
 import {
@@ -10,22 +10,22 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+} from '@/src/components/ui/form'
+import { Input } from '@/src/components/ui/input'
+import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { AuthRegisterReqBody } from '@/types/auth-types'
+import { AuthRegisterReqBody } from '@/src/types/auth-types'
 
 // validation
-import { authRegisterReqBodySchema } from '@/validation/auth-validation'
+import { authRegisterReqBodySchema } from '@/src/validation/auth-validation'
 
 export const AuthRegisterForm = () => {
   const name = 'Victoria Kastanenka'

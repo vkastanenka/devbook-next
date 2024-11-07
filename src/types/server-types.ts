@@ -1,4 +1,4 @@
-import { HttpStatusCode } from '@/types/http-status-code'
+import { HttpStatusCode } from '@/src/types/http-status-code'
 
 // Devbook
 

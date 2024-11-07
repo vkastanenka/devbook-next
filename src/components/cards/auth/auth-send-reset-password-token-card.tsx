@@ -1,8 +1,10 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { AuthSendResetPasswordTokenForm } from '@/components/forms/auth/auth-send-reset-password-token-form'
-import { Separator } from '@radix-ui/react-separator'
+import { Card } from '@/src/components/ui/card'
+import { Separator } from '@/src/components/ui/separator'
+
+// forms
+import { AuthSendResetPasswordTokenForm } from '@/src/components/forms/auth/auth-send-reset-password-token-form'
 
 export const AuthSendResetPasswordTokenCard = () => {
   return (
@@ -14,7 +16,7 @@ export const AuthSendResetPasswordTokenCard = () => {
 
       <AuthSendResetPasswordTokenForm />
 
-      <Separator className="separator" />
+      <Separator />
 
       <div className="text-center">
         <Link href="/">

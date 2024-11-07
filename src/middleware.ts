@@ -5,7 +5,7 @@ import {
   FEED_ROUTE,
   PROTECTED_ROUTES,
   ROOT_ROUTE,
-} from '@/constants/route-constants'
+} from '@/src/constants/route-constants'
 
 // import { updateSession } from './lib'
 

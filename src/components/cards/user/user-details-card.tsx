@@ -1,12 +1,12 @@
 // components
-import { Card } from '@/components/ui/card'
-import { UserAvatar } from '@/components/ui/avatar'
-import { UserDetailsCardButtons } from '@/components/buttons/user/user-details-card-buttons'
-import { UserEditContactButton } from '@/components/buttons/user/user-edit-contact-button'
-import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
+import { Card } from '@/src/components/ui/card'
+import { UserAvatar } from '@/src/components/ui/avatar'
+import { UserDetailsCardButtons } from '@/src/components/buttons/user/user-details-card-buttons'
+import { UserEditContactButton } from '@/src/components/buttons/user/user-edit-contact-button'
+import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 interface UserDetailsCard {
   currentUser: User
@@ -19,7 +19,6 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
   isEditable,
   user,
 }) => {
-  // Check if user is current user
   const isCurrentUser = currentUser.id === user.id
 
   // Check if current user in user contacts // TODO: Better implementation
@@ -37,7 +36,10 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
   return (
     <Card className="card flex flex-col gap-2 relative">
       {isCurrentUser && isEditable && (
-        <UserEditProfileCardButton modalType="userDetailsForm" user={currentUser} />
+        <UserEditProfileCardButton
+          modalType="userDetailsForm"
+          user={currentUser}
+        />
       )}
       {!isCurrentUser && (
         <UserEditContactButton

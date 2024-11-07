@@ -1,11 +1,11 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { UserAvatar } from '@/components/ui/avatar'
-import { CurrentUserCreatePostButton } from '@/components/buttons/user/current-user-create-post-button'
+import { Card } from '@/src/components/ui/card'
+import { UserAvatar } from '@/src/components/ui/avatar'
+import { CurrentUserCreatePostButton } from '@/src/components/buttons/user/current-user-create-post-button'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 export const CurrentUserCreatePostCard: React.FC<{
   currentUser: User

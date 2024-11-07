@@ -1,13 +1,18 @@
 // components
-import { Card } from '@/components/ui/card'
-import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
-import { Separator } from '@/components/ui/separator'
+import { Card } from '@/src/components/ui/card'
+import { Separator } from '@/src/components/ui/separator'
+import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
 // types
-// import { UserProfileCard } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
-// export const UserEducationCard: React.FC<UserProfileCard> = ({
-export const UserEducationCard = ({
+interface UserEducationCard {
+  isCurrentUser?: boolean
+  isEditable?: boolean
+  user: User
+}
+
+export const UserEducationCard: React.FC<UserEducationCard> = ({
   isCurrentUser,
   isEditable,
   user,

@@ -2,17 +2,21 @@
 
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { Card } from '@/src/components/ui/card'
+import { AspectRatio } from '@/src/components/ui/aspect-ratio'
 
 // utils
-import { cn } from '@/lib/utils'
-import { useModal } from '@/hooks/use-modal-store'
+import { cn } from '@/src/lib/utils'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
-export const UserContactsCard: React.FC<{ user: User }> = ({ user }) => {
+interface UserContactsCard {
+  user: User
+}
+
+export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
   const { onOpen } = useModal()
 
   let renderedContacts = user.contacts || []

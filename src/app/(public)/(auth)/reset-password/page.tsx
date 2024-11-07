@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { AuthResetPasswordCard } from '@/components/cards/auth/auth-reset-password-card'
+import { AuthResetPasswordCard } from '@/src/components/cards/auth/auth-reset-password-card'
 
 // utils
 import { useRouter, useSearchParams } from 'next/navigation'

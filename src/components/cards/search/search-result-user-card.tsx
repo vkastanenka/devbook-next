@@ -1,8 +1,8 @@
 // components
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { UserAvatar } from '@/components/ui/avatar'
+import { Button } from '@/src/components/ui/button'
+import { Card } from '@/src/components/ui/card'
+import { UserAvatar } from '@/src/components/ui/avatar'
 
 // types
 import { User } from '@/types/user-types'

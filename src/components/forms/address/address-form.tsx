@@ -30,7 +30,7 @@ import {
   Address,
   AddressCreateAddressFormData,
   AddressUpdateAddressFormData,
-  AddressCreateCurrentUserAddressReqBody,
+  AddressCreateUserAddressReqBody,
   AddressUpdateAddressReqBody,
 } from '@/src/types/address-types'
 import { User } from '@/src/types/user-types'
@@ -78,7 +78,7 @@ export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
         const reqBody = {
           ...formData,
           userId: user.id,
-        } as AddressCreateCurrentUserAddressReqBody
+        } as AddressCreateUserAddressReqBody
 
         response = await addressCreateCurrentUserAddress(reqBody)
       }

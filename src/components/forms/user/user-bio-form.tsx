@@ -26,7 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   User,
   UserUpdateBioFormData,
-  UserUpdateCurrentUserReqBody,
+  UserUpdateUserReqBody,
 } from '@/src/types/user-types'
 
 // validation
@@ -57,7 +57,7 @@ export const UserBioForm: React.FC<UserBioForm> = ({ user }) => {
     async (formData: UserUpdateBioFormData) => {
       const response = await userUpdateCurrentUser(
         user.id,
-        formData as UserUpdateCurrentUserReqBody
+        formData as UserUpdateUserReqBody
       )
 
       // If other error, show toast message

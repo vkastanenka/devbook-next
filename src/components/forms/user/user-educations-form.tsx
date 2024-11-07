@@ -37,7 +37,7 @@ import {
   User,
   UserEducationFormItem,
   UserCreateUpdateEducationsFormData,
-  UserCreateCurrentUserEducationReqBody,
+  UserCreateEducationReqBody,
   UserUpdateEducationReqBody,
 } from '@/src/types/user-types'
 import { ServerResponse } from '@/src/types/server-types'
@@ -104,13 +104,13 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
       const errorResponses: ServerResponse[] = []
 
       if (create.length) {
-        const createReqBodies: UserCreateCurrentUserEducationReqBody[] =
+        const createReqBodies: UserCreateEducationReqBody[] =
           create.map(
             (reqBody) =>
               ({
                 ...reqBody,
                 userId: user.id,
-              } as UserCreateCurrentUserEducationReqBody)
+              } as UserCreateEducationReqBody)
           )
 
         const createResponses = await Promise.all(

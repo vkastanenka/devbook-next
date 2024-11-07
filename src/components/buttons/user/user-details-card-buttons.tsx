@@ -14,10 +14,10 @@ import {
 
 // utils
 import { usePathname } from 'next/navigation'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 export const UserDetailsCardButtons: React.FC<{ user: User }> = ({ user }) => {
   const { onOpen } = useModal()

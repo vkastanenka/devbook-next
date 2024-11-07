@@ -6,7 +6,7 @@ import { serverRequestServer } from '@/actions/server-actions'
 // types
 import {
   Address,
-  AddressCreateCurrentUserAddressReqBody,
+  AddressCreateUserAddressReqBody,
   AddressUpdateAddressReqBody,
 } from '@/types/address-types'
 
@@ -17,11 +17,11 @@ import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/constants/server-endpoint-cons
 
 // Create address
 export const addressCreateCurrentUserAddress = async (
-  reqBody: AddressCreateCurrentUserAddressReqBody
+  reqBody: AddressCreateUserAddressReqBody
 ) => {
   return await serverRequestServer<
     Address,
-    AddressCreateCurrentUserAddressReqBody
+    AddressCreateUserAddressReqBody
   >({
     data: reqBody,
     endpoint: ADDRESSES_CURRENT_USER_ADDRESS,

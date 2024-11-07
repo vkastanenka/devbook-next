@@ -7,7 +7,7 @@ import {
 } from '@/actions/post-actions'
 
 // components
-import { EmojiButton } from '@/components/buttons/emoji-button'
+import { EmojiButton } from '@/src/components/buttons/emoji-button'
 import {
   Form,
   FormControl,
@@ -15,15 +15,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+} from '@/src/components/ui/form'
+import { Textarea } from '@/src/components/ui/textarea'
+import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
@@ -31,16 +31,16 @@ import {
   Post,
   PostCreatePostFormData,
   PostUpdatePostFormData,
-  PostCreateCurrentUserPostReqBody,
+  PostCreatePostReqBody,
   PostUpdatePostReqBody,
-} from '@/types/post-types'
-import { User } from '@/types/user-types'
+} from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 // validation
 import {
   postCreatePostFormSchema,
   postUpdatePostFormSchema,
-} from '@/validation/post-validation'
+} from '@/src/validation/post-validation'
 
 interface PostForm {
   post?: Post
@@ -71,7 +71,7 @@ export const PostForm: React.FC<PostForm> = ({ post, user }) => {
       const reqBody = {
         ...formData,
         userId: user.id,
-      } as PostCreateCurrentUserPostReqBody
+      } as PostCreatePostReqBody
 
       const response = await postCreateCurrentUserPost(reqBody)
 

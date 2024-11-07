@@ -8,12 +8,12 @@ import {
 
 // validation
 import { z } from 'zod'
-import { emailSchema } from '@/validation/general-validation'
+import { emailSchema } from '@/src/validation/general-validation'
 import {
   userNameSchema,
   userUsernameSchema,
   userPasswordSchema,
-} from '@/validation/user-validation'
+} from '@/src/validation/user-validation'
 
 /**
  * Request bodies

@@ -1,19 +1,19 @@
 'use client'
 
 // actions
-import { searchDevbook } from '@/actions/search-actions'
+import { searchDevbook } from '@/src/actions/search-actions'
 
 // components
-import { Input } from '@/components/ui/input'
+import { Input } from '@/src/components/ui/input'
 
 // svg
 import { Search } from 'lucide-react'
 
 // utils
 import { useEffect, useRef } from 'react'
-import { useLayoutStore } from '@/hooks/use-layout-store'
+import { useLayoutStore } from '@/src/hooks/use-layout-store'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 
 // types
 import { ServerResponse } from '@/src/types/server-types'

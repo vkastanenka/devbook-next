@@ -1,16 +1,18 @@
 'use client'
 
+// actions
+import { userUpdateCurrentUser } from '@/src/actions/user-actions'
+
 // svg
 import { UserPlus, UserMinus } from 'lucide-react'
 
 // utils
 import { useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { useRouter } from 'next/navigation'
-// import { updateUser } from '@/src/actions-old/user-actions'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 interface UserEditContactButton {
   currentUser: User
@@ -27,69 +29,69 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
-  // const editContact = async () => {
-  //   setIsSubmitting(true)
+  const editContact = async () => {
+    setIsSubmitting(true)
 
-  //   const currentUserReqBody = {
-  //     contacts: {
-  //       [isContact ? 'disconnect' : 'connect']: [
-  //         {
-  //           id: user.id,
-  //         },
-  //       ],
-  //     },
-  //   }
+    const currentUserReqBody = {
+      contacts: {
+        [isContact ? 'disconnect' : 'connect']: [
+          {
+            id: user.id,
+          },
+        ],
+      },
+    }
 
-  //   const userReqBody = {
-  //     contacts: {
-  //       [isContact ? 'disconnect' : 'connect']: [
-  //         {
-  //           id: currentUser.id,
-  //         },
-  //       ],
-  //     },
-  //   }
+    const userReqBody = {
+      contacts: {
+        [isContact ? 'disconnect' : 'connect']: [
+          {
+            id: currentUser.id,
+          },
+        ],
+      },
+    }
 
-  //   const currentUserResponse = await updateUser(
-  //     currentUserReqBody,
-  //     currentUser
-  //   )
-  //   const userResponse = await updateUser(userReqBody, user)
+    const currentUserResponse = await userUpdateCurrentUser(
+      currentUser.id,
+      currentUserReqBody
+    )
 
-  //   setIsSubmitting(false)
+    // TODO: Figure out endpoint for updating other user
+    const userResponse = await userUpdateCurrentUser(user.id, userReqBody)
 
-  //   // If other error, show toast message
-  //   if (!currentUserResponse.success) {
-  //     toast({
-  //       title: 'Error!',
-  //       description: currentUserResponse.message,
-  //       variant: 'destructive',
-  //     })
-  //   }
+    setIsSubmitting(false)
 
-  //   if (!userResponse.success) {
-  //     toast({
-  //       title: 'Error!',
-  //       description: userResponse.message,
-  //       variant: 'destructive',
-  //     })
-  //   }
+    if (!currentUserResponse.success) {
+      toast({
+        title: 'Error!',
+        description: currentUserResponse.message,
+        variant: 'destructive',
+      })
+    }
 
-  //   // If successful, push to user feed
-  //   if (currentUserResponse.success && userResponse.success) {
-  //     router.refresh()
-  //     toast({
-  //       title: 'Success!',
-  //       description: currentUserResponse.message,
-  //     })
-  //   }
-  // }
+    if (!userResponse.success) {
+      toast({
+        title: 'Error!',
+        description: userResponse.message,
+        variant: 'destructive',
+      })
+    }
+
+    if (currentUserResponse.success && userResponse.success) {
+      router.refresh()
+      toast({
+        title: 'Success!',
+        description: currentUserResponse.message,
+      })
+    }
+  }
 
   return (
     <button
       disabled={isSubmitting}
       className="absolute top-4 right-4"
-      // onClick={editContact}
+      onClick={editContact}
     >
       {isContact ? <UserMinus /> : <UserPlus />}
     </button>

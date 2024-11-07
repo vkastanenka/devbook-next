@@ -1,35 +1,35 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { PostActionButtons } from '@/components/buttons/post/post-action-buttons'
-import { PostOptionButtons } from '@/components/buttons/post/post-option-buttons'
-import { Separator } from '@/components/ui/separator'
+import { Card } from '@/src/components/ui/card'
+import { PostActionButtons } from '@/src/components/buttons/post/post-action-buttons'
+import { PostOptionButtons } from '@/src/components/buttons/post/post-option-buttons'
+import { Separator } from '@/src/components/ui/separator'
 
 // svg
 import { MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
-import { formatText } from '@/lib/utils'
+import { formatText } from '@/src/lib/utils'
 
 // types
-import { Post } from '@/types/post-types'
-import { User } from '@/types/user-types'
+import { Post } from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 // images
 import { UserAvatar } from '@/components/ui/avatar'
 
 export const PostCard: React.FC<{
-  currentUser: User
+  user: User
   post: Post
-}> = ({ currentUser, post }) => {
+}> = ({ user, post }) => {
   return (
     <Card className="relative py-card bg-card flex flex-col gap-4">
-      <PostOptionButtons currentUser={currentUser} post={post} />
+      <PostOptionButtons user={user} post={post} />
       <PostCardUser post={post} />
       <PostCardBody post={post} />
       <PostCardActivity post={post} />
       <Separator />
-      <PostActionButtons currentUser={currentUser} post={post} />
+      <PostActionButtons user={user} post={post} />
     </Card>
   )
 }

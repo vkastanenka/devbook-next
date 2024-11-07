@@ -1,12 +1,25 @@
 // utils
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { appError } from '@/lib/app-error'
 
 // types
 import { AxiosError } from 'axios'
-import { ServerResponse } from '@/types/server-types'
-import { HttpStatusCode } from '@/types/http-status-code'
+import { HttpStatusCode } from '@/src/types/http-status-code'
+import { ServerResponse } from '@/src/types/server-types'
+
+// Object for providing meaningful errors
+export const appError = ({
+  message,
+  statusCode,
+}: {
+  message: string
+  statusCode: HttpStatusCode
+}): ServerResponse => ({
+  message,
+  status: 'error',
+  statusCode,
+  success: false,
+})
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

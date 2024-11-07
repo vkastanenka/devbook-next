@@ -1,10 +1,10 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const PostCommentsModal = () => {
   const {

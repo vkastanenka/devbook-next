@@ -1,11 +1,11 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { UserDetailsForm } from '@/components/forms/user/user-details-form'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { UserDetailsForm } from '@/src/components/forms/user/user-details-form'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserDetailsFormModal = () => {
   const {

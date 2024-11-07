@@ -1,141 +1,144 @@
-// 'use client'
+'use client'
 
-// // components
-// import Link from 'next/link'
-// import { Card } from '@/components/ui/card'
-// import { CollapsibleContent } from '@/components/ui/collapsible-content'
-// import { Skeleton } from '@/components/ui/skeleton'
-// import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
+// actions
+import { userReadCurrentUserGithubRepos } from '@/src/actions/user-actions'
 
-// // svg
-// import GithubRainbow from '/public/svg/github-rainbow.svg'
+// components
+import Link from 'next/link'
+import { Card } from '@/src/components/ui/card'
+import { CollapsibleContent } from '@/src/components/ui/collapsible-content'
+import { Skeleton } from '@/src/components/ui/skeleton'
+import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
-// // utils
-// import { useState, useEffect } from 'react'
-// import { getUserGithubRepos } from '@/src/actions-old/user-actions'
-// import { useToast } from '@/hooks/use-toast'
+// svg
+import GithubRainbow from '/public/svg/github-rainbow.svg'
 
-// // types
-// import {
-//   GetUserGithubReposRes,
-//   GetUserGithubRepoRes,
-// } from '@/types/server-types'
-// import { UserProfileCard } from '@/types/user-types'
+// utils
+import { useState, useEffect } from 'react'
+import { useToast } from '@/src/hooks/use-toast'
 
-// /**
-//  * TODO
-//  *
-//  * Figure out why deleting last repo will still keep 1 card
-//  */
+// types
+import { ReadGithubRepoServerResponse } from '@/src/types/server-types'
+import { User } from '@/src/types/user-types'
 
-// export const UserGithubReposCard: React.FC<UserProfileCard> = ({
-//   isCurrentUser,
-//   isEditable,
-//   user,
-// }) => {
-//   const { toast } = useToast()
+interface UserGithubReposCard {
+  isCurrentUser?: boolean
+  isEditable?: boolean
+  user: User
+}
 
-//   const [repos, setRepos] = useState<GetUserGithubReposRes>()
+/**
+ * TODO
+ *
+ * Figure out why deleting last repo will still keep 1 card
+ */
 
-//   useEffect(() => {
-//     const getRepos = async () => {
-//       const repos = await getUserGithubRepos(user.githubRepositories)
+export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
+  isCurrentUser,
+  isEditable,
+  user,
+}) => {
+  const { toast } = useToast()
 
-//       const failedRequestUrls: string[] = []
+  const [repos, setRepos] = useState<ReadGithubRepoServerResponse[]>()
 
-//       repos.forEach((repo) => {
-//         if (!(repo as GetUserGithubRepoRes).status) {
-//           failedRequestUrls.push(repo.url)
-//         }
-//       })
+  useEffect(() => {
+    const getRepos = async () => {
+      const repos = await userReadCurrentUserGithubRepos(user.githubRepos)
 
-//       if (failedRequestUrls?.length) {
-//         toast({
-//           title: 'Error!',
-//           description: (
-//             <ErrorDescription failedRequestUrls={failedRequestUrls} />
-//           ),
-//           variant: 'destructive',
-//         })
-//       }
+      const failedRequestUrls: string[] = []
 
-//       setRepos(repos)
-//     }
+      repos.forEach((repo) => {
+        if (!(repo as ReadGithubRepoServerResponse).success) {
+          failedRequestUrls.push(repo.url)
+        }
+      })
 
-//     if (user.githubRepositories.length) {
-//       getRepos()
-//     }
-//   }, [toast, user])
+      if (failedRequestUrls?.length) {
+        toast({
+          title: 'Error!',
+          description: (
+            <ErrorDescription failedRequestUrls={failedRequestUrls} />
+          ),
+          variant: 'destructive',
+        })
+      }
 
-//   return (
-//     <Card className="card flex flex-col gap-4 relative">
-//       {isCurrentUser && isEditable && (
-//         <UserEditProfileCardButton
-//           modalType="userGithubReposForm"
-//           user={user}
-//         />
-//       )}
-//       <div className="flex items-center gap-2">
-//         <p className="h4">Github Repositories</p>
-//         <GithubRainbow />
-//       </div>
-//       {user.githubRepositories.length > 0 ? (
-//         <CollapsibleContent includeTrigger={user.githubRepositories.length > 4}>
-//           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//             {repos?.length
-//               ? repos.map((repo, i) => {
-//                   // Repositories in profile and response
-//                   if (!(repo as GetUserGithubRepoRes).status) {
-//                     return null
-//                   }
-//                   const repoSuccess = repo as GetUserGithubRepoRes
-//                   return (
-//                     <Card key={i} className="col-span-2 sm:col-span-1">
-//                       <Link
-//                         className="p-[18px] h-full w-full"
-//                         href={repoSuccess.data.html_url}
-//                         target="_blank"
-//                       >
-//                         <p className="muted font-bold">
-//                           {repoSuccess.data.name}
-//                         </p>
-//                         {repoSuccess.data.description && (
-//                           <p className="muted">
-//                             {repoSuccess.data.description}
-//                           </p>
-//                         )}
-//                       </Link>
-//                     </Card>
-//                   )
-//                 })
-//               : user.githubRepositories.map((repo) => (
-//                   // Repositories in profile but no response yet
-//                   <Card
-//                     key={repo}
-//                     className="col-span-2 sm:col-span-1 p-[18px]"
-//                   >
-//                     <Skeleton className="h-[40px] w-full" />
-//                   </Card>
-//                 ))}
-//           </div>
-//         </CollapsibleContent>
-//       ) : (
-//         <p className="p">{`This user hasn't provided any Github repositories.`}</p>
-//       )}
-//     </Card>
-//   )
-// }
+      setRepos(repos)
+    }
 
-// const ErrorDescription: React.FC<{ failedRequestUrls?: string[] }> = ({
-//   failedRequestUrls,
-// }) => (
-//   <p className="muted">
-//     <span className="block">Failed to fetch repositories from:</span>
-//     {failedRequestUrls?.map((url, i) => (
-//       <span key={i} className="block">
-//         {url}
-//       </span>
-//     ))}
-//     <span className="block">Please check the urls or try later.</span>
-//   </p>
-// )
+    if (user.githubRepos.length) {
+      getRepos()
+    }
+  }, [toast, user])
+
+  return (
+    <Card className="card flex flex-col gap-4 relative">
+      {isCurrentUser && isEditable && (
+        <UserEditProfileCardButton
+          modalType="userGithubReposForm"
+          user={user}
+        />
+      )}
+      <div className="flex items-center gap-2">
+        <p className="h4">Github Repositories</p>
+        <GithubRainbow />
+      </div>
+      {user.githubRepos.length > 0 ? (
+        <CollapsibleContent includeTrigger={user.githubRepos.length > 4}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {repos?.length
+              ? repos.map((repo, i) => {
+                  // Repositories in profile and response
+                  const repoSuccess = repo as ReadGithubRepoServerResponse
+                  if (!repoSuccess.data) return null
+                  return (
+                    <Card key={i} className="col-span-2 sm:col-span-1">
+                      <Link
+                        className="p-[18px] h-full w-full"
+                        href={repoSuccess.data[0].html_url}
+                        target="_blank"
+                      >
+                        <p className="muted font-bold">
+                          {repoSuccess.data[0].name}
+                        </p>
+                        {repoSuccess.data[0].description && (
+                          <p className="muted">
+                            {repoSuccess.data[0].description}
+                          </p>
+                        )}
+                      </Link>
+                    </Card>
+                  )
+                })
+              : user.githubRepos.map((repo) => (
+                  // Repositories in profile but no response yet
+                  <Card
+                    key={repo}
+                    className="col-span-2 sm:col-span-1 p-[18px]"
+                  >
+                    <Skeleton className="h-[40px] w-full" />
+                  </Card>
+                ))}
+          </div>
+        </CollapsibleContent>
+      ) : (
+        <p className="p">{`This user hasn't provided any Github repositories.`}</p>
+      )}
+    </Card>
+  )
+}
+
+const ErrorDescription: React.FC<{ failedRequestUrls?: string[] }> = ({
+  failedRequestUrls,
+}) => (
+  <p className="muted">
+    <span className="block">Failed to fetch repositories from:</span>
+    {failedRequestUrls?.map((url, i) => (
+      <span key={i} className="block">
+        {url}
+      </span>
+    ))}
+    <span className="block">Please check the urls or try later.</span>
+  </p>
+)

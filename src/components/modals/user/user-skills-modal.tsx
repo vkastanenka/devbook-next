@@ -1,12 +1,12 @@
 'use client'
 
 // components
-import { Separator } from '@/components/ui/separator'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Separator } from '@/src/components/ui/separator'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
 
 // utils
 import { cn } from '@/src/lib/utils'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserSkillsModal = () => {
   const {

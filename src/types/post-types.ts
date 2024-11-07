@@ -1,5 +1,5 @@
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 /**
  * Fields
@@ -103,7 +103,7 @@ export interface PostUpdatePostFormData {
 
 // Comment
 
-export interface PostCreateCurrentUserCommentReqBody {
+export interface PostCreateCommentReqBody {
   body: CommentBody
   parentCommentId?: string | null
   postId: string
@@ -116,14 +116,14 @@ export interface PostUpdateCommentReqBody {
 
 // CommentLike
 
-export interface PostCreateCurrentUserCommentLikeReqBody {
+export interface PostCreateCommentLikeReqBody {
   commentId: string
   userId: string
 }
 
 // Post
 
-export interface PostCreateCurrentUserPostReqBody {
+export interface PostCreatePostReqBody {
   body: PostBody
   userId: string
 }
@@ -134,7 +134,7 @@ export interface PostUpdatePostReqBody {
 
 // PostLike
 
-export interface PostCreateCurrentUserPostLikeReqBody {
+export interface PostCreatePostLikeReqBody {
   postId: string
   userId: string
 }

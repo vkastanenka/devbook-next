@@ -1,9 +1,11 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { AuthLoginForm } from '@/components/forms/auth/auth-login-form'
-import { Separator } from '@radix-ui/react-separator'
+import { Card } from '@/src/components/ui/card'
+import { Button } from '@/src/components/ui/button'
+import { Separator } from '@/src/components/ui/separator'
+
+// forms
+import { AuthLoginForm } from '@/src/components/forms/auth/auth-login-form'
 
 export const AuthLoginCard = () => {
   return (
@@ -16,7 +18,7 @@ export const AuthLoginCard = () => {
         </Link>
       </div>
 
-      <Separator className="separator" />
+      <Separator />
 
       <div className="text-center">
         <Link href="/register">

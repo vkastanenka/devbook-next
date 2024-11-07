@@ -5,7 +5,7 @@ import {
   userCreateCurrentUserExperience,
   userUpdateCurrentUserExperience,
   userDeleteCurrentUserExperience,
-} from '@/actions/user-actions'
+} from '@/src/actions/user-actions'
 
 // components
 import {
@@ -15,18 +15,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@/src/components/ui/form'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Separator } from '@/components/ui/separator'
+} from '@/src/components/ui/select'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
+import { Textarea } from '@/src/components/ui/textarea'
+import { Separator } from '@/src/components/ui/separator'
 
 // svg
 import { X } from 'lucide-react'
@@ -34,10 +34,10 @@ import { X } from 'lucide-react'
 // utils
 import { cn } from '@/src/lib/utils'
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
@@ -45,7 +45,7 @@ import {
   User,
   UserExperienceFormItem,
   UserCreateUpdateExperiencesFormData,
-  UserCreateCurrentUserExperienceReqBody,
+  UserCreateExperienceReqBody,
   UserUpdateExperienceReqBody,
 } from '@/src/types/user-types'
 import { ServerResponse } from '@/src/types/server-types'
@@ -117,13 +117,13 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
       const errorResponses: ServerResponse[] = []
 
       if (create.length) {
-        const createReqBodies: UserCreateCurrentUserExperienceReqBody[] =
+        const createReqBodies: UserCreateExperienceReqBody[] =
           create.map(
             (reqBody) =>
               ({
                 ...reqBody,
                 userId: user.id,
-              } as UserCreateCurrentUserExperienceReqBody)
+              } as UserCreateExperienceReqBody)
           )
 
         const createResponses = await Promise.all(

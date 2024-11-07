@@ -1,7 +1,7 @@
 'use client'
 
 // actions
-import { authSendResetPasswordToken } from '@/actions/auth-actions'
+import { authSendResetPasswordToken } from '@/src/actions/auth-actions'
 
 // components
 import {
@@ -10,22 +10,22 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+} from '@/src/components/ui/form'
+import { Input } from '@/src/components/ui/input'
+import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { AuthSendResetPasswordTokenReqBody } from '@/types/auth-types'
+import { AuthSendResetPasswordTokenReqBody } from '@/src/types/auth-types'
 
 // validation
-import { authSendResetPasswordTokenReqBodySchema } from '@/validation/auth-validation'
+import { authSendResetPasswordTokenReqBodySchema } from '@/src/validation/auth-validation'
 
 export const AuthSendResetPasswordTokenForm = () => {
   const email = 'vkastanenka@gmail.com'

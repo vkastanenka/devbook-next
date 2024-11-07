@@ -6,7 +6,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '@/src/components/ui/popover'
 
 // svg
 import { SmilePlus } from 'lucide-react'

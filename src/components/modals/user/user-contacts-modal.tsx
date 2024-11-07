@@ -2,11 +2,11 @@
 
 // components
 import Link from 'next/link'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { UserAvatar } from '@/components/ui/avatar'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { UserAvatar } from '@/src/components/ui/avatar'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserContactsModal = () => {
   const {

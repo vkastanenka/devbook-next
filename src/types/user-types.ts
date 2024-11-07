@@ -1,12 +1,7 @@
 // types
-import { Address } from '@/types/address-types'
-import { AuthSession } from '@/types/auth-types'
-import {
-  Comment,
-  CommentLike,
-  Post,
-  PostLike,
-} from '@/types/post-types'
+import { Address } from '@/src/types/address-types'
+import { AuthSession } from '@/src/types/auth-types'
+import { Comment, CommentLike, Post, PostLike } from '@/src/types/post-types'
 
 /**
  * Fields
@@ -183,7 +178,7 @@ export interface UserCreateUpdateExperiencesFormData {
 
 // User
 
-export interface UserUpdateCurrentUserReqBody {
+export interface UserUpdateUserReqBody {
   name?: UserName
   email?: UserEmail
   phone?: UserPhone
@@ -195,11 +190,15 @@ export interface UserUpdateCurrentUserReqBody {
   resume?: UserResume
   githubRepos?: UserGithubRepos
   skills?: UserSkills
+  contacts?: {
+    connect?: { id: string }
+    disconnect?: { id: string }
+  }
 }
 
 // UserEducation
 
-export interface UserCreateCurrentUserEducationReqBody {
+export interface UserCreateEducationReqBody {
   school: UserEducationSchool
   degree: UserEducationDegree
   startYear: string
@@ -216,7 +215,7 @@ export interface UserUpdateEducationReqBody {
 
 // UserExperience
 
-export interface UserCreateCurrentUserExperienceReqBody {
+export interface UserCreateExperienceReqBody {
   company: UserExperienceCompany
   type: UserExperienceType
   schedule: UserExperienceSchedule

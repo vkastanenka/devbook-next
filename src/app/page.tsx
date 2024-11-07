@@ -1,8 +1,8 @@
 // components
-import { AuthLoginCard } from '@/components/cards/auth/auth-login-card'
+import { AuthLoginCard } from '@/src/components/cards/auth/auth-login-card'
 
 // svg
-import { DevbookLogoText } from '@/components/svg/devbook-logo'
+import { DevbookLogoText } from '@/src/components/svg/devbook-logo'
 
 const HomePage = () => {
   return (

@@ -5,11 +5,11 @@ import { Pencil } from 'lucide-react'
 
 // utils
 import { cn } from '@/src/lib/utils'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { ModalType } from '@/hooks/use-modal-store'
-import { User } from '@/types/user-types'
+import { ModalType } from '@/src/hooks/use-modal-store'
+import { User } from '@/src/types/user-types'
 
 interface UserEditProfileCardButton {
   className?: string

@@ -1,11 +1,11 @@
 // components
 import Link from 'next/link'
-import { Card } from '@/components/ui/card'
-import { NoContentCurrentUserContactsCard } from '@/components/cards/no-content/no-content-current-user-contacts-card'
+import { Card } from '@/src/components/ui/card'
+import { NoContentCurrentUserContactsCard } from '@/src/components/cards/no-content/no-content-current-user-contacts-card'
 
 // types
-import { User } from '@/types/user-types'
-import { UserAvatar } from '@/components/ui/avatar'
+import { User } from '@/src/types/user-types'
+import { UserAvatar } from '@/src/components/ui/avatar'
 
 export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
   currentUser,

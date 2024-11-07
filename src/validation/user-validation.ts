@@ -34,7 +34,7 @@ import {
   urlSchema,
   startYearSchema,
   endYearSchema,
-} from '@/validation/general-validation'
+} from '@/src/validation/general-validation'
 
 /**
  * Fields

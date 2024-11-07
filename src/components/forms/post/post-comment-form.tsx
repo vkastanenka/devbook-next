@@ -4,10 +4,10 @@
 import {
   postCreateCurrentUserComment,
   postUpdateCurrentUserComment,
-} from '@/actions/post-actions'
+} from '@/src/actions/post-actions'
 
 // components
-import { EmojiButton } from '@/components/buttons/emoji-button'
+import { EmojiButton } from '@/src/components/buttons/emoji-button'
 import {
   Form,
   FormControl,
@@ -15,15 +15,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
+} from '@/src/components/ui/form'
+import { Textarea } from '@/src/components/ui/textarea'
+import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
@@ -32,16 +32,16 @@ import {
   Post,
   PostCreateCommentFormData,
   PostUpdateCommentFormData,
-  PostCreateCurrentUserCommentReqBody,
+  PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
-} from '@/types/post-types'
-import { User } from '@/types/user-types'
+} from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 // validation
 import {
   postCreateCommentFormSchema,
   postUpdateCommentFormSchema,
-} from '@/validation/post-validation'
+} from '@/src/validation/post-validation'
 
 interface CommentForm {
   comment?: Comment
@@ -81,7 +81,7 @@ export const CommentForm: React.FC<CommentForm> = ({
         ...(parentComment?.id ? { parentComment: parentComment.id } : {}),
         postId: post.id,
         userId: user.id,
-      } as PostCreateCurrentUserCommentReqBody
+      } as PostCreateCommentReqBody
 
       const response = await postCreateCurrentUserComment(reqBody)
 

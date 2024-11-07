@@ -11,9 +11,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+} from '@/src/components/ui/form'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
 
 // svg
 import { X } from 'lucide-react'
@@ -21,17 +21,17 @@ import { X } from 'lucide-react'
 // utils
 import { cn } from '@/src/lib/utils'
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
   User,
   UserUpdateGithubReposFormData,
-  UserUpdateCurrentUserReqBody,
+  UserUpdateUserReqBody,
 } from '@/src/types/user-types'
 
 // validation
@@ -64,7 +64,7 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
     async (formData: UserUpdateGithubReposFormData) => {
       const response = await userUpdateCurrentUser(
         user.id,
-        formData as UserUpdateCurrentUserReqBody
+        formData as UserUpdateUserReqBody
       )
 
       // If other error, show toast message

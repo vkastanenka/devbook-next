@@ -1,11 +1,11 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { UserGithubReposForm } from '@/components/forms/user/user-github-repos-form'
+import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { UserGithubReposForm } from '@/src/components/forms/user/user-github-repos-form'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserGithubReposFormModal = () => {
   const {

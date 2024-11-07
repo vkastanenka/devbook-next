@@ -1,10 +1,10 @@
 'use client'
 
 // utils
-import { useModal } from '@/hooks/use-modal-store'
+import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 export const CurrentUserCreatePostButton: React.FC<{
   currentUser: User

@@ -1,17 +1,22 @@
 // components
-import { Card } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { CollapsibleContent } from '@/components/ui/collapsible-content'
-import { UserEditProfileCardButton } from '@/components/buttons/user/user-edit-profile-card-button'
+import { Card } from '@/src/components/ui/card'
+import { Separator } from '@/src/components/ui/separator'
+import { CollapsibleContent } from '@/src/components/ui/collapsible-content'
+import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
 // utils
-import { formatText } from '@/lib/utils'
+import { formatText } from '@/src/lib/utils'
 
 // types
-// import { UserProfileCard } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
-// export const UserExperienceCard: React.FC<UserProfileCard> = ({
-export const UserExperienceCard = ({
+interface UserExperienceCard {
+  isCurrentUser?: boolean
+  isEditable?: boolean
+  user: User
+}
+
+export const UserExperienceCard: React.FC<UserExperienceCard> = ({
   isCurrentUser,
   isEditable,
   user,

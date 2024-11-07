@@ -11,18 +11,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@/src/components/ui/form'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/src/components/ui/select'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
+import { Separator } from '@/src/components/ui/separator'
+import { Textarea } from '@/src/components/ui/textarea'
 
 // utils
 import { useForm } from 'react-hook-form'
@@ -35,7 +35,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   User,
   UserUpdateDetailsFormData,
-  UserUpdateCurrentUserReqBody,
+  UserUpdateUserReqBody,
 } from '@/src/types/user-types'
 
 // validation
@@ -71,7 +71,7 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
     async (formData: UserUpdateDetailsFormData) => {
       const response = await userUpdateCurrentUser(
         user.id,
-        formData as UserUpdateCurrentUserReqBody
+        formData as UserUpdateUserReqBody
       )
 
       // If other error, show toast message
