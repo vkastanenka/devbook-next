@@ -5,7 +5,7 @@ import { userReadUsername } from '@/src/actions/user-actions'
 // components
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
-import { UserDetailsCard } from '@/components/cards/user/user-details-card'
+import { UserDetailsCard } from '@/src/components/cards/user/user-details-card'
 import { UserEducationCard } from '@/src/components/cards/user/user-education-card'
 import { UserExperienceCard } from '@/src/components/cards/user/user-experience-card'
 import { UserGithubReposCard } from '@/src/components/cards/user/user-github-repos-card'

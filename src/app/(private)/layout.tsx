@@ -1,5 +1,5 @@
 //components
-import { Navbar } from '@/components/ui/navbar'
+import { Navbar } from '@/src/components/ui/navbar'
 
 export default function PrivateLayout({
   children,

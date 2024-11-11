@@ -1,14 +1,14 @@
 // actions
-import { userReadCurrentUser } from '@/actions/user-actions'
-import { userReadCurrentUserFeed } from '@/actions/user-actions'
+import { userReadCurrentUser } from '@/src/actions/user-actions'
+import { userReadCurrentUserFeed } from '@/src/actions/user-actions'
 
 // components
-import { CurrentUserCard } from '@/components/cards/user/current-user-card'
-import { CurrentUserContactsCard } from '@/components/cards/user/current-user-contacts-card'
-import { CurrentUserCreatePostCard } from '@/components/cards/user/current-user-create-post-card'
-import { Feed } from '@/components/ui/feed'
+import { CurrentUserCard } from '@/src/components/cards/user/current-user-card'
+import { CurrentUserContactsCard } from '@/src/components/cards/user/current-user-contacts-card'
+import { CurrentUserCreatePostCard } from '@/src/components/cards/user/current-user-create-post-card'
+import { Feed } from '@/src/components/ui/feed'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
-import { Separator } from '@/components/ui/separator'
+import { Separator } from '@/src/components/ui/separator'
 
 const FeedPage: React.FC = async () => {
   const { data: currentUser, message } = await userReadCurrentUser({

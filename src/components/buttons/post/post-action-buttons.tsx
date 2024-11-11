@@ -75,7 +75,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     }
   }
 
-  const openCommentsModal = async () => {
+  const openPostModal = async () => {
     const response = await postReadPost(post.id, {
       include: {
         comments: {
@@ -125,7 +125,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             <p className="p">Comment</p>
           </button>
         </div>
-        <button className={styleButton} onClick={openCommentsModal}>
+        <button className={styleButton} onClick={openPostModal}>
           <p className="p">View comments</p>
           <CircleArrowRight />
         </button>

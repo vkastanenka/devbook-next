@@ -44,8 +44,8 @@ export const CommentForm = () => {
   const router = useRouter()
   const { toast } = useToast()
   const {
-    data: { comment, parentComment, post, user: currentUser },
-    onOpen,
+    data: { comment, navPrev, parentComment, post, user: currentUser },
+    setData,
     onClose,
   } = useModal()
 
@@ -68,7 +68,7 @@ export const CommentForm = () => {
       if (post && currentUser) {
         const reqBody = {
           ...formData,
-          ...(parentComment?.id ? { parentComment: parentComment.id } : {}),
+          ...(parentComment?.id ? { parentCommentId: parentComment.id } : {}),
           postId: post.id,
           userId: currentUser.id,
         } as PostCreateCommentReqBody
@@ -84,7 +84,16 @@ export const CommentForm = () => {
         }
 
         if (response.success) {
-          onClose()
+          if (navPrev) {
+            setData({
+              comment,
+              navPrev,
+              parentComment,
+              post,
+              user: currentUser,
+            })
+            navPrev()
+          } else onClose()
           router.refresh()
           toast({
             title: 'Success!',
@@ -121,12 +130,8 @@ export const CommentForm = () => {
 
           post.comments = updatedComments
 
-          onOpen('postComments', {
-            comment,
-            parentComment,
-            post,
-            user: currentUser,
-          })
+          if (navPrev) navPrev()
+          else onClose()
 
           toast({
             title: 'Success!',
