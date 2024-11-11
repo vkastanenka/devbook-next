@@ -7,7 +7,7 @@ import { User } from '@/src/types/user-types'
 
 export type ModalType =
   | 'postCommentForm'
-  | 'postComments'
+  | 'post'
   | 'postForm'
   | 'userBioForm'
   | 'userContactInformation'
@@ -20,9 +20,10 @@ export type ModalType =
   | 'userSkillsForm'
 
 interface ModalData {
-  placeholder?: string
   comment?: Comment
+  navPrev?: () => void
   parentComment?: Comment
+  placeholder?: string
   post?: Post
   user?: User
 }

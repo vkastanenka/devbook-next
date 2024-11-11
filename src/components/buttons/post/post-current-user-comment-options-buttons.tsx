@@ -54,7 +54,16 @@ export const PostCurrentUserCommentOptionButtons: React.FC<
 
   return (
     <div className="flex items-center gap-2">
-      <button onClick={() => onOpen('postCommentForm', { ...data, comment })}>
+      <button
+        onClick={() =>
+          onOpen('postCommentForm', {
+            ...data,
+            navPrev: () =>
+              onOpen('post', { post: data.post, user: currentUser }),
+            comment,
+          })
+        }
+      >
         <p className="muted">Update</p>
       </button>
       <button onClick={deleteComment}>

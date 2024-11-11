@@ -103,7 +103,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
         title: 'Success!',
         description: response.message,
       })
-      onOpen('postComments', { post: response.data, user: currentUser })
+      onOpen('post', { post: response.data, user: currentUser })
     }
   }
 

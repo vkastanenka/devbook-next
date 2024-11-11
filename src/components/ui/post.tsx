@@ -1,6 +1,6 @@
 // components
 import Link from 'next/link'
-import { CommentActionButtons } from '@/src/components/buttons/post/post-comment-actions-buttons'
+import { CommentActionButtons } from '@/src/components/buttons/post/post-comment-action-buttons'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 import { PostCurrentUserCommentOptionButtons } from '@/src/components/buttons/post/post-current-user-comment-options-buttons'
 import { UserAvatar } from '@/src/components/ui/avatar'

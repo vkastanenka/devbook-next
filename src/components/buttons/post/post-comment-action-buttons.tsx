@@ -92,6 +92,7 @@ export const CommentActionButtons: React.FC<CommentActionButtons> = ({
         className="muted"
         onClick={() =>
           onOpen('postCommentForm', {
+            navPrev: () => onOpen('post', { post, user: currentUser }),
             parentComment: comment,
             post,
             user: currentUser,
