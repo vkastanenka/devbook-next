@@ -11,9 +11,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+} from '@/src/components/ui/form'
+import { Button } from '@/src/components/ui/button'
+import { Input } from '@/src/components/ui/input'
 
 // svg
 import { X } from 'lucide-react'

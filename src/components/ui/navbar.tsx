@@ -4,7 +4,7 @@ import { DevbookLogo } from '@/src/components/svg/devbook-logo'
 import { AuthLogoutButton } from '@/src/components/buttons/auth/auth-logout-button'
 
 // forms
-import { SearchForm } from '@/components/forms/search/search-form'
+import { SearchForm } from '@/src/components/forms/search/search-form'
 
 export const Navbar: React.FC = () => {
   return (

@@ -3,7 +3,7 @@
 // utils
 import { cn } from '@/src/lib/utils'
 import { useState } from 'react'
-import { Separator } from '@/components/ui/separator'
+import { Separator } from '@/src/components/ui/separator'
 
 interface CollapsibleContent {
   children: React.ReactNode

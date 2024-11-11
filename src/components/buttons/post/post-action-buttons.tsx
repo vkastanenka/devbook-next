@@ -7,6 +7,9 @@ import {
   postDeleteCurrentUserPostLike,
 } from '@/src/actions/post-actions'
 
+// components
+import Link from 'next/link'
+
 // svg
 import { CircleArrowRight, MessageSquareText, ThumbsUp } from 'lucide-react'
 
@@ -37,20 +40,20 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const styleButton = 'gap-2 flex justify-center items-center py-3'
 
   const likePost = async () => {
-    let postIsLiked, likedPostId, response
+    let postIsLiked, postLikeId, response
 
     post.postLikes?.every((postLike) => {
       if (postLike.userId === currentUser.id) {
         postIsLiked = true
-        likedPostId = postLike.id
+        postLikeId = postLike.id
 
         return false
       }
       return true
     })
 
-    if (postIsLiked && likedPostId) {
-      response = await postDeleteCurrentUserPostLike(likedPostId)
+    if (postIsLiked && postLikeId) {
+      response = await postDeleteCurrentUserPostLike(postLikeId)
     } else {
       response = await postCreateCurrentUserPostLike({
         postId: post.id,
@@ -125,10 +128,10 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             <p className="p">Comment</p>
           </button>
         </div>
-        <button className={styleButton} onClick={openPostModal}>
+        <Link className={styleButton} href={`/`}>
           <p className="p">View comments</p>
           <CircleArrowRight />
-        </button>
+        </Link>
       </div>
     </div>
   )
