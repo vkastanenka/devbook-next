@@ -2,16 +2,32 @@
 
 // utils
 import axios from 'axios'
+import jsonwebtoken from 'jsonwebtoken'
 import { cookies } from 'next/headers'
-import { formatServerError } from '@/lib/utils'
+import { formatServerError } from '@/src/lib/utils'
 
 // types
-import { ServerResponse } from '@/types/server-types'
+import { AuthSession } from '@/src/types/auth-types'
+import { ServerResponse } from '@/src/types/server-types'
 
 export const serverGetSessionJwt = async () => {
-  const sessionCookie = await cookies().get('session')
+  const sessionCookie = await cookies().get(
+    process.env.NEXT_SESSION_JWT_COOKIE_NAME || ''
+  )
   if (sessionCookie?.value) return sessionCookie.value
   return null
+}
+
+export const serverDecodeSessionJwt = async () => {
+  const sessionJwt = await serverGetSessionJwt()
+  if (!sessionJwt) return null
+
+  const decodedSession = (await jsonwebtoken.verify(
+    sessionJwt,
+    process.env.NEXT_SESSION_JWT_SECRET || ''
+  )) as jsonwebtoken.JwtPayload
+
+  return decodedSession as AuthSession
 }
 
 export const serverRequestServer = async <

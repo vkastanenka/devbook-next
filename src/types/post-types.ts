@@ -1,5 +1,6 @@
 // types
 import { User } from '@/src/types/user-types'
+import { Prisma } from '@vkastanenka/devbook-prisma'
 
 /**
  * Fields
@@ -59,6 +60,10 @@ export interface Post {
   userId: string
   comments?: Comment[]
   postLikes?: PostLike[]
+  _count?: {
+    comments?: number
+    postLikes?: number
+  }
 }
 
 // PostLike
@@ -122,6 +127,15 @@ export interface PostCreateCommentLikeReqBody {
 }
 
 // Post
+
+export interface PostRelationQueryReqBody {
+  include?: Prisma.PostInclude
+}
+
+export interface PostReadPostReqBody {
+  body: PostBody
+  userId: string
+}
 
 export interface PostCreatePostReqBody {
   body: PostBody

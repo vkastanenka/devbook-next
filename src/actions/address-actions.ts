@@ -1,17 +1,17 @@
 'use server'
 
 // utils
-import { serverRequestServer } from '@/actions/server-actions'
+import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
 import {
   Address,
   AddressCreateUserAddressReqBody,
   AddressUpdateAddressReqBody,
-} from '@/types/address-types'
+} from '@/src/types/address-types'
 
 // constants
-import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/constants/server-endpoint-constants'
+import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/src/constants/server-endpoint-constants'
 
 // Address
 

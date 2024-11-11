@@ -155,7 +155,15 @@
   }
 
   .avatar-sm {
-    @apply w-[48px] h-[48px];
+    @apply w-12 h-12;
+  }
+
+  .avatar-xs {
+    @apply w-9 h-9 text-sm;
+  }
+
+  .avatar-xxs {
+    @apply w-6 h-6 text-xs;
   }
 
   .card-custom {

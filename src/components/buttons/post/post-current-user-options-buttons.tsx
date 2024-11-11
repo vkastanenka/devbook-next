@@ -15,20 +15,19 @@ import { useToast } from '@/src/hooks/use-toast'
 import { Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
-interface PostOptionButtons {
+interface PostCurrentUserOptionsButtons {
   post: Post
-  user: User
+  currentUser: User
 }
 
-export const PostOptionButtons: React.FC<PostOptionButtons> = ({
-  post,
-  user,
-}) => {
+export const PostCurrentUserOptionsButtons: React.FC<
+  PostCurrentUserOptionsButtons
+> = ({ post, currentUser }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
 
-  if (user.id !== post.userId) return null
+  if (currentUser.id !== post.userId) return null
 
   const deletePost = async () => {
     const response = await postDeleteCurrentUserPost(post.id)
@@ -52,7 +51,7 @@ export const PostOptionButtons: React.FC<PostOptionButtons> = ({
 
   return (
     <div className="absolute top-4 right-4 flex items-center gap-2">
-      <button onClick={() => onOpen('postForm', { post, user })}>
+      <button onClick={() => onOpen('postForm', { post, user: currentUser })}>
         <Pencil />
       </button>
       <button onClick={deletePost}>

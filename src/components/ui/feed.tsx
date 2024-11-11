@@ -9,10 +9,10 @@ import { User } from '@/src/types/user-types'
 interface Feed {
   isCurrentUser?: boolean
   posts?: Post[]
-  user: User
+  currentUser: User
 }
 
-export const Feed: React.FC<Feed> = ({ isCurrentUser, user, posts }) => {
+export const Feed: React.FC<Feed> = ({ isCurrentUser, currentUser, posts }) => {
   if (!posts || posts.length === 0) {
     if (isCurrentUser) {
       return (
@@ -34,7 +34,7 @@ export const Feed: React.FC<Feed> = ({ isCurrentUser, user, posts }) => {
   return (
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} user={user} />
+        <PostCard key={post.id} post={post} currentUser={currentUser} />
       ))}
     </div>
   )

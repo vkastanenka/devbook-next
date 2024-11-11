@@ -1,14 +1,14 @@
 'use server'
 
 // utils
-import { serverRequestServer } from '@/actions/server-actions'
+import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
-import { SearchDevbookReqBody } from '@/types/search-types'
-import { User } from '@/types/user-types'
+import { SearchDevbookReqBody } from '@/src/types/search-types'
+import { User } from '@/src/types/user-types'
 
 // constants
-import { SEARCH_DEVBOOK } from '@/constants/server-endpoint-constants'
+import { SEARCH_DEVBOOK } from '@/src/constants/server-endpoint-constants'
 
 // Gets results from Devbook search
 export const searchDevbook = async (reqBody: SearchDevbookReqBody) => {

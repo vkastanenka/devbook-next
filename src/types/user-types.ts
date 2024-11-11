@@ -2,6 +2,7 @@
 import { Address } from '@/src/types/address-types'
 import { AuthSession } from '@/src/types/auth-types'
 import { Comment, CommentLike, Post, PostLike } from '@/src/types/post-types'
+import { Prisma } from '@vkastanenka/devbook-prisma'
 
 /**
  * Fields
@@ -177,6 +178,10 @@ export interface UserCreateUpdateExperiencesFormData {
  */
 
 // User
+
+export interface UserRelationQueryReqBody {
+  include?: Prisma.UserInclude
+}
 
 export interface UserUpdateUserReqBody {
   name?: UserName

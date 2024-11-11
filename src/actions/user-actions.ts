@@ -3,12 +3,15 @@
 // utils
 import { Octokit } from 'octokit'
 import { createTokenAuth } from '@octokit/auth-token'
-import { serverRequestServer } from '@/actions/server-actions'
+import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
-import { ReadGithubRepoServerResponse } from '@/types/server-types'
+import { HttpStatusCode } from '@/src/types/http-status-code'
+import { Post } from '@/src/types/post-types'
+import { ReadGithubRepoServerResponse } from '@/src/types/server-types'
 import {
   User,
+  UserRelationQueryReqBody,
   UserCreateEducationReqBody,
   UserUpdateEducationReqBody,
   UserCreateExperienceReqBody,
@@ -16,9 +19,7 @@ import {
   UserEducation,
   UserExperience,
   UserUpdateUserReqBody,
-} from '@/types/user-types'
-import { HttpStatusCode } from '@/types/http-status-code'
-import { Prisma } from '@vkastanenka/devbook-prisma'
+} from '@/src/types/user-types'
 
 // constants
 import {
@@ -26,11 +27,8 @@ import {
   USERS_CURRENT_USER,
   USERS_CURRENT_USER_EDUCATION,
   USERS_CURRENT_USER_EXPERIENCE,
-} from '@/constants/server-endpoint-constants'
-
-interface UserRelationQueryReqBody {
-  include?: Prisma.UserInclude
-}
+  USERS_CURRENT_USER_FEED,
+} from '@/src/constants/server-endpoint-constants'
 
 // Username
 
@@ -49,13 +47,21 @@ export const userReadUsername = async (
 // Current user
 
 // Obtains currently logged in user from session
-export const userReadCurrentUser = async (reqBody?: {
-  include?: Prisma.UserInclude
-}) => {
+export const userReadCurrentUser = async (
+  reqBody?: UserRelationQueryReqBody
+) => {
   return await serverRequestServer<User, UserRelationQueryReqBody>({
     data: reqBody,
     endpoint: USERS_CURRENT_USER,
     method: 'post',
+  })
+}
+
+// Obtains currently logged in user from session
+export const userReadCurrentUserFeed = async () => {
+  return await serverRequestServer<Post[]>({
+    endpoint: USERS_CURRENT_USER_FEED,
+    method: 'get',
   })
 }
 

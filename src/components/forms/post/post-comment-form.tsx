@@ -28,14 +28,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
-  Comment,
-  Post,
   PostCreateCommentFormData,
   PostUpdateCommentFormData,
   PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
 } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
 
 // validation
 import {
@@ -43,22 +40,14 @@ import {
   postUpdateCommentFormSchema,
 } from '@/src/validation/post-validation'
 
-interface CommentForm {
-  comment?: Comment
-  parentComment?: Comment
-  post: Post
-  user: User
-}
-
-export const CommentForm: React.FC<CommentForm> = ({
-  comment,
-  parentComment,
-  post,
-  user,
-}) => {
+export const CommentForm = () => {
   const router = useRouter()
   const { toast } = useToast()
-  const { onClose } = useModal()
+  const {
+    data: { comment, parentComment, post, user: currentUser },
+    onOpen,
+    onClose,
+  } = useModal()
 
   const form = useForm({
     resolver: zodResolver(
@@ -76,32 +65,32 @@ export const CommentForm: React.FC<CommentForm> = ({
 
   const createAction: () => void = handleSubmit(
     async (formData: PostCreateCommentFormData) => {
-      const reqBody = {
-        ...formData,
-        ...(parentComment?.id ? { parentComment: parentComment.id } : {}),
-        postId: post.id,
-        userId: user.id,
-      } as PostCreateCommentReqBody
+      if (post && currentUser) {
+        const reqBody = {
+          ...formData,
+          ...(parentComment?.id ? { parentComment: parentComment.id } : {}),
+          postId: post.id,
+          userId: currentUser.id,
+        } as PostCreateCommentReqBody
 
-      const response = await postCreateCurrentUserComment(reqBody)
+        const response = await postCreateCurrentUserComment(reqBody)
 
-      // If other error, show toast message
-      if (!response.success && !response.errors) {
-        toast({
-          title: 'Error!',
-          description: response.message,
-          variant: 'destructive',
-        })
-      }
+        if (!response.success && !response.errors) {
+          toast({
+            title: 'Error!',
+            description: response.message,
+            variant: 'destructive',
+          })
+        }
 
-      // If successful, push to user feed
-      if (response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
+        if (response.success) {
+          onClose()
+          router.refresh()
+          toast({
+            title: 'Success!',
+            description: response.message,
+          })
+        }
       }
     }
   )
@@ -114,7 +103,6 @@ export const CommentForm: React.FC<CommentForm> = ({
           formData as PostUpdateCommentReqBody
         )
 
-        // If other error, show toast message
         if (!response.success && !response.errors) {
           toast({
             title: 'Error!',
@@ -123,10 +111,23 @@ export const CommentForm: React.FC<CommentForm> = ({
           })
         }
 
-        // If successful, push to user feed
-        if (response.success) {
-          onClose()
-          router.refresh()
+        if (response.data && post?.comments) {
+          const updatedComments = post.comments.map((postComment) => {
+            if (postComment.id === comment.id) {
+              postComment.body = formData.body || ''
+            }
+            return postComment
+          })
+
+          post.comments = updatedComments
+
+          onOpen('postComments', {
+            comment,
+            parentComment,
+            post,
+            user: currentUser,
+          })
+
           toast({
             title: 'Success!',
             description: response.message,

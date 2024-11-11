@@ -33,6 +33,7 @@ interface ModalStore {
   isOpen: boolean
   onOpen: (type: ModalType, data?: ModalData) => void
   onClose: () => void
+  setData: (data?: ModalData) => void
 }
 
 export const useModal = create<ModalStore>((set) => ({
@@ -41,4 +42,5 @@ export const useModal = create<ModalStore>((set) => ({
   isOpen: false,
   onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
   onClose: () => set({ isOpen: false, type: null, data: {} }),
+  setData: (data = {}) => set({ data }),
 }))

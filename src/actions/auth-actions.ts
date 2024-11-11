@@ -1,11 +1,15 @@
 'use server'
 
+// actions
+import { serverDecodeSessionJwt } from '@/src/actions/server-actions'
+import { serverRequestServer } from '@/src/actions/server-actions'
+
 // utils
 import axios from 'axios'
 import { cookies } from 'next/headers'
 import { addDays } from 'date-fns'
-import { formatServerError } from '@/lib/utils'
-import { serverRequestServer } from '@/actions/server-actions'
+import { formatServerError } from '@/src/lib/utils'
+import { redirect } from 'next/navigation'
 
 // types
 import {
@@ -13,9 +17,9 @@ import {
   AuthRegisterReqBody,
   AuthResetPasswordReqBody,
   AuthSendResetPasswordTokenReqBody,
-} from '@/types/auth-types'
-import { ServerResponse } from '@/types/server-types'
-import { User } from '@/types/user-types'
+} from '@/src/types/auth-types'
+import { ServerResponse } from '@/src/types/server-types'
+import { User } from '@/src/types/user-types'
 
 // constants
 import {
@@ -24,16 +28,9 @@ import {
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_RESET_PASSWORD,
   AUTH_CURRENT_USER_SESSION,
-} from '@/constants/server-endpoint-constants'
+} from '@/src/constants/server-endpoint-constants'
 
 // Session
-
-// Get session jwt from cookie
-export const authGetSessionJwt = async () => {
-  const sessionCookie = await cookies().get('session')
-  if (sessionCookie?.value) return sessionCookie.value
-  return null
-}
 
 // Delete current user session
 export const authDeleteCurrentUserSession = async (recordId: string) => {
@@ -55,10 +52,14 @@ export const authLogin = async (reqBody: AuthLoginReqBody) => {
 
     // Set session jwt in a cookie
     const cookieExpires = addDays(new Date(), 1)
-    await cookies().set('session', serverResponse.data?.jwt || '', {
-      httpOnly: true,
-      expires: cookieExpires,
-    })
+    await cookies().set(
+      process.env.NEXT_SESSION_JWT_COOKIE_NAME || '',
+      serverResponse.data?.jwt || '',
+      {
+        httpOnly: true,
+        expires: cookieExpires,
+      }
+    )
 
     // Return successful response data
     return serverResponse
@@ -107,10 +108,19 @@ export const authResetPassword = async (
 
 // Delete session cookie and session record
 export const authLogout = async () => {
-  const sessionJwt = await authGetSessionJwt()
-  if (!sessionJwt) return null
+  let response
+  const session = await serverDecodeSessionJwt()
 
-  await cookies().delete('session')
+  if (session) {
+    response = await authDeleteCurrentUserSession(session.id)
 
-  return await authDeleteCurrentUserSession(sessionJwt)
+    if (response.success) {
+      await cookies().delete(process.env.NEXT_SESSION_JWT_COOKIE_NAME || '')
+      redirect('/')
+    }
+
+    return response
+  }
+
+  redirect('/')
 }

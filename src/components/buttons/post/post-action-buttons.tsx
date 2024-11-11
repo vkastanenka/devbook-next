@@ -2,6 +2,7 @@
 
 // actions
 import {
+  postReadPost,
   postCreateCurrentUserPostLike,
   postDeleteCurrentUserPostLike,
 } from '@/src/actions/post-actions'
@@ -19,19 +20,19 @@ import { Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
 interface PostActionButtons {
+  className?: string
+  currentUser: User
   post: Post
-  user: User
 }
 
 export const PostActionButtons: React.FC<PostActionButtons> = ({
-  user,
+  className,
+  currentUser,
   post,
 }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
-
-  if (!post.user || post.userId !== user.id) return null
 
   const styleButton = 'gap-2 flex justify-center items-center py-3'
 
@@ -39,7 +40,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     let postIsLiked, likedPostId, response
 
     post.postLikes?.every((postLike) => {
-      if (postLike.userId === user.id) {
+      if (postLike.userId === currentUser.id) {
         postIsLiked = true
         likedPostId = postLike.id
 
@@ -53,7 +54,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     } else {
       response = await postCreateCurrentUserPostLike({
         postId: post.id,
-        userId: user.id,
+        userId: currentUser.id,
       })
     }
 
@@ -74,8 +75,40 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     }
   }
 
+  const openCommentsModal = async () => {
+    const response = await postReadPost(post.id, {
+      include: {
+        comments: {
+          orderBy: { createdAt: 'desc' },
+          include: {
+            commentLikes: true,
+            subComments: { include: { commentLikes: true, user: true } },
+            user: true,
+          },
+        },
+        user: true,
+      },
+    })
+
+    if (!response.success) {
+      toast({
+        title: 'Error!',
+        description: response.message,
+        variant: 'destructive',
+      })
+    }
+
+    if (response.success && response.data) {
+      toast({
+        title: 'Success!',
+        description: response.message,
+      })
+      onOpen('postComments', { post: response.data, user: currentUser })
+    }
+  }
+
   return (
-    <div className="px-card">
+    <div className={className}>
       <div className="flex items-center justify-between gap-1 w-full">
         <div className="flex items-center gap-4">
           <button className={styleButton} onClick={likePost}>
@@ -84,16 +117,15 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
           </button>
           <button
             className={styleButton}
-            onClick={() => onOpen('postCommentForm', { post, user })}
+            onClick={() =>
+              onOpen('postCommentForm', { post, user: currentUser })
+            }
           >
             <MessageSquareText />
             <p className="p">Comment</p>
           </button>
         </div>
-        <button
-          className={styleButton}
-          onClick={() => onOpen('postComments', { post, user })}
-        >
+        <button className={styleButton} onClick={openCommentsModal}>
           <p className="p">View comments</p>
           <CircleArrowRight />
         </button>

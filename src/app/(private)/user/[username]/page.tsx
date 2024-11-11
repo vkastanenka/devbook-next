@@ -1,6 +1,9 @@
 // actions
-import { userReadCurrentUser } from '@/src/actions/user-actions'
-import { userReadUsername } from '@/src/actions/user-actions'
+import {
+  userReadCurrentUser,
+  userReadCurrentUserFeed,
+  userReadUsername,
+} from '@/src/actions/user-actions'
 
 // components
 import { Feed } from '@/src/components/ui/feed'
@@ -72,7 +75,8 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   }
 
   if (isCurrentUser) {
-    // Get feed and set posts
+    const postsResponse = await userReadCurrentUserFeed()
+    posts = postsResponse.data
   }
 
   return (
@@ -89,7 +93,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
           <CurrentUserCreatePostCard currentUser={currentUser} />
         )}
         {isCurrentUser && <Separator />}
-        <Feed isCurrentUser={isCurrentUser} posts={posts} user={user} />
+        <Feed isCurrentUser={isCurrentUser} posts={posts} currentUser={user} />
       </div>
     </div>
   )

@@ -11,7 +11,9 @@ import {
 
 export async function middleware(req: NextRequest) {
   const { nextUrl } = req
-  const session = req.cookies.get('session')
+  const session = req.cookies.get(
+    process.env.NEXT_SESSION_JWT_COOKIE_NAME || ''
+  )
   const isAuthenticated = !!session
 
   // Redirect users to user page if authenticated

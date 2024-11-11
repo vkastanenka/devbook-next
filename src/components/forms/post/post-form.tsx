@@ -28,13 +28,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
-  Post,
   PostCreatePostFormData,
   PostUpdatePostFormData,
   PostCreatePostReqBody,
   PostUpdatePostReqBody,
 } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
 
 // validation
 import {
@@ -42,15 +40,13 @@ import {
   postUpdatePostFormSchema,
 } from '@/src/validation/post-validation'
 
-interface PostForm {
-  post?: Post
-  user: User
-}
-
-export const PostForm: React.FC<PostForm> = ({ post, user }) => {
+export const PostForm = () => {
   const router = useRouter()
   const { toast } = useToast()
-  const { onClose } = useModal()
+  const {
+    onClose,
+    data: { post, user: currentUser },
+  } = useModal()
 
   const form = useForm({
     resolver: zodResolver(
@@ -68,30 +64,32 @@ export const PostForm: React.FC<PostForm> = ({ post, user }) => {
 
   const createAction: () => void = handleSubmit(
     async (formData: PostCreatePostFormData) => {
-      const reqBody = {
-        ...formData,
-        userId: user.id,
-      } as PostCreatePostReqBody
+      if (currentUser) {
+        const reqBody = {
+          ...formData,
+          userId: currentUser.id,
+        } as PostCreatePostReqBody
 
-      const response = await postCreateCurrentUserPost(reqBody)
+        const response = await postCreateCurrentUserPost(reqBody)
 
-      // If other error, show toast message
-      if (!response.success && !response.errors) {
-        toast({
-          title: 'Error!',
-          description: response.message,
-          variant: 'destructive',
-        })
-      }
+        // If other error, show toast message
+        if (!response.success && !response.errors) {
+          toast({
+            title: 'Error!',
+            description: response.message,
+            variant: 'destructive',
+          })
+        }
 
-      // If successful, push to user feed
-      if (response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
+        // If successful, push to user feed
+        if (response.success) {
+          onClose()
+          router.refresh()
+          toast({
+            title: 'Success!',
+            description: response.message,
+          })
+        }
       }
     }
   )
@@ -137,11 +135,11 @@ export const PostForm: React.FC<PostForm> = ({ post, user }) => {
           name="body"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comment</FormLabel>
+              <FormLabel>Post body</FormLabel>
               <FormControl>
                 <Textarea
                   rows={10}
-                  placeholder="Comment"
+                  placeholder="Post body"
                   disabled={isSubmitting}
                   {...field}
                 />

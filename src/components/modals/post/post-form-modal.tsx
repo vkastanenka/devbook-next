@@ -12,18 +12,15 @@ export const PostFormModal = () => {
     isOpen,
     onClose,
     type,
-    data: { post, user },
+    data: { post },
   } = useModal()
   const isModalOpen = isOpen && type === 'postForm'
-
-  if (!user && isModalOpen) onClose()
-  if (!user) return null
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
         <p className="h3">{`${post ? 'Update' : 'Create'} post`}</p>
-        <PostForm post={post} user={user} />
+        <PostForm />
       </DialogContent>
     </Dialog>
   )

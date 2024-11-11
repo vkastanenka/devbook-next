@@ -7,11 +7,9 @@ import { authLogout } from '@/src/actions/auth-actions'
 import { Button } from '@/src/components/ui/button'
 
 // utils
-import { useRouter } from 'next/navigation'
 import { useToast } from '@/src/hooks/use-toast'
 
 export const AuthLogoutButton = () => {
-  const router = useRouter()
   const { toast } = useToast()
 
   const logout = async () => {
@@ -23,10 +21,6 @@ export const AuthLogoutButton = () => {
         description: response.message,
         variant: 'destructive',
       })
-    }
-
-    if (response && response.success) {
-      router.refresh()
     }
   }
 

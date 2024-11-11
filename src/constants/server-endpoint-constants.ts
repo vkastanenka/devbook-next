@@ -12,6 +12,7 @@ export const AUTH_CURRENT_USER_SESSION = `${AUTH}/current-user/session`
 
 // posts
 const POSTS = '/posts'
+export const POSTS_POST = `${POSTS}/post`
 export const POSTS_CURRENT_USER_COMMENT = `${POSTS}/current-user/comment`
 export const POSTS_CURRENT_USER_COMMENT_LIKE = `${POSTS}/current-user/comment-like`
 export const POSTS_CURRENT_USER_POST = `${POSTS}/current-user/post`
@@ -25,5 +26,6 @@ export const SEARCH_DEVBOOK = `${SEARCH}/devbook`
 const USERS = '/users'
 export const USERS_USERNAME = `${USERS}/username`
 export const USERS_CURRENT_USER = `${USERS}/current-user/user`
+export const USERS_CURRENT_USER_FEED = `${USERS}/current-user/feed`
 export const USERS_CURRENT_USER_EDUCATION = `${USERS}/current-user/education`
 export const USERS_CURRENT_USER_EXPERIENCE = `${USERS}/current-user/experience`
