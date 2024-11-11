@@ -7,9 +7,6 @@ import {
   postDeleteCurrentUserPostLike,
 } from '@/src/actions/post-actions'
 
-// components
-import Link from 'next/link'
-
 // svg
 import { CircleArrowRight, MessageSquareText, ThumbsUp } from 'lucide-react'
 
@@ -128,10 +125,10 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             <p className="p">Comment</p>
           </button>
         </div>
-        <Link className={styleButton} href={`/`}>
+        <button className={styleButton} onClick={openPostModal}>
           <p className="p">View comments</p>
           <CircleArrowRight />
-        </Link>
+        </button>
       </div>
     </div>
   )

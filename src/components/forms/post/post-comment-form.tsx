@@ -22,7 +22,6 @@ import { Button } from '@/src/components/ui/button'
 // utils
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/src/hooks/use-modal-store'
-import { useRouter } from 'next/navigation'
 import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -41,13 +40,9 @@ import {
 } from '@/src/validation/post-validation'
 
 export const CommentForm = () => {
-  const router = useRouter()
   const { toast } = useToast()
-  const {
-    data: { comment, navPrev, parentComment, post, user: currentUser },
-    setData,
-    onClose,
-  } = useModal()
+  const { data, setData, onClose } = useModal()
+  const { comment, navPrev, parentComment, post, user: currentUser } = data
 
   const form = useForm({
     resolver: zodResolver(
@@ -74,70 +69,97 @@ export const CommentForm = () => {
         } as PostCreateCommentReqBody
 
         const response = await postCreateCurrentUserComment(reqBody)
+        const { data: resComment } = response
 
-        if (!response.success && !response.errors) {
+        // Error messaging
+        if (!resComment) {
           toast({
             title: 'Error!',
             description: response.message,
             variant: 'destructive',
           })
+          return
         }
 
-        if (response.success) {
-          if (navPrev) {
-            setData({
-              comment,
-              navPrev,
-              parentComment,
-              post,
-              user: currentUser,
-            })
-            navPrev()
-          } else onClose()
-          router.refresh()
-          toast({
-            title: 'Success!',
-            description: response.message,
-          })
+        // Add current user to comment
+        resComment.user = currentUser
+
+        // Update state
+        if (!parentComment) {
+          if (!post.comments) post.comments = [resComment]
+          else post.comments = [resComment, ...post.comments]
+          setData({ ...data, post })
+        } else {
+          if (!parentComment.subComments) {
+            parentComment.subComments = [resComment]
+          } else {
+            parentComment.subComments = [
+              resComment,
+              ...parentComment.subComments,
+            ]
+          }
+          setData({ ...data, parentComment })
         }
+
+        // Success messaging
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+
+        // Navigate
+        if (navPrev) navPrev()
+        else onClose()
       }
     }
   )
 
   const updateAction: () => void = handleSubmit(
     async (formData: PostUpdateCommentFormData) => {
-      if (comment) {
+      if (post && comment) {
         const response = await postUpdateCurrentUserComment(
           comment.id,
           formData as PostUpdateCommentReqBody
         )
+        const { data: resComment } = response
 
-        if (!response.success && !response.errors) {
+        // Error messaging
+        if (!resComment) {
           toast({
             title: 'Error!',
             description: response.message,
             variant: 'destructive',
           })
+          return
         }
 
-        if (response.data && post?.comments) {
-          const updatedComments = post.comments.map((postComment) => {
-            if (postComment.id === comment.id) {
-              postComment.body = formData.body || ''
-            }
-            return postComment
-          })
+        // Add current user to comment
+        resComment.user = currentUser
 
-          post.comments = updatedComments
-
-          if (navPrev) navPrev()
-          else onClose()
-
-          toast({
-            title: 'Success!',
-            description: response.message,
-          })
+        // Update state
+        if (!parentComment && post.comments) {
+          post.comments = post.comments.map((comment) =>
+            resComment.id === comment.id ? resComment : comment
+          )
+          setData({ ...data, post })
         }
+
+        if (parentComment?.subComments) {
+          parentComment.subComments = parentComment.subComments.map((comment) =>
+            resComment.id === comment.id ? resComment : comment
+          )
+          setData({ ...data, parentComment })
+        }
+
+        // Success messaging
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+
+        // Navigate
+        if (navPrev) navPrev()
+        else onClose()
       }
     }
   )
