@@ -3,6 +3,7 @@
 // components
 import Link from 'next/link'
 import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 import {
   PostUser,
   PostBody,
@@ -21,29 +22,38 @@ export const PostModal = () => {
     isOpen,
     onClose,
     type,
-    data: { post, user },
+    data: { post, user: currentUser },
   } = useModal()
   const isModalOpen = isOpen && type === 'post'
-
-  if ((!post || !post.user || !user) && isModalOpen) onClose()
-  if (!post || !post.user || !user) return null
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4 max-h-[50vh] overflow-y-auto">
-        <p className="h3">{`${post.user.name.split(' ')[0]}'s post`}</p>
-        <Separator />
-        <PostUser post={post} />
-        <PostBody post={post} />
-        <PostActivity post={post} />
-        <Separator />
-        <div className="flex items-center gap-2">
-          <Link className="rounded-full" href={`/user/${user.username}`}>
-            <UserAvatar user={user} />
-          </Link>
-          <CurrentUserCreateCommentButton post={post} currentUser={user} />
-        </div>
-        <PostComments post={post} currentUser={user} />
+        {post?.user && currentUser ? (
+          <>
+            <p className="h3">{`${post.user.name.split(' ')[0]}'s post`}</p>
+            <Separator />
+            <PostUser post={post} />
+            <PostBody post={post} />
+            <PostActivity post={post} />
+            <Separator />
+            <div className="flex items-center gap-2">
+              <Link
+                className="rounded-full"
+                href={`/user/${currentUser.username}`}
+              >
+                <UserAvatar user={currentUser} />
+              </Link>
+              <CurrentUserCreateCommentButton
+                post={post}
+                currentUser={currentUser}
+              />
+            </div>
+            <PostComments post={post} currentUser={currentUser} />
+          </>
+        ) : (
+          <NoContentCard heading='Missing data!' subheading='Check your state and try again.' />
+        )}
       </DialogContent>
     </Dialog>
   )
