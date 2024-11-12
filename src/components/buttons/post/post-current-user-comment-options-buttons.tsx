@@ -3,7 +3,18 @@
 // actions
 import { postDeleteCurrentUserComment } from '@/src/actions/post-actions'
 
+// components
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/src/components/ui/dropdown-menu'
+
 // utils
+import { useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
@@ -11,64 +22,70 @@ import { useToast } from '@/src/hooks/use-toast'
 import { Comment } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
-interface PostCurrentUserCommentOptionButtons {
+interface CommentCurrentUserOptionsButtons {
   comment: Comment
   currentUser?: User
+  onDeleteRedirectPath?: string
+  className?: string
 }
 
-export const PostCurrentUserCommentOptionButtons: React.FC<
-  PostCurrentUserCommentOptionButtons
-> = ({ comment, currentUser }) => {
+export const CommentCurrentUserOptionsButtons: React.FC<
+  CommentCurrentUserOptionsButtons
+> = ({ comment, currentUser, onDeleteRedirectPath, className }) => {
+  const router = useRouter()
   const { toast } = useToast()
-  const { data, onOpen, setData } = useModal()
+  const { onOpen } = useModal()
 
   if (currentUser?.id !== comment.userId) return null
 
   const deleteComment = async () => {
     const response = await postDeleteCurrentUserComment(comment.id)
 
-    if (!response.success && !response.errors) {
+    if (!response.success) {
       toast({
         title: 'Error!',
         description: response.message,
         variant: 'destructive',
       })
+      return
     }
 
-    if (response.success && data.post?.comments) {
-      const filteredComments = data.post.comments.filter((postComment) => {
-        if (postComment.id === comment.id) return false
-        return true
-      })
+    router.refresh()
 
-      data.post.comments = filteredComments
+    toast({
+      title: 'Success!',
+      description: response.message,
+    })
 
-      setData({ ...data, post: data.post })
-
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
-    }
+    if (onDeleteRedirectPath) router.push(onDeleteRedirectPath)
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() =>
-          onOpen('postCommentForm', {
-            ...data,
-            navPrev: () =>
-              onOpen('post', { post: data.post, user: currentUser }),
-            comment,
-          })
-        }
-      >
-        <p className="muted">Update</p>
-      </button>
-      <button onClick={deleteComment}>
-        <p className="muted">Delete</p>
-      </button>
+    <div className={className}>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <div className="w-8 h-8 bg-card border rounded-full relative">
+            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center gap-1">
+              {new Array(3).fill(0).map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-card-foreground h-[2px] w-[2px] rounded"
+                />
+              ))}
+            </div>
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Comment Options</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => onOpen('postCommentForm', { comment })}
+          >
+            Update
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={deleteComment}>Delete</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }

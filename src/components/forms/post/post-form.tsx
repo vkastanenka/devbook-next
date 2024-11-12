@@ -21,8 +21,8 @@ import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -72,24 +72,23 @@ export const PostForm = () => {
 
         const response = await postCreateCurrentUserPost(reqBody)
 
-        // If other error, show toast message
-        if (!response.success && !response.errors) {
+        if (!response.success) {
           toast({
             title: 'Error!',
             description: response.message,
             variant: 'destructive',
           })
+          return
         }
 
-        // If successful, push to user feed
-        if (response.success) {
-          onClose()
-          router.refresh()
-          toast({
-            title: 'Success!',
-            description: response.message,
-          })
-        }
+        router.refresh()
+
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+
+        onClose()
       }
     }
   )
@@ -102,24 +101,23 @@ export const PostForm = () => {
           formData as PostUpdatePostReqBody
         )
 
-        // If other error, show toast message
-        if (!response.success && !response.errors) {
+        if (!response.success) {
           toast({
             title: 'Error!',
             description: response.message,
             variant: 'destructive',
           })
+          return
         }
 
-        // If successful, push to user feed
-        if (response.success) {
-          onClose()
-          router.refresh()
-          toast({
-            title: 'Success!',
-            description: response.message,
-          })
-        }
+        router.refresh()
+
+        toast({
+          title: 'Success!',
+          description: response.message,
+        })
+
+        onClose()
       }
     }
   )

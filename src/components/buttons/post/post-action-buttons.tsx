@@ -2,17 +2,19 @@
 
 // actions
 import {
-  postReadPost,
   postCreateCurrentUserPostLike,
   postDeleteCurrentUserPostLike,
 } from '@/src/actions/post-actions'
+
+// components
+import Link from 'next/link'
 
 // svg
 import { CircleArrowRight, MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
+import { usePathname, useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
-import { useRouter } from 'next/navigation'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
@@ -31,25 +33,24 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   post,
 }) => {
   const router = useRouter()
+  const pathname = usePathname()
   const { toast } = useToast()
   const { onOpen } = useModal()
 
   const styleButton = 'gap-2 flex justify-center items-center py-3'
 
   const likePost = async () => {
-    let postIsLiked, postLikeId, response
+    let postLikeId, response
 
     post.postLikes?.every((postLike) => {
       if (postLike.userId === currentUser.id) {
-        postIsLiked = true
         postLikeId = postLike.id
-
         return false
       }
       return true
     })
 
-    if (postIsLiked && postLikeId) {
+    if (postLikeId) {
       response = await postDeleteCurrentUserPostLike(postLikeId)
     } else {
       response = await postCreateCurrentUserPostLike({
@@ -58,53 +59,21 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       })
     }
 
-    if (!response.success && !response.errors) {
-      toast({
-        title: 'Error!',
-        description: response.message,
-        variant: 'destructive',
-      })
-    }
-
-    if (response.success) {
-      router.refresh()
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
-    }
-  }
-
-  const openPostModal = async () => {
-    const response = await postReadPost(post.id, {
-      include: {
-        comments: {
-          orderBy: { createdAt: 'desc' },
-          include: {
-            commentLikes: true,
-            subComments: { include: { commentLikes: true, user: true } },
-            user: true,
-          },
-        },
-        user: true,
-      },
-    })
-
     if (!response.success) {
       toast({
         title: 'Error!',
         description: response.message,
         variant: 'destructive',
       })
+      return
     }
 
-    if (response.success && response.data) {
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
-      onOpen('post', { post: response.data, user: currentUser })
-    }
+    router.refresh()
+
+    toast({
+      title: 'Success!',
+      description: response.message,
+    })
   }
 
   return (
@@ -125,10 +94,12 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             <p className="p">Comment</p>
           </button>
         </div>
-        <button className={styleButton} onClick={openPostModal}>
-          <p className="p">View comments</p>
-          <CircleArrowRight />
-        </button>
+        {!pathname.startsWith('/comments') && (
+          <Link className={styleButton} href={`/comments/${post.id}`}>
+            <p className="p">View comments</p>
+            <CircleArrowRight />
+          </Link>
+        )}
       </div>
     </div>
   )

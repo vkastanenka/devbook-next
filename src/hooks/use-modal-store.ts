@@ -21,9 +21,7 @@ export type ModalType =
 
 interface ModalData {
   comment?: Comment
-  navPrev?: () => void
   parentComment?: Comment
-  placeholder?: string
   post?: Post
   user?: User
 }

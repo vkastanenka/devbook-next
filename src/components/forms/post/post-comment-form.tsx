@@ -21,6 +21,7 @@ import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,9 +41,10 @@ import {
 } from '@/src/validation/post-validation'
 
 export const CommentForm = () => {
+  const router = useRouter()
   const { toast } = useToast()
-  const { data, setData, onClose } = useModal()
-  const { comment, navPrev, parentComment, post, user: currentUser } = data
+  const { data, onClose } = useModal()
+  const { comment, parentComment, post, user: currentUser } = data
 
   const form = useForm({
     resolver: zodResolver(
@@ -69,10 +71,8 @@ export const CommentForm = () => {
         } as PostCreateCommentReqBody
 
         const response = await postCreateCurrentUserComment(reqBody)
-        const { data: resComment } = response
 
-        // Error messaging
-        if (!resComment) {
+        if (!response.success) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -81,50 +81,27 @@ export const CommentForm = () => {
           return
         }
 
-        // Add current user to comment
-        resComment.user = currentUser
+        router.refresh()
 
-        // Update state
-        if (!parentComment) {
-          if (!post.comments) post.comments = [resComment]
-          else post.comments = [resComment, ...post.comments]
-          setData({ ...data, post })
-        } else {
-          if (!parentComment.subComments) {
-            parentComment.subComments = [resComment]
-          } else {
-            parentComment.subComments = [
-              resComment,
-              ...parentComment.subComments,
-            ]
-          }
-          setData({ ...data, parentComment })
-        }
-
-        // Success messaging
         toast({
           title: 'Success!',
           description: response.message,
         })
 
-        // Navigate
-        if (navPrev) navPrev()
-        else onClose()
+        onClose()
       }
     }
   )
 
   const updateAction: () => void = handleSubmit(
     async (formData: PostUpdateCommentFormData) => {
-      if (post && comment) {
+      if (comment) {
         const response = await postUpdateCurrentUserComment(
           comment.id,
           formData as PostUpdateCommentReqBody
         )
-        const { data: resComment } = response
 
-        // Error messaging
-        if (!resComment) {
+        if (!response.success) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -133,33 +110,14 @@ export const CommentForm = () => {
           return
         }
 
-        // Add current user to comment
-        resComment.user = currentUser
+        router.refresh()
 
-        // Update state
-        if (!parentComment && post.comments) {
-          post.comments = post.comments.map((comment) =>
-            resComment.id === comment.id ? resComment : comment
-          )
-          setData({ ...data, post })
-        }
-
-        if (parentComment?.subComments) {
-          parentComment.subComments = parentComment.subComments.map((comment) =>
-            resComment.id === comment.id ? resComment : comment
-          )
-          setData({ ...data, parentComment })
-        }
-
-        // Success messaging
         toast({
           title: 'Success!',
           description: response.message,
         })
 
-        // Navigate
-        if (navPrev) navPrev()
-        else onClose()
+        onClose()
       }
     }
   )

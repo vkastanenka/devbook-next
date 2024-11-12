@@ -7,8 +7,8 @@ import { postDeleteCurrentUserPost } from '@/src/actions/post-actions'
 import { Pencil, X } from 'lucide-react'
 
 // utils
-import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
+import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
@@ -18,11 +18,12 @@ import { User } from '@/src/types/user-types'
 interface PostCurrentUserOptionsButtons {
   post: Post
   currentUser: User
+  onDeleteRedirectPath?: string
 }
 
 export const PostCurrentUserOptionsButtons: React.FC<
   PostCurrentUserOptionsButtons
-> = ({ post, currentUser }) => {
+> = ({ post, currentUser, onDeleteRedirectPath }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
@@ -32,21 +33,23 @@ export const PostCurrentUserOptionsButtons: React.FC<
   const deletePost = async () => {
     const response = await postDeleteCurrentUserPost(post.id)
 
-    if (!response.success && !response.errors) {
+    if (!response.success) {
       toast({
         title: 'Error!',
         description: response.message,
         variant: 'destructive',
       })
+      return
     }
 
-    if (response.success) {
-      router.refresh()
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
-    }
+    router.refresh()
+
+    toast({
+      title: 'Success!',
+      description: response.message,
+    })
+
+    if (onDeleteRedirectPath) router.push(onDeleteRedirectPath)
   }
 
   return (

@@ -2,8 +2,9 @@
 import Link from 'next/link'
 import { CommentActionButtons } from '@/src/components/buttons/post/post-comment-action-buttons'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
-import { PostCurrentUserCommentOptionButtons } from '@/src/components/buttons/post/post-current-user-comment-options-buttons'
+import { CommentCurrentUserOptionsButtons } from '@/src/components/buttons/post/post-current-user-comment-options-buttons'
 import { UserAvatar } from '@/src/components/ui/avatar'
+import { Comment as PostComment } from '@/src/components/ui/comment'
 
 // svg
 import { MessageSquareText, ThumbsUp } from 'lucide-react'
@@ -15,16 +16,10 @@ import { cn, formatText } from '@/src/lib/utils'
 import { Comment, Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
-interface CommentUi {
-  className?: string
-  comment: Comment
-  currentUser?: User
-}
-
 interface PostUi {
   className?: string
   post: Post
-  currentUser?: User
+  currentUser: User
 }
 
 export const PostUser: React.FC<PostUi> = ({ className, post }) => {
@@ -77,49 +72,9 @@ export const PostActivity: React.FC<PostUi> = ({ className, post }) => {
   )
 }
 
-export const PostComment: React.FC<CommentUi> = ({
-  className,
-  comment,
-  currentUser,
-}) => {
-  console.log(comment)
-  return (
-    <div className={cn('flex flex-col gap-1', className)}>
-      {comment.user ? (
-        <div className="inline-block">
-          <Link
-            href={`/user/${comment.user.username}`}
-            className="inline-flex items-center gap-2"
-          >
-            <UserAvatar className="avatar-xs" user={comment.user} />
-            <p className="p">{comment.user.name}</p>
-          </Link>
-        </div>
-      ) : (
-        <p className="h4">No user on this comment</p>
-      )}
-      <div className="flex gap-2">
-        <div className="w-[36px]" />
-        <div className="flex flex-col gap-1">
-          <div className="bg-muted rounded-md p-2 relative">
-            {formatText(comment.body)}
-          </div>
-          <div className="flex items-center gap-2 px-2">
-            <CommentActionButtons comment={comment} />
-            <PostCurrentUserCommentOptionButtons
-              comment={comment}
-              currentUser={currentUser}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export const PostComments: React.FC<PostUi> = ({
-  className,
   post,
+  className,
   currentUser,
 }) => {
   if (!post || !post.comments || post.comments?.length === 0) {
@@ -135,7 +90,8 @@ export const PostComments: React.FC<PostUi> = ({
     <div className={cn('flex flex-col gap-4', className)}>
       {post.comments.map((comment) => (
         <PostComment
-          key={post.id}
+          key={comment.id}
+          post={post}
           comment={comment}
           currentUser={currentUser}
         />

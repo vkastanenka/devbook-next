@@ -6,99 +6,89 @@ import {
   postDeleteCurrentUserCommentLike,
 } from '@/src/actions/post-actions'
 
+// svg
+import { MessageSquareText, ThumbsUp } from 'lucide-react'
+
 // utils
+import { useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
-import { Comment } from '@/src/types/post-types'
+import { Comment, Post } from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 interface CommentActionButtons {
   comment: Comment
+  currentUser: User
+  post: Post
 }
 
 export const CommentActionButtons: React.FC<CommentActionButtons> = ({
   comment,
+  currentUser,
+  post,
 }) => {
+  const router = useRouter()
   const { toast } = useToast()
-  const {
-    data: { post, user: currentUser },
-    setData,
-    onOpen,
-  } = useModal()
+  const { onOpen } = useModal()
 
   const likeComment = async () => {
     if (currentUser) {
-      let commentIsLiked, likedCommentId, response
+      let commentLikeId, response
 
       comment.commentLikes?.every((commentLike) => {
         if (commentLike.userId === currentUser.id) {
-          commentIsLiked = true
-          likedCommentId = commentLike.id
-
+          commentLikeId = commentLike.id
           return false
         }
         return true
       })
 
-      if (comment.commentLikes && commentIsLiked && likedCommentId) {
-        response = await postDeleteCurrentUserCommentLike(likedCommentId)
-
-        if (response.success) {
-          comment.commentLikes = comment.commentLikes.filter(
-            (commentLike) => !(commentLike.userId === comment.userId)
-          )
-        }
+      if (commentLikeId) {
+        response = await postDeleteCurrentUserCommentLike(commentLikeId)
       } else {
         response = await postCreateCurrentUserCommentLike({
           commentId: comment.id,
           userId: currentUser.id,
         })
-
-        if (response.data) {
-          comment.commentLikes = [
-            ...(comment.commentLikes ? comment.commentLikes : []),
-            response.data,
-          ]
-        }
       }
 
-      if (!response.success && !response.errors) {
+      if (!response.success) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      if (response.success) {
-        post?.comments?.map((cmnt) => (cmnt.id === comment.id ? comment : cmnt))
-        setData({ post, user: currentUser })
+      router.refresh()
 
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      toast({
+        title: 'Success!',
+        description: response.message,
+      })
     }
   }
 
   return (
     <div className="flex items-center gap-2">
-      <button className="muted" onClick={likeComment}>
+      <button className="muted flex gap-1 items-center" onClick={likeComment}>
+        <ThumbsUp className="w-4" />
         Like
       </button>
       <button
-        className="muted"
+        className="muted flex gap-1 items-center"
         onClick={() =>
           onOpen('postCommentForm', {
-            navPrev: () => onOpen('post', { post, user: currentUser }),
-            parentComment: comment,
             post,
+            parentComment: comment,
             user: currentUser,
           })
         }
       >
+        <MessageSquareText className="w-4" />
         Reply
       </button>
     </div>

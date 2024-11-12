@@ -9,18 +9,33 @@ import { Separator } from '@/src/components/ui/separator'
 import { Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
-export const PostCard: React.FC<{
+interface PostCard {
   post: Post
   currentUser: User
-}> = ({ currentUser, post }) => {
+  onDeleteRedirectPath?: string
+}
+
+export const PostCard: React.FC<PostCard> = ({
+  post,
+  currentUser,
+  onDeleteRedirectPath,
+}) => {
   return (
     <Card className="relative py-card bg-card flex flex-col gap-4">
-      <PostCurrentUserOptionsButtons post={post} currentUser={currentUser} />
+      <PostCurrentUserOptionsButtons
+        post={post}
+        currentUser={currentUser}
+        onDeleteRedirectPath={onDeleteRedirectPath}
+      />
       <PostUser className="px-card" post={post} />
       <PostBody className="px-card" post={post} />
       <PostActivity className="px-card" post={post} />
       <Separator />
-      <PostActionButtons className="px-card" post={post} currentUser={currentUser} />
+      <PostActionButtons
+        className="px-card"
+        post={post}
+        currentUser={currentUser}
+      />
     </Card>
   )
 }
