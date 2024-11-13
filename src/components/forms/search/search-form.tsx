@@ -10,9 +10,10 @@ import { Input } from '@/src/components/ui/input'
 import { Search } from 'lucide-react'
 
 // utils
-import { useEffect, useRef } from 'react'
-import { useLayoutStore } from '@/src/hooks/use-layout-store'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { cn } from '@/src/lib/utils'
+import { useLayoutStore } from '@/src/hooks/use-layout-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
@@ -25,6 +26,7 @@ export const SearchForm = () => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const q = searchParams.get('q')
+  const [isMobileFormOpen, setIsMobileFormOpen] = useState<boolean>(false)
 
   const {
     setSearchDevbookInputRef,
@@ -93,23 +95,38 @@ export const SearchForm = () => {
   ])
 
   return (
-    <div className="relative mt-1">
-      <div className="absolute top-1/2 left-3 -translate-y-1/2">
-        <div>
-          <Search />
+    <>
+      <button
+        className="button-text p-1 block md:hidden"
+        onClick={() => setIsMobileFormOpen((prevState) => !prevState)}
+      >
+        <Search />
+      </button>
+      <div
+        className={cn(
+          'px-[20px] md:px-0 bg-card md:bg-transparent fixed left-0 w-full py-4 md:w-auto md:py-0 md:mt-1 block md:relative md:block',
+          isMobileFormOpen
+            ? 'pointer-events-auto top-nav opacity-100'
+            : 'pointer-events-none md:pointer-events-auto top-[50px] md:top-auto opacity-0 md:opacity-100'
+        )}
+      >
+        <div className="hidden md:block absolute top-1/2 left-3 -translate-y-1/2">
+          <div>
+            <Search />
+          </div>
         </div>
+        <form ref={formRef} action={action} autoComplete="off">
+          <Input
+            name="query"
+            ref={inputRef}
+            className="md:pl-12"
+            placeholder="Search Devbook"
+            value={searchDevbookInputValue}
+            onChange={(e) => setSearchDevbookInputValue(e.target.value || '')}
+          />
+          <input type="submit" hidden />
+        </form>
       </div>
-      <form ref={formRef} action={action} autoComplete="off">
-        <Input
-          name="query"
-          ref={inputRef}
-          className="pl-12"
-          placeholder="Search Devbook"
-          value={searchDevbookInputValue}
-          onChange={(e) => setSearchDevbookInputValue(e.target.value || '')}
-        />
-        <input type="submit" hidden />
-      </form>
-    </div>
+    </>
   )
 }

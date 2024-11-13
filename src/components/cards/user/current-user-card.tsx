@@ -16,7 +16,7 @@ export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
         href={`/user/${currentUser.username}`}
       >
         <div className="card flex flex-col gap-2">
-          <UserAvatar className="avatar-lg" user={currentUser} />
+          <UserAvatar user={currentUser} />
           <div>
             <p className="h4">{currentUser.name}</p>
             {currentUser.headline && (
