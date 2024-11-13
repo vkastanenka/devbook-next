@@ -26,6 +26,7 @@ export const PostCard: React.FC<PostCard> = ({
         post={post}
         currentUser={currentUser}
         onDeleteRedirectPath={onDeleteRedirectPath}
+        className="absolute top-4 right-4"
       />
       <PostUser className="px-card" post={post} />
       <PostBody className="px-card" post={post} />

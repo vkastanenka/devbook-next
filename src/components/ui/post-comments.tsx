@@ -45,10 +45,25 @@ export const PostComments: React.FC<PostComments> = ({
 
   return (
     <div className={cn('flex flex-col gap-8', className)}>
-      {parentComment && (
-        <Link className="flex items-center gap-2" href={`/comments/${post.id}`}>
-          <CircleArrowLeft /> View all comments
-        </Link>
+      {parentComment && parentComment.parentCommentId && (
+        <div className={cn('flex gap-2', className)}>
+          <div className="inline-block">
+            <Link
+              className="inline-flex items-center gap-2 text-accent"
+              href={`/comments/${post.id}`}
+            >
+              <CircleArrowLeft /> View all comments
+            </Link>
+          </div>
+          <div className="inline-block">
+            <Link
+              className="inline-flex items-center gap-2 text-accent"
+              href={`/comments/${post.id}?parentCommentId=${parentComment.parentCommentId}`}
+            >
+              <CircleArrowLeft /> View previous comments
+            </Link>
+          </div>
+        </div>
       )}
       {parentComment && (
         <PostComment
@@ -121,13 +136,17 @@ export const PostComment: React.FC<PostComment> = ({
             </Link>
           </div>
         )}
+
         <div>
           <div className="pl-9 flex flex-col gap-2">
             <div className="flex gap-2">
               <div className="bg-card border shadow-sm rounded-lg p-2 relative flex flex-col gap-2">
-                {formatText(post.body)}
+                {formatText(comment.body)}
                 <p className="muted text-accent">
-                  {formatDate(parseISO(post.createdAt), 'MMM dd yyyy')}
+                  {formatDate(
+                    parseISO(comment.createdAt),
+                    'MMM dd yyyy h:mmaaa'
+                  )}
                 </p>
               </div>
               <CommentCurrentUserOptionsButtons
@@ -192,10 +211,10 @@ export const PostComment: React.FC<PostComment> = ({
 
       {/* Subcomment layer exceed layer limit, set parent comment to see thread */}
       {hasSubCommentCount && subCommentLayer === subCommentLayerLimit ? (
-        <div>
+        <div className="inline-block">
           <Link
             href={`/comments/${post.id}?parentCommentId=${comment.id}`}
-            className="muted flex items-center gap-2"
+            className="muted inline-flex items-center gap-2"
           >
             View all replies
             <CircleArrowRight className="w-4 pt-1" />

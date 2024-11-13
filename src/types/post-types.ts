@@ -18,8 +18,8 @@ export type PostBody = string
 export interface Comment {
   id: string
   body: CommentBody
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   parentComment?: Comment
   parentCommentId?: string
   post?: Post
@@ -35,8 +35,8 @@ export interface Comment {
 
 export interface CommentLike {
   id: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   comment?: Comment
   commentId: string
   user?: User
@@ -71,8 +71,8 @@ export interface Post {
 
 export interface PostLike {
   id: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   post?: Post
   postId: string
   user?: User

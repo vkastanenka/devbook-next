@@ -68,8 +68,17 @@ const CommentsPage: React.FC<CommentsPage> = async ({
   }
 
   let parentComment: Comment | undefined
+  let isParentCommentTopLayer: boolean = true
 
-  if (parentCommentId) {
+  readPostResData.comments?.every((comment) => {
+    if (comment.id !== parentCommentId) {
+      isParentCommentTopLayer = false
+      return isParentCommentTopLayer
+    }
+    return isParentCommentTopLayer
+  })
+
+  if (parentCommentId && !isParentCommentTopLayer) {
     const response = await postReadComment(parentCommentId, {
       include: {
         ...subCommentsQuery,
@@ -89,8 +98,11 @@ const CommentsPage: React.FC<CommentsPage> = async ({
 
   return (
     <div className="flex gap-8">
-      <div className="basis-full lg:basis-2/3 xl:basis-3/4 flex items-start gap-4">
-        <Link href="/feed" className="flex gap-2 items-center">
+      <div className="basis-full lg:basis-2/3 xl:basis-3/4 flex items-start gap-4 relative">
+        <Link
+          href="/feed"
+          className="flex gap-2 items-center text-accent p-2 absolute -left-12 top-0"
+        >
           <CircleArrowLeft />
         </Link>
         <div className="w-full flex flex-col gap-8">

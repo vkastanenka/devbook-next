@@ -11,9 +11,11 @@ import { cn, formatText } from '@/src/lib/utils'
 
 // types
 import { Post } from '@/src/types/post-types'
+import { User } from '@/src/types/user-types'
 
 interface PostUi {
   className?: string
+  currentUser?: User
   post: Post
 }
 
@@ -47,7 +49,7 @@ export const PostBody: React.FC<PostUi> = ({ className, post }) => {
     <div className={cn('flex', 'flex-col', 'gap-2', className)}>
       {formatText(post.body)}
       <p className="muted text-accent">
-        {formatDate(parseISO(post.createdAt), 'MMM dd yyyy')}
+        {formatDate(parseISO(post.createdAt), 'MMM dd yyyy h:mmaaa')}
       </p>
     </div>
   )

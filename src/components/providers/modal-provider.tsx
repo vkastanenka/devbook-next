@@ -2,7 +2,6 @@
 
 // components
 import { PostCommentFormModal } from '@/src/components/modals/post/post-comment-form-modal'
-import { PostModal } from '@/src/components/modals/post/post-modal'
 import { PostFormModal } from '@/src/components/modals/post/post-form-modal'
 import { UserBioFormModal } from '@/src/components/modals/user/user-bio-form-modal'
 import { UserContactsModal } from '@/src/components/modals/user/user-contacts-modal'
@@ -29,7 +28,6 @@ export const ModalProvider = () => {
   return (
     <>
       <PostCommentFormModal />
-      <PostModal />
       <PostFormModal />
       <UserBioFormModal />
       <UserContactsModal />
