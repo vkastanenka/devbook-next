@@ -126,7 +126,9 @@ export const SearchForm = () => {
             placeholder="Search Devbook"
             value={searchDevbookInputValue}
             onChange={(e) => setSearchDevbookInputValue(e.target.value || '')}
-            onBlur={() => setIsMobileFormOpen(false)}
+            onBlur={() => {
+              if (isMobileFormOpen) setIsMobileFormOpen(false)
+            }}
           />
           <input type="submit" hidden />
         </form>
