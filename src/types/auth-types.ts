@@ -37,6 +37,11 @@ export interface AuthResetPasswordFormData {
   password: string
 }
 
+export interface AuthUpdatePasswordFormData {
+  currentPassword: string
+  newPassword: string
+}
+
 /**
  * Request bodies
  */
@@ -46,3 +51,4 @@ export type AuthRegisterReqBody = AuthRegisterFormData
 export type AuthSendResetPasswordTokenReqBody =
   AuthSendResetPasswordTokenFormData
 export type AuthResetPasswordReqBody = AuthResetPasswordFormData
+export type AuthUpdatePasswordReqBody = AuthUpdatePasswordFormData

@@ -8,6 +8,7 @@ export const AUTH_LOGIN = `${AUTH}/login`
 export const AUTH_REGISTER = `${AUTH}/register`
 export const AUTH_SEND_RESET_PASSWORD_TOKEN = `${AUTH}/send-reset-password-token`
 export const AUTH_RESET_PASSWORD = `${AUTH}/reset-password`
+export const AUTH_UPDATE_PASSWORD = `${AUTH}/update-password`
 export const AUTH_CURRENT_USER_SESSION = `${AUTH}/current-user/session`
 
 // posts

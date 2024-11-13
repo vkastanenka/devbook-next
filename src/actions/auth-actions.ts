@@ -16,6 +16,7 @@ import {
   AuthLoginReqBody,
   AuthRegisterReqBody,
   AuthResetPasswordReqBody,
+  AuthUpdatePasswordReqBody,
   AuthSendResetPasswordTokenReqBody,
 } from '@/src/types/auth-types'
 import { ServerResponse } from '@/src/types/server-types'
@@ -27,6 +28,7 @@ import {
   AUTH_REGISTER,
   AUTH_SEND_RESET_PASSWORD_TOKEN,
   AUTH_RESET_PASSWORD,
+  AUTH_UPDATE_PASSWORD,
   AUTH_CURRENT_USER_SESSION,
 } from '@/src/constants/server-endpoint-constants'
 
@@ -104,6 +106,17 @@ export const authResetPassword = async (
   } catch (err) {
     return formatServerError(err)
   }
+}
+
+// Update user password with
+export const authUpdatePassword = async (
+  reqBody: AuthUpdatePasswordReqBody
+) => {
+  return await serverRequestServer<undefined, AuthUpdatePasswordReqBody>({
+    data: reqBody,
+    endpoint: `${AUTH_UPDATE_PASSWORD}`,
+    method: 'patch',
+  })
 }
 
 // Delete session cookie and session record

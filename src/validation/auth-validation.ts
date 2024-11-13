@@ -4,6 +4,7 @@ import {
   AuthRegisterFormData,
   AuthSendResetPasswordTokenFormData,
   AuthResetPasswordFormData,
+  AuthUpdatePasswordFormData,
 } from '@/src/types/auth-types'
 
 // validation
@@ -46,5 +47,13 @@ export const authResetPasswordReqBodySchema: z.ZodType<AuthResetPasswordFormData
   z
     .object({
       password: userPasswordSchema,
+    })
+    .strict()
+
+export const authUpdatePasswordReqBodySchema: z.ZodType<AuthUpdatePasswordFormData> =
+  z
+    .object({
+      currentPassword: userPasswordSchema,
+      newPassword: userPasswordSchema,
     })
     .strict()
