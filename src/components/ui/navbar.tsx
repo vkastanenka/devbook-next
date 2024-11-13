@@ -41,10 +41,12 @@ export const Navbar: React.FC = () => {
                 <DropdownMenuItem>
                   <CurrentUserChangeThemeButton />
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <Lock />
-                  Update Password
-                </DropdownMenuItem>
+                <Link href="/update-password">
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    <Lock />
+                    Update Password
+                  </DropdownMenuItem>
+                </Link>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
