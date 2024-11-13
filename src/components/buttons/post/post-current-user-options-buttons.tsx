@@ -11,6 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuOptionsTrigger,
 } from '@/src/components/ui/dropdown-menu'
 
 // utils
@@ -63,17 +64,8 @@ export const PostCurrentUserOptionsButtons: React.FC<
   return (
     <div className={className}>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <div className="w-8 h-8 bg-card border border-muted rounded-full relative">
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center gap-1">
-              {new Array(3).fill(0).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-card-foreground h-[2px] w-[2px] rounded"
-                />
-              ))}
-            </div>
-          </div>
+        <DropdownMenuTrigger className='group '>
+          <DropdownMenuOptionsTrigger />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Post Options</DropdownMenuLabel>

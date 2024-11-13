@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
     <header className="z-50 h-nav w-full fixed top-0 bg-card border-b-[1px] flex justify-center items-center gutter py-2">
       <nav className="container flex items-center justify-between gap-4">
         <div className="flex gap-2 items-center">
-          <Link href="/feed">
+          <Link className='button-text' href="/feed">
             <DevbookLogo className="w-[40px]" />
           </Link>
           <SearchForm />

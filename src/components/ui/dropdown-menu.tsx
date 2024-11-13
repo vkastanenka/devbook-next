@@ -181,6 +181,27 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
+const DropdownMenuOptionsTrigger = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <div
+      className={cn(
+        'w-8 h-8 bg-card border border-muted rounded-full relative button-text',
+        className
+      )}
+      {...props}
+    >
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center gap-1">
+        {new Array(3).fill(0).map((_, i) => (
+          <div key={i} className="bg-card-foreground h-[2px] w-[2px] rounded" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -197,4 +218,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  DropdownMenuOptionsTrigger,
 }

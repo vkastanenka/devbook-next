@@ -26,7 +26,7 @@ export const PostUser: React.FC<PostUi> = ({ className, post }) => {
         <div className="inline-block">
           <Link
             href={`/user/${post.user.username}`}
-            className="inline-flex items-center gap-2"
+            className="button-text inline-flex items-center gap-2"
           >
             <UserAvatar user={post.user} />
             <div>

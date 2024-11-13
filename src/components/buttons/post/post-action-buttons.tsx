@@ -10,7 +10,12 @@ import {
 import Link from 'next/link'
 
 // svg
-import { CircleArrowRight, MessageSquareText, ThumbsUp } from 'lucide-react'
+import {
+  CircleArrowRight,
+  MessageSquareText,
+  ThumbsDown,
+  ThumbsUp,
+} from 'lucide-react'
 
 // utils
 import { usePathname, useRouter } from 'next/navigation'
@@ -37,18 +42,21 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const { toast } = useToast()
   const { onOpen } = useModal()
 
-  const styleButton = 'gap-2 flex justify-center items-center py-3'
+  const styleButton =
+    'button-text gap-1 flex justify-center items-center py-3 px-2'
+
+  let postLikeId: string | undefined
+
+  post.postLikes?.every((postLike) => {
+    if (postLike.userId === currentUser.id) {
+      postLikeId = postLike.id
+      return false
+    }
+    return true
+  })
 
   const likePost = async () => {
-    let postLikeId, response
-
-    post.postLikes?.every((postLike) => {
-      if (postLike.userId === currentUser.id) {
-        postLikeId = postLike.id
-        return false
-      }
-      return true
-    })
+    let response
 
     if (postLikeId) {
       response = await postDeleteCurrentUserPostLike(postLikeId)
@@ -81,8 +89,8 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       <div className="flex items-center justify-between gap-1 w-full">
         <div className="flex items-center gap-4">
           <button className={styleButton} onClick={likePost}>
-            <ThumbsUp />
-            <p className="p">Like</p>
+            {postLikeId ? <ThumbsDown /> : <ThumbsUp />}
+            <p className="p">{postLikeId ? 'Unlike' :'Like'}</p>
           </button>
           <button
             className={styleButton}

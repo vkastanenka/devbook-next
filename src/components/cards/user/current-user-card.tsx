@@ -11,7 +11,10 @@ export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
 }) => {
   return (
     <Card>
-      <Link className="block" href={`/user/${currentUser.username}`}>
+      <Link
+        className="button-text block"
+        href={`/user/${currentUser.username}`}
+      >
         <div className="card flex flex-col gap-2">
           <UserAvatar className="avatar-lg" user={currentUser} />
           <div>

@@ -19,6 +19,7 @@
     @apply bg-background text-foreground;
   }
 
+  /* TODO: Figure out white theme */
   :root {
     --background: 270 0% 95%;
     --foreground: 270 0% 10%;
@@ -42,6 +43,7 @@
     --radius: 0.5rem;
   }
 
+  /* TODO: Finalize dark theme */
   .dark {
     /* slate-950 */
     --background: #020617;
@@ -83,9 +85,12 @@
 }
 
 @layer components {
-  a,
-  .is-interactive {
-    @apply text-foreground hover:bg-muted focus-within:bg-input rounded-md transition-colors inline-block;
+  .hover-overlay {
+    @apply relative after:pointer-events-none after:h-full after:w-full after:absolute after:top-0 after:left-0 after:bg-foreground after:transition-all after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-within:after:opacity-20;
+  }
+
+  .button-text {
+    @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-block;
   }
 
   textarea {
