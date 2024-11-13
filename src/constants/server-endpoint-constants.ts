@@ -13,6 +13,7 @@ export const AUTH_CURRENT_USER_SESSION = `${AUTH}/current-user/session`
 // posts
 const POSTS = '/posts'
 export const POSTS_POST = `${POSTS}/post`
+export const POSTS_COMMENT = `${POSTS}/comment`
 export const POSTS_CURRENT_USER_COMMENT = `${POSTS}/current-user/comment`
 export const POSTS_CURRENT_USER_COMMENT_LIKE = `${POSTS}/current-user/comment-like`
 export const POSTS_CURRENT_USER_POST = `${POSTS}/current-user/post`

@@ -1,25 +1,20 @@
 // components
 import Link from 'next/link'
-import { CommentActionButtons } from '@/src/components/buttons/post/post-comment-action-buttons'
-import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
-import { CommentCurrentUserOptionsButtons } from '@/src/components/buttons/post/post-current-user-comment-options-buttons'
 import { UserAvatar } from '@/src/components/ui/avatar'
-import { Comment as PostComment } from '@/src/components/ui/comment'
 
 // svg
 import { MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
+import { format as formatDate, parseISO } from 'date-fns'
 import { cn, formatText } from '@/src/lib/utils'
 
 // types
-import { Comment, Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Post } from '@/src/types/post-types'
 
 interface PostUi {
   className?: string
   post: Post
-  currentUser: User
 }
 
 export const PostUser: React.FC<PostUi> = ({ className, post }) => {
@@ -48,7 +43,14 @@ export const PostUser: React.FC<PostUi> = ({ className, post }) => {
 }
 
 export const PostBody: React.FC<PostUi> = ({ className, post }) => {
-  return <div className={className}>{formatText(post.body)}</div>
+  return (
+    <div className={cn('flex', 'flex-col', 'gap-2', className)}>
+      {formatText(post.body)}
+      <p className="muted text-accent">
+        {formatDate(parseISO(post.createdAt), 'MMM dd yyyy')}
+      </p>
+    </div>
+  )
 }
 
 export const PostActivity: React.FC<PostUi> = ({ className, post }) => {
@@ -68,34 +70,6 @@ export const PostActivity: React.FC<PostUi> = ({ className, post }) => {
           </p>
         </div>
       </div>
-    </div>
-  )
-}
-
-export const PostComments: React.FC<PostUi> = ({
-  post,
-  className,
-  currentUser,
-}) => {
-  if (!post || !post.comments || post.comments?.length === 0) {
-    return (
-      <NoContentCard
-        heading="Looks a little empty!"
-        subheading="Be the first to comment and show a little love."
-      />
-    )
-  }
-
-  return (
-    <div className={cn('flex flex-col gap-4', className)}>
-      {post.comments.map((comment) => (
-        <PostComment
-          key={comment.id}
-          post={post}
-          comment={comment}
-          currentUser={currentUser}
-        />
-      ))}
     </div>
   )
 }

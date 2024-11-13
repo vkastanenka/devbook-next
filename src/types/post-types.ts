@@ -28,6 +28,7 @@ export interface Comment {
   userId: string
   commentLikes?: CommentLike[]
   subComments?: Comment[]
+  _count?: { subComments?: number }
 }
 
 // CommentLike
@@ -54,8 +55,8 @@ export interface Post {
   id: string
   body: PostBody
   postType: PostType
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   user?: User
   userId: string
   comments?: Comment[]
@@ -108,6 +109,10 @@ export interface PostUpdatePostFormData {
 
 // Comment
 
+export interface PostReadCommentRelationQueryReqBody {
+  include?: Prisma.CommentInclude
+}
+
 export interface PostCreateCommentReqBody {
   body: CommentBody
   parentCommentId?: string | null
@@ -128,7 +133,7 @@ export interface PostCreateCommentLikeReqBody {
 
 // Post
 
-export interface PostRelationQueryReqBody {
+export interface PostReadPostRelationQueryReqBody {
   include?: Prisma.PostInclude
 }
 

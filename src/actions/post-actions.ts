@@ -5,7 +5,8 @@ import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
 import {
-  PostRelationQueryReqBody,
+  PostReadCommentRelationQueryReqBody,
+  PostReadPostRelationQueryReqBody,
   PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
   PostCreateCommentLikeReqBody,
@@ -21,6 +22,7 @@ import {
 // constants
 import {
   POSTS_POST,
+  POSTS_COMMENT,
   POSTS_CURRENT_USER_COMMENT,
   POSTS_CURRENT_USER_COMMENT_LIKE,
   POSTS_CURRENT_USER_POST,
@@ -28,6 +30,18 @@ import {
 } from '@/src/constants/server-endpoint-constants'
 
 // Comment
+
+// Read post with args
+export const postReadComment = async (
+  recordId: string,
+  reqBody?: PostReadCommentRelationQueryReqBody
+) => {
+  return await serverRequestServer<Comment, PostReadCommentRelationQueryReqBody>({
+    data: reqBody,
+    endpoint: `${POSTS_COMMENT}/${recordId}`,
+    method: 'post',
+  })
+}
 
 // Create current user comment
 export const postCreateCurrentUserComment = async (
@@ -86,9 +100,9 @@ export const postDeleteCurrentUserCommentLike = async (recordId: string) => {
 // Read post with args
 export const postReadPost = async (
   recordId: string,
-  reqBody?: PostRelationQueryReqBody
+  reqBody?: PostReadPostRelationQueryReqBody
 ) => {
-  return await serverRequestServer<Post, PostRelationQueryReqBody>({
+  return await serverRequestServer<Post, PostReadPostRelationQueryReqBody>({
     data: reqBody,
     endpoint: `${POSTS_POST}/${recordId}`,
     method: 'post',
