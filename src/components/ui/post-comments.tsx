@@ -175,6 +175,7 @@ export const PostComment: React.FC<PostComment> = ({
                 currentUser={currentUser}
                 subCommentLayer={subCommentLayer + 1}
                 subCommentLayerLimit={subCommentLayerLimit}
+                subCommentLimitProp={subCommentLimitProp}
               />
             </div>
           ))}
