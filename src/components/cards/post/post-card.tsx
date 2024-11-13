@@ -21,19 +21,19 @@ export const PostCard: React.FC<PostCard> = ({
   onDeleteRedirectPath,
 }) => {
   return (
-    <Card className="relative py-card bg-card flex flex-col gap-4">
+    <Card className="relative py-4 md:py-card bg-card flex flex-col gap-4">
       <PostCurrentUserOptionsButtons
         post={post}
         currentUser={currentUser}
         onDeleteRedirectPath={onDeleteRedirectPath}
         className="absolute top-4 right-4"
       />
-      <PostUser className="px-card" post={post} />
-      <PostBody className="px-card" post={post} />
-      <PostActivity className="px-card" post={post} />
+      <PostUser className="px-4 md:px-card" post={post} />
+      <PostBody className="px-4 md:px-card" post={post} />
+      <PostActivity className="px-4 md:px-card" post={post} />
       <Separator />
       <PostActionButtons
-        className="px-card"
+        className="px-4 lg:px-card"
         post={post}
         currentUser={currentUser}
       />

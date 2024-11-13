@@ -43,7 +43,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const { onOpen } = useModal()
 
   const styleButton =
-    'button-text gap-1 flex justify-center items-center py-3 px-2'
+    'button-text gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
 
   let postLikeId: string | undefined
 
@@ -87,10 +87,12 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   return (
     <div className={className}>
       <div className="flex items-center justify-between gap-1 w-full">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <button className={styleButton} onClick={likePost}>
             {postLikeId ? <ThumbsDown /> : <ThumbsUp />}
-            <p className="p">{postLikeId ? 'Unlike' :'Like'}</p>
+            <div className="hidden md:block">
+              {postLikeId ? 'Unlike' : 'Like'}
+            </div>
           </button>
           <button
             className={styleButton}
@@ -99,12 +101,12 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             }
           >
             <MessageSquareText />
-            <p className="p">Comment</p>
+            <div className="hidden md:block">Comment</div>
           </button>
         </div>
         {!pathname.startsWith('/comments') && (
           <Link className={styleButton} href={`/comments/${post.id}`}>
-            <p className="p">View comments</p>
+            <div className="hidden md:block">View Comments</div>
             <CircleArrowRight />
           </Link>
         )}

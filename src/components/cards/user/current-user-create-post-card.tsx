@@ -12,9 +12,11 @@ export const CurrentUserCreatePostCard: React.FC<{
 }> = ({ currentUser }) => {
   return (
     <Card className="card flex items-center gap-2">
-      <Link className="hover-overlay after:rounded-full" href={`/user/${currentUser.username}`}>
+      <Link
+        className="hover-overlay after:rounded-full"
+        href={`/user/${currentUser.username}`}
+      >
         <UserAvatar user={currentUser} />
-        {/* <div className="button-text-accent rounded-full h-full w-full absolute top-0 left-0 opacity-20" /> */}
       </Link>
       <CurrentUserCreatePostButton currentUser={currentUser} />
     </Card>

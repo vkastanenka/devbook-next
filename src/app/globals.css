@@ -98,11 +98,11 @@
   }
 
   .button-rounded {
-    @apply p rounded-full bg-input hover:bg-muted focus-within:bg-muted border-[1px] px-[12px] py-2 text-left transition-colors;
+    @apply p rounded-full bg-input hover:bg-muted focus-within:bg-muted border-[1px] px-4 md:px-[12px] py-2 text-left transition-colors;
   }
 
   .card {
-    @apply p-card;
+    @apply p-4 md:p-card;
   }
 
   .form-card {

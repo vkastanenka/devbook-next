@@ -58,7 +58,9 @@ const UserAvatar: React.FC<UserAvatar> = ({ className, user }) => {
   const fallbackText = `${userNameSplit[0][0]}${userNameSplit[1][0]}`
 
   return (
-    <Avatar className={className}>
+    <Avatar
+      className={cn('text-xs md:text-lg w-9 h-9 md:w-12 md:h-12', className)}
+    >
       <AvatarImage src={user.image || undefined} />
       <AvatarFallback className="bg-primary">{fallbackText}</AvatarFallback>
     </Avatar>

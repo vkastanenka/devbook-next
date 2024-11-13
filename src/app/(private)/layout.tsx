@@ -10,7 +10,7 @@ export default function PrivateLayout({
     <>
       <Navbar />
       <div className="mt-nav flex justify-center gutter">
-        <div className="container py-8">{children}</div>
+        <div className="container py-4 md:py-8">{children}</div>
       </div>
     </>
   )
