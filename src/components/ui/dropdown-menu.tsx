@@ -189,7 +189,7 @@ const DropdownMenuOptionsTrigger = ({
   return (
     <div
       className={cn(
-        'w-8 h-8 bg-card border border-muted rounded-full relative button-text',
+        'w-8 h-8 bg-input border border-muted rounded-full relative button-text',
         className
       )}
       {...props}
