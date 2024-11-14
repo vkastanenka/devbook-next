@@ -13,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/src/components/ui/form'
 import { Textarea } from '@/src/components/ui/textarea'
@@ -133,7 +132,6 @@ export const CommentForm = () => {
           name="body"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comment</FormLabel>
               <FormControl>
                 <Textarea
                   rows={10}

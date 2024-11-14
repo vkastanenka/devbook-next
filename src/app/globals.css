@@ -28,6 +28,10 @@
     --card: #ffffff;
     /* slate-900 */
     --card-foreground: #0f1729;
+    /* slate-900 */
+    --popover: #ffffff;
+    /* slate-50 */
+    --popover-foreground: #0f1729;
     /* purple-500 */
     --primary: #a855f7;
     /* slate-50 */
@@ -37,17 +41,21 @@
     /* slate-50 */
     --secondary-foreground: #f8fafc;
     /* slate-200 */
-    --muted: #E2E8F0;
+    --muted: #e2e8f0;
     /* slate-900 */
     --muted-foreground: #0f1729;
     /* slate-500 */
-    --accent: #64748B;
+    --accent: #64748b;
     /* slate-50 */
     --accent-foreground: #f8fafc;
     /* rose-500 */
     --destructive: #f43e5c;
     /* slate-50 */
     --destructive-foreground: #f8fafc;
+    /* emerald-500 */
+    --success: #10b981;
+    /* slate-50 */
+    --success-foreground: #f8fafc;
     /* slate-200 */
     --border: #e2e8f0;
     /* slate-50 */
@@ -90,6 +98,10 @@
     --destructive: #f43e5c;
     /* slate-50 */
     --destructive-foreground: #f8fafc;
+    /* emerald-500 */
+    --success: #10b981;
+    /* slate-50 */
+    --success-foreground: #f8fafc;
     /* slate-800 */
     --border: #1d283a;
     /* slate-700 */
@@ -101,8 +113,8 @@
 }
 
 @layer components {
-  .hover-overlay {
-    @apply relative after:pointer-events-none after:h-full after:w-full after:absolute after:top-0 after:left-0 after:bg-foreground after:transition-all after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-within:after:opacity-20;
+  .overlay {
+    @apply relative after:pointer-events-none after:h-full after:w-full after:absolute after:top-0 after:left-0 after:bg-muted after:transition-all after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-within:after:opacity-20;
   }
 
   .button-text {

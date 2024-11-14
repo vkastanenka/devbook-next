@@ -107,7 +107,7 @@ export const SearchForm = () => {
       </button>
       <div
         className={cn(
-          'transition-opacity md:transition-none px-[20px] md:px-0 bg-card md:bg-transparent fixed top-0 left-0 w-full py-4 md:w-auto md:py-0 md:mt-1 block md:relative md:block',
+          'transition-opacity md:transition-none px-[20px] md:px-0 bg-card md:bg-transparent fixed top-0 left-0 w-full py-4 md:w-auto md:py-0 md:mt-1 block md:relative md:block border-b md:border-0 shadow-sm md:shadow-none',
           isMobileFormOpen
             ? 'pointer-events-auto opacity-100'
             : 'pointer-events-none md:pointer-events-auto opacity-0 md:opacity-100'

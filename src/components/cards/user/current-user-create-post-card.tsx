@@ -13,7 +13,7 @@ export const CurrentUserCreatePostCard: React.FC<{
   return (
     <Card className="card flex items-center gap-2">
       <Link
-        className="hover-overlay after:rounded-full"
+        className="overlay after:rounded-full"
         href={`/user/${currentUser.username}`}
       >
         <UserAvatar user={currentUser} />

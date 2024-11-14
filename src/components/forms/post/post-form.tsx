@@ -13,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/src/components/ui/form'
 import { Textarea } from '@/src/components/ui/textarea'
@@ -133,11 +132,10 @@ export const PostForm = () => {
           name="body"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Post body</FormLabel>
               <FormControl>
                 <Textarea
                   rows={10}
-                  placeholder="Post body"
+                  placeholder="What's on your mind?"
                   disabled={isSubmitting}
                   {...field}
                 />

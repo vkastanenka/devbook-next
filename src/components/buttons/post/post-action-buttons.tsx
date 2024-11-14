@@ -80,6 +80,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
 
     toast({
       title: 'Success!',
+      variant: 'success',
       description: response.message,
     })
   }
