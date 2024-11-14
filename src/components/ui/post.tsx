@@ -7,7 +7,7 @@ import { MessageSquareText, ThumbsUp } from 'lucide-react'
 
 // utils
 import { format as formatDate, parseISO } from 'date-fns'
-import { cn, formatText } from '@/src/lib/utils'
+import { cn, constrainText, formatText } from '@/src/lib/utils'
 
 // types
 import { Post } from '@/src/types/post-types'
@@ -30,9 +30,11 @@ export const PostUser: React.FC<PostUi> = ({ className, post }) => {
           >
             <UserAvatar user={post.user} />
             <div>
-              <p className="p">{post.user.name}</p>
+              <p className="p">{constrainText(20, post.user.name)}</p>
               {post.user.headline && (
-                <p className="muted text-accent">{post.user.headline}</p>
+                <p className="muted text-accent">
+                  {constrainText(25, post.user.headline)}
+                </p>
               )}
             </div>
           </Link>

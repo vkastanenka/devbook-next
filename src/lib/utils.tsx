@@ -41,6 +41,14 @@ export const formatServerError = (err: unknown) => {
   })
 }
 
+export const constrainText = (characterLimit: number, text: string): string => {
+  if (text.length > characterLimit) {
+    return `${text.slice(0, characterLimit)}...`
+  }
+
+  return text
+}
+
 export const formatText = (text: string) => {
   return text.split('\n').map((line, i) => {
     if (line === '') {
@@ -53,4 +61,9 @@ export const formatText = (text: string) => {
       </p>
     )
   })
+}
+
+export const formatUserInitials = (userName: string): string => {
+  const userNameSplit = userName.toUpperCase().split(' ')
+  return `${userNameSplit[0][0]}${userNameSplit[1][0]}`
 }

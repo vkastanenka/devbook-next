@@ -1,6 +1,3 @@
-// components
-import { AccessibleDropdownMenu } from '@/src/components/ui/accessible-dropdown-menu'
-
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
-import { cn } from '@/src/lib/utils'
+import { cn, formatUserInitials } from '@/src/lib/utils'
 import { User } from '@/src/types/user-types'
 
 const Avatar = React.forwardRef<
@@ -54,15 +54,16 @@ interface UserAvatar {
 }
 
 const UserAvatar: React.FC<UserAvatar> = ({ className, user }) => {
-  const userNameSplit = user.name.toUpperCase().split(' ')
-  const fallbackText = `${userNameSplit[0][0]}${userNameSplit[1][0]}`
+  const fallbackText = formatUserInitials(user.name)
 
   return (
     <Avatar
       className={cn('text-xs md:text-lg w-9 h-9 md:w-12 md:h-12', className)}
     >
       <AvatarImage src={user.image || undefined} />
-      <AvatarFallback className="bg-primary text-primary-foreground">{fallbackText}</AvatarFallback>
+      <AvatarFallback className="bg-primary text-primary-foreground">
+        {fallbackText}
+      </AvatarFallback>
     </Avatar>
   )
 }
