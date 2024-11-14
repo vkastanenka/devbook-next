@@ -19,68 +19,84 @@
     @apply bg-background text-foreground;
   }
 
-  /* TODO: Figure out white theme */
   :root {
-    --background: 270 0% 95%;
-    --foreground: 270 0% 10%;
-    --card: 270 0% 90%;
-    --card-foreground: 270 0% 15%;
-    --popover: 270 0% 95%;
-    --popover-foreground: 270 95% 10%;
-    --primary: 270 95.2% 75.3%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 270 10% 70%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 232 10% 85%;
-    --muted-foreground: 270 0% 40%;
-    --accent: 232 10% 80%;
-    --accent-foreground: 270 0% 15%;
-    --destructive: 0 50% 50%;
-    --destructive-foreground: 270 0% 90%;
-    --border: 270 20% 50%;
-    --input: 270 20% 50%;
-    --ring: 270 95.2% 75.3%;
-    --radius: 0.5rem;
-  }
-
-  /* TODO: Finalize dark theme */
-  .dark {
-    /* slate-950 */
-    --background: #020617;
     /* slate-50 */
-    --foreground: #f8fafc;
+    --background: #f8fafc;
     /* slate-900 */
-    --card: #0f172a;
-    /* slate-600 */
-    /* slate-50 */
-    --card-foreground: #f8fafc;
-    --popover: 270 10% 5%;
-    --popover-foreground: 270 0% 90%;
+    --foreground: #0f1729;
+    /* white */
+    --card: #ffffff;
+    /* slate-900 */
+    --card-foreground: #0f1729;
     /* purple-500 */
     --primary: #a855f7;
     /* slate-50 */
     --primary-foreground: #f8fafc;
-    --secondary: 270 10% 20%;
-    --secondary-foreground: 0 0% 100%;
     /* purple-600 */
-    --focus: #7c3aed;
+    --secondary: #9234ea;
+    /* slate-50 */
+    --secondary-foreground: #f8fafc;
+    /* slate-200 */
+    --muted: #E2E8F0;
+    /* slate-900 */
+    --muted-foreground: #0f1729;
+    /* slate-500 */
+    --accent: #64748B;
+    /* slate-50 */
+    --accent-foreground: #f8fafc;
+    /* rose-500 */
+    --destructive: #f43e5c;
+    /* slate-50 */
+    --destructive-foreground: #f8fafc;
+    /* slate-200 */
+    --border: #e2e8f0;
+    /* slate-50 */
+    --input: #f8fafc;
+    /* purple-500 */
+    --ring: #a855f7;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* slate-950 */
+    --background: #030617;
+    /* slate-50 */
+    --foreground: #f8fafc;
+    /* slate-900 */
+    --card: #0f1729;
+    /* slate-50 */
+    --card-foreground: #f8fafc;
+    /* slate-900 */
+    --popover: #0f1729;
+    /* slate-50 */
+    --popover-foreground: #f8fafc;
+    /* purple-500 */
+    --primary: #a855f7;
+    /* slate-50 */
+    --primary-foreground: #f8fafc;
+    /* purple-600 */
+    --secondary: #9234ea;
+    /* slate-50 */
+    --secondary-foreground: #f8fafc;
     /* slate-600 */
-    --muted: #475569;
-    --muted-foreground: 270 0% 60%;
+    --muted: #48566a;
+    /* slate-50 */
+    --muted-foreground: #f8fafc;
     /* slate-400 */
     --accent: #94a3b8;
-    --accent-foreground: 270 0% 90%;
+    /* slate-900 */
+    --accent-foreground: #0f1729;
     /* rose-500 */
-    --destructive: #f43f5e;
-    --destructive-foreground: 270 0% 90%;
+    --destructive: #f43e5c;
+    /* slate-50 */
+    --destructive-foreground: #f8fafc;
     /* slate-800 */
-    --border: #1e293b;
+    --border: #1d283a;
     /* slate-700 */
-    --input: #1e293b;
-    --ring: 270 95.2% 75.3%;
+    --input: #1d283a;
+    /* purple-500 */
+    --ring: #a855f7;
     --radius: 0.5rem;
-    /* emerald-500 */
-    --success: #10b981;
   }
 }
 
