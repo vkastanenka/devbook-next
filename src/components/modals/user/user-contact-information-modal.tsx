@@ -22,24 +22,27 @@ export const UserContactInformationModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <div>
+        <div className="flex flex-col gap-2">
           <div>
             <p className="h3">Page Url</p>
           </div>
-          <Link href={`http://localhost:3000/user/${user.username}`}>
+          <Link
+            className="button-text p-1"
+            href={`http://localhost:3000/user/${user.username}`}
+          >
             <p className="p">{`http://localhost:3000/user/${user.username}`}</p>
           </Link>
         </div>
-        <div>
+        <div className="flex flex-col gap-2">
           <div>
             <p className="h3">Email</p>
           </div>
-          <Link href={`mailto:${user.email}`}>
+          <Link className="button-text p-1" href={`mailto:${user.email}`}>
             <p className="p">{user.email}</p>
           </Link>
         </div>
         {user.phone && (
-          <div>
+          <div className="flex flex-col gap-2">
             <div>
               <p className="h3">Phone Number</p>
             </div>

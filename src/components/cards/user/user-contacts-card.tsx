@@ -4,25 +4,25 @@
 import Link from 'next/link'
 import { Card } from '@/src/components/ui/card'
 import { AspectRatio } from '@/src/components/ui/aspect-ratio'
+import { UserOpenUserContactsModalButton } from '@/src/components/buttons/user/user-open-user-contacts-modal-button'
 
 // utils
-import { cn } from '@/src/lib/utils'
-import { useModal } from '@/src/hooks/use-modal-store'
+import { cn, formatUserInitials } from '@/src/lib/utils'
 
 // types
 import { User } from '@/src/types/user-types'
+
+const NUM_VISIBLE_CONTACTS = 3
 
 interface UserContactsCard {
   user: User
 }
 
 export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
-  const { onOpen } = useModal()
-
   let renderedContacts = user.contacts || []
 
-  if (renderedContacts.length > 3) {
-    renderedContacts = renderedContacts.slice(2)
+  if (renderedContacts.length > NUM_VISIBLE_CONTACTS) {
+    renderedContacts = renderedContacts.slice(NUM_VISIBLE_CONTACTS - 1)
   }
 
   return (
@@ -37,19 +37,15 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
             )}
           >
             {renderedContacts.map((contact) => {
-              // TODO: Refactor into function to use globally
-              const contactNameSplit = contact.name.toUpperCase().split(' ')
-              const fallbackText = `${contactNameSplit[0][0]}${contactNameSplit[1][0]}`
-
               return (
                 <div key={contact.id} className="col-span-1">
                   <Link
                     href={`/user/${contact.username}`}
-                    className="flex flex-col gap-1"
+                    className="p-1 button-text flex flex-col gap-1"
                   >
                     <AspectRatio ratio={1}>
-                      <div className="h-full bg-primary flex items-center justify-center pointer-events-none">
-                        <p className="h4">{fallbackText}</p>
+                      <div className="h-full bg-primary flex items-center justify-center pointer-events-none rounded-md">
+                        <p className="h4">{formatUserInitials(contact.name)}</p>
                       </div>
                     </AspectRatio>
                     <p className="p">{contact.name}</p>
@@ -58,12 +54,9 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
               )
             })}
           </div>
-          <button
-            className="muted text-accent"
-            onClick={() => onOpen('userContacts', { user })}
-          >
-            see more
-          </button>
+          {user.contacts && user.contacts.length > NUM_VISIBLE_CONTACTS ? (
+            <UserOpenUserContactsModalButton user={user} />
+          ) : null}
         </div>
       ) : (
         <p className="p">{`This user hasn't made any contacts yet.`}</p>

@@ -31,7 +31,7 @@ export const UserContactsModal = () => {
             {user.contacts?.map((contact) => (
               <div key={contact.id}>
                 <Link
-                  className="flex items-center gap-2"
+                  className="button-text flex items-center gap-2"
                   href={`/user/${contact.username}`}
                   onClick={onClose}
                 >

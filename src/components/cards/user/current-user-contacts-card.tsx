@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { Card } from '@/src/components/ui/card'
 import { NoContentCurrentUserContactsCard } from '@/src/components/cards/no-content/no-content-current-user-contacts-card'
+import { UserOpenUserContactsModalButton } from '@/src/components/buttons/user/user-open-user-contacts-modal-button'
 
 // utils
 import { constrainText } from '@/src/lib/utils'
@@ -23,8 +24,8 @@ export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
   return (
     <Card className="card flex flex-col gap-4">
       <p className="h3">Contacts</p>
-      {currentUser.contacts?.map((contact) => (
-        <div key={contact.id}>
+      {currentUser.contacts?.slice(0, 6).map((contact) => (
+        <div className="flex flex-col gap-4" key={contact.id}>
           <Link
             className="button-text flex items-center gap-2"
             href={`/user/${contact.username}`}
@@ -34,6 +35,9 @@ export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
           </Link>
         </div>
       ))}
+      {currentUser.contacts.length > 6 ? (
+        <UserOpenUserContactsModalButton user={currentUser} />
+      ) : null}
     </Card>
   )
 }

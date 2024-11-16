@@ -154,7 +154,7 @@
   }
 
   .p {
-    @apply leading-7;
+    @apply leading-7 text-[1rem];
   }
 
   .blockquote {

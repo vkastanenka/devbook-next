@@ -10,7 +10,6 @@ import { Feed } from '@/src/components/ui/feed'
 import { Separator } from '@/src/components/ui/separator'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 import { UserDetailsCard } from '@/src/components/cards/user/user-details-card'
-import { UserBioCard } from '@/src/components/cards/user/user-bio-card'
 import { UserContactsCard } from '@/src/components/cards/user/user-contacts-card'
 import { CurrentUserCreatePostCard } from '@/src/components/cards/user/current-user-create-post-card'
 
@@ -80,14 +79,18 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   }
 
   return (
-    <div className="flex gap-8">
-      <div className="basis-1/2 flex flex-col gap-4">
-        <UserDetailsCard currentUser={currentUser} user={user} />
-        <UserBioCard user={user} />
-        <UserContactsCard user={user} />
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+      <div className="basis-full lg:basis-1/2">
+        <div className="flex flex-col gap-4 sticky top-[92px]">
+          <UserDetailsCard currentUser={currentUser} user={user} />
+          <UserContactsCard user={user} />
+        </div>
       </div>
       <div
-        className={cn('basis-1/2', isCurrentUser ? 'flex flex-col gap-4' : '')}
+        className={cn(
+          'basis-full lg:basis-1/2',
+          isCurrentUser ? 'flex flex-col gap-4' : ''
+        )}
       >
         {isCurrentUser && (
           <CurrentUserCreatePostCard currentUser={currentUser} />

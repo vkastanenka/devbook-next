@@ -5,6 +5,9 @@ import { UserDetailsCardButtons } from '@/src/components/buttons/user/user-detai
 import { UserEditContactButton } from '@/src/components/buttons/user/user-edit-contact-button'
 import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
+// utils
+import { constrainText } from '@/src/lib/utils'
+
 // types
 import { User } from '@/src/types/user-types'
 
@@ -51,12 +54,14 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
       <UserAvatar className="avatar-lg" user={user} />
       <div>
         <div className="flex gap-2">
-          <p className="h3">{user.name}</p>
+          <p className="h3">{constrainText(20, user.name)}</p>
           {user.pronouns && (
             <p className="muted text-accent">{user.pronouns}</p>
           )}
         </div>
-        {user.headline && <p className="p">{user.headline}</p>}
+        {user.headline && (
+          <p className="p">{constrainText(25, user.headline)}</p>
+        )}
         {user.addresses && user.addresses?.length > 0 && (
           <p className="muted text-accent">
             <span>{`${user.addresses[0].suburb}, `}</span>
