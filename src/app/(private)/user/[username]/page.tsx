@@ -100,6 +100,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
           isCurrentUser={isCurrentUser}
           initialPosts={posts}
           currentUser={user}
+          user={user}
         />
       </div>
     </div>
