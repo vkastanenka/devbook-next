@@ -99,7 +99,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
         <Feed
           isCurrentUser={isCurrentUser}
           initialPosts={posts}
-          currentUser={user}
+          currentUser={currentUser}
           user={user}
         />
       </div>
