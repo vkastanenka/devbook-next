@@ -52,13 +52,13 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
           contacts: { orderBy: { name: 'asc' } },
           posts: {
             include: {
-              comments: {
-                include: { commentLikes: true, subComments: true },
-                orderBy: { createdAt: 'desc' },
-              },
               postLikes: true,
+              user: true,
+              _count: { select: { comments: true, postLikes: true } },
             },
             orderBy: { createdAt: 'desc' },
+            skip: 0,
+            take: 5,
           },
         },
       }
@@ -74,7 +74,7 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
   }
 
   if (isCurrentUser) {
-    const postsResponse = await userReadCurrentUserFeed()
+    const postsResponse = await userReadCurrentUserFeed('?skip=0&take=5')
     posts = postsResponse.data
   }
 
@@ -96,7 +96,11 @@ const UserPage: React.FC<UserPage> = async ({ params }) => {
           <CurrentUserCreatePostCard currentUser={currentUser} />
         )}
         {isCurrentUser && <Separator />}
-        <Feed isCurrentUser={isCurrentUser} posts={posts} currentUser={user} />
+        <Feed
+          isCurrentUser={isCurrentUser}
+          initialPosts={posts}
+          currentUser={user}
+        />
       </div>
     </div>
   )
