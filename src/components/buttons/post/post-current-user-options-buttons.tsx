@@ -17,6 +17,7 @@ import {
 // utils
 import { useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
+import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
@@ -36,6 +37,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
+  const { data, setData } = useFeedStore()
 
   if (currentUser.id !== post.userId) return null
 
@@ -51,7 +53,10 @@ export const PostCurrentUserOptionsButtons: React.FC<
       return
     }
 
-    router.refresh()
+    const filteredPosts = data.posts.filter(
+      (storePost) => storePost.id !== post.id
+    )
+    setData({ ...data, posts: [...filteredPosts] })
 
     toast({
       title: 'Success!',
@@ -64,7 +69,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
   return (
     <div className={className}>
       <DropdownMenu>
-        <DropdownMenuTrigger className='group '>
+        <DropdownMenuTrigger className="group ">
           <DropdownMenuOptionsTrigger />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

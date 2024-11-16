@@ -20,8 +20,6 @@ export const PostCard: React.FC<PostCard> = ({
   currentUser,
   onDeleteRedirectPath,
 }) => {
-  console.log(post)
-
   return (
     <Card className="relative py-4 md:py-card bg-card flex flex-col gap-4">
       {post.userId === currentUser.id && (

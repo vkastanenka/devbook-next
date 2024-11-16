@@ -16,6 +16,7 @@ import { LoaderCircle } from 'lucide-react'
 // utils
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { useFeedStore } from '@/src/hooks/use-feed-store'
 
 // types
 import { Post } from '@/src/types/post-types'
@@ -34,29 +35,33 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const [posts, setPosts] = useState(initialPosts || [])
+  const { data, setData } = useFeedStore()
+
   const [skip, setSkip] = useState(0)
   const [ref, inView] = useInView()
+  const [isLoading, setIsLoading] = useState(true)
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
+  useEffect(() => {
+    setData({ ...data, posts: initialPosts || [] })
+    setIsLoading(false)
+  }, [])
+
+  // Update state when user creates a post
   useEffect(() => {
     if (
       initialPosts &&
       initialPosts.length > 0 &&
-      posts &&
-      posts.length > 0 &&
-      initialPosts[0].createdAt > posts[0].createdAt
+      data.posts.length > 0 &&
+      initialPosts[0].createdAt > data.posts[0].createdAt
     ) {
-      setPosts((prevState) => [
-        initialPosts[0],
-        ...(prevState ? prevState : []),
-      ])
+      setData({ ...data, posts: [initialPosts[0], ...data.posts] })
     }
-  }, [initialPosts, posts])
+  }, [initialPosts])
 
   useEffect(() => {
     const currentUserAction = async () => {
-      const nextSkip = skip + 5
+      const nextSkip = skip + 1
 
       const { data: resData } = await userReadCurrentUserFeed(
         `?skip=${nextSkip}&take=5`
@@ -70,7 +75,7 @@ export const Feed: React.FC<Feed> = ({
         setSkip((prevState) => prevState + 5)
       }
 
-      setPosts((prevState) => [...(prevState ? prevState : []), ...resData])
+      setData({ ...data, posts: [...data.posts, ...resData] })
 
       return
     }
@@ -95,25 +100,30 @@ export const Feed: React.FC<Feed> = ({
 
       if (!resData?.posts) return
 
-      setPosts((prevState) => [
-        ...(prevState ? prevState : []),
-        ...(resData?.posts ? resData.posts : []),
-      ])
-
       if (resData && resData.posts.length < 5) {
         setAllPostsLoaded(true)
       } else if (resData && resData.posts.length > 0) {
         setSkip((prevState) => prevState + 5)
       }
 
+      setData({
+        ...data,
+        posts: [...data.posts, ...(resData?.posts ? resData.posts : [])],
+      })
+
       return
     }
 
     if (inView && user) userAction()
     else if (inView) currentUserAction()
-  }, [inView, user])
+  }, [inView])
 
-  if (posts.length < 1) {
+  // TODO: Make better loader (post card placeholder)
+  if (isLoading) {
+    return <LoaderCircle ref={ref} className="animate-spin self-center" />
+  }
+
+  if (data.posts.length < 1) {
     if (isCurrentUser) {
       return (
         <NoContentCard
@@ -133,7 +143,7 @@ export const Feed: React.FC<Feed> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      {posts.map((post) => (
+      {data.posts.map((post) => (
         <PostCard key={post.id} post={post} currentUser={currentUser} />
       ))}
       {!allPostsLoaded && (
