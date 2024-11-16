@@ -34,7 +34,7 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const [posts, setPosts] = useState(initialPosts)
+  const [posts, setPosts] = useState(initialPosts || [])
   const [skip, setSkip] = useState(0)
   const [ref, inView] = useInView()
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
@@ -42,7 +42,9 @@ export const Feed: React.FC<Feed> = ({
   useEffect(() => {
     if (
       initialPosts &&
+      initialPosts.length > 0 &&
       posts &&
+      posts.length > 0 &&
       initialPosts[0].createdAt > posts[0].createdAt
     ) {
       setPosts((prevState) => [
@@ -111,8 +113,7 @@ export const Feed: React.FC<Feed> = ({
     else if (inView) currentUserAction()
   }, [inView, user])
 
-  if (!posts || posts.length === 0) {
-    setAllPostsLoaded(true)
+  if (posts.length < 1) {
     if (isCurrentUser) {
       return (
         <NoContentCard
