@@ -58,9 +58,9 @@ export const userReadCurrentUser = async (
 }
 
 // Obtains currently logged in user from session
-export const userReadCurrentUserFeed = async () => {
+export const userReadCurrentUserFeed = async (reqParams?: string) => {
   return await serverRequestServer<Post[]>({
-    endpoint: USERS_CURRENT_USER_FEED,
+    endpoint: `${USERS_CURRENT_USER_FEED}${reqParams}`,
     method: 'get',
   })
 }

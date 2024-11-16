@@ -19,7 +19,7 @@ const FeedPage: React.FC = async () => {
     return <NoContentCard heading="Error!" subheading={message} />
   }
 
-  const posts = await userReadCurrentUserFeed()
+  const posts = await userReadCurrentUserFeed('?skip=0&take=5')
 
   return (
     <div className="flex gap-8 relative">
@@ -35,7 +35,7 @@ const FeedPage: React.FC = async () => {
         {posts && posts.data ? (
           <Feed
             isCurrentUser={true}
-            posts={posts.data}
+            initialPosts={posts.data}
             currentUser={currentUser}
           />
         ) : (
