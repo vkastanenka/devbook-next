@@ -37,7 +37,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
-  const { data, setData } = useFeedStore()
+  const { deleteFeedPost } = useFeedStore()
 
   if (currentUser.id !== post.userId) return null
 
@@ -53,10 +53,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
       return
     }
 
-    const filteredPosts = data.posts.filter(
-      (storePost) => storePost.id !== post.id
-    )
-    setData({ ...data, posts: [...filteredPosts] })
+    deleteFeedPost(post)
 
     toast({
       title: 'Success!',

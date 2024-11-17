@@ -35,7 +35,7 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const { data, setData } = useFeedStore()
+  const { feedPosts, addFeedPost, setFeedPosts } = useFeedStore()
 
   const [skip, setSkip] = useState(0)
   const [ref, inView] = useInView()
@@ -43,7 +43,7 @@ export const Feed: React.FC<Feed> = ({
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
   useEffect(() => {
-    setData({ ...data, posts: initialPosts || [] })
+    setFeedPosts(initialPosts || [])
     setIsLoading(false)
   }, [])
 
@@ -52,10 +52,10 @@ export const Feed: React.FC<Feed> = ({
     if (
       initialPosts &&
       initialPosts.length > 0 &&
-      data.posts.length > 0 &&
-      initialPosts[0].createdAt > data.posts[0].createdAt
+      feedPosts.length > 0 &&
+      initialPosts[0].createdAt > feedPosts[0].createdAt
     ) {
-      setData({ ...data, posts: [initialPosts[0], ...data.posts] })
+      addFeedPost(initialPosts[0])
     }
   }, [initialPosts])
 
@@ -75,7 +75,7 @@ export const Feed: React.FC<Feed> = ({
         setSkip((prevState) => prevState + 5)
       }
 
-      setData({ ...data, posts: [...data.posts, ...resData] })
+      setFeedPosts([...feedPosts, ...resData])
 
       return
     }
@@ -106,10 +106,7 @@ export const Feed: React.FC<Feed> = ({
         setSkip((prevState) => prevState + 5)
       }
 
-      setData({
-        ...data,
-        posts: [...data.posts, ...(resData?.posts ? resData.posts : [])],
-      })
+      setFeedPosts([...feedPosts, ...(resData?.posts ? resData.posts : [])])
 
       return
     }
@@ -123,7 +120,7 @@ export const Feed: React.FC<Feed> = ({
     return <LoaderCircle ref={ref} className="animate-spin self-center" />
   }
 
-  if (data.posts.length < 1) {
+  if (feedPosts.length < 1) {
     if (isCurrentUser) {
       return (
         <NoContentCard
@@ -143,7 +140,7 @@ export const Feed: React.FC<Feed> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      {data.posts.map((post) => (
+      {feedPosts.map((post) => (
         <PostCard key={post.id} post={post} currentUser={currentUser} />
       ))}
       {!allPostsLoaded && (

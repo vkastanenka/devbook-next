@@ -24,7 +24,7 @@ import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
-import { Post, PostLike } from '@/src/types/post-types'
+import { Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
 interface PostActionButtons {
@@ -41,20 +41,14 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const pathname = usePathname()
   const { toast } = useToast()
   const { onOpen } = useModal()
-  const { data, setData } = useFeedStore()
+  const { addFeedPostLike, deleteFeedPostLike } = useFeedStore()
 
   const styleButton =
     'button-text gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
 
-  let postLikeId: string | undefined
-
-  post.postLikes?.every((postLike) => {
-    if (postLike.userId === currentUser.id) {
-      postLikeId = postLike.id
-      return false
-    }
-    return true
-  })
+  const currentUserPostLike = post.postLikes?.find(
+    (postLike) => postLike.userId === currentUser.id
+  )
 
   const likePost = async () => {
     const response = await postCreateCurrentUserPostLike({
@@ -71,24 +65,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       return
     }
 
-    const updatedPost = {
-      ...post,
-      postLikes: [
-        response.data,
-        ...(post.postLikes ? post.postLikes : []),
-      ] as PostLike[],
-      _count: {
-        ...(post._count ? post._count : {}),
-        postLikes: (post._count?.postLikes && post._count.postLikes + 1) || 1,
-      },
-    } as Post
-
-    const updatedPosts = data.posts.map((post) => {
-      if (post.id === updatedPost.id) return updatedPost
-      else return post
-    })
-
-    setData({ ...data, posts: updatedPosts })
+    addFeedPostLike(response.data)
 
     toast({
       title: 'Success!',
@@ -98,39 +75,28 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   }
 
   const dislikePost = async () => {
-    const response = await postDeleteCurrentUserPostLike(postLikeId || '')
+    if (currentUserPostLike) {
+      const response = await postDeleteCurrentUserPostLike(
+        currentUserPostLike.id
+      )
 
-    if (!response.success) {
+      if (!response.success) {
+        toast({
+          title: 'Error!',
+          description: response.message,
+          variant: 'destructive',
+        })
+        return
+      }
+
+      deleteFeedPostLike(currentUserPostLike)
+
       toast({
-        title: 'Error!',
+        title: 'Success!',
+        variant: 'success',
         description: response.message,
-        variant: 'destructive',
       })
-      return
     }
-
-    const updatedPost = {
-      ...post,
-      postLikes:
-        post.postLikes?.filter((postLike) => postLike.id !== postLikeId) || [],
-      _count: {
-        ...(post._count ? post._count : {}),
-        postLikes: (post._count?.postLikes && post._count.postLikes - 1) || 0,
-      },
-    } as Post
-
-    const updatedPosts = data.posts.map((post) => {
-      if (post.id === updatedPost.id) return updatedPost
-      else return post
-    })
-
-    setData({ ...data, posts: updatedPosts })
-
-    toast({
-      title: 'Success!',
-      variant: 'success',
-      description: response.message,
-    })
   }
 
   return (
@@ -139,11 +105,11 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
         <div className="flex items-center gap-2">
           <button
             className={styleButton}
-            onClick={postLikeId ? dislikePost : likePost}
+            onClick={currentUserPostLike ? dislikePost : likePost}
           >
-            {postLikeId ? <ThumbsDown /> : <ThumbsUp />}
+            {currentUserPostLike ? <ThumbsDown /> : <ThumbsUp />}
             <div className="hidden md:block">
-              {postLikeId ? 'Unlike' : 'Like'}
+              {currentUserPostLike ? 'Unlike' : 'Like'}
             </div>
           </button>
           <button
