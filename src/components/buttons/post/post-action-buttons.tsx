@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 
 // utils
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
@@ -38,6 +38,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   currentUser,
   post,
 }) => {
+  const router = useRouter()
   const pathname = usePathname()
   const { toast } = useToast()
   const { onOpen } = useModal()
@@ -65,6 +66,8 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       return
     }
 
+    router.refresh()
+
     addFeedPostLike(response.data)
 
     toast({
@@ -88,6 +91,8 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
         })
         return
       }
+
+      router.refresh()
 
       deleteFeedPostLike(currentUserPostLike)
 

@@ -53,6 +53,8 @@ export const PostCurrentUserOptionsButtons: React.FC<
       return
     }
 
+    router.refresh()
+
     deleteFeedPost(post)
 
     toast({

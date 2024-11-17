@@ -20,6 +20,7 @@ import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
@@ -40,6 +41,7 @@ import {
 } from '@/src/validation/post-validation'
 
 export const PostForm = () => {
+  const router = useRouter()
   const { toast } = useToast()
   const {
     onClose,
@@ -80,6 +82,8 @@ export const PostForm = () => {
           return
         }
 
+        router.refresh()
+
         response.data.user = currentUser
 
         addFeedPost(response.data)
@@ -110,6 +114,8 @@ export const PostForm = () => {
           })
           return
         }
+
+        router.refresh()
 
         response.data.user = currentUser
 

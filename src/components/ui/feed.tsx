@@ -8,6 +8,7 @@ import {
 
 // components
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
+import { NoContentPostCard } from '@/src/components/cards/no-content/no-content-post-card'
 import { PostCard } from '@/src/components/cards/post/post-card'
 
 // svg
@@ -115,9 +116,18 @@ export const Feed: React.FC<Feed> = ({
     else if (inView) currentUserAction()
   }, [inView])
 
-  // TODO: Make better loader (post card placeholder)
-  if (isLoading) {
+  if (isLoading && !initialPosts) {
     return <LoaderCircle ref={ref} className="animate-spin self-center" />
+  }
+
+  if (isLoading && initialPosts) {
+    return (
+      <div className="flex flex-col gap-4">
+        {initialPosts.map((post) => (
+          <NoContentPostCard key={post.id} />
+        ))}
+      </div>
+    )
   }
 
   if (feedPosts.length < 1) {

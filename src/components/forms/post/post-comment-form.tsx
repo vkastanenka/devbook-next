@@ -21,9 +21,10 @@ import { Button } from '@/src/components/ui/button'
 // utils
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
-import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
@@ -44,6 +45,7 @@ export const CommentForm = () => {
   const { toast } = useToast()
   const { data, onClose } = useModal()
   const { comment, parentComment, post, user: currentUser } = data
+  const { addFeedPostComment, updateFeedPostComment } = useFeedStore()
 
   const form = useForm({
     resolver: zodResolver(
@@ -71,7 +73,7 @@ export const CommentForm = () => {
 
         const response = await postCreateCurrentUserComment(reqBody)
 
-        if (!response.success) {
+        if (!response.data) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -81,6 +83,8 @@ export const CommentForm = () => {
         }
 
         router.refresh()
+
+        addFeedPostComment(response.data)
 
         toast({
           title: 'Success!',
@@ -110,6 +114,8 @@ export const CommentForm = () => {
         }
 
         router.refresh()
+
+        updateFeedPostComment(comment)
 
         toast({
           title: 'Success!',
