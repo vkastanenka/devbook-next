@@ -61,7 +61,7 @@ export const Feed: React.FC<Feed> = ({
 
   useEffect(() => {
     const currentUserAction = async () => {
-      const nextSkip = skip + 1
+      const nextSkip = skip + 5
 
       const { data: resData } = await userReadCurrentUserFeed(
         `?skip=${nextSkip}&take=5`

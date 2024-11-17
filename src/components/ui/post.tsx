@@ -64,13 +64,13 @@ export const PostActivity: React.FC<PostUi> = ({ className, post }) => {
         <div className="flex justify-center gap-1">
           <ThumbsUp className="w-4" />
           <p className="muted">
-            {post._count?.postLikes ? post._count?.postLikes : 0}
+            {post._count && post._count.postLikes ? post._count.postLikes : 0}
           </p>
         </div>
         <div className="flex justify-center gap-1">
           <MessageSquareText className="w-4" />
           <p className="muted">
-            {post._count?.comments ? post._count?.comments : 0}
+            {post._count && post._count.comments ? post._count.comments : 0}
           </p>
         </div>
       </div>

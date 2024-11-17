@@ -20,7 +20,7 @@ import { Button } from '@/src/components/ui/button'
 
 // utils
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
+import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,12 +40,12 @@ import {
 } from '@/src/validation/post-validation'
 
 export const PostForm = () => {
-  const router = useRouter()
   const { toast } = useToast()
   const {
     onClose,
     data: { post, user: currentUser },
   } = useModal()
+  const { data: feedStoreData, setData: setFeedStoreData } = useFeedStore()
 
   const form = useForm({
     resolver: zodResolver(
@@ -71,7 +71,7 @@ export const PostForm = () => {
 
         const response = await postCreateCurrentUserPost(reqBody)
 
-        if (!response.success) {
+        if (!response.data) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -80,7 +80,12 @@ export const PostForm = () => {
           return
         }
 
-        router.refresh()
+        response.data.user = currentUser
+
+        setFeedStoreData({
+          ...feedStoreData,
+          posts: [response.data, ...feedStoreData.posts],
+        })
 
         toast({
           title: 'Success!',
@@ -100,7 +105,7 @@ export const PostForm = () => {
           formData as PostUpdatePostReqBody
         )
 
-        if (!response.success) {
+        if (!response.data) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -109,7 +114,20 @@ export const PostForm = () => {
           return
         }
 
-        router.refresh()
+        response.data.user = currentUser
+
+        feedStoreData.posts.every((post, i) => {
+          if (post.id === response.data?.id) {
+            feedStoreData.posts[i] = response.data
+            return false
+          }
+          return true
+        })
+
+        setFeedStoreData({
+          ...feedStoreData,
+          posts: [...feedStoreData.posts],
+        })
 
         toast({
           title: 'Success!',

@@ -113,7 +113,7 @@ export const postReadPost = async (
 export const postCreateCurrentUserPost = async (
   reqBody: PostCreatePostReqBody
 ) => {
-  return await serverRequestServer<Comment, PostCreatePostReqBody>({
+  return await serverRequestServer<Post, PostCreatePostReqBody>({
     data: reqBody,
     endpoint: `${POSTS_CURRENT_USER_POST}`,
     method: 'post',

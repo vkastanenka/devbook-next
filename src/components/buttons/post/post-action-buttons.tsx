@@ -18,12 +18,13 @@ import {
 } from 'lucide-react'
 
 // utils
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { useFeedStore } from '@/src/hooks/use-feed-store'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
-import { Post } from '@/src/types/post-types'
+import { Post, PostLike } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
 interface PostActionButtons {
@@ -37,10 +38,10 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   currentUser,
   post,
 }) => {
-  const router = useRouter()
   const pathname = usePathname()
   const { toast } = useToast()
   const { onOpen } = useModal()
+  const { data, setData } = useFeedStore()
 
   const styleButton =
     'button-text gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
@@ -56,16 +57,48 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   })
 
   const likePost = async () => {
-    let response
+    const response = await postCreateCurrentUserPostLike({
+      postId: post.id,
+      userId: currentUser.id,
+    })
 
-    if (postLikeId) {
-      response = await postDeleteCurrentUserPostLike(postLikeId)
-    } else {
-      response = await postCreateCurrentUserPostLike({
-        postId: post.id,
-        userId: currentUser.id,
+    if (!response.data) {
+      toast({
+        title: 'Error!',
+        description: response.message,
+        variant: 'destructive',
       })
+      return
     }
+
+    const updatedPost = {
+      ...post,
+      postLikes: [
+        response.data,
+        ...(post.postLikes ? post.postLikes : []),
+      ] as PostLike[],
+      _count: {
+        ...(post._count ? post._count : {}),
+        postLikes: (post._count?.postLikes && post._count.postLikes + 1) || 1,
+      },
+    } as Post
+
+    const updatedPosts = data.posts.map((post) => {
+      if (post.id === updatedPost.id) return updatedPost
+      else return post
+    })
+
+    setData({ ...data, posts: updatedPosts })
+
+    toast({
+      title: 'Success!',
+      variant: 'success',
+      description: response.message,
+    })
+  }
+
+  const dislikePost = async () => {
+    const response = await postDeleteCurrentUserPostLike(postLikeId || '')
 
     if (!response.success) {
       toast({
@@ -76,7 +109,22 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       return
     }
 
-    router.refresh()
+    const updatedPost = {
+      ...post,
+      postLikes:
+        post.postLikes?.filter((postLike) => postLike.id !== postLikeId) || [],
+      _count: {
+        ...(post._count ? post._count : {}),
+        postLikes: (post._count?.postLikes && post._count.postLikes - 1) || 0,
+      },
+    } as Post
+
+    const updatedPosts = data.posts.map((post) => {
+      if (post.id === updatedPost.id) return updatedPost
+      else return post
+    })
+
+    setData({ ...data, posts: updatedPosts })
 
     toast({
       title: 'Success!',
@@ -89,7 +137,10 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     <div className={className}>
       <div className="flex items-center justify-between gap-1 w-full">
         <div className="flex items-center gap-2">
-          <button className={styleButton} onClick={likePost}>
+          <button
+            className={styleButton}
+            onClick={postLikeId ? dislikePost : likePost}
+          >
             {postLikeId ? <ThumbsDown /> : <ThumbsUp />}
             <div className="hidden md:block">
               {postLikeId ? 'Unlike' : 'Like'}
