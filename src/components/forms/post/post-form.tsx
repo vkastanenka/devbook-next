@@ -47,7 +47,12 @@ export const PostForm = () => {
     onClose,
     data: { post, user: currentUser },
   } = useModal()
-  const { addFeedPost, updateFeedPost } = useFeedStore()
+  const {
+    feedCurrentPost,
+    addFeedPost,
+    updateFeedPost,
+    updateFeedCurrentPost,
+  } = useFeedStore()
 
   const form = useForm({
     resolver: zodResolver(
@@ -119,7 +124,8 @@ export const PostForm = () => {
 
         response.data.user = currentUser
 
-        updateFeedPost(response.data)
+        if (feedCurrentPost) updateFeedCurrentPost(response.data)
+        else updateFeedPost(response.data)
 
         toast({
           title: 'Success!',

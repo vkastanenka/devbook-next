@@ -90,6 +90,8 @@ export const CommentForm = () => {
 
         router.refresh()
 
+        response.data.user = currentUser
+
         if (feedCurrentPost) addFeedCurrentPostComment(response.data)
         else addFeedPostComment(response.data)
 

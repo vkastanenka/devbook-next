@@ -36,7 +36,7 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const { feedPosts, addFeedPost, setFeedPosts, setFeedCurrentPost } =
+  const { feedPosts, setFeedPosts } =
     useFeedStore()
 
   const [skip, setSkip] = useState(0)
@@ -45,22 +45,9 @@ export const Feed: React.FC<Feed> = ({
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
   useEffect(() => {
-    setFeedCurrentPost(undefined)
-    setFeedPosts(initialPosts || [])
+    if (feedPosts.length < 1) setFeedPosts(initialPosts || [])
     setIsLoading(false)
   }, [])
-
-  // Update state when user creates a post
-  useEffect(() => {
-    if (
-      initialPosts &&
-      initialPosts.length > 0 &&
-      feedPosts.length > 0 &&
-      initialPosts[0].createdAt > feedPosts[0].createdAt
-    ) {
-      addFeedPost(initialPosts[0])
-    }
-  }, [initialPosts])
 
   useEffect(() => {
     const currentUserAction = async () => {

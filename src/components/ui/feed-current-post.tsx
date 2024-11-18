@@ -1,22 +1,14 @@
 'use client'
 
-// actions
-import { postReadComment, postReadPost } from '@/src/actions/post-actions'
-import { userReadCurrentUser } from '@/src/actions/user-actions'
-
 // components
-import Link from 'next/link'
 import { PostComments } from '@/src/components/ui/post-comments'
 import { PostCard } from '@/src/components/cards/post/post-card'
-import { CurrentUserContactsCard } from '@/src/components/cards/user/current-user-contacts-card'
-import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
 
 // svg
-import { CircleArrowLeft, LoaderCircle } from 'lucide-react'
+import { LoaderCircle } from 'lucide-react'
 
 // utils
 import { useEffect, useState } from 'react'
-import { redirect } from 'next/navigation'
 import { cn } from '@/src/lib/utils'
 import { useFeedStore } from '@/src/hooks/use-feed-store'
 
@@ -47,6 +39,7 @@ export const FeedCurrentPost: React.FC<FeedCurrentPost> = ({
   useEffect(() => {
     setFeedCurrentPost(post)
     setIsLoading(false)
+    return () => setFeedCurrentPost(undefined)
   }, [])
 
   return (

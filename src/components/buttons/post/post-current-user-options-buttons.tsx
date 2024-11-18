@@ -56,7 +56,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
     router.refresh()
 
     if (feedCurrentPost) setFeedCurrentPost(undefined)
-    else deleteFeedPost(post)
+    deleteFeedPost(post)
 
     toast({
       title: 'Success!',

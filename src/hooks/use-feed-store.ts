@@ -8,6 +8,7 @@ import { Comment, CommentLike, Post, PostLike } from '@/src/types/post-types'
 interface FeedStore {
   feedCurrentPost?: Post
   setFeedCurrentPost: (payload: Post | undefined) => void
+  updateFeedCurrentPost: (payload: Post) => void
   addFeedCurrentPostComment: (payload: Comment) => void
   updateFeedCurrentPostComment: (payload: Comment) => void
   deleteFeedCurrentPostComment: (payload: Comment) => void
@@ -29,7 +30,14 @@ export const useFeedStore = create<FeedStore>()(
   immer((set) => ({
     feedCurrentPost: undefined,
     setFeedCurrentPost: (payload: Post | undefined) =>
-      set((state) => (state.feedCurrentPost = payload)),
+      set((state) => {
+        state.feedCurrentPost = payload
+      }),
+    updateFeedCurrentPost: (payload: Post) =>
+      set(
+        ({ feedCurrentPost }) =>
+          feedCurrentPost && updatePost(feedCurrentPost, payload)
+      ),
     addFeedCurrentPostComment: (payload: Comment) =>
       set(
         ({ feedCurrentPost }) =>
@@ -131,11 +139,13 @@ const addComment = (post: Post, payload: Comment) => {
 }
 
 const updateComment = (post: Post, payload: Comment) => {
-  if (!payload.parentCommentId && post.comments) {
-    const postCommentIdx = post.comments.findIndex(
-      (comment) => comment.id === payload.id
-    )
-    post.comments.splice(postCommentIdx, 1, payload)
+  if (post.comments) {
+    if (!payload.parentCommentId) {
+      const postComment = post.comments.find(
+        (comment) => comment.id === payload.id
+      )
+      if (postComment) postComment.body = payload.body
+    }
   }
 
   // Subcomments => Obtain parent comment through .flat() and update?
