@@ -36,7 +36,8 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const { feedPosts, addFeedPost, setFeedPosts } = useFeedStore()
+  const { feedPosts, addFeedPost, setFeedPosts, setFeedCurrentPost } =
+    useFeedStore()
 
   const [skip, setSkip] = useState(0)
   const [ref, inView] = useInView()
@@ -44,6 +45,7 @@ export const Feed: React.FC<Feed> = ({
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
   useEffect(() => {
+    setFeedCurrentPost(undefined)
     setFeedPosts(initialPosts || [])
     setIsLoading(false)
   }, [])

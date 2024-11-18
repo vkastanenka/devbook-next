@@ -42,7 +42,13 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const pathname = usePathname()
   const { toast } = useToast()
   const { onOpen } = useModal()
-  const { addFeedPostLike, deleteFeedPostLike } = useFeedStore()
+  const {
+    feedCurrentPost,
+    addFeedPostLike,
+    deleteFeedPostLike,
+    addFeedCurrentPostLike,
+    deleteFeedCurrentPostLike,
+  } = useFeedStore()
 
   const styleButton =
     'button-text gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
@@ -68,7 +74,8 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
 
     router.refresh()
 
-    addFeedPostLike(response.data)
+    if (feedCurrentPost) addFeedCurrentPostLike(response.data)
+    else addFeedPostLike(response.data)
 
     toast({
       title: 'Success!',
@@ -94,7 +101,8 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
 
       router.refresh()
 
-      deleteFeedPostLike(currentUserPostLike)
+      if (feedCurrentPost) deleteFeedCurrentPostLike(currentUserPostLike)
+      else deleteFeedPostLike(currentUserPostLike)
 
       toast({
         title: 'Success!',

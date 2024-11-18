@@ -45,7 +45,13 @@ export const CommentForm = () => {
   const { toast } = useToast()
   const { data, onClose } = useModal()
   const { comment, parentComment, post, user: currentUser } = data
-  const { addFeedPostComment, updateFeedPostComment } = useFeedStore()
+  const {
+    feedCurrentPost,
+    addFeedPostComment,
+    updateFeedPostComment,
+    addFeedCurrentPostComment,
+    updateFeedCurrentPostComment,
+  } = useFeedStore()
 
   const form = useForm({
     resolver: zodResolver(
@@ -84,7 +90,8 @@ export const CommentForm = () => {
 
         router.refresh()
 
-        addFeedPostComment(response.data)
+        if (feedCurrentPost) addFeedCurrentPostComment(response.data)
+        else addFeedPostComment(response.data)
 
         toast({
           title: 'Success!',
@@ -104,7 +111,7 @@ export const CommentForm = () => {
           formData as PostUpdateCommentReqBody
         )
 
-        if (!response.success) {
+        if (!response.data) {
           toast({
             title: 'Error!',
             description: response.message,
@@ -115,7 +122,8 @@ export const CommentForm = () => {
 
         router.refresh()
 
-        updateFeedPostComment(comment)
+        if (feedCurrentPost) updateFeedCurrentPostComment(response.data)
+        else updateFeedPostComment(response.data)
 
         toast({
           title: 'Success!',

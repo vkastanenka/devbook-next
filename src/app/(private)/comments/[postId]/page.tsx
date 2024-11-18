@@ -8,6 +8,7 @@ import { PostComments } from '@/src/components/ui/post-comments'
 import { PostCard } from '@/src/components/cards/post/post-card'
 import { CurrentUserContactsCard } from '@/src/components/cards/user/current-user-contacts-card'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
+import { FeedCurrentPost } from '@/src/components/ui/feed-current-post'
 
 // svg
 import { CircleArrowLeft } from 'lucide-react'
@@ -105,19 +106,13 @@ const CommentsPage: React.FC<CommentsPage> = async ({
         >
           <CircleArrowLeft />
         </Link>
-        <div className="w-full flex flex-col gap-8">
-          <PostCard
-            post={readPostResData}
-            currentUser={readCurrentUserResData}
-            onDeleteRedirectPath="/feed"
-          />
-          <PostComments
-            parentComment={parentComment}
-            post={readPostResData}
-            currentUser={readCurrentUserResData}
-            subCommentLayerLimit={SUB_COMMENT_LAYER_LIMIT}
-          />
-        </div>
+        <FeedCurrentPost
+          className="w-full"
+          post={readPostResData}
+          currentUser={readCurrentUserResData}
+          parentComment={parentComment}
+          subCommentLayerLimit={SUB_COMMENT_LAYER_LIMIT}
+        />
       </div>
 
       <div className="hidden lg:block lg:basis-1/3 xl:basis-1/4">
