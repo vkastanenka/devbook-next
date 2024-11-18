@@ -1,26 +1,20 @@
-'use client'
+// actions
+import { userReadCurrentUser } from '@/src/actions/user-actions'
 
 // components
-import { NoContentSearchResultsCard } from '@/src/components/cards/no-content/no-content-search-results-card'
-import { SearchResultUserCard } from '@/src/components/cards/search/search-result-user-card'
+import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
+import { SearchResults } from '@/src/components/ui/search-results'
 
-// utils
-import { useLayoutStore } from '@/src/hooks/use-layout-store'
+const SearchPage = async () => {
+  const { data: currentUser, message } = await userReadCurrentUser({
+    include: { contacts: { orderBy: { createdAt: 'desc' } } },
+  })
 
-const SearchPage = () => {
-  const { searchDevbookResults } = useLayoutStore()
-
-  if (!searchDevbookResults?.length) {
-    return <NoContentSearchResultsCard />
+  if (!currentUser) {
+    return <NoContentCard heading="Error!" subheading={message} />
   }
 
-  return (
-    <div className="flex flex-col gap-8">
-      {searchDevbookResults.map((user) => (
-        <SearchResultUserCard key={user.id} user={user} />
-      ))}
-    </div>
-  )
+  return <SearchResults currentUser={currentUser} />
 }
 
 export default SearchPage

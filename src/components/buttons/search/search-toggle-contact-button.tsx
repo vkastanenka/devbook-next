@@ -3,38 +3,39 @@
 // actions
 import { userToggleContact } from '@/src/actions/user-actions'
 
-// svg
-import { UserPlus, UserMinus } from 'lucide-react'
+// components
+import { Button } from '@/src/components/ui/button'
 
 // utils
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useToast } from '@/src/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
 // types
 import { User } from '@/src/types/user-types'
 
-interface UserEditContactButton {
+interface SearchToggleContactButton {
   user: User
   currentUser: User
 }
 
-export const UserEditContactButton: React.FC<UserEditContactButton> = ({
+export const SearchToggleContactButton: React.FC<SearchToggleContactButton> = ({
   user,
   currentUser,
 }) => {
   const router = useRouter()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [isContact, setIsContact] = useState<boolean>()
 
-  let isContact
-  user?.contacts?.every((contact) => {
-    if (contact.id === currentUser.id) {
-      isContact = true
-      return false
+  useEffect(() => {
+    const contactIdx = user?.contacts?.findIndex(
+      (contact) => contact.id === currentUser?.id
+    )
+    if (typeof contactIdx === 'number' && contactIdx > -1) {
+      setIsContact(true)
     }
-    return true
-  })
+  }, [currentUser?.id, user?.contacts])
 
   const toggleContact = async () => {
     setIsSubmitting(true)
@@ -49,7 +50,11 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
         description: response.message,
         variant: 'destructive',
       })
+      return
     }
+
+    if (isContact) setIsContact(false)
+    else setIsContact(true)
 
     router.refresh()
 
@@ -60,12 +65,8 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
   }
 
   return (
-    <button
-      disabled={isSubmitting}
-      className="button-text absolute top-4 right-4"
-      onClick={toggleContact}
-    >
-      {isContact ? <UserMinus /> : <UserPlus />}
-    </button>
+    <Button disabled={isSubmitting} onClick={toggleContact}>
+      {isContact ? 'Remove Contact' : 'Add Contact'}
+    </Button>
   )
 }

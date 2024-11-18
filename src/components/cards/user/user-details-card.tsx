@@ -24,17 +24,6 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
 }) => {
   const isCurrentUser = currentUser.id === user.id
 
-  let isContact
-  if (!isCurrentUser && user.contacts && user.contacts.length > 0) {
-    user.contacts.every((contact) => {
-      if (contact.id === currentUser.id) {
-        isContact = true
-        return false
-      }
-      return true
-    })
-  }
-
   return (
     <Card className="card flex flex-col gap-2 relative">
       {isCurrentUser && isEditable && (
@@ -44,7 +33,7 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
         />
       )}
       {!isCurrentUser && (
-        <UserEditContactButton isContact={isContact} user={user} />
+        <UserEditContactButton user={user} currentUser={currentUser} />
       )}
       <UserAvatar className="avatar-lg" user={user} />
       <div>
