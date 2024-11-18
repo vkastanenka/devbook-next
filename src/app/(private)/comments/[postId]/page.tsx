@@ -69,14 +69,14 @@ const CommentsPage: React.FC<CommentsPage> = async ({
   }
 
   let parentComment: Comment | undefined
-  let isParentCommentTopLayer: boolean = true
+  let isParentCommentTopLayer: boolean = false
 
   readPostResData.comments?.every((comment) => {
-    if (comment.id !== parentCommentId) {
-      isParentCommentTopLayer = false
-      return isParentCommentTopLayer
+    if (comment.id === parentCommentId) {
+      isParentCommentTopLayer = true
+      return false
     }
-    return isParentCommentTopLayer
+    return true
   })
 
   if (parentCommentId && !isParentCommentTopLayer) {
@@ -106,13 +106,19 @@ const CommentsPage: React.FC<CommentsPage> = async ({
         >
           <CircleArrowLeft />
         </Link>
-        <FeedCurrentPost
-          className="w-full"
-          post={readPostResData}
-          currentUser={readCurrentUserResData}
-          parentComment={parentComment}
-          subCommentLayerLimit={SUB_COMMENT_LAYER_LIMIT}
-        />
+        <div className="w-full flex flex-col gap-8">
+          <PostCard
+            post={readPostResData}
+            currentUser={readCurrentUserResData}
+            onDeleteRedirectPath="/feed"
+          />
+          <PostComments
+            parentComment={parentComment}
+            post={readPostResData}
+            currentUser={readCurrentUserResData}
+            subCommentLayerLimit={SUB_COMMENT_LAYER_LIMIT}
+          />
+        </div>
       </div>
 
       <div className="hidden lg:block lg:basis-1/3 xl:basis-1/4">

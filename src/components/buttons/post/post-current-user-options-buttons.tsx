@@ -37,7 +37,7 @@ export const PostCurrentUserOptionsButtons: React.FC<
   const router = useRouter()
   const { toast } = useToast()
   const { onOpen } = useModal()
-  const { feedCurrentPost, deleteFeedPost, setFeedCurrentPost } = useFeedStore()
+  const { deleteFeedPost } = useFeedStore()
 
   if (currentUser.id !== post.userId) return null
 
@@ -55,7 +55,6 @@ export const PostCurrentUserOptionsButtons: React.FC<
 
     router.refresh()
 
-    if (feedCurrentPost) setFeedCurrentPost(undefined)
     deleteFeedPost(post)
 
     toast({

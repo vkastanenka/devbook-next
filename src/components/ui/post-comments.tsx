@@ -68,7 +68,6 @@ export const PostComments: React.FC<PostComments> = ({
       {parentComment && (
         <PostComment
           post={post}
-          subCommentLimitProp={100}
           comment={parentComment}
           currentUser={currentUser}
           subCommentLayerLimit={subCommentLayerLimit}
@@ -164,7 +163,7 @@ export const PostComment: React.FC<PostComment> = ({
         </div>
       </div>
 
-      {hasSubComments && subCommentLimit > 0 ? (
+      {hasSubComments && subCommentLimit > subCommentLimitProp ? (
         <div className="flex items-start flex-col gap-6 pl-[44px]">
           {comment.subComments?.slice(0, subCommentLimit).map((subComment) => (
             <div key={subComment.id} className="relative">
@@ -184,8 +183,8 @@ export const PostComment: React.FC<PostComment> = ({
 
       {/* Show subcomments */}
       {comment.subComments &&
-      comment.subComments.length > subCommentLimit &&
-      subCommentLayer !== subCommentLayerLimit ? (
+      comment.subComments.length > 0 &&
+      comment.subComments.length > subCommentLimit ? (
         <div>
           <button
             className="muted flex items-center gap-2"
@@ -198,7 +197,9 @@ export const PostComment: React.FC<PostComment> = ({
       ) : null}
 
       {/* Hide subcomments */}
-      {comment.subComments && comment.subComments.length < subCommentLimit ? (
+      {comment.subComments &&
+      comment.subComments.length > 0 &&
+      comment.subComments.length < subCommentLimit ? (
         <div>
           <button
             className="muted flex items-center gap-2"

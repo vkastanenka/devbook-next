@@ -3,17 +3,9 @@ import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
 // types
-import { Comment, CommentLike, Post, PostLike } from '@/src/types/post-types'
+import { Comment, Post, PostLike } from '@/src/types/post-types'
 
 interface FeedStore {
-  feedCurrentPost?: Post
-  setFeedCurrentPost: (payload: Post | undefined) => void
-  updateFeedCurrentPost: (payload: Post) => void
-  addFeedCurrentPostComment: (payload: Comment) => void
-  updateFeedCurrentPostComment: (payload: Comment) => void
-  deleteFeedCurrentPostComment: (payload: Comment) => void
-  addFeedCurrentPostLike: (payload: PostLike) => void
-  deleteFeedCurrentPostLike: (payload: PostLike) => void
   feedPosts: Post[]
   setFeedPosts: (payload: Post[]) => void
   addFeedPost: (payload: Post) => void
@@ -22,47 +14,10 @@ interface FeedStore {
   addFeedPostLike: (payload: PostLike) => void
   deleteFeedPostLike: (payload: PostLike) => void
   addFeedPostComment: (payload: Comment) => void
-  updateFeedPostComment: (payload: Comment) => void
-  deleteFeedPostComment: (payload: Comment) => void
 }
 
 export const useFeedStore = create<FeedStore>()(
   immer((set) => ({
-    feedCurrentPost: undefined,
-    setFeedCurrentPost: (payload: Post | undefined) =>
-      set((state) => {
-        state.feedCurrentPost = payload
-      }),
-    updateFeedCurrentPost: (payload: Post) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && updatePost(feedCurrentPost, payload)
-      ),
-    addFeedCurrentPostComment: (payload: Comment) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && addComment(feedCurrentPost, payload)
-      ),
-    updateFeedCurrentPostComment: (payload: Comment) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && updateComment(feedCurrentPost, payload)
-      ),
-    deleteFeedCurrentPostComment: (payload: Comment) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && deleteComment(feedCurrentPost, payload)
-      ),
-    addFeedCurrentPostLike: (payload: PostLike) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && addPostLike(feedCurrentPost, payload)
-      ),
-    deleteFeedCurrentPostLike: (payload: PostLike) =>
-      set(
-        ({ feedCurrentPost }) =>
-          feedCurrentPost && deletePostLike(feedCurrentPost, payload)
-      ),
     feedPosts: [] as Post[],
     setFeedPosts: (payload: Post[]) =>
       set((state) => {
@@ -97,83 +52,23 @@ export const useFeedStore = create<FeedStore>()(
     addFeedPostComment: (payload: Comment) =>
       set(({ feedPosts }) => {
         const feedPost = feedPosts.find((post) => post.id === payload.postId)
-        if (feedPost) addComment(feedPost, payload)
-      }),
-    updateFeedPostComment: (payload: Comment) =>
-      set(({ feedPosts }) => {
-        const feedPost = feedPosts.find((post) => post.id === payload.postId)
-        if (feedPost) updateComment(feedPost, payload)
-      }),
-    deleteFeedPostComment: (payload: Comment) =>
-      set(({ feedPosts }) => {
-        const feedPost = feedPosts.find((post) => post.id === payload.postId)
-        if (feedPost) deleteComment(feedPost, payload)
+        if (feedPost) addComment(feedPost)
       }),
   }))
 )
 
 const updatePost = (post: Post, payload: Post) => {
   post.body = payload.body
+  post.updatedAt = payload.updatedAt
 }
 
-const addComment = (post: Post, payload: Comment) => {
+const addComment = (post: Post) => {
   // Add count
   const _count = {
     ...(post._count ? post._count : { comments: 0 }),
   }
   _count.comments = (_count.comments || 0) + 1
   post._count = _count
-
-  // Add comment
-  if (!payload.parentCommentId) {
-    if (!post.comments) post.comments = [payload]
-    else if (post.comments) post.comments.unshift(payload)
-  }
-
-  // Subcomments => Obtain parent comment through .flat() and update?
-  // if (feedPost && payload.parentCommentId) {
-  //   if (feedPost.comments) {
-  //     console.log(feedPost.comments.flat())
-  //   }
-  // }
-}
-
-const updateComment = (post: Post, payload: Comment) => {
-  if (post.comments) {
-    if (!payload.parentCommentId) {
-      const postComment = post.comments.find(
-        (comment) => comment.id === payload.id
-      )
-      if (postComment) postComment.body = payload.body
-    }
-  }
-
-  // Subcomments => Obtain parent comment through .flat() and update?
-  // if (feedPost && payload.parentCommentId) {
-  //   if (feedPost.comments) {
-  //     console.log(feedPost.comments.flat())
-  //   }
-  // }
-}
-
-const deleteComment = (post: Post, payload: Comment) => {
-  const _count = {
-    ...(post._count ? post._count : { comments: 1 }),
-  }
-  _count.comments = (_count.comments || 1) - 1
-  post._count = _count
-
-  if (post.comments && !payload.parentCommentId) {
-    const commentIdx = post.comments.indexOf(payload)
-    post.comments.splice(commentIdx, 1)
-  }
-
-  // Subcomments => Obtain parent comment through .flat() and delete?
-  // if (feedPost && payload.parentCommentId) {
-  //   if (feedPost.comments) {
-  //     console.log(feedPost.comments.flat())
-  //   }
-  // }
 }
 
 const addPostLike = (post: Post, payload: PostLike) => {

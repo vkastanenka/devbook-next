@@ -36,8 +36,7 @@ export const Feed: React.FC<Feed> = ({
   initialPosts,
   user,
 }) => {
-  const { feedPosts, setFeedPosts } =
-    useFeedStore()
+  const { feedPosts, setFeedPosts } = useFeedStore()
 
   const [skip, setSkip] = useState(0)
   const [ref, inView] = useInView()
@@ -47,6 +46,7 @@ export const Feed: React.FC<Feed> = ({
   useEffect(() => {
     if (feedPosts.length < 1) setFeedPosts(initialPosts || [])
     setIsLoading(false)
+    return () => setFeedPosts([])
   }, [])
 
   useEffect(() => {
