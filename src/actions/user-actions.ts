@@ -25,6 +25,7 @@ import {
 import {
   USERS_USERNAME,
   USERS_CURRENT_USER,
+  USERS_CURRENT_USER_TOGGLE_CONTACT,
   USERS_CURRENT_USER_EDUCATION,
   USERS_CURRENT_USER_EXPERIENCE,
   USERS_CURRENT_USER_FEED,
@@ -74,6 +75,14 @@ export const userUpdateCurrentUser = async (
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER}/${recordId}`,
     method: 'patch',
+  })
+}
+
+// Toggle contact
+export const userToggleContact = async (recordId: string) => {
+  return await serverRequestServer<User>({
+    endpoint: `${USERS_CURRENT_USER_TOGGLE_CONTACT}/${recordId}`,
+    method: 'post',
   })
 }
 

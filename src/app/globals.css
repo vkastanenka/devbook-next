@@ -118,7 +118,7 @@
   }
 
   .button-text {
-    @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-block;
+    @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-block p-1;
   }
 
   textarea {

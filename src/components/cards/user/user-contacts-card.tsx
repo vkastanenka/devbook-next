@@ -33,7 +33,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
           <div
             className={cn(
               'w-full',
-              renderedContacts.length > 0 && 'grid grid-cols-3 gap-4'
+              renderedContacts.length > 0 && 'grid grid-cols-3 gap-2 md:gap-4'
             )}
           >
             {renderedContacts.map((contact) => {

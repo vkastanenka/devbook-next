@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { UserAvatar } from '@/src/components/ui/avatar'
 
 // svg
-import { MessageSquareText, ThumbsUp } from 'lucide-react'
+import { MessageSquareText, ThumbsUp, CircleArrowLeft } from 'lucide-react'
 
 // utils
 import { format as formatDate, parseISO } from 'date-fns'
@@ -19,11 +19,20 @@ interface PostUi {
   post: Post
 }
 
-export const PostUser: React.FC<PostUi> = ({ className, post }) => {
+export const PostUser: React.FC<PostUi & { isCurrentPost?: boolean }> = ({
+  className,
+  post,
+  isCurrentPost,
+}) => {
   return (
     <div className={className}>
       {post.user ? (
-        <div className="inline-block">
+        <div className="flex items-center gap-2">
+          {isCurrentPost && (
+            <Link className="button-text p-1 xl:hidden block" href="/feed">
+              <CircleArrowLeft />
+            </Link>
+          )}
           <Link
             href={`/user/${post.user.username}`}
             className="button-text inline-flex items-center gap-2"

@@ -44,9 +44,8 @@ export const Feed: React.FC<Feed> = ({
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
   useEffect(() => {
-    if (feedPosts.length < 1) setFeedPosts(initialPosts || [])
+    setFeedPosts(initialPosts || [])
     setIsLoading(false)
-    return () => setFeedPosts([])
   }, [])
 
   useEffect(() => {

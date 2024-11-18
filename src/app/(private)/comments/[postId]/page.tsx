@@ -8,7 +8,6 @@ import { PostComments } from '@/src/components/ui/post-comments'
 import { PostCard } from '@/src/components/cards/post/post-card'
 import { CurrentUserContactsCard } from '@/src/components/cards/user/current-user-contacts-card'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
-import { FeedCurrentPost } from '@/src/components/ui/feed-current-post'
 
 // svg
 import { CircleArrowLeft } from 'lucide-react'
@@ -102,12 +101,13 @@ const CommentsPage: React.FC<CommentsPage> = async ({
       <div className="basis-full lg:basis-2/3 xl:basis-3/4 flex items-start gap-4 relative">
         <Link
           href="/feed"
-          className="flex gap-2 items-center text-accent p-2 absolute -left-12 top-0"
+          className="button-text hidden xl:flex gap-2 items-center p-1 absolute md:-left-9 top-card"
         >
           <CircleArrowLeft />
         </Link>
         <div className="w-full flex flex-col gap-8">
           <PostCard
+            isCurrentPost={true}
             post={readPostResData}
             currentUser={readCurrentUserResData}
             onDeleteRedirectPath="/feed"
@@ -130,7 +130,7 @@ const CommentsPage: React.FC<CommentsPage> = async ({
 
 export default CommentsPage
 
-const SUB_COMMENT_LAYER_LIMIT = 5
+const SUB_COMMENT_LAYER_LIMIT = 3
 
 const recursivelyIncludeSubcommentsQuery = (
   count: number,

@@ -10,12 +10,14 @@ import { Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
 
 interface PostCard {
+  isCurrentPost?: boolean
   post: Post
   currentUser: User
   onDeleteRedirectPath?: string
 }
 
 export const PostCard: React.FC<PostCard> = ({
+  isCurrentPost,
   post,
   currentUser,
   onDeleteRedirectPath,
@@ -30,7 +32,7 @@ export const PostCard: React.FC<PostCard> = ({
           className="absolute top-4 right-4"
         />
       )}
-      <PostUser className="px-4 md:px-card" post={post} />
+      <PostUser className="px-4 md:px-card" post={post} isCurrentPost={isCurrentPost} />
       <PostBody className="px-4 md:px-card" post={post} />
       <PostActivity className="px-4 md:px-card" post={post} />
       <Separator />

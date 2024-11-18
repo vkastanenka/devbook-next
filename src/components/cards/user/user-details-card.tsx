@@ -24,7 +24,6 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
 }) => {
   const isCurrentUser = currentUser.id === user.id
 
-  // Check if current user in user contacts // TODO: Better implementation
   let isContact
   if (!isCurrentUser && user.contacts && user.contacts.length > 0) {
     user.contacts.every((contact) => {
@@ -45,11 +44,7 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
         />
       )}
       {!isCurrentUser && (
-        <UserEditContactButton
-          currentUser={currentUser}
-          isContact={isContact}
-          user={user}
-        />
+        <UserEditContactButton isContact={isContact} user={user} />
       )}
       <UserAvatar className="avatar-lg" user={user} />
       <div>

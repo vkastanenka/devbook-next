@@ -28,6 +28,7 @@ export const SEARCH_DEVBOOK = `${SEARCH}/devbook`
 const USERS = '/users'
 export const USERS_USERNAME = `${USERS}/username`
 export const USERS_CURRENT_USER = `${USERS}/current-user/user`
+export const USERS_CURRENT_USER_TOGGLE_CONTACT = `${USERS}/current-user/toggle-contact`
 export const USERS_CURRENT_USER_FEED = `${USERS}/current-user/feed`
 export const USERS_CURRENT_USER_EDUCATION = `${USERS}/current-user/education`
 export const USERS_CURRENT_USER_EXPERIENCE = `${USERS}/current-user/experience`
