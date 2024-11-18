@@ -18,12 +18,15 @@ export const SearchResultUserCard: React.FC<SearchResultUserCard> = ({
 }) => {
   return (
     <Card className="card">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <Link
           href={`/user/${user.username}`}
-          className="button-text flex items-center gap-4"
+          className="button-text flex items-center gap-2 md:gap-4"
         >
-          <UserAvatar user={user} className="avatar-lg" />
+          <UserAvatar
+            user={user}
+            className="w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14"
+          />
           <div>
             <p className="h4">{user.name}</p>
             {user.headline && (
@@ -31,7 +34,11 @@ export const SearchResultUserCard: React.FC<SearchResultUserCard> = ({
             )}
           </div>
         </Link>
-        <SearchToggleContactButton user={user} currentUser={currentUser} />
+        <SearchToggleContactButton
+          className="w-full sm:w-auto"
+          user={user}
+          currentUser={currentUser}
+        />
       </div>
     </Card>
   )

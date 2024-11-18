@@ -17,11 +17,13 @@ import { User } from '@/src/types/user-types'
 interface SearchToggleContactButton {
   user: User
   currentUser: User
+  className?: string
 }
 
 export const SearchToggleContactButton: React.FC<SearchToggleContactButton> = ({
   user,
   currentUser,
+  className
 }) => {
   const router = useRouter()
   const { toast } = useToast()
@@ -65,7 +67,7 @@ export const SearchToggleContactButton: React.FC<SearchToggleContactButton> = ({
   }
 
   return (
-    <Button disabled={isSubmitting} onClick={toggleContact}>
+    <Button className={className} disabled={isSubmitting} onClick={toggleContact}>
       {isContact ? 'Remove Contact' : 'Add Contact'}
     </Button>
   )
