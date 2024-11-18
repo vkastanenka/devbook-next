@@ -33,15 +33,13 @@ interface ResetPasswordForm {
 export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
   resetPasswordToken,
 }) => {
-  const password = 'new-password'
-
   const router = useRouter()
   const { toast } = useToast()
 
   const form = useForm({
     resolver: zodResolver(authResetPasswordReqBodySchema),
     defaultValues: {
-      password: password,
+      password: '',
     },
   })
 
@@ -54,23 +52,16 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
     async (formData: AuthResetPasswordReqBody) => {
       const response = await authResetPassword(resetPasswordToken, formData)
 
-      // If other error, show toast message
       if (!response.success) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to home page
-      if (response.success) {
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-        router.push('/')
-      }
+      router.push('/')
     }
   )
 
@@ -98,8 +89,8 @@ export const AuthResetPasswordForm: React.FC<ResetPasswordForm> = ({
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update password</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update password
         </Button>
       </form>
     </Form>

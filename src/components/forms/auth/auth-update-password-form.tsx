@@ -59,17 +59,10 @@ export const AuthUpdatePasswordForm = () => {
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      if (response.success) {
-        router.push('/feed')
-
-        // If successful, push to home page
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      router.push('/feed')
     }
   )
 
@@ -114,8 +107,8 @@ export const AuthUpdatePasswordForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update password</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update password
         </Button>
       </form>
     </Form>

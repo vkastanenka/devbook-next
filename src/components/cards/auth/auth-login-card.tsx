@@ -9,24 +9,18 @@ import { AuthLoginForm } from '@/src/components/forms/auth/auth-login-form'
 
 export const AuthLoginCard = () => {
   return (
-    <Card className="card form-card">
+    <Card className="card form-card text-center">
       <AuthLoginForm />
 
-      <div className="text-center">
-        <Link href="/recover-password">
-          <p className="p">Forgot password?</p>
-        </Link>
-      </div>
+      <Link className="button-text" href="/recover-password">
+        Forgot password?
+      </Link>
 
       <Separator />
 
-      <div className="text-center">
-        <Link href="/register">
-          <Button tabIndex={-1}>
-            <p className="p">Create new account</p>
-          </Button>
-        </Link>
-      </div>
+      <Link className="button-text" href="/register">
+        <Button tabIndex={-1}>Create new account</Button>
+      </Link>
     </Card>
   )
 }

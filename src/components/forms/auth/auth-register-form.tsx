@@ -28,11 +28,6 @@ import { AuthRegisterReqBody } from '@/src/types/auth-types'
 import { authRegisterReqBodySchema } from '@/src/validation/auth-validation'
 
 export const AuthRegisterForm = () => {
-  const name = 'Victoria Kastanenka'
-  const username = 'vkastanenka'
-  const email = 'vkastanenka@gmail.com'
-  const password = 'password'
-
   const router = useRouter()
   const { toast } = useToast()
 
@@ -44,10 +39,10 @@ export const AuthRegisterForm = () => {
   const form = useForm({
     resolver: zodResolver(authRegisterReqBodySchema),
     defaultValues: {
-      name,
-      username,
-      email,
-      password,
+      name: '',
+      username: '',
+      email: '',
+      password: '',
     },
   })
 
@@ -60,28 +55,21 @@ export const AuthRegisterForm = () => {
     async (formData: AuthRegisterReqBody) => {
       const response = await authRegister(formData)
 
-      // If form errors, show errors in corresponding field
       if (!response.success && response.errors) {
         setResponseErrors(response.errors)
+        return
       }
 
-      // If other error, show toast message
       if (!response.success && !response.errors) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to home page
-      if (response.success) {
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-        router.push('/')
-      }
+      router.push('/')
     }
   )
 
@@ -179,8 +167,8 @@ export const AuthRegisterForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Register</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Register
         </Button>
       </form>
     </Form>

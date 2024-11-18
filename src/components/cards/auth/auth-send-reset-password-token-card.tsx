@@ -8,7 +8,7 @@ import { AuthSendResetPasswordTokenForm } from '@/src/components/forms/auth/auth
 
 export const AuthSendResetPasswordTokenCard = () => {
   return (
-    <Card className="card form-card">
+    <Card className="card form-card text-center">
       <div className="flex flex-col gap-2 items-center">
         <h1 className="h3">Forgot your password?</h1>
         <h2 className="muted">Get recovery instructions in your email</h2>
@@ -18,11 +18,9 @@ export const AuthSendResetPasswordTokenCard = () => {
 
       <Separator />
 
-      <div className="text-center">
-        <Link href="/">
-          <p className="p">Remembered your password?</p>
-        </Link>
-      </div>
+      <Link className="button-text" href="/">
+        Remembered your password?
+      </Link>
     </Card>
   )
 }

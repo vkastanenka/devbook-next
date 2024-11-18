@@ -72,6 +72,8 @@ const config: Config = {
       spacing: {
         card: '1.5rem',
         nav: '60px',
+        container: '1280px',
+        ['container-small']: '1140px',
       },
     },
   },

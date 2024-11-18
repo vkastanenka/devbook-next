@@ -28,8 +28,6 @@ import { AuthSendResetPasswordTokenReqBody } from '@/src/types/auth-types'
 import { authSendResetPasswordTokenReqBodySchema } from '@/src/validation/auth-validation'
 
 export const AuthSendResetPasswordTokenForm = () => {
-  const email = 'vkastanenka@gmail.com'
-
   const router = useRouter()
   const { toast } = useToast()
 
@@ -40,7 +38,7 @@ export const AuthSendResetPasswordTokenForm = () => {
   const form = useForm({
     resolver: zodResolver(authSendResetPasswordTokenReqBodySchema),
     defaultValues: {
-      email: email,
+      email: '',
     },
   })
 
@@ -53,28 +51,21 @@ export const AuthSendResetPasswordTokenForm = () => {
     async (formData: AuthSendResetPasswordTokenReqBody) => {
       const response = await authSendResetPasswordToken(formData)
 
-      // If form errors, show errors in corresponding field
       if (!response.success && response.errors) {
         setResponseErrors(response.errors)
+        return
       }
 
-      // If other error, show toast message
       if (!response.success && !response.errors) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to home page
-      if (response.success) {
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-        router.push('/')
-      }
+      router.push('/')
     }
   )
 
@@ -113,8 +104,8 @@ export const AuthSendResetPasswordTokenForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Send recovery email</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Send recovery email
         </Button>
       </form>
     </Form>

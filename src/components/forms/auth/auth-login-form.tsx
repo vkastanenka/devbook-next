@@ -28,9 +28,6 @@ import { AuthLoginReqBody } from '@/src/types/auth-types'
 import { authLoginReqBodySchema } from '@/src/validation/auth-validation'
 
 export const AuthLoginForm = () => {
-  const email = 'vkastanenka@gmail.com'
-  const password = 'password'
-
   const router = useRouter()
   const { toast } = useToast()
 
@@ -42,8 +39,8 @@ export const AuthLoginForm = () => {
   const form = useForm({
     resolver: zodResolver(authLoginReqBodySchema),
     defaultValues: {
-      email: email,
-      password: password,
+      email: '',
+      password: '',
     },
   })
 
@@ -56,28 +53,21 @@ export const AuthLoginForm = () => {
     async (formData: AuthLoginReqBody) => {
       const response = await authLogin(formData)
 
-      // If form errors, show errors in corresponding field
       if (!response.success && response.errors) {
         setResponseErrors(response.errors)
+        return
       }
 
-      // If other error, show toast message
       if (!response.success && !response.errors) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to user feed
-      if (response.success) {
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-        router.push('/feed')
-      }
+      router.push('/feed')
     }
   )
 
@@ -147,8 +137,8 @@ export const AuthLoginForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Log In</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Log In
         </Button>
       </form>
     </Form>

@@ -14,7 +14,7 @@ export const AuthResetPasswordCard: React.FC<ResetPasswordCard> = ({
   resetPasswordToken,
 }) => {
   return (
-    <Card className="card form-card">
+    <Card className="card form-card text-center">
       <div className="flex flex-col gap-2 items-center">
         <h1 className="h3">Update your password</h1>
         <h2 className="muted">You can log in as normal afterwards</h2>
@@ -24,11 +24,9 @@ export const AuthResetPasswordCard: React.FC<ResetPasswordCard> = ({
 
       <Separator />
 
-      <div className="text-center">
-        <Link href="/">
-          <p className="p">Remembered your password?</p>
-        </Link>
-      </div>
+      <Link className="button-text" href="/">
+        Remembered your password?
+      </Link>
     </Card>
   )
 }
