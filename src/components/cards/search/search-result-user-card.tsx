@@ -5,7 +5,7 @@ import { Card } from '@/src/components/ui/card'
 import { UserAvatar } from '@/src/components/ui/avatar'
 
 // types
-import { User } from '@/types/user-types'
+import { User } from '@/src/types/user-types'
 
 interface SearchResultUserCard {
   user: User

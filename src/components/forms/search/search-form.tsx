@@ -78,14 +78,17 @@ export const SearchForm = () => {
   const formRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
-    // If query parameter on load, set input to layoutStore and perform get req
-    if (pathname === '/search' && q && formRef?.current) {
-      setSearchDevbookInputValue(q)
-      formRef.current.requestSubmit()
-    } else {
-      setSearchDevbookInputValue('')
-      setSearchDevbookResults(null)
+    const search = async () => {
+      // If query parameter on load, set input to layoutStore and perform get req
+      if (pathname === '/search' && q && formRef?.current) {
+        await setSearchDevbookInputValue(q)
+        formRef.current.requestSubmit()
+      } else {
+        setSearchDevbookInputValue('')
+        setSearchDevbookResults(null)
+      }
     }
+    search()
   }, [
     formRef,
     pathname,
