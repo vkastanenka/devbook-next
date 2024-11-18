@@ -22,7 +22,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
   let renderedContacts = user.contacts || []
 
   if (renderedContacts.length > NUM_VISIBLE_CONTACTS) {
-    renderedContacts = renderedContacts.slice(NUM_VISIBLE_CONTACTS - 1)
+    renderedContacts = renderedContacts.slice(0, NUM_VISIBLE_CONTACTS)
   }
 
   return (
