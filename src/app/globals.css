@@ -19,6 +19,10 @@
     @apply bg-background text-foreground;
   }
 
+  textarea {
+    @apply resize-none;
+  }
+
   :root {
     /* slate-50 */
     --background: #f8fafc;
@@ -113,22 +117,16 @@
 }
 
 @layer components {
-  .overlay {
-    @apply relative after:pointer-events-none after:h-full after:w-full after:absolute after:top-0 after:left-0 after:bg-muted after:transition-all after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-within:after:opacity-20;
+  /* Buttons */
+  .button-rounded {
+    @apply p rounded-full bg-input hover:bg-muted focus-within:bg-muted border-[1px] px-4 md:px-[12px] py-2 text-left transition-colors;
   }
 
   .button-text {
     @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-block p-1 p;
   }
 
-  textarea {
-    @apply resize-none;
-  }
-
-  .button-rounded {
-    @apply p rounded-full bg-input hover:bg-muted focus-within:bg-muted border-[1px] px-4 md:px-[12px] py-2 text-left transition-colors;
-  }
-
+  /* Cards */
   .card {
     @apply p-4 md:p-card;
   }
@@ -137,6 +135,7 @@
     @apply w-full xs:w-[400px] [&>:not(:last-child)]:mb-4;
   }
 
+  /* Typography */
   .h1 {
     @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
@@ -177,37 +176,22 @@
     @apply text-sm;
   }
 
+  /* Separator */
   .separator {
     @apply bg-border h-[1px] w-full;
   }
 }
 
 @layer utilities {
-  .avatar-lg {
-    @apply w-[72px] h-[72px] text-2xl;
-  }
-
-  .avatar-sm {
-    @apply w-12 h-12;
-  }
-
-  .avatar-xs {
-    @apply w-9 h-9 text-sm;
-  }
-
-  .avatar-xxs {
-    @apply w-6 h-6 text-xs;
-  }
-
-  .card-custom {
-    @apply p-card dark: bg-slate-900;
-  }
-
   .container {
     @apply max-w-container;
   }
 
   .gutter {
     @apply px-[20px] md:px-[40px];
+  }
+
+  .overlay {
+    @apply relative after:pointer-events-none after:h-full after:w-full after:absolute after:top-0 after:left-0 after:bg-muted after:transition-all after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-within:after:opacity-20;
   }
 }

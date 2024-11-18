@@ -130,7 +130,7 @@ export const PostComment: React.FC<PostComment> = ({
               href={`/user/${comment.user.username}`}
               className="inline-flex items-center gap-2"
             >
-              <UserAvatar className="avatar-xs" user={comment.user} />
+              <UserAvatar className="w-9 h-9 text-sm" user={comment.user} />
               <p className="p">{comment.user.name}</p>
             </Link>
           </div>
