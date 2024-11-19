@@ -16,10 +16,6 @@ import { cn } from '@/src/lib/utils'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 import { useToast } from '@/src/hooks/use-toast'
 
-// types
-import { ServerResponse } from '@/src/types/server-types'
-import { User } from '@/src/types/user-types'
-
 export const SearchForm = () => {
   const { toast } = useToast()
   const router = useRouter()
@@ -32,6 +28,7 @@ export const SearchForm = () => {
     setSearchDevbookInputRef,
     searchDevbookInputValue,
     setSearchDevbookInputValue,
+    searchDevbookResults,
     setSearchDevbookResults,
   } = useLayoutStore()
 
@@ -41,27 +38,23 @@ export const SearchForm = () => {
       return
     }
 
+    if (searchDevbookResults) {
+      await setSearchDevbookResults(null)
+    }
+
     const response = await searchDevbook({ query: searchDevbookInputValue })
 
-    if (!response.success) {
+    if (!response.data) {
       toast({
         title: 'Error!',
         description: response.message,
         variant: 'destructive',
       })
-      setSearchDevbookResults(null)
+      setSearchDevbookResults([])
+      return
     }
 
-    const { data } = response as ServerResponse<User[]>
-
-    // If successful, set layoutStore
-    if (data) {
-      toast({
-        title: 'Success!',
-        description: response.message,
-      })
-      setSearchDevbookResults(data)
-    }
+    await setSearchDevbookResults(response.data)
   }
 
   // Set ref in state so other components can focus the input
@@ -84,8 +77,8 @@ export const SearchForm = () => {
         await setSearchDevbookInputValue(q)
         formRef.current.requestSubmit()
       } else {
-        setSearchDevbookInputValue('')
-        setSearchDevbookResults(null)
+        await setSearchDevbookInputValue('')
+        await setSearchDevbookResults(null)
       }
     }
     search()

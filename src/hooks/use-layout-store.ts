@@ -13,6 +13,8 @@ interface LayoutStore {
   setSearchDevbookInputValue: (value: string) => void
   searchDevbookResults: User[] | null
   setSearchDevbookResults: (value: User[] | null) => void
+  searchDevbookFormIsSubmitting: boolean | undefined
+  setSearchDevbookFormIsSubmitting: (value: boolean | undefined) => void
 }
 
 export const useLayoutStore = create<LayoutStore>((set) => ({
@@ -25,4 +27,7 @@ export const useLayoutStore = create<LayoutStore>((set) => ({
   searchDevbookResults: null,
   setSearchDevbookResults: (value: User[] | null) =>
     set({ searchDevbookResults: value }),
+  searchDevbookFormIsSubmitting: undefined,
+  setSearchDevbookFormIsSubmitting: (value: boolean | undefined) =>
+    set({ searchDevbookFormIsSubmitting: value }),
 }))
