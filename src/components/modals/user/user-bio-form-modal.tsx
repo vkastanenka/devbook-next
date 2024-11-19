@@ -15,8 +15,6 @@ export const UserBioFormModal = () => {
     data: { user },
   } = useModal()
   const isModalOpen = isOpen && type === 'userBioForm'
-
-  if (!user && isModalOpen) onClose()
   if (!user) return null
 
   return (

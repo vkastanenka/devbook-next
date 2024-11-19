@@ -15,8 +15,6 @@ export const UserSkillsFormModal = () => {
     data: { user },
   } = useModal()
   const isModalOpen = isOpen && type === 'userSkillsForm'
-
-  if (!user && isModalOpen) onClose()
   if (!user) return null
 
   return (

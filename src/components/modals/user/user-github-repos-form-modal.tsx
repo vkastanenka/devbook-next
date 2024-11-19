@@ -15,8 +15,6 @@ export const UserGithubReposFormModal = () => {
     data: { user },
   } = useModal()
   const isModalOpen = isOpen && type === 'userGithubReposForm'
-
-  if (!user && isModalOpen) onClose()
   if (!user) return null
 
   return (
