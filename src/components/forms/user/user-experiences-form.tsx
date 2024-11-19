@@ -27,6 +27,7 @@ import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { Textarea } from '@/src/components/ui/textarea'
 import { Separator } from '@/src/components/ui/separator'
+import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 
 // svg
 import { X } from 'lucide-react'
@@ -117,14 +118,13 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
       const errorResponses: ServerResponse[] = []
 
       if (create.length) {
-        const createReqBodies: UserCreateExperienceReqBody[] =
-          create.map(
-            (reqBody) =>
-              ({
-                ...reqBody,
-                userId: user.id,
-              } as UserCreateExperienceReqBody)
-          )
+        const createReqBodies: UserCreateExperienceReqBody[] = create.map(
+          (reqBody) =>
+            ({
+              ...reqBody,
+              userId: user.id,
+            } as UserCreateExperienceReqBody)
+        )
 
         const createResponses = await Promise.all(
           createReqBodies.map(async (reqBody) => {
@@ -192,14 +192,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <div
-          className={cn(
-            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
-            createFormValues.length > 1 || updateFormValues.length > 1
-              ? 'pr-4'
-              : ''
-          )}
-        >
+        <ModalFormScrollArea>
           {createFormValues.length > 0 &&
             createFormValues.map((_, i, arr) => {
               return (
@@ -372,184 +365,186 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                 </div>
               )
             })}
-        </div>
 
-        {updateFormValues.length > 0 &&
-          updateFormValues.map((_, i, arr) => {
-            return (
-              <div key={i} className="relative flex flex-col gap-4">
-                <p className="h4">Past experience</p>
+          {updateFormValues.length > 0 &&
+            updateFormValues.map((_, i, arr) => {
+              return (
+                <div key={i} className="relative flex flex-col gap-4">
+                  <p className="h4">Past experience</p>
 
-                <FormField
-                  name={`update.${i}.reqBody.company`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Company</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Company"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name={`update.${i}.reqBody.title`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Title</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Title"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  name={`update.${i}.reqBody.type`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                  <FormField
+                    name={`update.${i}.reqBody.company`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company</FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Type" />
-                          </SelectTrigger>
+                          <Input
+                            placeholder="Company"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Permanent">
-                            {'Permanent'}
-                          </SelectItem>
-                          <SelectItem value="Contract">{'Contract'}</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name={`update.${i}.reqBody.schedule`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Schedule</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                  <FormField
+                    name={`update.${i}.reqBody.title`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Schedule" />
-                          </SelectTrigger>
+                          <Input
+                            placeholder="Title"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Full-time">
-                            {'Full-time'}
-                          </SelectItem>
-                          <SelectItem value="Part-time">
-                            {'Part-time'}
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name={`update.${i}.reqBody.description`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          rows={10}
-                          placeholder="Description"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    name={`update.${i}.reqBody.type`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Type</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Permanent">
+                              {'Permanent'}
+                            </SelectItem>
+                            <SelectItem value="Contract">
+                              {'Contract'}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name={`update.${i}.reqBody.startYear`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Start year</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Start year"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    name={`update.${i}.reqBody.schedule`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Schedule</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Schedule" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Full-time">
+                              {'Full-time'}
+                            </SelectItem>
+                            <SelectItem value="Part-time">
+                              {'Part-time'}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  name={`update.${i}.reqBody.endYear`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>End year</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="End year"
-                          disabled={isSubmitting}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    name={`update.${i}.reqBody.description`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            rows={10}
+                            placeholder="Description"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                {i !== arr.length - 1 && <Separator />}
+                  <FormField
+                    name={`update.${i}.reqBody.startYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Start year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const formValues = getValues()
-                    const filteredValues = formValues.update?.filter(
-                      (exp, j) => {
-                        const isFiltered = i === j
-                        if (isFiltered && exp.recordId) {
-                          setUserExperiencesToDelete((prevState) => [
-                            ...(prevState ? prevState : []),
-                            { id: exp.recordId },
-                          ])
+                  <FormField
+                    name={`update.${i}.reqBody.endYear`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>End year</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="End year"
+                            disabled={isSubmitting}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {i !== arr.length - 1 && <Separator />}
+
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.update?.filter(
+                        (exp, j) => {
+                          const isFiltered = i === j
+                          if (isFiltered && exp.recordId) {
+                            setUserExperiencesToDelete((prevState) => [
+                              ...(prevState ? prevState : []),
+                              { id: exp.recordId },
+                            ])
+                          }
+                          return !isFiltered
                         }
-                        return !isFiltered
-                      }
-                    )
-                    setValue('update', filteredValues)
-                    setUpdateFormValues(filteredValues)
-                  }}
-                  className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )
-          })}
+                      )
+                      setValue('update', filteredValues)
+                      setUpdateFormValues(filteredValues)
+                    }}
+                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )
+            })}
+        </ModalFormScrollArea>
 
         <button
           onClick={(e) => {

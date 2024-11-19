@@ -14,6 +14,7 @@ import {
 } from '@/src/components/ui/form'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
+import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 
 // svg
 import { X } from 'lucide-react'
@@ -99,12 +100,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <div
-          className={cn(
-            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
-            renderedFormValues && renderedFormValues?.length > 4 ? 'pr-4' : ''
-          )}
-        >
+        <ModalFormScrollArea>
           {renderedFormValues.length > 0 &&
             renderedFormValues.map((_, i) => {
               return (
@@ -142,7 +138,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
                 </div>
               )
             })}
-        </div>
+        </ModalFormScrollArea>
 
         <button
           onClick={(e) => {

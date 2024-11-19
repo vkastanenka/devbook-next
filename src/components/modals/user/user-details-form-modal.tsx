@@ -29,7 +29,7 @@ export const UserDetailsFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update user details</p>
+        <p className="h3">Update User Details</p>
         <Tabs defaultValue="details">
           <TabsList className="w-full">
             <TabsTrigger className="basis-full" value="details">

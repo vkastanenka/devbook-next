@@ -19,6 +19,7 @@ import {
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { Separator } from '@/src/components/ui/separator'
+import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 
 // svg
 import { X } from 'lucide-react'
@@ -104,14 +105,13 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
       const errorResponses: ServerResponse[] = []
 
       if (create.length) {
-        const createReqBodies: UserCreateEducationReqBody[] =
-          create.map(
-            (reqBody) =>
-              ({
-                ...reqBody,
-                userId: user.id,
-              } as UserCreateEducationReqBody)
-          )
+        const createReqBodies: UserCreateEducationReqBody[] = create.map(
+          (reqBody) =>
+            ({
+              ...reqBody,
+              userId: user.id,
+            } as UserCreateEducationReqBody)
+        )
 
         const createResponses = await Promise.all(
           createReqBodies.map(async (reqBody) => {
@@ -179,14 +179,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <div
-          className={cn(
-            'flex flex-col gap-4 max-h-[500px] overflow-y-auto',
-            createFormValues.length > 1 || updateFormValues.length > 1
-              ? 'pr-4'
-              : ''
-          )}
-        >
+        <ModalFormScrollArea>
           {createFormValues.length > 0 &&
             createFormValues.map((_, i, arr) => {
               return (
@@ -390,7 +383,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
                 </div>
               )
             })}
-        </div>
+        </ModalFormScrollArea>
 
         <button
           onClick={(e) => {
