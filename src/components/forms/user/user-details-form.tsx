@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select'
+import { ScrollArea } from '@/src/components/ui/scroll-area'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { Separator } from '@/src/components/ui/separator'
@@ -102,7 +103,7 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <div className="flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-4">
+        <div className="flex flex-col gap-4 max-h-[500px] overflow-y-auto pl-2 pr-4">
           <p className="h4">Identity</p>
 
           <FormField

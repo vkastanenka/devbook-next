@@ -27,7 +27,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
 import {
-  Address,
   AddressCreateAddressFormData,
   AddressUpdateAddressFormData,
   AddressCreateUserAddressReqBody,
@@ -42,26 +41,51 @@ import {
 } from '@/src/validation/address-validation'
 
 interface AddressForm {
-  address?: Address
   user?: User
 }
 
-export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
+export const AddressForm: React.FC<AddressForm> = ({ user }) => {
   const router = useRouter()
   const { toast } = useToast()
   const { onClose } = useModal()
 
   const form = useForm({
     resolver: zodResolver(
-      address ? addressUpdateAddressFormSchema : addressCreateAddressFormSchema
+      user?.addresses && user.addresses.length > 0
+        ? addressUpdateAddressFormSchema
+        : addressCreateAddressFormSchema
     ),
     defaultValues: {
-      unitNumber: address?.unitNumber || undefined,
-      streetNumber: address?.streetNumber || '',
-      streetName: address?.streetName || '',
-      suburb: address?.suburb || '',
-      state: address?.state || '',
-      country: address?.country || '',
+      unitNumber:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].unitNumber) ||
+        undefined,
+      streetNumber:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].streetNumber) ||
+        '',
+      streetName:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].streetName) ||
+        '',
+      suburb:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].suburb) ||
+        '',
+      state:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].state) ||
+        '',
+      country:
+        (user?.addresses &&
+          user.addresses.length > 0 &&
+          user.addresses[0].country) ||
+        '',
     },
   })
 
@@ -83,23 +107,17 @@ export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
         response = await addressCreateCurrentUserAddress(reqBody)
       }
 
-      if (response && !response.success && !response.errors) {
+      if (!response?.data) {
         toast({
           title: 'Error!',
-          description: response.message,
+          description: response?.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to user feed
-      if (response && response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      router.refresh()
+      onClose()
     }
   )
 
@@ -107,35 +125,36 @@ export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
     async (formData: AddressUpdateAddressFormData) => {
       let response
 
-      if (address) {
+      if (user?.addresses && user.addresses.length > 0) {
         const reqBody = formData as AddressUpdateAddressReqBody
-        response = await addressUpdateCurrentUserAddress(address.id, reqBody)
+        response = await addressUpdateCurrentUserAddress(
+          user.addresses[0].id,
+          reqBody
+        )
       }
 
-      if (response && !response.success && !response.errors) {
+      if (!response?.data) {
         toast({
           title: 'Error!',
-          description: response.message,
+          description: response?.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to user feed
-      if (response && response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      router.refresh()
+      onClose()
     }
   )
 
   return (
     <Form {...form}>
       <form
-        action={address ? updateAction : createAction}
+        action={
+          user?.addresses && user.addresses.length > 0
+            ? updateAction
+            : createAction
+        }
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
@@ -220,8 +239,8 @@ export const AddressForm: React.FC<AddressForm> = ({ address, user }) => {
             </FormItem>
           )}
         />
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update bio</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update address
         </Button>
       </form>
     </Form>

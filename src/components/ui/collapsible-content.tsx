@@ -33,19 +33,13 @@ export const CollapsibleContent: React.FC<CollapsibleContent> = ({
       {includeTrigger && (
         <button
           className={cn(
-            'text-accent',
-            'py-1',
-            'is-interactive',
-            'flex',
-            'items-center',
+            'w-full p-1 button-text text-card-foreground flex items-center gap-2',
             isCollapsed ? 'justify-between' : 'justify-end'
           )}
           onClick={() => setIsCollapsed((prevState) => !prevState)}
         >
-          {isCollapsed && <p className="muted text-accent">...</p>}
-          <p className="muted text-accent">
-            {isCollapsed ? 'see more' : 'see less'}
-          </p>
+          {isCollapsed && <span>...</span>}
+          <span>{isCollapsed ? 'see more' : 'see less'}</span>
         </button>
       )}
     </div>

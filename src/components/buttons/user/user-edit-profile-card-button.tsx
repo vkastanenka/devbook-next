@@ -26,7 +26,7 @@ export const UserEditProfileCardButton: React.FC<UserEditProfileCardButton> = ({
 
   return (
     <button
-      className={cn('absolute top-4 right-4', className)}
+      className={cn('button-text absolute top-4 right-4', className)}
       onClick={() => onOpen(modalType, { user })}
     >
       <Pencil />

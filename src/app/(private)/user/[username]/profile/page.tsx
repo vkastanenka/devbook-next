@@ -26,7 +26,7 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
   if (!params?.username) redirect('/feed')
 
   const { data: currentUser, message: currentUserResMessage } =
-    await userReadCurrentUser()
+    await userReadCurrentUser({ include: { addresses: true } })
 
   if (!currentUser) {
     return <NoContentCard heading="Error!" subheading={currentUserResMessage} />

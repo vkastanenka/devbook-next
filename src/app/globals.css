@@ -23,6 +23,15 @@
     @apply resize-none;
   }
 
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+    appearance: none;
+  }
+
   :root {
     /* slate-50 */
     --background: #f8fafc;
