@@ -44,8 +44,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const { onOpen } = useModal()
   const { addFeedPostLike, deleteFeedPostLike } = useFeedStore()
 
-  const styleButton =
-    'button-text gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
+  const styleButton = 'button-text gap-1 flex justify-center items-center'
 
   const currentUserPostLike = post.postLikes?.find(
     (postLike) => postLike.userId === currentUser.id

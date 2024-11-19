@@ -44,8 +44,10 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
                     className="p-1 button-text flex flex-col gap-1"
                   >
                     <AspectRatio ratio={1}>
-                      <div className="h-full bg-primary flex items-center justify-center pointer-events-none rounded-md">
-                        <p className="h4">{formatUserInitials(contact.name)}</p>
+                      <div className="h-full bg-primary text-primary-foreground flex items-center justify-center pointer-events-none rounded-md">
+                        <p className="h4 text-">
+                          {formatUserInitials(contact.name)}
+                        </p>
                       </div>
                     </AspectRatio>
                     <p className="p">{contact.name}</p>

@@ -25,7 +25,7 @@ export const UserContactInformationModal = () => {
             <p className="h3">Page Url</p>
           </div>
           <Link
-            className="button-text p-1"
+            className="button-text"
             href={`http://localhost:3000/user/${user.username}`}
           >
             <p className="p">{`http://localhost:3000/user/${user.username}`}</p>
@@ -35,7 +35,7 @@ export const UserContactInformationModal = () => {
           <div>
             <p className="h3">Email</p>
           </div>
-          <Link className="button-text p-1" href={`mailto:${user.email}`}>
+          <Link className="button-text" href={`mailto:${user.email}`}>
             <p className="p">{user.email}</p>
           </Link>
         </div>

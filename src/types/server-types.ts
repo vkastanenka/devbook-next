@@ -14,7 +14,7 @@ export interface ServerResponse<Data = undefined> {
 // Github
 
 export interface ReadGithubRepoServerResponse {
-  data?: GithubRepo[]
+  data?: GithubRepo
   headers?: { [key: string]: string }
   status: number
   success?: boolean

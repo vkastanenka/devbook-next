@@ -33,7 +33,6 @@ import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 import { X } from 'lucide-react'
 
 // utils
-import { cn } from '@/src/lib/utils'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
@@ -540,7 +539,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         </ModalFormScrollArea>
 
         <button
-          className="h4"
+          className="h4 button-text"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()

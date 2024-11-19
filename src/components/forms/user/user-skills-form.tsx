@@ -132,7 +132,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         </ModalFormScrollArea>
 
         <button
-          className="h4"
+          className="h4 button-text"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()

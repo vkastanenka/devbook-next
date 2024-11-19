@@ -49,7 +49,7 @@ export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
       const failedRequestUrls: string[] = []
 
       repos.forEach((repo) => {
-        if (!(repo as ReadGithubRepoServerResponse).success) {
+        if ((repo as ReadGithubRepoServerResponse).status !== 200) {
           failedRequestUrls.push(repo.url)
         }
       })
@@ -89,22 +89,23 @@ export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {repos?.length
               ? repos.map((repo, i) => {
+                  console.log(repo)
                   // Repositories in profile and response
                   const repoSuccess = repo as ReadGithubRepoServerResponse
                   if (!repoSuccess.data) return null
                   return (
-                    <Card key={i} className="col-span-2 sm:col-span-1">
+                    <Card key={i} className="p-2 col-span-2 sm:col-span-1">
                       <Link
-                        className="p-[18px] h-full w-full"
-                        href={repoSuccess.data[0].html_url}
+                        className="p-2 button-text block"
+                        href={repoSuccess.data.html_url}
                         target="_blank"
                       >
                         <p className="muted font-bold">
-                          {repoSuccess.data[0].name}
+                          {repoSuccess.data.name}
                         </p>
-                        {repoSuccess.data[0].description && (
+                        {repoSuccess.data.description && (
                           <p className="muted">
-                            {repoSuccess.data[0].description}
+                            {repoSuccess.data.description}
                           </p>
                         )}
                       </Link>

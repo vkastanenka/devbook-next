@@ -18,6 +18,7 @@ import { cn, formatText } from '@/src/lib/utils'
 // types
 import { Comment, Post } from '@/src/types/post-types'
 import { User } from '@/src/types/user-types'
+import { Card } from './card'
 
 interface PostComments {
   className?: string
@@ -116,12 +117,12 @@ export const PostComment: React.FC<PostComment> = ({
     comment._count?.subComments && comment._count.subComments > 0
 
   return (
-    <div className={cn('flex flex-col gap-6 relative', className)}>
+    <div className={cn('flex flex-col gap-4 relative', className)}>
       {hasSubCommentCount ? (
         <div
           className={cn(
-            'border w-[1px] absolute left-[16px] top-0',
-            hasSubCommentCount ? 'h-[calc(100%-32px)]' : 'h-full'
+            'border w-[1px] absolute left-[calc(4px+24px)] top-[4px]',
+            hasSubCommentCount ? 'h-[calc(100%-48px)]' : 'h-full'
           )}
         />
       ) : null}
@@ -131,7 +132,7 @@ export const PostComment: React.FC<PostComment> = ({
           <div className="inline-block">
             <Link
               href={`/user/${comment.user.username}`}
-              className="inline-flex items-center gap-2"
+              className="button-text inline-flex items-center gap-2"
             >
               <UserAvatar className="w-9 h-9 text-sm" user={comment.user} />
               <p className="p">{comment.user.name}</p>
@@ -140,9 +141,9 @@ export const PostComment: React.FC<PostComment> = ({
         )}
 
         <div>
-          <div className="pl-9 flex flex-col gap-2">
+          <div className="pl-12 flex flex-col gap-2">
             <div className="flex gap-2">
-              <div className="bg-card border shadow-sm rounded-lg p-2 relative flex flex-col gap-2">
+              <Card className="p-4 flex flex-col gap-2">
                 {formatText(comment.body)}
                 <p className="muted text-accent">
                   {formatDate(
@@ -150,7 +151,7 @@ export const PostComment: React.FC<PostComment> = ({
                     'MMM dd yyyy h:mmaaa'
                   )}
                 </p>
-              </div>
+              </Card>
               <CommentCurrentUserOptionsButtons
                 comment={comment}
                 onDeleteRedirectPath={
@@ -170,10 +171,10 @@ export const PostComment: React.FC<PostComment> = ({
       </div>
 
       {hasSubComments && subCommentLimit > subCommentLimitProp ? (
-        <div className="flex items-start flex-col gap-6 pl-[44px]">
+        <div className="flex items-start flex-col gap-4 pl-[44px]">
           {comment.subComments?.slice(0, subCommentLimit).map((subComment) => (
             <div key={subComment.id} className="relative">
-              <div className="border w-7 h-[1px] absolute -left-7 top-4" />
+              <div className="border w-7 h-[1px] absolute -left-4 top-[26px]" />
               <PostComment
                 comment={subComment}
                 post={post}
@@ -193,7 +194,7 @@ export const PostComment: React.FC<PostComment> = ({
       comment.subComments.length > subCommentLimit ? (
         <div>
           <button
-            className="muted flex items-center gap-2"
+            className="muted flex items-center gap-2 button-text"
             onClick={() => setSubCommentLimit((prevState) => prevState + 100)}
           >
             View more replies
@@ -208,7 +209,7 @@ export const PostComment: React.FC<PostComment> = ({
       comment.subComments.length < subCommentLimit ? (
         <div>
           <button
-            className="muted flex items-center gap-2"
+            className="muted flex items-center gap-2 button-text"
             onClick={() => setSubCommentLimit(0)}
           >
             <CircleArrowLeft className="w-4 pt-1" />
@@ -222,7 +223,7 @@ export const PostComment: React.FC<PostComment> = ({
         <div className="inline-block">
           <Link
             href={`/comments/${post.id}?parentCommentId=${comment.id}`}
-            className="muted inline-flex items-center gap-2"
+            className="button-text muted inline-flex items-center gap-2"
           >
             View all replies
             <CircleArrowRight className="w-4 pt-1" />

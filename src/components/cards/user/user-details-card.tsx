@@ -35,7 +35,10 @@ export const UserDetailsCard: React.FC<UserDetailsCard> = ({
       {!isCurrentUser && (
         <UserEditContactButton user={user} currentUser={currentUser} />
       )}
-      <UserAvatar className="w-[72px] h-[72px] text-2xl" user={user} />
+      <UserAvatar
+        className="w-11 h-11 md:w-[72px] md:h-[72px] text-base md:text-2xl"
+        user={user}
+      />
       <div>
         <div className="flex gap-2">
           <p className="h3">{constrainText(20, user.name)}</p>

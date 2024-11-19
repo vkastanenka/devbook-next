@@ -42,14 +42,14 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   const { toast } = useToast()
   const { onClose } = useModal()
 
-  const [renderedFormValues, setRenderedFormValues] = useState<string[]>(
-    user.githubRepos
-  )
+  const [renderedFormValues, setRenderedFormValues] = useState<string[]>([
+    ...(user.githubRepos.length > 0 ? user.githubRepos : ['']),
+  ])
 
   const form = useForm({
     resolver: zodResolver(userUpdateGithubReposFormSchema),
     defaultValues: {
-      githubRepos: user.githubRepos,
+      githubRepos: [...(user.githubRepos.length > 0 ? user.githubRepos : [''])],
     },
   })
 
@@ -88,13 +88,14 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <ModalFormScrollArea>
+        <ModalFormScrollArea className="h-[40vh] md:h-[30vh]">
           {renderedFormValues.length > 0 &&
             renderedFormValues.map((_, i) => {
               return (
                 <div key={i} className="relative">
                   <FormField
-                    name={`githubRepositories.${i}`}
+                    name={`githubRepos.${i}`}
+                    defaultValue={''}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Repo URL</FormLabel>
@@ -119,7 +120,7 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
                       setValue('githubRepos', filteredRepos)
                       setRenderedFormValues(filteredRepos)
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -129,6 +130,7 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         </ModalFormScrollArea>
 
         <button
+          className="h4 button-text"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
@@ -139,11 +141,11 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
             setValue('githubRepos', updatedValues)
           }}
         >
-          <p className="h4">Add repo</p>
+          Add repo
         </button>
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update repos</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update repos
         </Button>
       </form>
     </Form>

@@ -39,7 +39,8 @@ const UserProfilePage: React.FC<UserProfilePage> = async ({ params }) => {
     isCurrentUser = false
 
     const { data: userData, message: userMessage } = await userReadUsername(
-      params.username
+      params.username,
+      { include: { contacts: true } }
     )
 
     if (!userData) {

@@ -41,7 +41,7 @@ export const UserDetailsCardButtons: React.FC<{ user: User }> = ({ user }) => {
   }
 
   return (
-    <div className="flex gap-4 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:button-text [&>*]:p-1">
+    <div className="flex gap-2 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:button-text [&>*]:p-1">
       {userPageLink}
       <button onClick={() => onOpen('userContactInformation', { user })}>
         <p className="muted">Contact info</p>

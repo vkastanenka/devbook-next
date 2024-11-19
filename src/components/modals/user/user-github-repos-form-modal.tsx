@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
 import { UserGithubReposForm } from '@/src/components/forms/user/user-github-repos-form'
 
 // utils
@@ -20,7 +20,9 @@ export const UserGithubReposFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update Github</p>
+        <DialogTitle>
+          <p className="h3">Update Github</p>
+        </DialogTitle>
         <UserGithubReposForm user={user} />
       </DialogContent>
     </Dialog>
