@@ -88,11 +88,6 @@ export const PostForm = () => {
 
         addFeedPost(response.data)
 
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-
         onClose()
       }
     }
@@ -120,11 +115,6 @@ export const PostForm = () => {
         response.data.user = currentUser
 
         updateFeedPost(response.data)
-
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
 
         onClose()
       }

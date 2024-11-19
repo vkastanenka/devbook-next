@@ -52,11 +52,6 @@ export const UserEditContactButton: React.FC<UserEditContactButton> = ({
     }
 
     router.refresh()
-
-    toast({
-      title: 'Success!',
-      description: response.message,
-    })
   }
 
   return (

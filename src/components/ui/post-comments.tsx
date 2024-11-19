@@ -49,7 +49,7 @@ export const PostComments: React.FC<PostComments> = ({
         <div className={cn('flex gap-2', className)}>
           <div className="inline-block">
             <Link
-              className="inline-flex items-center gap-2 text-accent"
+              className="inline-flex items-center gap-2 button-text"
               href={`/comments/${post.id}`}
             >
               <CircleArrowLeft /> View all comments
@@ -57,7 +57,7 @@ export const PostComments: React.FC<PostComments> = ({
           </div>
           <div className="inline-block">
             <Link
-              className="inline-flex items-center gap-2 text-accent"
+              className="inline-flex items-center gap-2 button-text"
               href={`/comments/${post.id}?parentCommentId=${parentComment.parentCommentId}`}
             >
               <CircleArrowLeft /> View previous comments
@@ -68,6 +68,7 @@ export const PostComments: React.FC<PostComments> = ({
       {parentComment && (
         <PostComment
           post={post}
+          isParentComment
           comment={parentComment}
           currentUser={currentUser}
           subCommentLayerLimit={subCommentLayerLimit}
@@ -90,6 +91,7 @@ export const PostComments: React.FC<PostComments> = ({
 interface PostComment {
   className?: string
   comment: Comment
+  isParentComment?: boolean
   currentUser: User
   post: Post
   subCommentLayer?: number
@@ -101,6 +103,7 @@ export const PostComment: React.FC<PostComment> = ({
   post,
   className,
   comment,
+  isParentComment,
   currentUser,
   subCommentLayer = 0,
   subCommentLayerLimit,
@@ -150,6 +153,9 @@ export const PostComment: React.FC<PostComment> = ({
               </div>
               <CommentCurrentUserOptionsButtons
                 comment={comment}
+                onDeleteRedirectPath={
+                  isParentComment ? `/comments/${post.id}` : undefined
+                }
                 currentUser={currentUser}
                 className="mt-2"
               />

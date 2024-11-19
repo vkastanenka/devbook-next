@@ -11,7 +11,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuOptionsTrigger,
 } from '@/src/components/ui/dropdown-menu'
+
+// svg
+import { Pencil, X } from 'lucide-react'
 
 // utils
 import { useRouter } from 'next/navigation'
@@ -52,11 +56,6 @@ export const CommentCurrentUserOptionsButtons: React.FC<
 
     router.refresh()
 
-    toast({
-      title: 'Success!',
-      description: response.message,
-    })
-
     if (onDeleteRedirectPath) router.push(onDeleteRedirectPath)
   }
 
@@ -64,26 +63,25 @@ export const CommentCurrentUserOptionsButtons: React.FC<
     <div className={className}>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className="w-8 h-8 bg-card border rounded-full relative">
-            <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center gap-1">
-              {new Array(3).fill(0).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-card-foreground h-[2px] w-[2px] rounded"
-                />
-              ))}
-            </div>
-          </div>
+          <DropdownMenuOptionsTrigger />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Comment Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
+            className="flex items-center gap-2"
             onClick={() => onOpen('postCommentForm', { comment })}
           >
+            <Pencil />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={deleteComment}>Delete</DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={deleteComment}
+          >
+            <X />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

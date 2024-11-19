@@ -14,7 +14,7 @@ export const CurrentUserCreatePostButton: React.FC<{
 
   return (
     <button
-      className="button-rounded w-full "
+      className="button-rounded w-full"
       onClick={() => onOpen('postForm', { user: currentUser })}
     >
       {`What's on your mind, ${constrainText(

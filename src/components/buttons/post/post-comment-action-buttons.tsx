@@ -26,7 +26,7 @@ export const CommentActionButtons: React.FC<CommentActionButtons> = ({
   return (
     <div className="flex items-center gap-2">
       <button
-        className="muted flex gap-1 items-center"
+        className="button-text flex gap-1 items-center"
         onClick={() =>
           onOpen('postCommentForm', {
             post,

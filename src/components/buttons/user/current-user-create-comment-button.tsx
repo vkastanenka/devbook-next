@@ -18,7 +18,6 @@ export const CurrentUserCreateCommentButton: React.FC<{
       className="button-rounded w-full"
       onClick={() =>
         onOpen('postCommentForm', {
-          navPrev: () => onOpen('post', { post, user: currentUser }),
           post,
           user: currentUser,
         })

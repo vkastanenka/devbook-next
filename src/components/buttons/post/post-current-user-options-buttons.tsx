@@ -14,6 +14,9 @@ import {
   DropdownMenuOptionsTrigger,
 } from '@/src/components/ui/dropdown-menu'
 
+// svg
+import { Pencil, X } from 'lucide-react'
+
 // utils
 import { useRouter } from 'next/navigation'
 import { useModal } from '@/src/hooks/use-modal-store'
@@ -57,11 +60,6 @@ export const PostCurrentUserOptionsButtons: React.FC<
 
     deleteFeedPost(post)
 
-    toast({
-      title: 'Success!',
-      description: response.message,
-    })
-
     if (onDeleteRedirectPath) router.push(onDeleteRedirectPath)
   }
 
@@ -75,11 +73,19 @@ export const PostCurrentUserOptionsButtons: React.FC<
           <DropdownMenuLabel>Post Options</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
+            className="flex items-center gap-2"
             onClick={() => onOpen('postForm', { post, user: currentUser })}
           >
+            <Pencil />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={deletePost}>Delete</DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={deletePost}
+          >
+            <X />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

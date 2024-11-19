@@ -88,11 +88,6 @@ export const CommentForm = () => {
 
         addFeedPostComment(response.data)
 
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-
         onClose()
       }
     }
@@ -116,11 +111,6 @@ export const CommentForm = () => {
         }
 
         router.refresh()
-
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
 
         onClose()
       }

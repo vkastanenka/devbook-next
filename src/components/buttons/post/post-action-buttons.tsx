@@ -69,12 +69,6 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
     router.refresh()
 
     addFeedPostLike(response.data)
-
-    toast({
-      title: 'Success!',
-      variant: 'success',
-      description: response.message,
-    })
   }
 
   const dislikePost = async () => {
@@ -95,12 +89,6 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       router.refresh()
 
       deleteFeedPostLike(currentUserPostLike)
-
-      toast({
-        title: 'Success!',
-        variant: 'success',
-        description: response.message,
-      })
     }
   }
 

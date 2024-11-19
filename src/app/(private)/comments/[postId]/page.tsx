@@ -89,7 +89,6 @@ const CommentsPage: React.FC<CommentsPage> = async ({
     })
 
     if (!response.data) {
-      console.log('Error fetching parent component!')
       return
     }
 

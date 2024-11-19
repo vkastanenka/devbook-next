@@ -59,11 +59,6 @@ export const SearchToggleContactButton: React.FC<SearchToggleContactButton> = ({
     else setIsContact(true)
 
     router.refresh()
-
-    toast({
-      title: 'Success!',
-      description: response.message,
-    })
   }
 
   return (
