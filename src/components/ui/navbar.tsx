@@ -8,7 +8,7 @@ import {
 } from '@/src/components/ui/dropdown-menu'
 
 import Link from 'next/link'
-import { DevbookLogo } from '@/src/components/svg/devbook-logo'
+import { House } from 'lucide-react'
 import { AuthLogoutButton } from '@/src/components/buttons/auth/auth-logout-button'
 import { CurrentUserChangeThemeButton } from '@/src/components/buttons/user/current-user-change-theme-button'
 
@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
       <nav className="container flex items-center justify-between gap-4">
         <div className="flex gap-2 items-center">
           <Link className="button-text" href="/feed">
-            <DevbookLogo className="w-[40px]" />
+            <House />
           </Link>
           <SearchForm />
         </div>

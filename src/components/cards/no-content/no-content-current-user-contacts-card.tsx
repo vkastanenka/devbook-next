@@ -12,7 +12,7 @@ export const NoContentCurrentUserContactsCard = () => {
   return (
     <Card>
       <button
-        className="is-interactive w-full text-left"
+        className="button-text w-full text-left"
         onClick={() => {
           if (searchDevbookInputRef?.current) {
             searchDevbookInputRef.current.focus()
