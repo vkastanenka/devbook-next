@@ -52,7 +52,6 @@ export const AuthUpdatePasswordForm = () => {
         formData as AuthUpdatePasswordReqBody
       )
 
-      // If other error, show toast message
       if (!response.success) {
         toast({
           title: 'Error!',

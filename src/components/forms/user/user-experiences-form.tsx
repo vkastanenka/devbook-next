@@ -164,24 +164,17 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         })
       }
 
-      // If any server errors from any response, give toast message
       if (errorResponses.length) {
         toast({
           title: 'Error!',
           description: 'Error performing update',
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, refresh page
-      if (!errorResponses.length) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: 'User experiences updated',
-        })
-      }
+      onClose()
+      router.refresh()
     }
   )
 
@@ -547,6 +540,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         </ModalFormScrollArea>
 
         <button
+          className="h4"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
@@ -568,11 +562,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
             setValue('create', updatedCreateValues)
           }}
         >
-          <p className="h4">Add experience</p>
+          Add experience
         </button>
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update experiences</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update experiences
         </Button>
       </form>
     </Form>

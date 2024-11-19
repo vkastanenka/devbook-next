@@ -43,8 +43,8 @@ import {
 export const CommentForm = () => {
   const router = useRouter()
   const { toast } = useToast()
-  const { data, onClose } = useModal()
-  const { comment, parentComment, post, user: currentUser } = data
+  const { data: modalData, onClose } = useModal()
+  const { comment, parentComment, post, user: currentUser } = modalData
   const { addFeedPostComment } = useFeedStore()
 
   const form = useForm({
@@ -156,8 +156,8 @@ export const CommentForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">{`${comment ? 'Update' : 'Create'} comment`}</p>
+        <Button className="h4" disabled={isSubmitting}>
+          {`${comment ? 'Update' : 'Create'} comment`}
         </Button>
       </form>
     </Form>

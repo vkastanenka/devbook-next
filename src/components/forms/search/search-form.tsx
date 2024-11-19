@@ -22,6 +22,7 @@ export const SearchForm = () => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const q = searchParams.get('q')
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [isMobileFormOpen, setIsMobileFormOpen] = useState<boolean>(false)
 
   const {
@@ -38,11 +39,15 @@ export const SearchForm = () => {
       return
     }
 
+    setIsSubmitting(true)
+
     if (searchDevbookResults) {
       await setSearchDevbookResults(null)
     }
 
     const response = await searchDevbook({ query: searchDevbookInputValue })
+
+    setIsSubmitting(false)
 
     if (!response.data) {
       toast({
@@ -119,6 +124,7 @@ export const SearchForm = () => {
             name="query"
             ref={inputRef}
             className="pl-12"
+            disabled={isSubmitting}
             placeholder="Search Devbook"
             value={searchDevbookInputValue}
             onChange={(e) => setSearchDevbookInputValue(e.target.value || '')}

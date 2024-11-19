@@ -20,7 +20,6 @@ import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 import { X } from 'lucide-react'
 
 // utils
-import { cn } from '@/src/lib/utils'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@/src/hooks/use-modal-store'
 import { useRouter } from 'next/navigation'
@@ -72,8 +71,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         formData as UserUpdateUserReqBody
       )
 
-      // If other error, show toast message
-      if (!response.success && !response.errors) {
+      if (!response.data) {
         toast({
           title: 'Error!',
           description: response.message,
@@ -81,15 +79,8 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         })
       }
 
-      // If successful, push to user feed
-      if (response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      onClose()
+      router.refresh()
     }
   )
 
@@ -141,6 +132,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         </ModalFormScrollArea>
 
         <button
+          className="h4"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()
@@ -151,11 +143,11 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
             setValue('skills', updatedValues)
           }}
         >
-          <p className="h4">Add skill</p>
+          Add skill
         </button>
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update skills</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update skills
         </Button>
       </form>
     </Form>

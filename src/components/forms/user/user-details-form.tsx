@@ -19,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select'
-import { ScrollArea } from '@/src/components/ui/scroll-area'
 import { ModalFormScrollArea } from '@/src/components/ui/modal-form-scroll-area'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
@@ -76,8 +75,7 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
         formData as UserUpdateUserReqBody
       )
 
-      // If other error, show toast message
-      if (!response.success && !response.errors) {
+      if (!response.data) {
         toast({
           title: 'Error!',
           description: response.message,
@@ -85,15 +83,8 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
         })
       }
 
-      // If successful, push to user feed
-      if (response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      onClose()
+      router.refresh()
     }
   )
 

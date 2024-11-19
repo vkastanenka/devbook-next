@@ -160,8 +160,8 @@ export const PostForm = () => {
           )}
         />
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">{`${post ? 'Update' : 'Create'} post`}</p>
+        <Button className="h4" disabled={isSubmitting}>
+          {`${post ? 'Update' : 'Create'} post`}
         </Button>
       </form>
     </Form>

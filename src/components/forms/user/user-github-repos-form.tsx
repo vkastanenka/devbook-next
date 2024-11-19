@@ -67,24 +67,17 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         formData as UserUpdateUserReqBody
       )
 
-      // If other error, show toast message
-      if (!response.success && !response.errors) {
+      if (!response.data) {
         toast({
           title: 'Error!',
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
-      // If successful, push to user feed
-      if (response.success) {
-        onClose()
-        router.refresh()
-        toast({
-          title: 'Success!',
-          description: response.message,
-        })
-      }
+      onClose()
+      router.refresh()
     }
   )
 
