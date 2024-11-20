@@ -6,7 +6,6 @@ import { Dialog, DialogContent } from '@/src/components/ui/dialog'
 import { ScrollArea } from '@/src/components/ui/scroll-area'
 
 // utils
-import { cn } from '@/src/lib/utils'
 import { useModal } from '@/src/hooks/use-modal-store'
 
 export const UserSkillsModal = () => {

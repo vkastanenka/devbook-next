@@ -20,7 +20,7 @@ export const UserExperiencesFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update experience</p>
+        <p className="h3">Update Experience</p>
         <UserExperiencesForm user={user} />
       </DialogContent>
     </Dialog>

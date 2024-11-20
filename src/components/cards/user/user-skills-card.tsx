@@ -56,7 +56,7 @@ export const UserSkillsCard: React.FC<UserSkillsCard> = ({
           <Separator className="separator" />
           <div className="flex justify-center py-card">
             <button
-              className="is-interactive flex gap-2 items-center"
+              className="button-text flex gap-2 items-center"
               onClick={() => onOpen('userSkills', { user })}
             >
               <p className="h4">{`Show all ${user.skills.length} skills`}</p>

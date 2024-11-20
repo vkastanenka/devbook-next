@@ -141,11 +141,11 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
             setValue('githubRepos', updatedValues)
           }}
         >
-          Add repo
+          Add Repo
         </button>
 
         <Button className="h4" disabled={isSubmitting}>
-          Update repos
+          Update Repos
         </Button>
       </form>
     </Form>

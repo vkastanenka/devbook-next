@@ -153,7 +153,7 @@ export interface UserEducationFormItem {
 
 export interface UserCreateUpdateEducationsFormData {
   create: UserEducationFormItem[]
-  update: { recordId: string; reqBody: UserEducationFormItem }[]
+  update?: { recordId: string; reqBody: UserEducationFormItem }[]
 }
 
 // UserExperience
@@ -170,7 +170,7 @@ export interface UserExperienceFormItem {
 
 export interface UserCreateUpdateExperiencesFormData {
   create: UserExperienceFormItem[]
-  update: { recordId: string; reqBody: UserExperienceFormItem }[]
+  update?: { recordId: string; reqBody: UserExperienceFormItem }[]
 }
 
 /**

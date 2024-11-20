@@ -47,13 +47,13 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
   const { onClose } = useModal()
 
   const [renderedFormValues, setRenderedFormValues] = useState<string[]>(
-    user.skills
+    user.skills.length > 0 ? user.skills : ['']
   )
 
   const form = useForm({
     resolver: zodResolver(userUpdateSkillsFormSchema),
     defaultValues: {
-      skills: user.skills,
+      skills: user.skills.length > 0 ? user.skills : [''],
     },
   })
 
@@ -91,7 +91,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <ModalFormScrollArea>
+        <ModalFormScrollArea className="h-[40vh] md:h-[30vh]">
           {renderedFormValues.length > 0 &&
             renderedFormValues.map((_, i) => {
               return (
@@ -122,7 +122,7 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
                       setValue('skills', filteredRepos)
                       setRenderedFormValues(filteredRepos)
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -143,11 +143,11 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
             setValue('skills', updatedValues)
           }}
         >
-          Add skill
+          Add Skill
         </button>
 
         <Button className="h4" disabled={isSubmitting}>
-          Update skills
+          Update Skills
         </Button>
       </form>
     </Form>

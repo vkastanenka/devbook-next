@@ -27,12 +27,6 @@ interface UserGithubReposCard {
   user: User
 }
 
-/**
- * TODO
- *
- * Figure out why deleting last repo will still keep 1 card
- */
-
 export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
   isCurrentUser,
   isEditable,
@@ -89,14 +83,13 @@ export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {repos?.length
               ? repos.map((repo, i) => {
-                  console.log(repo)
                   // Repositories in profile and response
                   const repoSuccess = repo as ReadGithubRepoServerResponse
                   if (!repoSuccess.data) return null
                   return (
                     <Card key={i} className="p-2 col-span-2 sm:col-span-1">
                       <Link
-                        className="p-2 button-text block"
+                        className="p-2 button-text block h-full"
                         href={repoSuccess.data.html_url}
                         target="_blank"
                       >

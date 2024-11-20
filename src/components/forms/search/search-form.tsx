@@ -49,7 +49,7 @@ export const SearchForm = () => {
 
     setIsSubmitting(false)
 
-    if (!response.data) {
+    if (!response.data && response.statusCode !== 404) {
       toast({
         title: 'Error!',
         description: response.message,
@@ -58,6 +58,13 @@ export const SearchForm = () => {
       setSearchDevbookResults([])
       return
     }
+
+    if (!response.data && response.statusCode === 404) {
+      setSearchDevbookResults([])
+      return
+    }
+
+    if (!response.data) return
 
     await setSearchDevbookResults(response.data)
   }

@@ -10,7 +10,7 @@ export const NoContentSearchResultsCard = () => {
   return (
     <Card>
       <button
-        className="is-interactive w-full text-center"
+        className="button-text w-full text-center"
         onClick={() => {
           if (searchDevbookInputRef?.current) {
             searchDevbookInputRef.current.focus()

@@ -20,7 +20,7 @@ export const UserSkillsFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update skills</p>
+        <p className="h3">Update Skills</p>
         <UserSkillsForm user={user} />
       </DialogContent>
     </Dialog>

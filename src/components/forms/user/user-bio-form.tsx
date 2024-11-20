@@ -100,7 +100,7 @@ export const UserBioForm: React.FC<UserBioForm> = ({ user }) => {
         />
 
         <Button className="h4" disabled={isSubmitting}>
-          Update bio
+          Update Bio
         </Button>
       </form>
     </Form>

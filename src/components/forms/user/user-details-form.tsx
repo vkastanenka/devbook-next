@@ -215,8 +215,8 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
           />
         </ModalFormScrollArea>
 
-        <Button disabled={isSubmitting}>
-          <p className="h4">Update user</p>
+        <Button className="h4" disabled={isSubmitting}>
+          Update User
         </Button>
       </form>
     </Form>

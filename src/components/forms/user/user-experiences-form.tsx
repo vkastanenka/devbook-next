@@ -64,7 +64,17 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
   const { toast } = useToast()
   const { onClose } = useModal()
 
-  const defaultCreatesValues: UserExperienceFormItem[] = []
+  const defaultCreatesValues: UserExperienceFormItem[] = [
+    {
+      company: '',
+      type: '',
+      schedule: '',
+      title: '',
+      description: '',
+      startYear: '',
+      endYear: '',
+    },
+  ]
 
   const defaultUpdateValues: {
     recordId: string
@@ -101,7 +111,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
     resolver: zodResolver(userCreateUpdateExperiencesFormSchema),
     defaultValues: {
       create: defaultCreatesValues,
-      update: defaultUpdateValues,
+      update: defaultUpdateValues.length > 0 ? defaultUpdateValues : undefined,
     },
   })
 
@@ -116,7 +126,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
     async ({ create, update }: UserCreateUpdateExperiencesFormData) => {
       const errorResponses: ServerResponse[] = []
 
-      if (create.length) {
+      if (create.length > 0) {
         const createReqBodies: UserCreateExperienceReqBody[] = create.map(
           (reqBody) =>
             ({
@@ -136,7 +146,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         })
       }
 
-      if (update.length) {
+      if (update && update.length > 0) {
         const updateResponses = await Promise.all(
           update.map(async (formItem) => {
             return await userUpdateCurrentUserExperience(
@@ -151,7 +161,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         })
       }
 
-      if (userExperiencesToDelete.length) {
+      if (userExperiencesToDelete.length > 0) {
         const deleteResponses = await Promise.all(
           userExperiencesToDelete.map(async ({ id }) => {
             return await userDeleteCurrentUserExperience(id)
@@ -163,7 +173,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         })
       }
 
-      if (errorResponses.length) {
+      if (errorResponses.length > 0) {
         toast({
           title: 'Error!',
           description: 'Error performing update',
@@ -189,7 +199,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
             createFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
-                  <p className="h4">Past experience</p>
+                  <p className="h4">Past Experience</p>
 
                   <FormField
                     name={`create.${i}.company`}
@@ -350,7 +360,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                       setValue('create', filteredValues)
                       setCreateFormValues(filteredValues)
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -362,7 +372,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
             updateFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
-                  <p className="h4">Past experience</p>
+                  <p className="h4">Past Experience</p>
 
                   <FormField
                     name={`update.${i}.reqBody.company`}
@@ -526,10 +536,12 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                           return !isFiltered
                         }
                       )
-                      setValue('update', filteredValues)
-                      setUpdateFormValues(filteredValues)
+                      if (filteredValues) {
+                        setValue('update', filteredValues)
+                        setUpdateFormValues(filteredValues)
+                      }
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -561,11 +573,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
             setValue('create', updatedCreateValues)
           }}
         >
-          Add experience
+          Add Experience
         </button>
 
         <Button className="h4" disabled={isSubmitting}>
-          Update experiences
+          Update Experience
         </Button>
       </form>
     </Form>

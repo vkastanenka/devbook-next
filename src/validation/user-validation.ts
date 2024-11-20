@@ -195,17 +195,19 @@ export const userEducationFormItemSchema: z.ZodType<UserEducationFormItem> = z
   .strict()
   .refine((s) => {
     if (s.endYear) {
-      if (Number(s.endYear) > Number(s.startYear)) return false
+      if (Number(s.startYear) > Number(s.endYear)) return false
     }
     return true
-  }, 'End year cannot be greater than start year')
+  }, 'Start year cannot be greater than end year')
 
 export const userCreateUpdateEducationsFormSchema: z.ZodType<UserCreateUpdateEducationsFormData> =
   z.object({
     create: z.array(userEducationFormItemSchema),
-    update: z.array(
-      z.object({ recordId: z.string(), reqBody: userEducationFormItemSchema })
-    ),
+    update: z
+      .array(
+        z.object({ recordId: z.string(), reqBody: userEducationFormItemSchema })
+      )
+      .optional(),
   })
 
 export const userExperienceFormItemSchema: z.ZodType<UserExperienceFormItem> = z
@@ -221,15 +223,20 @@ export const userExperienceFormItemSchema: z.ZodType<UserExperienceFormItem> = z
   .strict()
   .refine((s) => {
     if (s.endYear) {
-      if (Number(s.endYear) > Number(s.startYear)) return false
+      if (Number(s.startYear) > Number(s.endYear)) return false
     }
     return true
-  }, 'End year cannot be greater than start year')
+  }, 'Start year cannot be greater than end year')
 
 export const userCreateUpdateExperiencesFormSchema: z.ZodType<UserCreateUpdateExperiencesFormData> =
   z.object({
     create: z.array(userExperienceFormItemSchema),
-    update: z.array(
-      z.object({ recordId: z.string(), reqBody: userExperienceFormItemSchema })
-    ),
+    update: z
+      .array(
+        z.object({
+          recordId: z.string(),
+          reqBody: userExperienceFormItemSchema,
+        })
+      )
+      .optional(),
   })

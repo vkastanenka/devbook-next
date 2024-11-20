@@ -20,7 +20,7 @@ export const UserBioFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update bio</p>
+        <p className="h3">Update Bio</p>
         <UserBioForm user={user} />
       </DialogContent>
     </Dialog>

@@ -54,7 +54,9 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
   const { toast } = useToast()
   const { onClose } = useModal()
 
-  const defaultCreatesValues: UserEducationFormItem[] = []
+  const defaultCreatesValues: UserEducationFormItem[] = [
+    { school: '', degree: '', startYear: '', endYear: '' },
+  ]
 
   const defaultUpdateValues: {
     recordId: string
@@ -88,7 +90,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
     resolver: zodResolver(userCreateUpdateEducationsFormSchema),
     defaultValues: {
       create: defaultCreatesValues,
-      update: defaultUpdateValues,
+      update: defaultUpdateValues.length > 0 ? defaultUpdateValues : undefined,
     },
   })
 
@@ -103,7 +105,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
     async ({ create, update }: UserCreateUpdateEducationsFormData) => {
       const errorResponses: ServerResponse[] = []
 
-      if (create.length) {
+      if (create.length > 0) {
         const createReqBodies: UserCreateEducationReqBody[] = create.map(
           (reqBody) =>
             ({
@@ -123,7 +125,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
         })
       }
 
-      if (update.length) {
+      if (update && update.length > 0) {
         const updateResponses = await Promise.all(
           update.map(async (formItem) => {
             return await userUpdateCurrentUserEducation(
@@ -138,7 +140,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
         })
       }
 
-      if (userEducationsToDelete.length) {
+      if (userEducationsToDelete.length > 0) {
         const deleteResponses = await Promise.all(
           userEducationsToDelete.map(async ({ id }) => {
             return await userDeleteCurrentUserEducation(id)
@@ -150,7 +152,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
         })
       }
 
-      if (errorResponses.length) {
+      if (errorResponses.length > 0) {
         toast({
           title: 'Error!',
           description: 'Error performing update',
@@ -176,7 +178,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
             createFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
-                  <p className="h4">Past education</p>
+                  <p className="h4">Past Education</p>
 
                   <FormField
                     name={`create.${i}.school`}
@@ -263,7 +265,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
                       setValue('create', filteredValues)
                       setCreateFormValues(filteredValues)
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -275,7 +277,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
             updateFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
-                  <p className="h4">Past education</p>
+                  <p className="h4">Past Education</p>
 
                   <FormField
                     name={`update.${i}.reqBody.school`}
@@ -365,10 +367,12 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
                           return !isFiltered
                         }
                       )
-                      setValue('update', filteredValues)
-                      setUpdateFormValues(filteredValues)
+                      if (filteredValues) {
+                        setValue('update', filteredValues)
+                        setUpdateFormValues(filteredValues)
+                      }
                     }}
-                    className="absolute transition-colors focus:bg-accent hover:bg-accent p-1 top-0 right-0 rounded-full bg-muted"
+                    className="absolute button-text top-1 right-0"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -388,7 +392,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
                 school: '',
                 degree: '',
                 startYear: '',
-                endYear: undefined,
+                endYear: '',
               } as UserEducationFormItem,
               ...formValues.create,
             ]
@@ -397,11 +401,11 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
             setValue('create', updatedCreateValues)
           }}
         >
-          Add education
+          Add Education
         </button>
 
         <Button className="h4" disabled={isSubmitting}>
-          Update educations
+          Update Education
         </Button>
       </form>
     </Form>
