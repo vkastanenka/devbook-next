@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
 import { PostForm } from '@/src/components/forms/post/post-form'
 
 // utils
@@ -19,7 +19,9 @@ export const PostFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">{`${post ? 'Update' : 'Create'} post`}</p>
+        <DialogTitle>
+          <p className="h3">{`${post ? 'Update' : 'Create'} post`}</p>
+        </DialogTitle>
         <PostForm />
       </DialogContent>
     </Dialog>

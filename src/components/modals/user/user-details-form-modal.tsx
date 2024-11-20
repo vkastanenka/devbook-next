@@ -1,7 +1,7 @@
 'use client'
 
 // components
-import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
 import { AddressForm } from '@/src/components/forms/address/address-form'
 import { UserDetailsForm } from '@/src/components/forms/user/user-details-form'
 import {
@@ -27,7 +27,9 @@ export const UserDetailsFormModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
-        <p className="h3">Update User Details</p>
+        <DialogTitle>
+          <p className="h3">Update User Details</p>
+        </DialogTitle>
         <Tabs defaultValue="details">
           <TabsList className="w-full">
             <TabsTrigger className="basis-full" value="details">

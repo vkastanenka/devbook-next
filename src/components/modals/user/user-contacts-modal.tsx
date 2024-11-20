@@ -2,7 +2,7 @@
 
 // components
 import Link from 'next/link'
-import { Dialog, DialogContent } from '@/src/components/ui/dialog'
+import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
 import { UserAvatar } from '@/src/components/ui/avatar'
 import { ScrollArea } from '@/src/components/ui/scroll-area'
 
@@ -22,7 +22,9 @@ export const UserContactsModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4 max-h-[75vh] overflow-scroll">
-        <p className="h4">Contacts</p>
+        <DialogTitle>
+          <p className="h3">Contacts</p>
+        </DialogTitle>
         {!user.contacts || (user.contacts && !user.contacts.length) ? (
           <p className="p">{`This user hasn't made any contacts.`}</p>
         ) : (
