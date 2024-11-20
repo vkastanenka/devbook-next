@@ -1,43 +1,38 @@
+// types
 import { NextRequest } from 'next/server'
+
+// constants
 import {
-  LOGIN_ROUTE,
-  REGISTER_ROUTE,
+  PUBLIC_ROUTES,
   FEED_ROUTE,
   PROTECTED_ROUTES,
   ROOT_ROUTE,
+  ALL_ROUTES,
 } from '@/src/constants/route-constants'
 
-// import { updateSession } from './lib'
-
 export async function middleware(req: NextRequest) {
-  const { nextUrl } = req
-  const session = req.cookies.get(
-    process.env.NEXT_SESSION_JWT_COOKIE_NAME || ''
-  )
+  const { nextUrl, cookies } = req
+  const session = cookies.get(process.env.NEXT_SESSION_JWT_COOKIE_NAME || '')
   const isAuthenticated = !!session
 
-  // Redirect users to user page if authenticated
-  if (isAuthenticated && nextUrl.pathname.startsWith(LOGIN_ROUTE)) {
+  // Obtains top level path ex: /post/post-id => /post
+  // Home returns ''
+  const topPath = nextUrl.pathname.slice(1).split('/')[0]
+
+  // Redirect users to feed page from public page if authenticated
+  if (isAuthenticated && PUBLIC_ROUTES.includes(topPath)) {
     return Response.redirect(new URL(FEED_ROUTE, nextUrl))
   }
 
-  // Redirect users to user page if authenticated
-  if (isAuthenticated && nextUrl.pathname.startsWith(REGISTER_ROUTE)) {
-    return Response.redirect(new URL(FEED_ROUTE, nextUrl))
-  }
-
-  // Check if route is public
-  const isProtectedRoute = PROTECTED_ROUTES.find((route) => {
-    return nextUrl.pathname.startsWith(route)
-  })
-
-  // Redirect users to login if not authenticated and accessing private route
-  if (!isAuthenticated && isProtectedRoute) {
+  // Redirect users to login page from protected page if not authenticated
+  if (!isAuthenticated && PROTECTED_ROUTES.includes(topPath)) {
     return Response.redirect(new URL(ROOT_ROUTE, nextUrl))
   }
 
-  // Updates session with extended expiration
-  // return await updateSession(request)
+  // Redirect users to login if path doesn't exist
+  if (!ALL_ROUTES.includes(topPath)) {
+    return Response.redirect(new URL(ROOT_ROUTE, nextUrl))
+  }
 }
 
 // Routes middleware should *not* run on
