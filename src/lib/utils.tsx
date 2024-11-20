@@ -4,8 +4,8 @@ import { twMerge } from 'tailwind-merge'
 
 // types
 import { AxiosError } from 'axios'
-import { HttpStatusCode } from '@/src/types/http-status-code'
-import { ServerResponse } from '@/src/types/server-types'
+import { HttpStatusCode } from '@vkastanenka/devbook-types/dist'
+import { ServerResponse } from '@vkastanenka/devbook-types/dist/server'
 
 // Object for providing meaningful errors
 export const appError = ({

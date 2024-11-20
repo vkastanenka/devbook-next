@@ -7,7 +7,7 @@ import { UserAvatar } from '@/src/components/ui/avatar'
 import { constrainText } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
   currentUser,

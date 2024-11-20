@@ -22,10 +22,10 @@ import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { AuthRegisterReqBody } from '@/src/types/auth-types'
+import { AuthRegisterReqBody } from '@vkastanenka/devbook-types/dist/auth'
 
 // validation
-import { authRegisterReqBodySchema } from '@/src/validation/auth-validation'
+import { authRegisterReqBodySchema } from '@vkastanenka/devbook-validation/dist/auth'
 
 export const AuthRegisterForm = () => {
   const router = useRouter()

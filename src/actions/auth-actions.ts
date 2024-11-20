@@ -18,9 +18,9 @@ import {
   AuthResetPasswordReqBody,
   AuthUpdatePasswordReqBody,
   AuthSendResetPasswordTokenReqBody,
-} from '@/src/types/auth-types'
-import { ServerResponse } from '@/src/types/server-types'
-import { User } from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/auth'
+import { ServerResponse } from '@vkastanenka/devbook-types/dist/server'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 // constants
 import {

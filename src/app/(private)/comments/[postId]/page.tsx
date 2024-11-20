@@ -16,7 +16,7 @@ import { CircleArrowLeft } from 'lucide-react'
 import { redirect } from 'next/navigation'
 
 // types
-import { Comment } from '@/src/types/post-types'
+import { Comment } from '@vkastanenka/devbook-types/dist/post'
 
 interface CommentsPage {
   params: {

@@ -3,7 +3,7 @@ import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
 // types
-import { Comment, Post, PostLike } from '@/src/types/post-types'
+import { Comment, Post, PostLike } from '@vkastanenka/devbook-types/dist/post'
 
 interface FeedStore {
   feedPosts: Post[]

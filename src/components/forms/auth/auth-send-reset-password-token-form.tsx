@@ -22,10 +22,10 @@ import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { AuthSendResetPasswordTokenReqBody } from '@/src/types/auth-types'
+import { AuthSendResetPasswordTokenReqBody } from '@vkastanenka/devbook-types/dist/auth'
 
 // validation
-import { authSendResetPasswordTokenReqBodySchema } from '@/src/validation/auth-validation'
+import { authSendResetPasswordTokenReqBodySchema } from '@vkastanenka/devbook-validation/dist/auth'
 
 export const AuthSendResetPasswordTokenForm = () => {
   const router = useRouter()

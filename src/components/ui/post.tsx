@@ -10,8 +10,8 @@ import { format as formatDate, parseISO } from 'date-fns'
 import { cn, constrainText, formatText } from '@/src/lib/utils'
 
 // types
-import { Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Post } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface PostUi {
   className?: string

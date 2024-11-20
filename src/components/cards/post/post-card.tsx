@@ -6,8 +6,8 @@ import { PostCurrentUserOptionsButtons } from '@/src/components/buttons/post/pos
 import { Separator } from '@/src/components/ui/separator'
 
 // types
-import { Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Post } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface PostCard {
   isCurrentPost?: boolean

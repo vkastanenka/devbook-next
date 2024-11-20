@@ -7,8 +7,8 @@ import { cookies } from 'next/headers'
 import { formatServerError } from '@/src/lib/utils'
 
 // types
-import { AuthSession } from '@/src/types/auth-types'
-import { ServerResponse } from '@/src/types/server-types'
+import { AuthSession } from '@vkastanenka/devbook-types/dist/auth'
+import { ServerResponse } from '@vkastanenka/devbook-types/dist/server'
 
 export const serverGetSessionJwt = async () => {
   const sessionCookie = await cookies().get(

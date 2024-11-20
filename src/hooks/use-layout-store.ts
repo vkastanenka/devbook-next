@@ -2,7 +2,7 @@
 import { create } from 'zustand'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface LayoutStore {
   searchDevbookInputRef: React.RefObject<HTMLInputElement> | null

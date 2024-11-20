@@ -5,7 +5,7 @@ import { UserAvatar } from '@/src/components/ui/avatar'
 import { SearchToggleContactButton } from '@/src/components/buttons/search/search-toggle-contact-button'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface SearchResultUserCard {
   user: User

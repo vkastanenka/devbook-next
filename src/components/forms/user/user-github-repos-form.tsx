@@ -32,10 +32,10 @@ import {
   User,
   UserUpdateGithubReposFormData,
   UserUpdateUserReqBody,
-} from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/user'
 
 // validation
-import { userUpdateGithubReposFormSchema } from '@/src/validation/user-validation'
+import { userUpdateGithubReposFormSchema } from '@vkastanenka/devbook-validation/dist/user'
 
 export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
   const router = useRouter()

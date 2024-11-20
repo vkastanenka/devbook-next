@@ -47,11 +47,11 @@ import {
   UserCreateUpdateExperiencesFormData,
   UserCreateExperienceReqBody,
   UserUpdateExperienceReqBody,
-} from '@/src/types/user-types'
-import { ServerResponse } from '@/src/types/server-types'
+} from '@vkastanenka/devbook-types/dist/user'
+import { ServerResponse } from '@vkastanenka/devbook-types/dist/server'
 
 // validation
-import { userCreateUpdateExperiencesFormSchema } from '@/src/validation/user-validation'
+import { userCreateUpdateExperiencesFormSchema } from '@vkastanenka/devbook-validation/dist/user'
 
 interface UserExperiencesForm {
   user: User

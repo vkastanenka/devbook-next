@@ -18,8 +18,8 @@ import { useState, useEffect } from 'react'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
-import { ReadGithubRepoServerResponse } from '@/src/types/server-types'
-import { User } from '@/src/types/user-types'
+import { ReadGithubRepoServerResponse } from '@vkastanenka/devbook-types/dist/server'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserGithubReposCard {
   isCurrentUser?: boolean

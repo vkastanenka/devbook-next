@@ -9,7 +9,7 @@ import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-ed
 import { constrainText } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserDetailsCard {
   currentUser: User

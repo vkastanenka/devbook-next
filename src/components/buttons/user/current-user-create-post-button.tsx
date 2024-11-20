@@ -5,7 +5,7 @@ import { useModal } from '@/src/hooks/use-modal-store'
 import { constrainText } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export const CurrentUserCreatePostButton: React.FC<{
   currentUser: User

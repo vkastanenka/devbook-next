@@ -8,7 +8,7 @@ import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-ed
 import { formatText } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserExperienceCard {
   isCurrentUser?: boolean

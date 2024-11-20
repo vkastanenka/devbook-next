@@ -8,7 +8,7 @@ import {
   Address,
   AddressCreateUserAddressReqBody,
   AddressUpdateAddressReqBody,
-} from '@/src/types/address-types'
+} from '@vkastanenka/devbook-types/dist/address'
 
 // constants
 import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/src/constants/server-endpoint-constants'
@@ -19,10 +19,7 @@ import { ADDRESSES_CURRENT_USER_ADDRESS } from '@/src/constants/server-endpoint-
 export const addressCreateCurrentUserAddress = async (
   reqBody: AddressCreateUserAddressReqBody
 ) => {
-  return await serverRequestServer<
-    Address,
-    AddressCreateUserAddressReqBody
-  >({
+  return await serverRequestServer<Address, AddressCreateUserAddressReqBody>({
     data: reqBody,
     endpoint: ADDRESSES_CURRENT_USER_ADDRESS,
     method: 'post',

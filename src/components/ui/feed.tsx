@@ -20,8 +20,8 @@ import { useInView } from 'react-intersection-observer'
 import { useFeedStore } from '@/src/hooks/use-feed-store'
 
 // types
-import { Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Post } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface Feed {
   isCurrentUser?: boolean

@@ -5,7 +5,7 @@ import { cn } from '@/src/lib/utils'
 import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export const UserOpenUserContactsModalButton: React.FC<{
   className?: string

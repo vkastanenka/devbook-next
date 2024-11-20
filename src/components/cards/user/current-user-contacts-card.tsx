@@ -2,14 +2,14 @@
 import Link from 'next/link'
 import { Card } from '@/src/components/ui/card'
 import { NoContentCurrentUserContactsCard } from '@/src/components/cards/no-content/no-content-current-user-contacts-card'
+import { UserAvatar } from '@/src/components/ui/avatar'
 import { UserOpenUserContactsModalButton } from '@/src/components/buttons/user/user-open-user-contacts-modal-button'
 
 // utils
 import { constrainText } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
-import { UserAvatar } from '@/src/components/ui/avatar'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
   currentUser,

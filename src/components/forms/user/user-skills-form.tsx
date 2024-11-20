@@ -32,10 +32,10 @@ import {
   User,
   UserUpdateSkillsFormData,
   UserUpdateUserReqBody,
-} from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/user'
 
 // validation
-import { userUpdateSkillsFormSchema } from '@/src/validation/user-validation'
+import { userUpdateSkillsFormSchema } from '@vkastanenka/devbook-validation/dist/user'
 
 interface UserSkillsForm {
   user: User

@@ -9,22 +9,19 @@ import {
   PostReadPostRelationQueryReqBody,
   PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
-  PostCreateCommentLikeReqBody,
   PostCreatePostReqBody,
   PostUpdatePostReqBody,
   PostCreatePostLikeReqBody,
   Comment,
-  CommentLike,
   Post,
   PostLike,
-} from '@/src/types/post-types'
+} from '@vkastanenka/devbook-types/dist/post'
 
 // constants
 import {
   POSTS_POST,
   POSTS_COMMENT,
   POSTS_CURRENT_USER_COMMENT,
-  POSTS_CURRENT_USER_COMMENT_LIKE,
   POSTS_CURRENT_USER_POST,
   POSTS_CURRENT_USER_POST_LIKE,
 } from '@/src/constants/server-endpoint-constants'
@@ -36,7 +33,10 @@ export const postReadComment = async (
   recordId: string,
   reqBody?: PostReadCommentRelationQueryReqBody
 ) => {
-  return await serverRequestServer<Comment, PostReadCommentRelationQueryReqBody>({
+  return await serverRequestServer<
+    Comment,
+    PostReadCommentRelationQueryReqBody
+  >({
     data: reqBody,
     endpoint: `${POSTS_COMMENT}/${recordId}`,
     method: 'post',
@@ -70,27 +70,6 @@ export const postUpdateCurrentUserComment = async (
 export const postDeleteCurrentUserComment = async (recordId: string) => {
   return await serverRequestServer({
     endpoint: `${POSTS_CURRENT_USER_COMMENT}/${recordId}`,
-    method: 'delete',
-  })
-}
-
-// CommentLike
-
-// Create current user comment like
-export const postCreateCurrentUserCommentLike = async (
-  reqBody: PostCreateCommentLikeReqBody
-) => {
-  return await serverRequestServer<CommentLike, PostCreateCommentLikeReqBody>({
-    data: reqBody,
-    endpoint: `${POSTS_CURRENT_USER_COMMENT_LIKE}`,
-    method: 'post',
-  })
-}
-
-// Delete current user comment like
-export const postDeleteCurrentUserCommentLike = async (recordId: string) => {
-  return await serverRequestServer({
-    endpoint: `${POSTS_CURRENT_USER_COMMENT_LIKE}/${recordId}`,
     method: 'delete',
   })
 }

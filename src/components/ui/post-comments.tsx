@@ -2,6 +2,7 @@
 
 // components
 import Link from 'next/link'
+import { Card } from '@/src/components/ui/card'
 import { CommentActionButtons } from '@/src/components/buttons/post/post-comment-action-buttons'
 import { CommentCurrentUserOptionsButtons } from '@/src/components/buttons/post/post-current-user-comment-options-buttons'
 import { NoContentCard } from '@/src/components/cards/no-content/no-content-card'
@@ -16,9 +17,8 @@ import { format as formatDate, parseISO } from 'date-fns'
 import { cn, formatText } from '@/src/lib/utils'
 
 // types
-import { Comment, Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
-import { Card } from './card'
+import { Comment, Post } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface PostComments {
   className?: string

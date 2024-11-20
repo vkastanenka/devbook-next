@@ -23,8 +23,8 @@ import { useModal } from '@/src/hooks/use-modal-store'
 import { useToast } from '@/src/hooks/use-toast'
 
 // types
-import { Comment } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Comment } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface CommentCurrentUserOptionsButtons {
   comment: Comment

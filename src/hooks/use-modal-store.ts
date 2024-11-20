@@ -2,8 +2,8 @@
 import { create } from 'zustand'
 
 // types
-import { Comment, Post } from '@/src/types/post-types'
-import { User } from '@/src/types/user-types'
+import { Comment, Post } from '@vkastanenka/devbook-types/dist/post'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export type ModalType =
   | 'postCommentForm'

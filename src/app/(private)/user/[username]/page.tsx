@@ -18,7 +18,7 @@ import { cn } from '@/src/lib/utils'
 import { redirect } from 'next/navigation'
 
 // types
-import { Post } from '@/src/types/post-types'
+import { Post } from '@vkastanenka/devbook-types/dist/post'
 
 interface UserPage {
   params: {

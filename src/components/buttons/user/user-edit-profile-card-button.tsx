@@ -9,7 +9,7 @@ import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
 import { ModalType } from '@/src/hooks/use-modal-store'
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserEditProfileCardButton {
   className?: string

@@ -24,10 +24,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   AuthUpdatePasswordFormData,
   AuthUpdatePasswordReqBody,
-} from '@/src/types/auth-types'
+} from '@vkastanenka/devbook-types/dist/auth'
 
 // validation
-import { authUpdatePasswordReqBodySchema } from '@/src/validation/auth-validation'
+import { authUpdatePasswordReqBodySchema } from '@vkastanenka/devbook-validation/dist/auth'
 
 export const AuthUpdatePasswordForm = () => {
   const router = useRouter()

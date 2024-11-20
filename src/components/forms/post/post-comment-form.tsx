@@ -32,13 +32,13 @@ import {
   PostUpdateCommentFormData,
   PostCreateCommentReqBody,
   PostUpdateCommentReqBody,
-} from '@/src/types/post-types'
+} from '@vkastanenka/devbook-types/dist/post'
 
 // validation
 import {
   postCreateCommentFormSchema,
   postUpdateCommentFormSchema,
-} from '@/src/validation/post-validation'
+} from '@vkastanenka/devbook-validation/dist/post'
 
 export const CommentForm = () => {
   const router = useRouter()

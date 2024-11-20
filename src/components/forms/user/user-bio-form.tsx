@@ -27,10 +27,10 @@ import {
   User,
   UserUpdateBioFormData,
   UserUpdateUserReqBody,
-} from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/user'
 
 // validation
-import { userUpdateBioFormSchema } from '@/src/validation/user-validation'
+import { userUpdateBioFormSchema } from '@vkastanenka/devbook-validation/dist/user'
 
 interface UserBioForm {
   user: User

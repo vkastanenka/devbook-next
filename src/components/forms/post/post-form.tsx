@@ -32,13 +32,13 @@ import {
   PostUpdatePostFormData,
   PostCreatePostReqBody,
   PostUpdatePostReqBody,
-} from '@/src/types/post-types'
+} from '@vkastanenka/devbook-types/dist/post'
 
 // validation
 import {
   postCreatePostFormSchema,
   postUpdatePostFormSchema,
-} from '@/src/validation/post-validation'
+} from '@vkastanenka/devbook-validation/dist/post'
 
 export const PostForm = () => {
   const router = useRouter()

@@ -6,9 +6,9 @@ import { createTokenAuth } from '@octokit/auth-token'
 import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
-import { HttpStatusCode } from '@/src/types/http-status-code'
-import { Post } from '@/src/types/post-types'
-import { ReadGithubRepoServerResponse } from '@/src/types/server-types'
+import { HttpStatusCode } from '@vkastanenka/devbook-types/dist/.'
+import { Post } from '@vkastanenka/devbook-types/dist/post'
+import { ReadGithubRepoServerResponse } from '@vkastanenka/devbook-types/dist/server'
 import {
   User,
   UserRelationQueryReqBody,
@@ -19,7 +19,7 @@ import {
   UserEducation,
   UserExperience,
   UserUpdateUserReqBody,
-} from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/user'
 
 // constants
 import {

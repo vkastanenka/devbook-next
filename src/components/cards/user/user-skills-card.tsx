@@ -12,7 +12,7 @@ import { CircleArrowRight } from 'lucide-react'
 import { useModal } from '@/src/hooks/use-modal-store'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 const NUM_VISIBLE_SKILLS = 2
 

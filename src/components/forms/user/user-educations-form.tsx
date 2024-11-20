@@ -39,11 +39,11 @@ import {
   UserCreateUpdateEducationsFormData,
   UserCreateEducationReqBody,
   UserUpdateEducationReqBody,
-} from '@/src/types/user-types'
-import { ServerResponse } from '@/src/types/server-types'
+} from '@vkastanenka/devbook-types/dist/user'
+import { ServerResponse } from '@vkastanenka/devbook-types/dist/server'
 
 // validation
-import { userCreateUpdateEducationsFormSchema } from '@/src/validation/user-validation'
+import { userCreateUpdateEducationsFormSchema } from '@vkastanenka/devbook-validation/dist/user'
 
 interface UserEducationsForm {
   user: User

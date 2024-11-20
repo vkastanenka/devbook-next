@@ -10,7 +10,7 @@ import { UserOpenUserContactsModalButton } from '@/src/components/buttons/user/u
 import { cn, formatUserInitials } from '@/src/lib/utils'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 const NUM_VISIBLE_CONTACTS = 3
 

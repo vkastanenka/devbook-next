@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
 import { cn, formatUserInitials } from '@/src/lib/utils'
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,

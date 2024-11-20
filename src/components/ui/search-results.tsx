@@ -9,7 +9,7 @@ import { SearchResultUserCard } from '@/src/components/cards/search/search-resul
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface SearchResults {
   currentUser: User

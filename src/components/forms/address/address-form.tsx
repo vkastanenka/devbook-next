@@ -31,14 +31,14 @@ import {
   AddressUpdateAddressFormData,
   AddressCreateUserAddressReqBody,
   AddressUpdateAddressReqBody,
-} from '@/src/types/address-types'
-import { User } from '@/src/types/user-types'
+} from '@vkastanenka/devbook-types/dist/address'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 // validation
 import {
   addressCreateAddressFormSchema,
   addressUpdateAddressFormSchema,
-} from '@/src/validation/address-validation'
+} from '@vkastanenka/devbook-validation/dist/address'
 
 interface AddressForm {
   user?: User

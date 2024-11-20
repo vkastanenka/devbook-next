@@ -4,8 +4,8 @@
 import { serverRequestServer } from '@/src/actions/server-actions'
 
 // types
-import { SearchDevbookReqBody } from '@/src/types/search-types'
-import { User } from '@/src/types/user-types'
+import { SearchDevbookReqBody } from '@vkastanenka/devbook-types/dist/search'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 // constants
 import { SEARCH_DEVBOOK } from '@/src/constants/server-endpoint-constants'

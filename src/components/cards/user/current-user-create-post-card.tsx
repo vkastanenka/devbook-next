@@ -5,7 +5,7 @@ import { UserAvatar } from '@/src/components/ui/avatar'
 import { CurrentUserCreatePostButton } from '@/src/components/buttons/user/current-user-create-post-button'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 export const CurrentUserCreatePostCard: React.FC<{
   currentUser: User

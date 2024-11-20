@@ -12,7 +12,7 @@ import { useToast } from '@/src/hooks/use-toast'
 import { useRouter } from 'next/navigation'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserEditContactButton {
   user: User

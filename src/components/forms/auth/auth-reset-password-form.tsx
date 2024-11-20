@@ -21,10 +21,10 @@ import { useToast } from '@/src/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 // types
-import { AuthResetPasswordReqBody } from '@/src/types/auth-types'
+import { AuthResetPasswordReqBody } from '@vkastanenka/devbook-types/dist/auth'
 
 // validation
-import { authResetPasswordReqBodySchema } from '@/src/validation/auth-validation'
+import { authResetPasswordReqBodySchema } from '@vkastanenka/devbook-validation/dist/auth'
 
 interface ResetPasswordForm {
   resetPasswordToken: string

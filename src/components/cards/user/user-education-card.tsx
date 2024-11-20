@@ -4,7 +4,7 @@ import { Separator } from '@/src/components/ui/separator'
 import { UserEditProfileCardButton } from '@/src/components/buttons/user/user-edit-profile-card-button'
 
 // types
-import { User } from '@/src/types/user-types'
+import { User } from '@vkastanenka/devbook-types/dist/user'
 
 interface UserEducationCard {
   isCurrentUser?: boolean
