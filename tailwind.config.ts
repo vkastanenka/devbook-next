@@ -3,11 +3,7 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   darkMode: ['class'],
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     screens: {
       xl: '1280px',
@@ -73,7 +69,6 @@ const config: Config = {
         card: '1.5rem',
         nav: '60px',
         container: '1280px',
-        ['container-small']: '1140px',
       },
     },
   },

@@ -1,5 +1,5 @@
 // Public
-export const ROOT_ROUTE = ''
+export const ROOT_ROUTE = '/'
 export const LOGIN_ROUTE = '/login'
 export const REGISTER_ROUTE = '/register'
 export const RECOVER_PASSWORD_ROUTE = '/recover-password'
@@ -26,4 +26,4 @@ export const PROTECTED_ROUTES = [
   UPDATE_PASSWORD_ROUTE,
 ]
 
-export const ALL_ROUTES = [...PUBLIC_ROUTES, PROTECTED_ROUTES]
+export const ALL_ROUTES = [...PUBLIC_ROUTES, ...PROTECTED_ROUTES]

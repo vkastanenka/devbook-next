@@ -16,8 +16,7 @@ export async function middleware(req: NextRequest) {
   const isAuthenticated = !!session
 
   // Obtains top level path ex: /post/post-id => /post
-  // Home returns ''
-  const topPath = nextUrl.pathname.slice(1).split('/')[0]
+  const topPath = `/${nextUrl.pathname.slice(1).split('/')[0]}`
 
   // Redirect users to feed page from public page if authenticated
   if (isAuthenticated && PUBLIC_ROUTES.includes(topPath)) {
