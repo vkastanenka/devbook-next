@@ -10,7 +10,7 @@ export const NoContentSearchResultsCard = () => {
   return (
     <Card>
       <button
-        className="button-text w-full text-center"
+        className="button-text w-full justify-center"
         onClick={() => {
           if (searchDevbookInputRef?.current) {
             searchDevbookInputRef.current.focus()
