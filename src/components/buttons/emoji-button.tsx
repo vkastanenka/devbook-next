@@ -15,6 +15,9 @@ import { SmilePlus } from 'lucide-react'
 import data from '@emoji-mart/data'
 import { useTheme } from 'next-themes'
 
+// types
+import { Skin } from '@emoji-mart/data'
+
 interface EmojiButton {
   onChange: (value: string) => void
 }
@@ -24,7 +27,7 @@ export const EmojiButton = ({ onChange }: EmojiButton) => {
 
   return (
     <Popover>
-      <PopoverTrigger className='button-text'>
+      <PopoverTrigger className="button-text">
         <SmilePlus className="text-foreground" />
       </PopoverTrigger>
       <PopoverContent
@@ -34,7 +37,7 @@ export const EmojiButton = ({ onChange }: EmojiButton) => {
       >
         <Picker
           data={data}
-          onEmojiSelect={(emoji: any) => onChange(emoji.native)}
+          onEmojiSelect={(emoji: Skin) => onChange(emoji.native)}
           theme={resolvedTheme}
         />
       </PopoverContent>

@@ -16,7 +16,11 @@ import { CircleArrowLeft } from 'lucide-react'
 import { redirect } from 'next/navigation'
 
 // types
-import { Comment } from '@vkastanenka/devbook-types/dist/post'
+import {
+  Comment,
+  PostReadCommentRelationQueryReqBody,
+  PostReadPostRelationQueryReqBody,
+} from '@vkastanenka/devbook-types/dist/post'
 import { Prisma } from '@vkastanenka/devbook-prisma'
 
 interface CommentsPage {
@@ -52,7 +56,7 @@ const CommentsPage: React.FC<CommentsPage> = async ({
           where: { parentCommentId: null },
           orderBy: { createdAt: 'desc' },
           include: {
-            ...subCommentsQuery,
+            subComments: subCommentsQuery.subComments,
             commentLikes: true,
             user: true,
             _count: { select: { subComments: true, commentLikes: true } },
@@ -61,14 +65,14 @@ const CommentsPage: React.FC<CommentsPage> = async ({
         postLikes: true,
         user: true,
         _count: { select: { comments: true, postLikes: true } },
-      },
-    })
+      } as Prisma.PostInclude,
+    } as PostReadPostRelationQueryReqBody)
 
   if (!readPostResData) {
     return <NoContentCard heading="Error!" subheading={readPostResMessage} />
   }
 
-  let parentComment: Comment | undefined
+  let parentComment: Comment | undefined = undefined
   let isParentCommentTopLayer: boolean = false
 
   readPostResData.comments?.every((comment) => {
@@ -82,12 +86,12 @@ const CommentsPage: React.FC<CommentsPage> = async ({
   if (parentCommentId && !isParentCommentTopLayer) {
     const response = await postReadComment(parentCommentId, {
       include: {
-        ...subCommentsQuery,
+        subComments: subCommentsQuery.subComments,
         commentLikes: true,
         user: true,
         _count: { select: { subComments: true, commentLikes: true } },
-      },
-    })
+      } as Prisma.CommentInclude,
+    } as PostReadCommentRelationQueryReqBody)
 
     if (!response.data) {
       return
@@ -132,8 +136,10 @@ export default CommentsPage
 
 const SUB_COMMENT_LAYER_LIMIT = 3
 
+type SubComments = boolean | Prisma.Comment$subCommentsArgs | undefined
+
 interface SubCommentsQuery {
-  subComments: boolean | Prisma.Comment$subCommentsArgs | undefined
+  subComments: SubComments
 }
 
 const recursivelyIncludeSubcommentsQuery = (
@@ -152,14 +158,15 @@ const recursivelyIncludeSubcommentsQuery = (
         user: true,
         _count: { select: { subComments: true, commentLikes: true } },
       },
-    },
+    } as SubComments,
   } as SubCommentsQuery
 
   return recursivelyIncludeSubcommentsQuery(count - 1, nestedQuery)
 }
 
-export const subCommentsQuery: SubCommentsQuery =
-  recursivelyIncludeSubcommentsQuery(SUB_COMMENT_LAYER_LIMIT, {
+const subCommentsQuery: SubCommentsQuery = recursivelyIncludeSubcommentsQuery(
+  SUB_COMMENT_LAYER_LIMIT,
+  {
     subComments: {
       orderBy: { createdAt: 'desc' },
       include: {
@@ -167,4 +174,5 @@ export const subCommentsQuery: SubCommentsQuery =
         _count: { select: { subComments: true, commentLikes: true } },
       },
     },
-  } as SubCommentsQuery)
+  } as SubCommentsQuery
+)

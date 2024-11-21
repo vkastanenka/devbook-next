@@ -5,6 +5,7 @@ import { searchDevbook } from '@/src/actions/search-actions'
 
 // components
 import { Input } from '@/src/components/ui/input'
+import { Suspense } from 'react'
 
 // svg
 import { Search } from 'lucide-react'
@@ -16,7 +17,7 @@ import { cn } from '@/src/lib/utils'
 import { useLayoutStore } from '@/src/hooks/use-layout-store'
 import { useToast } from '@/src/hooks/use-toast'
 
-export const SearchForm = () => {
+const Form = () => {
   const { toast } = useToast()
   const router = useRouter()
   const pathname = usePathname()
@@ -143,5 +144,13 @@ export const SearchForm = () => {
         </form>
       </div>
     </>
+  )
+}
+
+export const SearchForm = () => {
+  return (
+    <Suspense>
+      <Form />
+    </Suspense>
   )
 }

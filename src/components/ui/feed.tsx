@@ -44,8 +44,12 @@ export const Feed: React.FC<Feed> = ({
   const [allPostsLoaded, setAllPostsLoaded] = useState(false)
 
   useEffect(() => {
-    setFeedPosts(initialPosts || [])
-    setIsLoading(false)
+    const setStatePosts = async () => {
+      await setFeedPosts(initialPosts || [])
+      setIsLoading(false)
+    }
+    setStatePosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -102,6 +106,7 @@ export const Feed: React.FC<Feed> = ({
 
     if (inView && user) userAction()
     else if (inView) currentUserAction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   if (isLoading && !initialPosts) {
