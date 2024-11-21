@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-2">
           <div className="pt-1">
             <DropdownMenu>
-              <DropdownMenuTrigger className="button-text h-full p-1">
+              <DropdownMenuTrigger className="button-text h-full">
                 <Settings />
               </DropdownMenuTrigger>
               <DropdownMenuContent>

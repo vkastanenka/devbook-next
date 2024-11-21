@@ -89,7 +89,7 @@ export const UserBioForm: React.FC<UserBioForm> = ({ user }) => {
               <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
-                  rows={10}
+                  rows={15}
                   placeholder="Bio"
                   disabled={isSubmitting}
                   {...field}

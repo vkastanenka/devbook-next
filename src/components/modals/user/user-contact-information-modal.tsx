@@ -37,7 +37,7 @@ export const UserContactInformationModal = () => {
             className="button-text"
             href={`http://localhost:3000/user/${user.username}`}
           >
-            <p className="p">{`http://localhost:3000/user/${user.username}`}</p>
+            {`http://localhost:3000/user/${user.username}`}
           </Link>
         </div>
         <div className="flex flex-col gap-2">
@@ -45,7 +45,7 @@ export const UserContactInformationModal = () => {
             <p className="h3">Email</p>
           </div>
           <Link className="button-text" href={`mailto:${user.email}`}>
-            <p className="p">{user.email}</p>
+            {user.email}
           </Link>
         </div>
         {user.phone && (

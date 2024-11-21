@@ -130,7 +130,7 @@ export const UserGithubReposForm: React.FC<{ user: User }> = ({ user }) => {
         </ModalFormScrollArea>
 
         <button
-          className="h4 button-text"
+          className="h4 button-text justify-center"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()

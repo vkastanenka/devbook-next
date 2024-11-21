@@ -197,11 +197,29 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <ModalFormScrollArea>
+        <ModalFormScrollArea className="h-[60vh]">
           {createFormValues.length > 0 &&
             createFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.create?.filter(
+                        (exp, j) => {
+                          const isFiltered = i === j
+                          return !isFiltered
+                        }
+                      )
+                      setValue('create', filteredValues)
+                      setCreateFormValues(filteredValues)
+                    }}
+                    className="absolute button-text top-1 right-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+
                   <p className="h4">Past Experience</p>
 
                   <FormField
@@ -316,11 +334,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                     name={`create.${i}.startYear`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start year</FormLabel>
+                        <FormLabel>Start Year</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Start year"
+                            placeholder="Start Year"
                             disabled={isSubmitting}
                             {...field}
                           />
@@ -334,11 +352,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                     name={`create.${i}.endYear`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End year</FormLabel>
+                        <FormLabel>End Year</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="End year"
+                            placeholder="End Year"
                             disabled={isSubmitting}
                             {...field}
                           />
@@ -349,24 +367,6 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                   />
 
                   {i !== arr.length - 1 && <Separator />}
-
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault()
-                      const formValues = getValues()
-                      const filteredValues = formValues.create?.filter(
-                        (exp, j) => {
-                          const isFiltered = i === j
-                          return !isFiltered
-                        }
-                      )
-                      setValue('create', filteredValues)
-                      setCreateFormValues(filteredValues)
-                    }}
-                    className="absolute button-text top-1 right-0"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
               )
             })}
@@ -375,6 +375,32 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
             updateFormValues.map((_, i, arr) => {
               return (
                 <div key={i} className="relative flex flex-col gap-4">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredValues = formValues.update?.filter(
+                        (exp, j) => {
+                          const isFiltered = i === j
+                          if (isFiltered && exp.recordId) {
+                            setUserExperiencesToDelete((prevState) => [
+                              ...(prevState ? prevState : []),
+                              { id: exp.recordId },
+                            ])
+                          }
+                          return !isFiltered
+                        }
+                      )
+                      if (filteredValues) {
+                        setValue('update', filteredValues)
+                        setUpdateFormValues(filteredValues)
+                      }
+                    }}
+                    className="absolute button-text top-1 right-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+
                   <p className="h4">Past Experience</p>
 
                   <FormField
@@ -489,11 +515,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                     name={`update.${i}.reqBody.startYear`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start year</FormLabel>
+                        <FormLabel>Start Year</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Start year"
+                            placeholder="Start Year"
                             disabled={isSubmitting}
                             {...field}
                           />
@@ -507,11 +533,11 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                     name={`update.${i}.reqBody.endYear`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End year</FormLabel>
+                        <FormLabel>End Year</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="End year"
+                            placeholder="End Year"
                             disabled={isSubmitting}
                             {...field}
                           />
@@ -522,39 +548,13 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
                   />
 
                   {i !== arr.length - 1 && <Separator />}
-
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault()
-                      const formValues = getValues()
-                      const filteredValues = formValues.update?.filter(
-                        (exp, j) => {
-                          const isFiltered = i === j
-                          if (isFiltered && exp.recordId) {
-                            setUserExperiencesToDelete((prevState) => [
-                              ...(prevState ? prevState : []),
-                              { id: exp.recordId },
-                            ])
-                          }
-                          return !isFiltered
-                        }
-                      )
-                      if (filteredValues) {
-                        setValue('update', filteredValues)
-                        setUpdateFormValues(filteredValues)
-                      }
-                    }}
-                    className="absolute button-text top-1 right-0"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
               )
             })}
         </ModalFormScrollArea>
 
         <button
-          className="h4 button-text"
+          className="h4 button-text justify-center"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()

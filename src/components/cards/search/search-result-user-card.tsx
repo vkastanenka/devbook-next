@@ -21,7 +21,7 @@ export const SearchResultUserCard: React.FC<SearchResultUserCard> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <Link
           href={`/user/${user.username}`}
-          className="button-text flex items-center gap-2 md:gap-4"
+          className="button-text gap-2 md:gap-4"
         >
           <UserAvatar
             user={user}

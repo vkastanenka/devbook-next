@@ -16,7 +16,7 @@ export const UserOpenUserContactsModalButton: React.FC<{
   return (
     <button
       className={cn(
-        'w-full p-1 button-text text-card-foreground flex justify-between items-center gap-2',
+        'button-text w-full flex text-card-foreground justify-between gap-2',
         className
       )}
       onClick={() => onOpen('userContacts', { user })}

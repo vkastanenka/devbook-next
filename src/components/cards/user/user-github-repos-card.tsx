@@ -89,7 +89,7 @@ export const UserGithubReposCard: React.FC<UserGithubReposCard> = ({
                   return (
                     <Card key={i} className="p-2 col-span-2 sm:col-span-1">
                       <Link
-                        className="p-2 button-text block h-full"
+                        className="p-2 button-text flex flex-col items-start h-full"
                         href={repoSuccess.data.html_url}
                         target="_blank"
                       >

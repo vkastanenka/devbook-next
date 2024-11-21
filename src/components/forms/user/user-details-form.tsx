@@ -101,17 +101,17 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
         autoComplete="off"
         className="flex flex-col gap-4 justify-center"
       >
-        <ModalFormScrollArea>
+        <ModalFormScrollArea className="h-[60vh] md:h-[57vh]">
           <p className="h4">Identity</p>
 
           <FormField
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name*</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Name*"
+                    placeholder="Name"
                     disabled={isSubmitting}
                     {...field}
                   />
@@ -173,10 +173,10 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email*</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Email*"
+                    placeholder="Email"
                     disabled={isSubmitting}
                     {...field}
                   />

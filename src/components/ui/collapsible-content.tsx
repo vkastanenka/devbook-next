@@ -33,7 +33,7 @@ export const CollapsibleContent: React.FC<CollapsibleContent> = ({
       {includeTrigger && (
         <button
           className={cn(
-            'w-full p-1 button-text text-card-foreground flex items-center gap-2',
+            'w-full button-text text-card-foreground gap-2',
             isCollapsed ? 'justify-between' : 'justify-end'
           )}
           onClick={() => setIsCollapsed((prevState) => !prevState)}

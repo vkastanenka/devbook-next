@@ -24,7 +24,7 @@ export const EmojiButton = ({ onChange }: EmojiButton) => {
 
   return (
     <Popover>
-      <PopoverTrigger className='button-text p-1'>
+      <PopoverTrigger className='button-text'>
         <SmilePlus className="text-foreground" />
       </PopoverTrigger>
       <PopoverContent

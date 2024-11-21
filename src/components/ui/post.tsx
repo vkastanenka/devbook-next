@@ -29,13 +29,13 @@ export const PostUser: React.FC<PostUi & { isCurrentPost?: boolean }> = ({
       {post.user ? (
         <div className="flex items-center gap-2">
           {isCurrentPost && (
-            <Link className="button-text p-1 xl:hidden block" href="/feed">
+            <Link className="button-text xl:hidden" href="/feed">
               <CircleArrowLeft />
             </Link>
           )}
           <Link
             href={`/user/${post.user.username}`}
-            className="button-text inline-flex items-center gap-2"
+            className="button-text gap-2"
           >
             <UserAvatar user={post.user} />
             <div>

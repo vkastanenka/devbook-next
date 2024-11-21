@@ -41,7 +41,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
                 <div key={contact.id} className="col-span-1">
                   <Link
                     href={`/user/${contact.username}`}
-                    className="p-1 button-text flex flex-col gap-1"
+                    className="button-text flex flex-col"
                   >
                     <AspectRatio ratio={1}>
                       <div className="h-full bg-primary text-primary-foreground flex items-center justify-center pointer-events-none rounded-md">

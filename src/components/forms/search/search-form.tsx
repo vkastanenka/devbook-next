@@ -105,7 +105,7 @@ export const SearchForm = () => {
   return (
     <>
       <button
-        className="button-text p-1 block md:hidden"
+        className="button-text md:hidden"
         onClick={() => {
           setIsMobileFormOpen((prevState) => !prevState)
           if (inputRef?.current) inputRef.current.focus()

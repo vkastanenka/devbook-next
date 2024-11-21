@@ -132,7 +132,7 @@
   }
 
   .button-text {
-    @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-block p-1 p;
+    @apply hover:bg-muted focus:bg-muted focus-within:bg-muted group-focus:bg-muted rounded-md transition-colors inline-flex gap-1 items-center p-1 p;
   }
 
   /* Cards */

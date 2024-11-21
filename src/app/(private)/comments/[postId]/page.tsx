@@ -100,7 +100,7 @@ const CommentsPage: React.FC<CommentsPage> = async ({
       <div className="basis-full lg:basis-2/3 xl:basis-3/4 flex items-start gap-4 relative">
         <Link
           href="/feed"
-          className="button-text hidden xl:flex gap-2 items-center p-1 absolute md:-left-9 top-card"
+          className="button-text hidden xl:flex gap-2 absolute md:-left-9 top-card"
         >
           <CircleArrowLeft />
         </Link>

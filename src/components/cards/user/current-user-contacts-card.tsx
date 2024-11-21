@@ -27,7 +27,7 @@ export const CurrentUserContactsCard: React.FC<{ currentUser: User }> = async ({
       {currentUser.contacts?.slice(0, 6).map((contact) => (
         <div className="flex flex-col gap-4" key={contact.id}>
           <Link
-            className="button-text flex items-center gap-2"
+            className="button-text gap-2"
             href={`/user/${contact.username}`}
           >
             <UserAvatar user={contact} />

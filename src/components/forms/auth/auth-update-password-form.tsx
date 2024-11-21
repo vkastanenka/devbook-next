@@ -79,7 +79,7 @@ export const AuthUpdatePasswordForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Current password"
+                  placeholder="Current Password"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -96,7 +96,7 @@ export const AuthUpdatePasswordForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="New password"
+                  placeholder="New Password"
                   disabled={isSubmitting}
                   {...field}
                 />

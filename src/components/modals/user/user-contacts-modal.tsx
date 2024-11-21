@@ -34,12 +34,12 @@ export const UserContactsModal = () => {
         {!user.contacts || (user.contacts && !user.contacts.length) ? (
           <p className="p">{`This user hasn't made any contacts.`}</p>
         ) : (
-          <ScrollArea className="h-[50vh]">
+          <ScrollArea className="h-[40vh]">
             <div className={'flex flex-col gap-4 pr-5'}>
               {user.contacts?.map((contact) => (
                 <div key={contact.id}>
                   <Link
-                    className="button-text flex items-center gap-2"
+                    className="button-text gap-2"
                     href={`/user/${contact.username}`}
                     onClick={onClose}
                   >

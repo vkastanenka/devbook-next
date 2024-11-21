@@ -15,7 +15,7 @@ export const AuthLogoutButton = () => {
   const logout = async () => {
     const response = await authLogout()
 
-    if (response && !response.success && !response.errors) {
+    if (!response.success) {
       toast({
         title: 'Error!',
         description: response.message,

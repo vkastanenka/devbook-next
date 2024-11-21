@@ -4,12 +4,6 @@ import { Card } from '@/src/components/ui/card'
 // utils
 import { cn } from '@/src/lib/utils'
 
-/**
- * TODO
- * 
- * Figure out complete implementation for all types of cards
- */
-
 export const NoContentCard: React.FC<{
   heading: string
   subheading?: string

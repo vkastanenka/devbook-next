@@ -50,7 +50,7 @@ export const PostComments: React.FC<PostComments> = ({
         <div className={cn('flex gap-2', className)}>
           <div className="inline-block">
             <Link
-              className="inline-flex items-center gap-2 button-text"
+              className="gap-2 button-text"
               href={`/comments/${post.id}`}
             >
               <CircleArrowLeft /> View all comments
@@ -58,7 +58,7 @@ export const PostComments: React.FC<PostComments> = ({
           </div>
           <div className="inline-block">
             <Link
-              className="inline-flex items-center gap-2 button-text"
+              className="gap-2 button-text"
               href={`/comments/${post.id}?parentCommentId=${parentComment.parentCommentId}`}
             >
               <CircleArrowLeft /> View previous comments
@@ -132,7 +132,7 @@ export const PostComment: React.FC<PostComment> = ({
           <div className="inline-block">
             <Link
               href={`/user/${comment.user.username}`}
-              className="button-text inline-flex items-center gap-2"
+              className="button-text gap-2"
             >
               <UserAvatar className="w-9 h-9 text-sm" user={comment.user} />
               <p className="p">{comment.user.name}</p>
@@ -194,7 +194,7 @@ export const PostComment: React.FC<PostComment> = ({
       comment.subComments.length > subCommentLimit ? (
         <div>
           <button
-            className="muted flex items-center gap-2 button-text"
+            className="muted gap-2 button-text"
             onClick={() => setSubCommentLimit((prevState) => prevState + 100)}
           >
             View more replies
@@ -209,7 +209,7 @@ export const PostComment: React.FC<PostComment> = ({
       comment.subComments.length < subCommentLimit ? (
         <div>
           <button
-            className="muted flex items-center gap-2 button-text"
+            className="muted gap-2 button-text"
             onClick={() => setSubCommentLimit(0)}
           >
             <CircleArrowLeft className="w-4 pt-1" />
@@ -223,7 +223,7 @@ export const PostComment: React.FC<PostComment> = ({
         <div className="inline-block">
           <Link
             href={`/comments/${post.id}?parentCommentId=${comment.id}`}
-            className="button-text muted inline-flex items-center gap-2"
+            className="button-text muted gap-2"
           >
             View all replies
             <CircleArrowRight className="w-4 pt-1" />

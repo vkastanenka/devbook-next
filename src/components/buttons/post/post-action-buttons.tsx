@@ -44,8 +44,6 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
   const { onOpen } = useModal()
   const { addFeedPostLike, deleteFeedPostLike } = useFeedStore()
 
-  const styleButton = 'button-text gap-1 flex justify-center items-center'
-
   const currentUserPostLike = post.postLikes?.find(
     (postLike) => postLike.userId === currentUser.id
   )
@@ -65,9 +63,9 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       return
     }
 
-    router.refresh()
+    await addFeedPostLike(response.data)
 
-    addFeedPostLike(response.data)
+    router.refresh()
   }
 
   const dislikePost = async () => {
@@ -85,9 +83,9 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
         return
       }
 
-      router.refresh()
+      await deleteFeedPostLike(currentUserPostLike)
 
-      deleteFeedPostLike(currentUserPostLike)
+      router.refresh()
     }
   }
 
@@ -96,7 +94,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
       <div className="flex items-center justify-between gap-1 w-full">
         <div className="flex items-center gap-2">
           <button
-            className={styleButton}
+            className="button-text"
             onClick={currentUserPostLike ? dislikePost : likePost}
           >
             {currentUserPostLike ? <ThumbsDown /> : <ThumbsUp />}
@@ -105,7 +103,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
             </div>
           </button>
           <button
-            className={styleButton}
+            className="button-text"
             onClick={() =>
               onOpen('postCommentForm', { post, user: currentUser })
             }
@@ -115,7 +113,7 @@ export const PostActionButtons: React.FC<PostActionButtons> = ({
           </button>
         </div>
         {!pathname.startsWith('/comments') && (
-          <Link className={styleButton} href={`/comments/${post.id}`}>
+          <Link className="button-text" href={`/comments/${post.id}`}>
             <div className="hidden md:block">View Comments</div>
             <CircleArrowRight />
           </Link>

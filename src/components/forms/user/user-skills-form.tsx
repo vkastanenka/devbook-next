@@ -96,6 +96,20 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
             renderedFormValues.map((_, i) => {
               return (
                 <div key={i} className="relative">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      const formValues = getValues()
+                      const filteredRepos = formValues.skills.filter(
+                        (_, j) => !(i === j)
+                      )
+                      setValue('skills', filteredRepos)
+                      setRenderedFormValues(filteredRepos)
+                    }}
+                    className="absolute button-text top-1 right-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                   <FormField
                     name={`skills.${i}`}
                     render={({ field }) => (
@@ -112,27 +126,13 @@ export const UserSkillsForm: React.FC<UserSkillsForm> = ({ user }) => {
                       </FormItem>
                     )}
                   />
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault()
-                      const formValues = getValues()
-                      const filteredRepos = formValues.skills.filter(
-                        (_, j) => !(i === j)
-                      )
-                      setValue('skills', filteredRepos)
-                      setRenderedFormValues(filteredRepos)
-                    }}
-                    className="absolute button-text top-1 right-0"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
                 </div>
               )
             })}
         </ModalFormScrollArea>
 
         <button
-          className="h4 button-text"
+          className="h4 button-text justify-center"
           onClick={(e) => {
             e.preventDefault()
             const formValues = getValues()

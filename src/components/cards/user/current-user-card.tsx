@@ -15,7 +15,7 @@ export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
   return (
     <Card>
       <Link
-        className="button-text block"
+        className="button-text flex"
         href={`/user/${currentUser.username}`}
       >
         <div className="card flex flex-col gap-2">

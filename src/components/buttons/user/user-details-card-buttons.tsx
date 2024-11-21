@@ -23,8 +23,8 @@ export const UserDetailsCardButtons: React.FC<{ user: User }> = ({ user }) => {
   const { onOpen } = useModal()
 
   let userPageLink = (
-    <Link href={`/user/${user.username}/profile`}>
-      <p className="muted">Profile</p>
+    <Link className="button-text muted" href={`/user/${user.username}/profile`}>
+      Profile
       <CircleUserRound />
     </Link>
   )
@@ -33,29 +33,32 @@ export const UserDetailsCardButtons: React.FC<{ user: User }> = ({ user }) => {
 
   if (pathname.includes('/profile')) {
     userPageLink = (
-      <Link href={`/user/${user.username}`}>
-        <p className="muted">Feed</p>
+      <Link className="button-text muted" href={`/user/${user.username}`}>
+        Feed
         <Logs />
       </Link>
     )
   }
 
   return (
-    <div className="flex gap-2 [&>*]:inline-flex [&>*]:items-center [&>*]:gap-1 [&>*]:button-text [&>*]:p-1">
+    <div className="flex gap-2">
       {userPageLink}
-      <button onClick={() => onOpen('userContactInformation', { user })}>
-        <p className="muted">Contact info</p>
+      <button
+        className="button-text muted"
+        onClick={() => onOpen('userContactInformation', { user })}
+      >
+        Contact info
         <Contact />
       </button>
       {user.resume && (
-        <a href={user.resume} download>
-          <p className="muted">Resume</p>
+        <a className="button-text muted" href={user.resume} download>
+          Resume
           <File />
         </a>
       )}
       {user.website && (
-        <Link href={user.website} target="_blank">
-          <p className="muted">Website</p>
+        <Link className="button-text muted" href={user.website} target="_blank">
+          Website
           <LucideLink />
         </Link>
       )}
