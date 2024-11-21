@@ -17,6 +17,7 @@ import { redirect } from 'next/navigation'
 
 // types
 import { Comment } from '@vkastanenka/devbook-types/dist/post'
+import { Prisma } from '@vkastanenka/devbook-prisma'
 
 interface CommentsPage {
   params: {
@@ -131,10 +132,14 @@ export default CommentsPage
 
 const SUB_COMMENT_LAYER_LIMIT = 3
 
+interface SubCommentsQuery {
+  subComments: boolean | Prisma.Comment$subCommentsArgs | undefined
+}
+
 const recursivelyIncludeSubcommentsQuery = (
   count: number,
-  query: { [key: string]: any }
-) => {
+  query: SubCommentsQuery
+): SubCommentsQuery => {
   if (count === 1) {
     return query
   }
@@ -148,14 +153,13 @@ const recursivelyIncludeSubcommentsQuery = (
         _count: { select: { subComments: true, commentLikes: true } },
       },
     },
-  }
+  } as SubCommentsQuery
 
   return recursivelyIncludeSubcommentsQuery(count - 1, nestedQuery)
 }
 
-export const subCommentsQuery = recursivelyIncludeSubcommentsQuery(
-  SUB_COMMENT_LAYER_LIMIT,
-  {
+export const subCommentsQuery: SubCommentsQuery =
+  recursivelyIncludeSubcommentsQuery(SUB_COMMENT_LAYER_LIMIT, {
     subComments: {
       orderBy: { createdAt: 'desc' },
       include: {
@@ -163,5 +167,4 @@ export const subCommentsQuery = recursivelyIncludeSubcommentsQuery(
         _count: { select: { subComments: true, commentLikes: true } },
       },
     },
-  }
-)
+  } as SubCommentsQuery)
