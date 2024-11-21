@@ -2,7 +2,12 @@
 
 // components
 import { Separator } from '@/src/components/ui/separator'
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { ScrollArea } from '@/src/components/ui/scroll-area'
 
 // utils
@@ -24,6 +29,7 @@ export const UserSkillsModal = () => {
         <DialogTitle>
           <p className="h3">Skills</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <ScrollArea className="h-[40vh] md:h-[30vh]">
           <div className="flex flex-col gap-4 pr-5">
             {user.skills.map((skill, i, arr) => (

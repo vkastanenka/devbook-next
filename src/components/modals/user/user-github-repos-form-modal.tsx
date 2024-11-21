@@ -1,7 +1,12 @@
 'use client'
 
 // components
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { UserGithubReposForm } from '@/src/components/forms/user/user-github-repos-form'
 
 // utils
@@ -23,6 +28,7 @@ export const UserGithubReposFormModal = () => {
         <DialogTitle>
           <p className="h3">Update Github</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <UserGithubReposForm user={user} />
       </DialogContent>
     </Dialog>

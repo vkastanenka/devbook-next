@@ -89,7 +89,7 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
         title: exp.title,
         description: exp.description,
         startYear: exp.startYear,
-        endYear: exp.endYear,
+        endYear: exp.endYear || '',
       },
     })) || []
 
@@ -128,11 +128,12 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
 
       if (create.length > 0) {
         const createReqBodies: UserCreateExperienceReqBody[] = create.map(
-          (reqBody) =>
-            ({
+          (reqBody) => {
+            return {
               ...reqBody,
               userId: user.id,
-            } as UserCreateExperienceReqBody)
+            } as UserCreateExperienceReqBody
+          }
         )
 
         const createResponses = await Promise.all(
@@ -149,6 +150,8 @@ export const UserExperiencesForm: React.FC<UserExperiencesForm> = ({
       if (update && update.length > 0) {
         const updateResponses = await Promise.all(
           update.map(async (formItem) => {
+            formItem.reqBody.endYear = formItem.reqBody.endYear || null
+
             return await userUpdateCurrentUserExperience(
               formItem.recordId,
               formItem.reqBody as UserUpdateExperienceReqBody

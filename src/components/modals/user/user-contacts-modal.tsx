@@ -2,7 +2,12 @@
 
 // components
 import Link from 'next/link'
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { UserAvatar } from '@/src/components/ui/avatar'
 import { ScrollArea } from '@/src/components/ui/scroll-area'
 
@@ -25,6 +30,7 @@ export const UserContactsModal = () => {
         <DialogTitle>
           <p className="h3">Contacts</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         {!user.contacts || (user.contacts && !user.contacts.length) ? (
           <p className="p">{`This user hasn't made any contacts.`}</p>
         ) : (

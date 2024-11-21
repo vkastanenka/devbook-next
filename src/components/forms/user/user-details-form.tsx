@@ -56,10 +56,10 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
     defaultValues: {
       name: user.name,
       email: user.email,
-      pronouns: user.pronouns,
-      headline: user.headline,
-      phone: user.phone,
-      website: user.website,
+      pronouns: user.pronouns || '',
+      headline: user.headline || '',
+      phone: user.phone || '',
+      website: user.website || '',
     },
   })
 
@@ -70,10 +70,16 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
 
   const action: () => void = handleSubmit(
     async (formData: UserUpdateDetailsFormData) => {
-      const response = await userUpdateCurrentUser(
-        user.id,
-        formData as UserUpdateUserReqBody
-      )
+      const reqBody = formData as UserUpdateUserReqBody
+
+      if (!reqBody.name) delete reqBody.name
+      if (!reqBody.email) delete reqBody.email
+      reqBody.pronouns = reqBody.pronouns || null
+      reqBody.headline = reqBody.headline || null
+      reqBody.phone = reqBody.phone || null
+      reqBody.website = reqBody.website || null
+
+      const response = await userUpdateCurrentUser(user.id, reqBody)
 
       if (!response.data) {
         toast({

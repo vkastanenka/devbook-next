@@ -1,7 +1,12 @@
 'use client'
 
 // components
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { CommentForm } from '@/src/components/forms/post/post-comment-form'
 
 // utils
@@ -20,8 +25,9 @@ export const PostCommentFormModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-card flex flex-col gap-4">
         <DialogTitle>
-          <p className="h3">{`${comment ? 'Update' : 'Create'} comment`}</p>
+          <p className="h3">{`${comment ? 'Update' : 'Create'} Comment`}</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <CommentForm />
       </DialogContent>
     </Dialog>

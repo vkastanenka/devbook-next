@@ -1,7 +1,12 @@
 'use client'
 
 // components
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { PostForm } from '@/src/components/forms/post/post-form'
 
 // utils
@@ -22,6 +27,7 @@ export const PostFormModal = () => {
         <DialogTitle>
           <p className="h3">{`${post ? 'Update' : 'Create'} post`}</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <PostForm />
       </DialogContent>
     </Dialog>

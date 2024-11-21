@@ -60,7 +60,7 @@ export const AddressForm: React.FC<AddressForm> = ({ user }) => {
         (user?.addresses &&
           user.addresses.length > 0 &&
           user.addresses[0].unitNumber) ||
-        undefined,
+        '',
       streetNumber:
         (user?.addresses &&
           user.addresses.length > 0 &&
@@ -103,6 +103,8 @@ export const AddressForm: React.FC<AddressForm> = ({ user }) => {
           ...formData,
           userId: user.id,
         } as AddressCreateUserAddressReqBody
+
+        reqBody.unitNumber = reqBody.unitNumber || null
 
         response = await addressCreateCurrentUserAddress(reqBody)
       }

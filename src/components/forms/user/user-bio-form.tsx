@@ -55,10 +55,11 @@ export const UserBioForm: React.FC<UserBioForm> = ({ user }) => {
 
   const action: () => void = handleSubmit(
     async (formData: UserUpdateBioFormData) => {
-      const response = await userUpdateCurrentUser(
-        user.id,
-        formData as UserUpdateUserReqBody
-      )
+      const reqBody = formData as UserUpdateUserReqBody
+
+      reqBody.bio = reqBody.bio || null
+
+      const response = await userUpdateCurrentUser(user.id, reqBody)
 
       if (!response.data) {
         toast({

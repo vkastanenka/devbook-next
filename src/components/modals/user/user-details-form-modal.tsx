@@ -1,7 +1,12 @@
 'use client'
 
 // components
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { AddressForm } from '@/src/components/forms/address/address-form'
 import { UserDetailsForm } from '@/src/components/forms/user/user-details-form'
 import {
@@ -30,6 +35,7 @@ export const UserDetailsFormModal = () => {
         <DialogTitle>
           <p className="h3">Update User Details</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <Tabs defaultValue="details">
           <TabsList className="w-full">
             <TabsTrigger className="basis-full" value="details">

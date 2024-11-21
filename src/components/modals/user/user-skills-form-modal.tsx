@@ -1,7 +1,12 @@
 'use client'
 
 // components
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 import { UserSkillsForm } from '@/src/components/forms/user/user-skills-form'
 
 // utils
@@ -23,6 +28,7 @@ export const UserSkillsFormModal = () => {
         <DialogTitle>
           <p className="h3">Update Skills</p>
         </DialogTitle>
+        <DialogDescription></DialogDescription>
         <UserSkillsForm user={user} />
       </DialogContent>
     </Dialog>

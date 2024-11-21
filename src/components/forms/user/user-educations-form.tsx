@@ -68,7 +68,7 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
         school: edu.school,
         degree: edu.degree,
         startYear: edu.startYear,
-        endYear: edu.endYear,
+        endYear: edu.endYear || '',
       },
     })) || []
 
@@ -107,11 +107,14 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
 
       if (create.length > 0) {
         const createReqBodies: UserCreateEducationReqBody[] = create.map(
-          (reqBody) =>
-            ({
+          (reqBody) => {
+            reqBody.endYear = reqBody.endYear || null
+
+            return {
               ...reqBody,
               userId: user.id,
-            } as UserCreateEducationReqBody)
+            } as UserCreateEducationReqBody
+          }
         )
 
         const createResponses = await Promise.all(
@@ -128,6 +131,8 @@ export const UserEducationsForm: React.FC<UserEducationsForm> = ({ user }) => {
       if (update && update.length > 0) {
         const updateResponses = await Promise.all(
           update.map(async (formItem) => {
+            formItem.reqBody.endYear = formItem.reqBody.endYear || null
+
             return await userUpdateCurrentUserEducation(
               formItem.recordId,
               formItem.reqBody as UserUpdateEducationReqBody

@@ -2,7 +2,12 @@
 
 // components
 import Link from 'next/link'
-import { Dialog, DialogTitle, DialogContent } from '@/src/components/ui/dialog'
+import {
+  Dialog,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+} from '@/src/components/ui/dialog'
 
 // utils
 import { useModal } from '@/src/hooks/use-modal-store'
@@ -22,6 +27,7 @@ export const UserContactInformationModal = () => {
       <DialogTitle>
         <p className="h3">Contact Info</p>
       </DialogTitle>
+      <DialogDescription></DialogDescription>
       <DialogContent className="bg-card flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div>
