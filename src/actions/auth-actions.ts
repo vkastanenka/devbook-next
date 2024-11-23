@@ -121,19 +121,16 @@ export const authUpdatePassword = async (
 
 // Delete session cookie and session record
 export const authLogout = async () => {
-  let response
-  const session = await serverDecodeSessionJwt()
+  try {
+    const session = await serverDecodeSessionJwt()
 
-  if (session) {
-    response = await authDeleteCurrentUserSession(session.id)
-
-    if (response.success) {
+    if (session) {
+      await authDeleteCurrentUserSession(session.id)
       await cookies().delete(process.env.NEXT_SESSION_JWT_COOKIE_NAME || '')
-      redirect('/')
     }
 
-    return response
+    redirect('/')
+  } catch {
+    redirect('/')
   }
-
-  redirect('/')
 }
