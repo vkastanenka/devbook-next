@@ -57,9 +57,8 @@ const CommentsPage: React.FC<CommentsPage> = async ({
           orderBy: { createdAt: 'desc' },
           include: {
             subComments: subCommentsQuery.subComments,
-            commentLikes: true,
             user: true,
-            _count: { select: { subComments: true, commentLikes: true } },
+            _count: { select: { subComments: true } },
           },
         },
         postLikes: true,
@@ -87,9 +86,8 @@ const CommentsPage: React.FC<CommentsPage> = async ({
     const response = await postReadComment(parentCommentId, {
       include: {
         subComments: subCommentsQuery.subComments,
-        commentLikes: true,
         user: true,
-        _count: { select: { subComments: true, commentLikes: true } },
+        _count: { select: { subComments: true } },
       } as Prisma.CommentInclude,
     } as PostReadCommentRelationQueryReqBody)
 
@@ -156,7 +154,7 @@ const recursivelyIncludeSubcommentsQuery = (
       include: {
         ...query,
         user: true,
-        _count: { select: { subComments: true, commentLikes: true } },
+        _count: { select: { subComments: true } },
       },
     } as SubComments,
   } as SubCommentsQuery
@@ -171,7 +169,7 @@ const subCommentsQuery: SubCommentsQuery = recursivelyIncludeSubcommentsQuery(
       orderBy: { createdAt: 'desc' },
       include: {
         user: true,
-        _count: { select: { subComments: true, commentLikes: true } },
+        _count: { select: { subComments: true } },
       },
     },
   } as SubCommentsQuery
