@@ -182,7 +182,7 @@ export const userReadCurrentUserGithubRepos = async (
           status: HttpStatusCode.INTERNAL_SERVER_ERROR,
           success: false,
           type: 'error',
-          url: 'http:localhost:3000/feed',
+          url: `${process.env.NEXT_ROOT_URL}/feed`,
         }
       }
     })
