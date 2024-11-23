@@ -46,7 +46,7 @@ export const serverRequestServer = async <
     // Get session jwt
     const sessionJwt = await serverGetSessionJwt()
 
-    // Read the current user
+    // Request the server
     const { data: resData } = await axios({
       data,
       method,
