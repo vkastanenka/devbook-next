@@ -52,6 +52,7 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
                             fill
                             alt={contact.username}
                             src={contact.image}
+                            sizes="(min-width: 0px) 200px"
                           />
                         ) : (
                           <p className="h4">
