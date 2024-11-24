@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import Image from 'next/image'
 
 import { cn, formatUserInitials } from '@/src/lib/utils'
 import { User } from '@vkastanenka/devbook-types/dist/user'
@@ -56,12 +57,36 @@ interface UserAvatar {
 const UserAvatar: React.FC<UserAvatar> = ({ className, user }) => {
   const fallbackText = formatUserInitials(user.name)
 
+  const [isLoaded, setIsLoaded] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    if (!user.image) setIsLoaded(true)
+  }, [user.image])
+
   return (
     <Avatar
       className={cn('text-xs md:text-lg w-9 h-9 md:w-12 md:h-12', className)}
     >
-      <AvatarImage src={user.image || undefined} />
-      <AvatarFallback className="bg-primary text-primary-foreground">
+      <AvatarImage asChild src={user.image || undefined}>
+        <Image
+          fill
+          sizes="(min-width: 0px) 72px"
+          alt={user.username}
+          src={user.image || ''}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsLoaded(true)}
+          className={cn(
+            'transition-opacity',
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          )}
+        />
+      </AvatarImage>
+      <AvatarFallback
+        className={cn(
+          'transition-opacity bg-primary text-primary-foreground',
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        )}
+      >
         {fallbackText}
       </AvatarFallback>
     </Avatar>

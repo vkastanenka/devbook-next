@@ -14,12 +14,12 @@ export const CurrentUserCard: React.FC<{ currentUser: User }> = ({
 }) => {
   return (
     <Card>
-      <Link
-        className="button-text flex"
-        href={`/user/${currentUser.username}`}
-      >
+      <Link className="button-text flex" href={`/user/${currentUser.username}`}>
         <div className="card flex flex-col gap-2">
-          <UserAvatar user={currentUser} />
+          <UserAvatar
+            user={currentUser}
+            className="w-11 h-11 md:w-[72px] md:h-[72px] text-base md:text-2xl"
+          />
           <div>
             <p className="h4">{constrainText(20, currentUser.name)}</p>
             {currentUser.headline && (

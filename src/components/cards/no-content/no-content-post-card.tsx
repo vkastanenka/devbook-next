@@ -11,7 +11,7 @@ export const NoContentPostCard = () => {
     'gap-1 flex justify-center items-center py-1 px-1 md:py-3 md:px-2'
 
   return (
-    <Card className="relative py-4 md:py-card bg-card flex flex-col gap-4">
+    <Card className="relative py-4 md:py-card bg-card flex flex-col gap-4 pointer-events-none">
       <div className="px-4 md:px-card flex items-center gap-2">
         <Skeleton className="w-9 h-9 md:w-12 md:h-12 rounded-full" />
         <div className="flex flex-col gap-1">
@@ -40,10 +40,10 @@ export const NoContentPostCard = () => {
             <ThumbsUp />
             <div className="hidden md:block">Like</div>
           </div>
-          <button className={styleButton}>
+          <div className={styleButton}>
             <MessageSquareText />
             <div className="hidden md:block">Comment</div>
-          </button>
+          </div>
         </div>
       </div>
     </Card>

@@ -109,16 +109,20 @@ export const Feed: React.FC<Feed> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
-  if (isLoading && !initialPosts) {
-    return <LoaderCircle ref={ref} className="animate-spin self-center" />
-  }
-
-  if (isLoading && initialPosts) {
+  if (isLoading && initialPosts?.length) {
     return (
       <div className="flex flex-col gap-4">
         {initialPosts.map((post) => (
           <NoContentPostCard key={post.id} />
         ))}
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <LoaderCircle ref={ref} className="animate-spin" />
       </div>
     )
   }
