@@ -2,6 +2,7 @@
 
 // components
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card } from '@/src/components/ui/card'
 import { AspectRatio } from '@/src/components/ui/aspect-ratio'
 import { UserOpenUserContactsModalButton } from '@/src/components/buttons/user/user-open-user-contacts-modal-button'
@@ -45,9 +46,18 @@ export const UserContactsCard: React.FC<UserContactsCard> = ({ user }) => {
                   >
                     <AspectRatio ratio={1}>
                       <div className="h-full bg-primary text-primary-foreground flex items-center justify-center pointer-events-none rounded-md">
-                        <p className="h4 text-">
-                          {formatUserInitials(contact.name)}
-                        </p>
+                        {contact.image ? (
+                          <Image
+                            className="rounded-md"
+                            fill
+                            alt={contact.username}
+                            src={contact.image}
+                          />
+                        ) : (
+                          <p className="h4">
+                            {formatUserInitials(contact.name)}
+                          </p>
+                        )}
                       </div>
                     </AspectRatio>
                     <p className="p">{contact.name}</p>
