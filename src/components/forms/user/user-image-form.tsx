@@ -1,8 +1,5 @@
 'use client'
 
-// actions
-import { userUpdateCurrentUserImage } from '@/src/actions/user-actions'
-
 // components
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
@@ -38,16 +35,10 @@ export const UserImageForm: React.FC<UserImageForm> = ({ user }) => {
 
   const action = async () => {
     if (formData) {
-      const response = await userUpdateCurrentUserImage(formData)
-
-      if (!response.data) {
-        toast({
-          title: 'Error!',
-          description: response.message,
-          variant: 'destructive',
-        })
-        return
-      }
+      toast({
+        title: 'Success!',
+        description: 'Feature currently in development.',
+      })
 
       onClose()
       router.refresh()
