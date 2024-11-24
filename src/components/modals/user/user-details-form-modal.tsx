@@ -8,6 +8,7 @@ import {
   DialogContent,
 } from '@/src/components/ui/dialog'
 import { AddressForm } from '@/src/components/forms/address/address-form'
+import { UserImageForm } from '@/src/components/forms/user/user-image-form'
 import { UserDetailsForm } from '@/src/components/forms/user/user-details-form'
 import {
   Tabs,
@@ -38,6 +39,9 @@ export const UserDetailsFormModal = () => {
         <DialogDescription></DialogDescription>
         <Tabs defaultValue="details">
           <TabsList className="w-full">
+            <TabsTrigger className="basis-full" value="photo">
+              Photo
+            </TabsTrigger>
             <TabsTrigger className="basis-full" value="details">
               Details
             </TabsTrigger>
@@ -45,6 +49,9 @@ export const UserDetailsFormModal = () => {
               Address
             </TabsTrigger>
           </TabsList>
+          <TabsContent value="photo">
+            <UserImageForm user={user} />
+          </TabsContent>
           <TabsContent value="details">
             <UserDetailsForm user={user} />
           </TabsContent>

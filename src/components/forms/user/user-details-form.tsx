@@ -87,6 +87,7 @@ export const UserDetailsForm: React.FC<UserDetailsForm> = ({ user }) => {
           description: response.message,
           variant: 'destructive',
         })
+        return
       }
 
       onClose()

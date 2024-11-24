@@ -28,6 +28,7 @@ import {
   USERS_CURRENT_USER_FEED,
   USERS_CURRENT_USER_TOGGLE_CONTACT,
   USERS_CURRENT_USER,
+  USERS_CURRENT_USER_UPLOAD_IMAGE,
   USERS_USERNAME,
 } from '@/src/constants/server-endpoint-constants'
 
@@ -74,6 +75,15 @@ export const userUpdateCurrentUser = async (
   return await serverRequestServer<User, UserUpdateUserReqBody>({
     data: reqBody,
     endpoint: `${USERS_CURRENT_USER}/${recordId}`,
+    method: 'patch',
+  })
+}
+
+// Update current user image
+export const userUpdateCurrentUserImage = async (reqBody: FormData) => {
+  return await serverRequestServer<User, FormData>({
+    data: reqBody,
+    endpoint: USERS_CURRENT_USER_UPLOAD_IMAGE,
     method: 'patch',
   })
 }
