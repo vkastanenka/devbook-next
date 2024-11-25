@@ -2,13 +2,6 @@
   <h3 align="center">Devbook</h3>
 
   <h3 align="center">Social Media for Developers</h3>
-
-  <div>
-    <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
-    <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
-    <img src="https://img.shields.io/badge/-Zod-black?style=for-the-badge&logoColor=white&logo=zod&color=3E67B1" alt="zod" />
-    <img src="https://img.shields.io/badge/-Typescript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
-  </div>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
@@ -16,10 +9,7 @@
 1. 🤖 [Introduction](#introduction)
 2. ⚙️ [Tech Stack](#tech-stack)
 3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#quick-start)
-5. 🕸️ [Snippets](#snippets)
-6. 🔗 [Links](#links)
-7. 🚀 [More](#more)
+4. 🔗 [Links](#links)
 
 ## <a name="introduction">🤖 Introduction</a>
 
@@ -39,105 +29,47 @@ A social media frontend built with Next.js 14+. Create and manage your account, 
 
 ## <a name="features">🔋 Features</a>
 
-👉 **Authentication**: Authentication using Clerk for email, password, and social logins (Google and GitHub) with a comprehensive profile management system.
+👉 **Authentication**: Email and password authentication using JSON Webtoken stored in cookies and validated on the server. Users can create accounts, log in, reset their passwords with email recovery, and update their passwords when logged in. Users are redirected from private and public routes depending on authentication status.
 
-👉 **Visually Appealing Home Page**: A visually appealing home page showcasing the latest threads for an engaging user experience.
+👉 **User Profile**: Create and modify current user profile. Manage information such as bio, education, experience, and add Github repository urls to display your repositories.
 
-👉 **Create Thread Page**: A dedicated page for users to create threads, fostering community engagement
+👉 **Posts**: Create, update, delete, and like user posts.
 
-👉 **Commenting Feature**: A commenting feature to facilitate discussions within threads.
+👉 **Nested Comments**: Leave comments on both posts and other comments.
 
-👉 **Nested Commenting**: Commenting system with nested threads, providing a structured conversation flow.
+👉 **Feeds**: View personal feed on authenticated home page and other user feeds on their user pages. Posts loaded on scroll.
 
-👉 **User Search with Pagination**: A user search feature with pagination for easy exploration and discovery of other users.
+👉 **Contacts**: Add or remove contacts. Contact posts will appear along current user posts in current user feed.
 
-👉 **Activity Page**: Display notifications on the activity page when someone comments on a user's thread, enhancing user engagement.
+👉 **Site Search**: Search users in global site search input to view their user pages and find contacts.
+
+👉 **Feed Page**: Home page for authenticated users. Create, update, and delete posts, catch up on follower activity, and create comments for any post.
+
+👉 **Comments Page**: Dynamic route for each post displaying the post's comments. Navigate nested comments with ease and effortlessly modify your own comments and replies.
+
+👉 **User Page**: Dynamic user page for each individual user. Feed functionality extends here.
 
 👉 **Profile Page**: User profile pages for showcasing information and enabling modification of profile settings.
 
-👉 **Create and Invite to Communities**: Allow users to create new communities and invite others using customizable template emails.
+👉 **State Management**: Manage client state for expanded client functionality such as focusing inputs and submitting forms through refs, and loading content on scroll.
 
-👉 **Community Member Management**: A user-friendly interface to manage community members, allowing role changes and removals.
+👉 **Fully Typed**: Exhaustively typed with separate npm package for consistency between frontend and backend.
 
-👉 **Admin-Specific Community Threads**: Enable admins to create threads specifically for their community.
+👉 **Data Validation with Zod**: Data integrity with data validation using Zod with separate npm package for consistency between frontend and backend.
 
-👉 **Community Search with Pagination**: A community search feature with pagination for exploring different communities.
+👉 **Github Integration***: Github API utilized to fetch repositories for view on profile page.
 
-👉 **Community Profiles**: Display community profiles showcasing threads and members for a comprehensive overview.
-
-👉 **Figma Design Implementation**: Transform Figma designs into a fully functional application with pixel-perfect and responsive design.
+👉 **Form Management with React Hook Form**: Efficient management of forms with React Hook Form for a streamlined user input experience.
 
 👉 **Blazing-Fast Performance**: Optimal performance and instantaneous page switching for a seamless user experience.
 
 👉 **Server Side Rendering**: Utilize Next.js with Server Side Rendering for enhanced performance and SEO benefits.
 
-👉 **MongoDB with Complex Schemas**: Handle complex schemas and multiple data populations using MongoDB.
-
-👉 **File Uploads with UploadThing**: File uploads using UploadThing for a seamless media sharing experience.
-
-👉 **Real-Time Events Listening**: Real-time events listening with webhooks to keep users updated.
-
 👉 **Middleware, API Actions, and Authorization**: Utilize middleware, API actions, and authorization for robust application security.
 
 👉 **Next.js Layout Route Groups**: New Next.js layout route groups for efficient routing
 
-👉 **Data Validation with Zod**: Data integrity with data validation using Zod
-
-👉 **Form Management with React Hook Form**: Efficient management of forms with React Hook Form for a streamlined user input experience.
-
-and many more, including code architecture and reusability 
-
-## <a name="quick-start">🤸 Quick Start</a>
-
-Follow these steps to set up the project locally on your machine.
-
-**Prerequisites**
-
-Make sure you have the following installed on your machine:
-
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
-
-**Cloning the Repository**
-
-```bash
-git clone https://github.com/adrianhajdin/threads.git
-cd threads
-```
-
-**Installation**
-
-Install the project dependencies using npm:
-
-```bash
-npm install
-```
-
-**Set Up Environment Variables**
-
-Create a new file named `.env` in the root of your project and add the following content:
-
-```env
-MONGODB_URL=
-CLERK_SECRET_KEY=
-UPLOADTHING_SECRET=
-UPLOADTHING_APP_ID=
-NEXT_CLERK_WEBHOOK_SECRET=
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-```
-
-Replace the placeholder values with your actual credentials. You can obtain these credentials by signing up for the corresponding websites on [MongoDB](https://www.mongodb.com/), [Clerk](https://clerk.com/), and [Uploadthing](https://uploadthing.com/). 
-
-**Running the Project**
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
-
-## <a name="snippets">🕸️ Snippets</a>
+👉 **Theming**: Switch between light and dark themes saved per user session. CSS architecture designed with variables for easy theme creation.
 
 <details>
 <summary><code>clerk.route.ts</code></summary>
@@ -1741,27 +1673,8 @@ export function formatThreadCount(count: number): string {
 
 ## <a name="links">🔗 Links</a>
 
-Assets used in the project are [here](https://drive.google.com/file/d/1lg7MMKgXwFabymHi1qxRYMxWVXiZPM9l/view)
-
-## <a name="more">🚀 More</a>
-
-**Advance your skills with Next.js 14 Pro Course**
-
-Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning adventure. They're packed with detailed explanations, cool features, and exercises to boost your skills. Give it a go!
-
-<a href="https://jsmastery.pro/next14" target="_blank">
-<img src="https://github.com/sujatagunale/EasyRead/assets/151519281/557837ce-f612-4530-ab24-189e75133c71" alt="Project Banner">
-</a>
-
-<br />
-<br />
-
-**Accelerate your professional journey with the Expert Training program**
-
-And if you're hungry for more than just a course and want to understand how we learn and tackle tech challenges, hop into our personalized masterclass. We cover best practices, different web skills, and offer mentorship to boost your confidence. Let's learn and grow together!
-
-<a href="https://www.jsmastery.pro/masterclass" target="_blank">
-<img src="https://github.com/sujatagunale/EasyRead/assets/151519281/fed352ad-f27b-400d-9b8f-c7fe628acb84" alt="Project Banner">
-</a>
-
-#
+[linkedin](https://www.linkedin.com/in/vkastanenka/): View Victoria's professional profile.
+[devbook-node](https://github.com/vkastanenka/devbook-node): Backend repository built with Node.js 22+.
+[devbook-prisma](https://github.com/vkastanenka/devbook-prisma): Prisma ORM utilized by both frontend and backend.
+[devbook-types](https://github.com/vkastanenka/devbook-types): Typescript types used throughout both frontend, backend, and validation.
+[devbook-validation](https://github.com/vkastanenka/devbook-validation): Zod validation schemas used throughout both frontend and backend.
