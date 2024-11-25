@@ -13,7 +13,7 @@
 
 ## <a name="introduction">🤖 Introduction</a>
 
-A social media frontend built with Next.js 14+. Create and manage your account, update your profile, make friends, and share posts with other users.
+A social media frontend built with Next.js 14+ and hosted on Vercel. Create and manage your account, update your profile, make friends, and share posts with other users.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
