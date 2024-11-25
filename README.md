@@ -1,5 +1,5 @@
 <div align="center">
-  <h3 align="center">Devbook</h3>
+  <h1 align="center">Devbook</h1>
 
   <h3 align="center">Social Media for Developers</h3>
 </div>
