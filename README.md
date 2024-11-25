@@ -73,6 +73,7 @@ A social media frontend built with Next.js 14+. Create and manage your account, 
 
 ## <a name="links">🔗 Links</a>
 
+- [Devbook Home](https://devbook-next.vercel.app/): Devbook login page
 - [linkedin](https://www.linkedin.com/in/vkastanenka/): View Victoria's professional profile.
 - [devbook-node](https://github.com/vkastanenka/devbook-node): Backend repository built with Node.js 22+.
 - [devbook-prisma](https://github.com/vkastanenka/devbook-prisma): Prisma ORM utilized by both frontend and backend.
