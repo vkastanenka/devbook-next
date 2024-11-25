@@ -73,8 +73,8 @@ A social media frontend built with Next.js 14+. Create and manage your account, 
 
 ## <a name="links">🔗 Links</a>
 
-[linkedin](https://www.linkedin.com/in/vkastanenka/): View Victoria's professional profile.
-[devbook-node](https://github.com/vkastanenka/devbook-node): Backend repository built with Node.js 22+.
-[devbook-prisma](https://github.com/vkastanenka/devbook-prisma): Prisma ORM utilized by both frontend and backend.
-[devbook-types](https://github.com/vkastanenka/devbook-types): Typescript types used throughout both frontend, backend, and validation.
-[devbook-validation](https://github.com/vkastanenka/devbook-validation): Zod validation schemas used throughout both frontend and backend.
+- [linkedin](https://www.linkedin.com/in/vkastanenka/): View Victoria's professional profile.
+- [devbook-node](https://github.com/vkastanenka/devbook-node): Backend repository built with Node.js 22+.
+- [devbook-prisma](https://github.com/vkastanenka/devbook-prisma): Prisma ORM utilized by both frontend and backend.
+- [devbook-types](https://github.com/vkastanenka/devbook-types): Typescript types used throughout both frontend, backend, and validation.
+- [devbook-validation](https://github.com/vkastanenka/devbook-validation): Zod validation schemas used throughout both frontend and backend.
