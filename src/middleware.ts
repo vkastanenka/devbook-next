@@ -34,7 +34,7 @@ export async function middleware(req: NextRequest) {
   }
 }
 
-// Routes middleware should *not* run on
+// Routes middleware should not run on
 export const config = {
   matcher: [
     /*
