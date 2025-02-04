@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
 // components
-import Link from 'next/link'
+import Link from "next/link";
 import {
   Dialog,
   DialogTitle,
   DialogDescription,
   DialogContent,
-} from '@/src/components/ui/dialog'
+} from "@/src/components/ui/dialog";
 
 // utils
-import { useModal } from '@/src/hooks/use-modal-store'
+import { useModal } from "@/src/hooks/use-modal-store";
 
 export const UserContactInformationModal = () => {
   const {
@@ -18,9 +18,9 @@ export const UserContactInformationModal = () => {
     onClose,
     type,
     data: { user },
-  } = useModal()
-  const isModalOpen = isOpen && type === 'userContactInformation'
-  if (!user) return null
+  } = useModal();
+  const isModalOpen = isOpen && type === "userContactInformation";
+  if (!user) return null;
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -35,9 +35,9 @@ export const UserContactInformationModal = () => {
           </div>
           <Link
             className="button-text"
-            href={`http://localhost:3000/user/${user.username}`}
+            href={`${process.env.NEXT_ROOT_URL}/user/${user.username}`}
           >
-            {`http://localhost:3000/user/${user.username}`}
+            {`${process.env.NEXT_ROOT_URL}/user/${user.username}`}
           </Link>
         </div>
         <div className="flex flex-col gap-2">
@@ -58,5 +58,5 @@ export const UserContactInformationModal = () => {
         )}
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
