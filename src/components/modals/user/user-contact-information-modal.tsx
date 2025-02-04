@@ -35,9 +35,9 @@ export const UserContactInformationModal = () => {
           </div>
           <Link
             className="button-text"
-            href={`${process.env.NEXT_ROOT_URL}/user/${user.username}`}
+            href={`$https://devbook-next.vercel.app/user/${user.username}`}
           >
-            {`${process.env.NEXT_ROOT_URL}/user/${user.username}`}
+            {`$https://devbook-next.vercel.app/user/${user.username}`}
           </Link>
         </div>
         <div className="flex flex-col gap-2">
